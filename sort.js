@@ -1,3 +1,5 @@
+  // DBから取得用データ
+  
   // テーブルデータ
   var data = [
     { id : 'item1', name : 1,  age : 19, sex : 'm', check : 'true'  },
@@ -11,6 +13,9 @@
     { id : 'item9', name : 15, age : 9,  sex : 'f', check : 'true'  }
   ];
 
+  // テーブル列・表示用データ
+  // TODO: 配列してviewに関する情報を追加しやすいようにする
+  // ex)html表示名をここで決める
   var view = {
     name  : true,
     age   : true,
@@ -18,6 +23,7 @@
     check : true
   };
 
+  // クライアント側操作
 $(function(){
 
   // html内のtemplateをロード
@@ -30,7 +36,6 @@ $(function(){
   $('.table').append( rows );
 
   var colTmpl = $('#view-config').html();
-  console.log(colTmpl);
   var cols = _.template( colTmpl, view );
   $('#config').append( cols );
 
@@ -105,28 +110,31 @@ $(function(){
   };
 
 
-  $('.theader .name').on( 'click', function () {
-    rowsort( data, 'row', 'name' );
-  });
-
-  $('.theader .age').on( 'click', function (){
-    rowsort( data, 'row', 'age' );
-  });
-
-  $('.theader .sex').on( 'click', function (){
-    rowsort( data, 'row', 'sex' );
-  });
-
-  $('.theader .check').on( 'click', function (){
-    rowsort( data, 'row', 'check' );
-  });
-
-  // $('#name').on( 'click', function () {
-  //   viewCol('name');
+  // $('.theader .name').on( 'click', function () {
+  //   rowsort( data, 'row', 'name' );
   // });
 
+  // $('.theader .age').on( 'click', function (){
+  //   rowsort( data, 'row', 'age' );
+  // });
+
+  // $('.theader .sex').on( 'click', function (){
+  //   rowsort( data, 'row', 'sex' );
+  // });
+
+  // $('.theader .check').on( 'click', function (){
+  //   rowsort( data, 'row', 'check' );
+  // });
+
+  // ソートイベント作成　上記イベントを一つにまとめた。
   _.each( view, function ( val, key ) {
-    console.log(key);
+    $('.theader .' + key ).on( 'click', function () {
+      rowsort( data, 'row', key );
+    })
+  });
+
+  // 列表示・非表示イベント作成
+  _.each( view, function ( val, key ) {
     $('#' + key).on( 'click', function (){
       viewCol(key);
     });
