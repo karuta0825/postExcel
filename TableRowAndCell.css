@@ -1,0 +1,27 @@
+/*テーブル全体*/
+.table {
+  display : table;
+  width : 480px;
+}
+
+/*テーブルヘッダー*/
+.table div.theader {
+  display : table-row;
+  font-size: 1.3em;
+  color: #ff0000;
+}
+
+/*テーブル行*/
+.table div.row {
+  display : table-row;
+}
+
+/*テーブル列*/
+.table div.cell {
+  display : table-cell;
+}
+
+/*name列*/
+.table .row .name {
+  color: #008000;
+}
