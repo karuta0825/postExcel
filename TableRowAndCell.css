@@ -1,7 +1,25 @@
+@charset 'UTF-8';
+
+#user {
+  width  : 180px;
+  height : 100%;
+  background-color: blue;
+  float :left;
+}
+
+#config {
+  width : 100%;
+  height : 200px;
+  background-color : red;
+}
+
 /*テーブル全体*/
 .table {
   display : table;
   width : 480px;
+  margin-top  : 10px; 
+  margin-left : 200px;
+
 }
 
 /*テーブルヘッダー*/
@@ -23,5 +41,4 @@
 
 /*name列*/
 .table .row .name {
-  color: #008000;
 }
