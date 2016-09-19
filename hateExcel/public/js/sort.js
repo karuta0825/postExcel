@@ -20,12 +20,10 @@
     name  : true,
     age   : true,
     sex   : true,
-    check : true
+    tf    : true
   };
 
   var data;
-
-  var ajax;
 
   // クライアント側操作
 $(function(){
@@ -149,18 +147,7 @@ $(function(){
     });
   });
 
-  ajax = function () {
-    $.ajax({
-      dataType: "json",
-      url: "all",
-      success: function( datas ) {
-        console.log(datas);
-        data = datas;
-        showTable(data);
-      }
-    });
-  };
-
-  ajax();
+  data = customer.data.selectAll();
+  showTable(data);
 
 });

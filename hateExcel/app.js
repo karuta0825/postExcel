@@ -40,6 +40,38 @@ app.get('/all', function ( req, res ) {
   });
 });
 
+app.post('/add', function ( req, res ) {
+  //post送信で渡ってきたデータ
+  var data = req.body;
+  datas.insert( data, function ( err ) {
+    // insert時のエラー処理
+    if (err) {
+      res.status( 500 ).send( err.message );
+      return;
+    }
+  });
+});
+
+app.post('/delete', function ( req, res ) {
+  var data = req.body;
+  datas.delete( data, function ( err ) {
+    if ( err ) {
+      res.status( 500 ).send( err.message );
+      return;
+    }
+  });
+});
+
+app.post('/update', function ( req, res ) {
+  var data = req.body;
+  console.log(data);
+  datas.update( data, function ( err ) {
+    if ( err ) {
+      res.status(500).send( err.message );
+      return;
+    }
+  });
+});
 
 
 http.createServer(app).listen(app.get('port'), function(){
