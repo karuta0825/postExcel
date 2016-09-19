@@ -34,8 +34,9 @@ app.get('/users', user.list);
 
 
 app.get('/all', function ( req, res ) {
+  res.header("Content-Type", "application/json; charset=utf-8");
   datas.getAll( function (results){
-            res.json(results)
+    res.json(results);  
   });
 });
 

@@ -13,8 +13,13 @@ datas.getAll = function ( callback ) {
       db.end();
       if ( err ) { return; }
       if ( results && results.length > 0 ) {
-        // console.log(results);
-        callback(results);
+        // console.log(results); 
+        for ( var i = 0; i<results.length; i+=1 ) {
+          console.log(results[i].date.toString());
+          results[i].date = results[i].date.toString();
+        }
+
+        callback( results );
       }
     }
   );
