@@ -1,50 +1,22 @@
-<html>
+﻿<html>
 <head>
   <title>tableタグを使わない表作成</title>
   <meta charset='utf-8'>
+  <link href="./css/bootstrap/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="./css/TableRowAndCell.css" />
 </head>
 <body>
 
-  <!-- ユーザー環境情報 -->
+  <!-- enviroment view -->
   <div id='user'>
-    <ul>
-      <li>AP1-1</li>
-      <li>AP1-2</li>
-      <li>AP1-3</li>
-      <li>AP1-4</li>
-      <li>AP1-5</li>
-      <li>AP2-1</li>
-      <li>AP2-2</li>
-      <li>AP2-3</li>
-      <li>AP2-4</li>
-      <li>AP2-5</li>
-      <li>AP3-1</li>
-      <li>AP3-2</li>
-      <li>AP3-3</li>
-      <li>AP3-4</li>
-      <li>AP3-5</li>
-      <li>AP4-1</li>
-      <li>AP4-2</li>
-      <li>AP4-3</li>
-      <li>AP4-4</li>
-      <li>AP4-5</li>
-      <li>AP5-1</li>
-      <li>AP5-2</li>
-      <li>AP5-3</li>
-      <li>AP5-4</li>
-      <li>AP5-5</li>
-    </ul>
-    <ul>
-      <li>DB1-1</li>
-      <li>DB2-1</li>
-      <li>DB3-1</li>
-      <li>DB4-1</li>
-      <li>DB5-1</li>
-    </ul>
+    <script type="text/template" id='servers'>
+      <% _.each( list_server, function ( server ) { %>
+        <ul> <%- server.NAME %> </ul>
+      <% }) %>
+    </script>
   </div>
 
-  <!-- 各種設定画面 -->
+  <!-- user action view -->
   <div id='config'>
     <script type="text/template" id='view-config'>
       <% _.each( view, function ( val, key ) { %>
@@ -53,33 +25,37 @@
     </script>
   </div>
 
-  <!-- テーブル画面 -->
-  <div class='table'> 
+  <!-- table view -->
+  <table class='table table-hover'>
+    <!-- table header -->
+    <thead>
+      <script type="text/template" id='table-header'>
+        <% _.each( headerMap, function ( val, key ){ %>
+          <th class=<%- key %> > <%- val  %> </th>
+        <% }); %>
+      </script>
+    </thead>
+    <!-- table body -->
+    <tbody>
+      <script type="text/template" id="template">
+        <% _.each( data , function ( item ) { %>
+          <tr id=<%- item.id %> >
+            <td><input type="checkbox"></td>
+            <td class='cell name' > <%- item.name  %> </td>
+            <td class='cell age'  > <%- item.age   %> </td>
+            <td class='cell sex'  > <%- item.sex   %> </td>
+            <td class='cell tf'   > <%- item.tf    %> </td>
+          </tr>
+        <% }); %>
+      </script>
+    </tbody>
+  </table>
 
-    <!-- ヘッダ　列名 -->
-    <div class='theader'>
-      <div class='cell name' >KID<span>▲</span></div>
-      <div class='cell age'  >2列目<span>▲</span></div>
-      <div class='cell sex'  >3列目<span>▲</span></div>
-      <div class='cell tf'>4列目<span>▲</span></div>
-    </div>
-
-    <!-- templateを用いてデータ表示-->
-    <script type="text/template" id="template">
-      <% _.each( data , function ( item ) { %>
-        <div class='row' id=<%- item.id %> >
-          <div class='cell name' > <%- item.name  %> </div>
-          <div class='cell age'  > <%- item.age   %> </div>
-          <div class='cell sex'  > <%- item.sex   %> </div>
-          <div class='cell tf'> <%- item.tf %> </div>
-        </div>
-      <% }); %>
-    </script>
-  </div>
-
+  <!-- load javascript  -->
   <script src='./js/lib/jquery-2.1.4.min.js'></script>
+  <script src="./js/bootstrap/bootstrap.min.js"></script>
   <script src='./js/lib/underscore.js'></script>
   <script src='./js/dataModule.js'></script>
-  <script src='./js/sort.js'></script>
+  <script src='./js/sort.js' charset='utf-8'></script>
 </body>
 </html>

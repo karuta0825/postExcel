@@ -18,9 +18,23 @@ datas.getAll = function ( callback ) {
           console.log(results[i].date.toString());
           results[i].date = results[i].date.toString();
         }
-
         callback( results );
       }
+    }
+  );
+};
+
+datas.getServers = function ( callback ) {
+  db.query(
+    'SELECT ADDRESS, NAME, TYPE, ENV.ENVIRONMENT FROM SERVERS AS SV '
+    + 'INNER JOIN ENVIRONMENT AS ENV ON SV.ENVIRONMENT = ENV.ID '
+    + 'ORDER BY ENVIRONMENT, NAME',
+    function ( err, results, fields ) {
+      db.end();
+      if ( err ) { return; }
+      console.log(err);
+      console.log(results);      
+      callback( results );
     }
   );
 };

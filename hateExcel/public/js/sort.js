@@ -23,7 +23,15 @@
     tf    : true
   };
 
-  var data;
+  var headerMap = {
+    check : '対象',
+    kid : 'KID',
+    age : 'AGE',
+    sex : 'SEX',
+    tf  : 'Check'
+  };
+
+  var data, list_server;
 
   // クライアント側操作
 $(function(){
@@ -43,8 +51,17 @@ $(function(){
   var showTable = function ( data ) {
     var tmpl = $('#template').html();
     var rows = _.template( tmpl, data );
-    $('.table').append( rows );
+    $('tbody').append( rows );
   };
+
+  var headerTmpl = $('#table-header').html();
+  var headers = _.template( headerTmpl, headerMap );
+  $('thead').append( headers );
+
+  var serverTmpl = $('#servers').html();
+  list_server = customer.data.selectAll('servers');
+  var servers    = _.template( serverTmpl, list_server );
+  $('#user').append(servers);
 
 
   // sort method
@@ -52,7 +69,7 @@ $(function(){
 
   // データのid検索
   var findById = function ( data, id ) {
-    return $.grep( data, function (val) {
+    return $.grep( data, function ( val ) {
              return id === val.id;
            })[0]; 
   };
@@ -135,7 +152,7 @@ $(function(){
 
   // ソートイベント作成　上記イベントを一つにまとめた。
   _.each( view, function ( val, key ) {
-    $('.theader .' + key ).on( 'click', function () {
+    $('theader .' + key ).on( 'click', function () {
       rowsort( data, 'row', key );
     })
   });
@@ -147,7 +164,7 @@ $(function(){
     });
   });
 
-  data = customer.data.selectAll();
+  data = customer.data.selectAll('all');
   showTable(data);
 
 });

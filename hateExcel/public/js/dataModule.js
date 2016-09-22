@@ -9,10 +9,10 @@ customer.data = ( function (){
     insert,    update, remove
   ;
 
-  _ajaxGet = function () {
+  _ajaxGet = function ( url ) {
    var result = $.ajax({
       dataType : 'json',
-      url      : 'all',
+      url      : url,
       async    : false,
       success  : function ( result ) {
         // return result;
@@ -36,8 +36,8 @@ customer.data = ( function (){
     });
   };
 
-  selectAll = function () {
-    return JSON.parse( _ajaxGet() ) ; 
+  selectAll = function ( url ) {
+    return JSON.parse( _ajaxGet( url ) ) ; 
   };
 
   select    = function ( params ) {

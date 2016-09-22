@@ -40,6 +40,13 @@ app.get('/all', function ( req, res ) {
   });
 });
 
+app.get('/servers', function ( req, res ) {
+  res.header("Content-Type", "application/json; charset=utf-8");
+  datas.getServers( function ( results ) {
+    res.json( results );
+  });
+});
+
 app.post('/add', function ( req, res ) {
   //post送信で渡ってきたデータ
   var data = req.body;
