@@ -16,27 +16,34 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `environment`
+-- Table structure for table `user`
 --
 
-DROP TABLE IF EXISTS `environment`;
+DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `environment` (
-  `id` tinyint(4) NOT NULL,
-  `environment` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `kid` varchar(9) NOT NULL,
+  `server` varchar(5) NOT NULL,
+  `genics` varchar(10) NOT NULL,
+  `userKey` varchar(5) NOT NULL,
+  `updateDate` datetime DEFAULT NULL,
+  `authorId` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`,`kid`),
+  UNIQUE KEY `kid_UNIQUE` (`kid`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `environment`
+-- Dumping data for table `user`
 --
 
-LOCK TABLES `environment` WRITE;
-/*!40000 ALTER TABLE `environment` DISABLE KEYS */;
-INSERT INTO `environment` VALUES (1,'LM'),(2,'ES'),(3,'MOBILE'),(4,'DEMO');
-/*!40000 ALTER TABLE `environment` ENABLE KEYS */;
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES (1,'KID50100','AP1-1','abc','ABCDE','2016-09-22 21:33:20',1),(2,'KID50121','AP1-3','bdf','BCDEF','2016-09-22 21:35:32',1),(3,'KID50221','AP1-4','cde','CDEFG','2016-09-22 21:53:29',1),(4,'KID50301','AP2-1','def','DEFGH','2016-09-22 22:01:23',1);
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

@@ -3,7 +3,7 @@ customer =  customer || {};
 customer.data = ( function (){
 
   var 
-    configMap, data, 
+    configMap, data, getData,
     _ajaxPost, _ajaxGet,
     selectAll, select,
     insert,    update, remove
@@ -18,7 +18,12 @@ customer.data = ( function (){
         // return result;
       }
     }).responseText;
+   data = result;
    return result;
+  };
+
+  getData = function () {
+    return JSON.parse(data);
   };
 
   _ajaxPost = function ( data, add_del ) {
@@ -61,7 +66,8 @@ customer.data = ( function (){
     select    : select,
     insert    : insert,
     update    : update,
-    remove    : remove
+    remove    : remove,
+    getData   : getData
   };
 
 }());

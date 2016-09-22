@@ -16,27 +16,30 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `environment`
+-- Table structure for table `loginuser`
 --
 
-DROP TABLE IF EXISTS `environment`;
+DROP TABLE IF EXISTS `loginuser`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `environment` (
-  `id` tinyint(4) NOT NULL,
-  `environment` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `loginuser` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(10) NOT NULL,
+  `password` varchar(15) NOT NULL,
+  `newadd` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `password_UNIQUE` (`password`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `environment`
+-- Dumping data for table `loginuser`
 --
 
-LOCK TABLES `environment` WRITE;
-/*!40000 ALTER TABLE `environment` DISABLE KEYS */;
-INSERT INTO `environment` VALUES (1,'LM'),(2,'ES'),(3,'MOBILE'),(4,'DEMO');
-/*!40000 ALTER TABLE `environment` ENABLE KEYS */;
+LOCK TABLES `loginuser` WRITE;
+/*!40000 ALTER TABLE `loginuser` DISABLE KEYS */;
+INSERT INTO `loginuser` VALUES (1,'赤鬼','aka',1),(2,'青鬼','ao',0),(3,'root','root',1);
+/*!40000 ALTER TABLE `loginuser` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

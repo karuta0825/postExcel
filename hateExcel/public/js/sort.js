@@ -17,18 +17,19 @@
   // TODO: 配列してviewに関する情報を追加しやすいようにする
   // ex)html表示名をここで決める
   var view = {
-    name  : true,
-    age   : true,
-    sex   : true,
-    tf    : true
+    KID    : true,
+    サーバ   : true,
+    'genics-id'   : true,
+    userKey    : true
   };
 
   var headerMap = {
     check : '対象',
     kid : 'KID',
-    age : 'AGE',
-    sex : 'SEX',
-    tf  : 'Check'
+    server : 'サーバ',
+    genics : 'genicd-id',
+    userKey  : 'ユーザキー',
+    author  : '作成者'
   };
 
   var data, list_server;
@@ -164,7 +165,7 @@ $(function(){
     });
   });
 
-  data = customer.data.selectAll('all');
-  showTable(data);
+  // data = customer.data.selectAll('all');
+  showTable( customer.data.selectAll('all') );
 
 });

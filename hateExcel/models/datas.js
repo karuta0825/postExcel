@@ -8,15 +8,16 @@ var
 
 datas.getAll = function ( callback ) {
   db.query(
-    'SELECT * FROM test;',
+    'SELECT U.ID, KID, SERVER, GENICS, USERKEY, NAME, updateDate FROM USER AS U'
+    + ' INNER JOIN LOGINUSER AS L ON U.AUTHORID = L.ID;',
     function ( err, results, fields ) {
       db.end();
-      if ( err ) { return; }
+      if ( err ) { console.log(err); return; }
       if ( results && results.length > 0 ) {
-        // console.log(results); 
+        console.log(results); 
         for ( var i = 0; i<results.length; i+=1 ) {
-          console.log(results[i].date.toString());
-          results[i].date = results[i].date.toString();
+          console.log(results[i].updateDate.toString());
+          results[i].updateDate = results[i].updateDate.toString();
         }
         callback( results );
       }
