@@ -14,7 +14,7 @@ var alpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
     alpha_len = alpha.length;
 
 var num = Math.floor( Math.random() * alpha_len );
-WScript.Echo( alpha.charAt(num));
+
 
 var getUserKey = function () {
   var r = '';
@@ -31,12 +31,16 @@ var getId = function () {
   return random;
 }
 
+var company_suffix = ['ステーション','ホーム','事業所','サービスセンター'],
+    cslen = company_suffix.length;
+
 var i            = 0,
     list_kid     = [],
     list_server  = [],
     list_genics  = [],
     list_userKey = [],
-    list_id      = []
+    list_id      = [],
+    list_company = []
     ;
 
 for ( ; i<100; i+=1 ) {
@@ -50,17 +54,23 @@ _.each( list_userKey, function (val) {
   list_genics.push( val.substr(0,3).toLowerCase() );
 });
 
-WScript.Echo(list_userKey);
+_.each( list_userKey, function (val) {
+  var prefix = val.substr(0,3),
+      random = Math.floor( (Math.random() * 4 ) ),
+      suffix = company_suffix[random];
+  list_company.push( prefix + '' + suffix );
+});
 
 var query = [];
 for (var i = 0; i<list_kid.length; i+=1 ) {
-  query.push( 'insert into customer.user ( kid, server, genics, userKey, updateDate, authorid) values( '
+  query.push( 'insert into customer.user ( kid, server, genics, userKey, updateDate, authorid, company) values( '
     + "'" + list_kid[i]     + "'" +  ','
     + "'" + list_server[i]  + "'" + ','
     + "'" + list_genics[i]  + "'" + ','
     + "'" + list_userKey[i] + "'" + ','
     + 'NOW()' + ','
-    + list_id[i]
+    + list_id[i] + ','
+    + "'" + list_company[i] + "'"
     + ' );'
   );
 }
@@ -115,7 +125,6 @@ mobile_add.sql = ( function () {
   _unitTest = function () {
 
     initModule();
-    WScript.Echo('test');
     writeFile(query);
 
     finitModule();
