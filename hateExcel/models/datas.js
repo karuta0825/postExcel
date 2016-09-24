@@ -8,7 +8,7 @@ var
 
 datas.getAll = function ( callback ) {
   db.query(
-    'SELECT U.ID, KID, SERVER, GENICS, USERKEY, NAME, updateDate FROM USER AS U'
+    'SELECT U.id, kid, server, genics, userkey, name, updateDate FROM USER AS U'
     + ' INNER JOIN LOGINUSER AS L ON U.AUTHORID = L.ID;',
     function ( err, results, fields ) {
       db.end();

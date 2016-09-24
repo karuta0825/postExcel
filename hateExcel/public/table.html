@@ -38,14 +38,14 @@
     <!-- table body -->
     <tbody>
       <script type="text/template" id="template">
-        <% _.each( customer.data.selectAll('all') , function ( item ) { %>
+        <% _.each( customer.model.getData() , function ( item ) { %>
           <tr id='row<%- item.id %>' >
             <td><input type="checkbox"></td>
-            <td class='cell KID' >      <%- item.KID  %> </td>
-            <td class='cell server'>    <%- item.SERVER   %> </td>
-            <td class='cell genics_id'> <%- item.GENICS   %> </td>
-            <td class='cell userKey'>   <%- item.USERKEY    %> </td>
-            <td class='cell author'>    <%- item.NAME    %> </td>
+            <td class='cell kid' >      <%- item.kid  %> </td>
+            <td class='cell server'>    <%- item.server   %> </td>
+            <td class='cell genics'> <%- item.genics   %> </td>
+            <td class='cell userkey'>   <%- item.userkey    %> </td>  
+            <td class='cell author'>    <%- item.name   %> </td>
           </tr>
         <% }); %>
       </script>
@@ -56,7 +56,9 @@
   <script src='./js/lib/jquery-2.1.4.min.js'></script>
   <script src="./js/bootstrap/bootstrap.min.js"></script>
   <script src='./js/lib/underscore.js'></script>
-  <script src='./js/dataModule.js'></script>
+  <script src='./js/data.js'></script>
+  <script src='./js/model.users.js'></script>
+  <script src='./js/view.servers.js'></script>
   <script src='./js/sort.js' charset='utf-8'></script>
 </body>
 </html>

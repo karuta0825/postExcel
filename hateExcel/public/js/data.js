@@ -1,6 +1,6 @@
 var customer;
 customer =  customer || {};
-customer.data = ( function (){
+customer.db = ( function (){
 
   var 
     configMap, data, getData,
@@ -18,7 +18,7 @@ customer.data = ( function (){
         // return result;
       }
     }).responseText;
-   data = result;
+   // data = result;
    return result;
   };
 

@@ -19,16 +19,16 @@
   var view = {
     KID    : true,
     サーバ   : true,
-    'genics-id'   : true,
+    genics   : true,
     userKey    : true
   };
 
   var headerMap = {
-    check : '対象',
-    kid : 'KID',
-    server : 'サーバ',
-    genics : 'genicd-id',
-    userKey  : 'ユーザキー',
+    check   : '対象',
+    kid     : 'KID',
+    server  : 'サーバ',
+    genics  : 'genicd-id',
+    userKey : 'ユーザキー',
     author  : '作成者'
   };
 
@@ -60,20 +60,13 @@ $(function(){
   $('thead').append( headers );
 
   var serverTmpl = $('#servers').html();
-  list_server = customer.data.selectAll('servers');
+  list_server = customer.db.selectAll('servers');
   var servers    = _.template( serverTmpl, list_server );
   $('#user').append(servers);
 
 
   // sort method
   var sortOrder = 1;
-
-  // データのid検索
-  var findById = function ( data, id ) {
-    return $.grep( data, function ( val ) {
-             return id === val.id;
-           })[0]; 
-  };
 
   /**
    * 選択した列を表示・日表示する機能
@@ -135,22 +128,6 @@ $(function(){
   };
 
 
-  // $('.theader .name').on( 'click', function () {
-  //   rowsort( data, 'row', 'name' );
-  // });
-
-  // $('.theader .age').on( 'click', function (){
-  //   rowsort( data, 'row', 'age' );
-  // });
-
-  // $('.theader .sex').on( 'click', function (){
-  //   rowsort( data, 'row', 'sex' );
-  // });
-
-  // $('.theader .check').on( 'click', function (){
-  //   rowsort( data, 'row', 'check' );
-  // });
-
   // ソートイベント作成　上記イベントを一つにまとめた。
   _.each( view, function ( val, key ) {
     $('theader .' + key ).on( 'click', function () {
@@ -166,6 +143,7 @@ $(function(){
   });
 
   // data = customer.data.selectAll('all');
-  showTable( customer.data.selectAll('all') );
+  customer.model.initModule();
+  showTable( customer.model.getData() );
 
 });
