@@ -38,7 +38,7 @@ CREATE TABLE `loginuser` (
 
 LOCK TABLES `loginuser` WRITE;
 /*!40000 ALTER TABLE `loginuser` DISABLE KEYS */;
-INSERT INTO `loginuser` VALUES (1,'赤鬼','aka',1),(2,'青鬼','ao',0),(3,'root','root',1);
+INSERT INTO `loginuser` VALUES (1,'赤鬼','aka',1),(2,'青鬼','ao',0),(3,'黄鬼','yello',1);
 /*!40000 ALTER TABLE `loginuser` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-09-22 22:48:15
+-- Dump completed on 2016-09-24 14:34:21

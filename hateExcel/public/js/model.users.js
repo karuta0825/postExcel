@@ -3,12 +3,13 @@
 customer.model = ( function () {
 
   var 
-    _data, _sortOrder = 1,
-    findBy,
+    /*private member*/
+    _data, _all_data, _sortOrder = 1,
+    /*private method*/
+
+    /*public  method*/
     findByKid, findByServer, findByGenics,
-    sortByCol,
-    getData,
-    initModule
+    sortByCol, getData,      initModule
   ;
 
   findByKid = function ( kid ) {
@@ -17,10 +18,13 @@ customer.model = ( function () {
     })[0];
   };
 
-  findByServer = function ( server ) {
-    return $.grep( _data, function ( val ) {
-      return server === val.server;
-    });　
+  findByServer = function ( server, callback ) {
+    // return $.grep( _data, function ( val ) {
+    //   return server === val.server;
+    // });
+    _data = $.grep( _all_data, function ( val ) { return server === val.server;})
+
+    callback( 'server', _data );
   };
 
   findByGenics = function ( genics ) {
@@ -29,7 +33,7 @@ customer.model = ( function () {
     })[0];
   };
 
-  sortByCol = function ( col, callback ) {
+  sortByCol = function ( col, callbackFromView ) {
     
     _data.sort( function ( item1, item2 ) {
       item1 = _.isString( item1[col] ) && item1[col].toString().toLowerCase() || item1[key];
@@ -46,11 +50,11 @@ customer.model = ( function () {
     // 並び替え方向の入れ替え
     _sortOrder *= -1;
 
-    console.log(_data);
-    if( callback ) {
-      callback( col, _data );
+    // モデルの変化時にviewを更新する処理
+    if( callbackFromView ) {
+      callbackFromView( col, _data );
     }
-    // return _data;
+
   };
 
   getData = function () {
@@ -59,9 +63,10 @@ customer.model = ( function () {
 
   initModule = function () {
     _data = customer.db.selectAll('all');
+    _all_data = _data;
   };
 
-
+  /*public method*/
   return {
     initModule   : initModule,
     findByKid    : findByKid,

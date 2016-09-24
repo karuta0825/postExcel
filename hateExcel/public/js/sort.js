@@ -17,19 +17,21 @@
   // TODO: 配列してviewに関する情報を追加しやすいようにする
   // ex)html表示名をここで決める
   var view = {
-    KID    : true,
-    サーバ   : true,
+    kid    : true,
+    server   : true,
     genics   : true,
-    userKey    : true
+    userkey    : true
   };
 
   var headerMap = {
     check   : '対象',
     kid     : 'KID',
+    company : '名前',
     server  : 'サーバ',
-    genics  : 'genicd-id',
+    genics  : 'genicd',
     userKey : 'ユーザキー',
-    author  : '作成者'
+    author  : '作成者',
+    updateDate : '更新日'
   };
 
   var data, list_server;
@@ -38,22 +40,13 @@
 $(function(){
 
   // html内のtemplateをロード
-  // var tmpl = $('#template').html();
   var colTmpl = $('#view-config').html();
   
   // ロードテンプレートに実データを組み込む
-  // var rows = _.template( tmpl, data );
   var cols = _.template( colTmpl, view );
 
   // コンパイル済みのレコードをhtmlに挿入
-  // $('.table').append( rows );
   $('#config').append( cols );
-
-  var showTable = function ( data ) {
-    var tmpl = $('#template').html();
-    var rows = _.template( tmpl, data );
-    $('tbody').append( rows );
-  };
 
   var headerTmpl = $('#table-header').html();
   var headers = _.template( headerTmpl, headerMap );
@@ -64,9 +57,6 @@ $(function(){
   var servers    = _.template( serverTmpl, list_server );
   $('#user').append(servers);
 
-
-  // sort method
-  var sortOrder = 1;
 
   /**
    * 選択した列を表示・日表示する機能
@@ -83,57 +73,19 @@ $(function(){
     }
   };
 
-  /**
-   * データの並び替えと表示
-   * @param {Array}  datas - テーブルに表示するデータ
-   * @param {String} place - htmlの表示場所を指定(class name)
-   * @param {String} key   - 並び替え対象のkeyを指定
-   */
-  var rowsort = function ( datas, place, key ) {
-    var rows = $( '.' + place );
 
-    // データソート
-    datas.sort( function ( item1, item2 ){
-      // 文字列の場合の対応
-      item1 = _.isString(item1[key]) && item1[key].toString().toLowerCase() || item1[key];
-      item2 = _.isString(item2[key]) && item2[key].toString().toLowerCase() || item2[key];
-      if( item1 < item2 ){
-        return -1 * sortOrder;
-      }else if(item1 > item2){
-          return 1 * sortOrder;
-      }
-      return 0;
-    });
 
-    // 降順・昇順入れ替え
-    sortOrder *= -1;
+  customer.model.initModule();
+  customer.view.initModule();
 
-    // 表示データを削除
-    rows.each( function (key, val) {
-      $(val).find('.name').empty();
-      $(val).find('.age').empty();
-      $(val).find('.sex').empty();
-      $(val).find('.check').empty();
-    });
-
-    // ソート後のデータを表示
-    rows.each( function ( key, val ) {
-      var row = $(val);
-      row.find('.name').append(  data[key].name  );
-      row.find('.age').append(   data[key].age   );
-      row.find('.sex').append(   data[key].sex   );
-      row.find('.check').append( data[key].check );
-    });
-
-  };
 
 
   // ソートイベント作成　上記イベントを一つにまとめた。
-  _.each( view, function ( val, key ) {
-    $('theader .' + key ).on( 'click', function () {
-      rowsort( data, 'row', key );
-    })
-  });
+  // _.each( view, function ( val, key ) {
+  //   $('thead .' + key ).on( 'click', function () {
+  //     customer.model.sortByCol( key, customer.view.rowsort );
+  //   })
+  // });
 
   // 列表示・非表示イベント作成
   _.each( view, function ( val, key ) {
@@ -141,9 +93,5 @@ $(function(){
       viewCol(key);
     });
   });
-
-  // data = customer.data.selectAll('all');
-  customer.model.initModule();
-  showTable( customer.model.getData() );
 
 });

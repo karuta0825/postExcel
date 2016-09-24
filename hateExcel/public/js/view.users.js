@@ -2,11 +2,22 @@ customer.view = ( function () {
 
 
   var 
-    jqueryMap = {},
-    _setJqueryMap,
-    rowsort,
-    initModule
+    /*private member*/
+    jqueryMap = {}, 
+
+    /*private method*/
+    _setJqueryMap, _showTable, _onClickColName,
+
+    /*public method*/
+    rowsort, initModule
   ;
+
+  var view = {
+    kid    : true,
+    server   : true,
+    genics   : true,
+    userkey    : true
+  };
 
   _setJqueryMap = function () {
     var $table = $('.table'),
@@ -15,54 +26,80 @@ customer.view = ( function () {
     ;
 
     jqueryMap.$table   = $table;
-    jqueryMap.$header  = $table.find('thead');
+    jqueryMap.$header  = $table.find('th');
     jqueryMap.$body    = $table.find('tbody');
     jqueryMap.$row     = $table.find('tr');
-    jqueryMap.$kid     = $body.find('.kid');
-    jqueryMap.$severs  = $body.find('.server');
-    jqueryMap.$genics  = $body.find('.genics');
-    jqueryMap.$userkey = $body.find('.userkey');
-    jqueryMap.$author  = $body.find('.author');
+    jqueryMap.$col     = { 
+      kid     : $body.find('.kid'),
+      severs  : $body.find('.server'),
+      genics  : $body.find('.genics'),
+      userkey : $body.find('.userkey'),
+      author  : $body.find('.author')
+    };
+
   };
 
-    /**
+  _showTable = function ( data ) {
+    var
+      tmpl = $('#template').html(),
+      rows = _.template( tmpl, data );
+    $('tbody').append( rows );
+  };
+
+  _onClickColName = function () {
+    _.each( view, function ( val, key ) {
+      $('thead .' + key ).on( 'click', function () {
+        customer.model.sortByCol( key, customer.view.rowsort );
+      })
+    });
+  };
+
+  var selectRow = function ( col, data ) {
+    var rows   = jqueryMap.$row;
+    $(rows).remove();
+    _showTable( data );
+    _setJqueryMap();  
+  };
+
+  /**
    * データの並び替えと表示
-   * @param {Array}  datas - テーブルに表示するデータ
-   * @param {String} place - htmlの表示場所を指定(class name)
-   * @param {String} key   - 並び替え対象のkeyを指定
+   * @param  {[type]} col
+   * @param  {[type]} data
    */
   var rowsort = function ( col , data ) {
 
     // 行数取得
     var rows = jqueryMap.$row;
 
-    // 表示データを削除
-    rows.each( function (key, val) {
-      $(val).find('.kid').empty();
-      $(val).find('.server').empty();
-      $(val).find('.genics').empty();
-      $(val).find('.userkey').empty();
-      $(val).find('.author').empty();
-    });
-
-    // ソート後のデータを表示
     rows.each( function ( key, val ) {
-      $(val).find('.kid').append(  data[key].kid  );
-      $(val).find('.server').append(   data[key].server   );
-      $(val).find('.genics').append(   data[key].genics   );
-      $(val).find('.userkey').append( data[key].userkey );
-      $(val).find('.author').append( data[key].author );
+      $(val).attr('id', 'id' + data[key].id );
+      $(val).find('.kid'       ).empty().append( data[key].kid        );
+      $(val).find('.server'    ).empty().append( data[key].server     );
+      $(val).find('.genics'    ).empty().append( data[key].genics     );
+      $(val).find('.userkey'   ).empty().append( data[key].userkey    );
+      $(val).find('.author'    ).empty().append( data[key].name       );
+      $(val).find('.company'   ).empty().append( data[key].company    );
+      $(val).find('.updateDate').empty().append( data[key].updateDate );
     });
 
   };
 
   initModule = function () {
+    // テーブル描画
+    _showTable( customer.model.getData() );
+
+    // 描画後dom要素のキャッシュ
     _setJqueryMap();
+
+    // イベント登録
+    _onClickColName();
+
   };
 
   return {
     initModule : initModule,
-    rowsort : rowsort
+    rowsort : rowsort,
+    selectRow  : selectRow
   }
 
 
