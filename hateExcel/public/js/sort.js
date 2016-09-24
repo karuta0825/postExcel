@@ -40,13 +40,9 @@
 $(function(){
 
   // html内のtemplateをロード
-  var colTmpl = $('#view-config').html();
-  
-  // ロードテンプレートに実データを組み込む
-  var cols = _.template( colTmpl, view );
-
-  // コンパイル済みのレコードをhtmlに挿入
-  $('#config').append( cols );
+  // var colTmpl = $('#view-config').html();
+  // var cols = _.template( colTmpl, view );
+  // $('#config').append( cols );
 
   var headerTmpl = $('#table-header').html();
   var headers = _.template( headerTmpl, headerMap );

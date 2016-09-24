@@ -1,0 +1,18 @@
+{
+
+  "select" : {
+    "all" : "SELECT U.id, kid, server, genics, userkey, name, DATE_FORMAT( updateDate, '%Y-%m-%d') as updateDate, company FROM USER AS U INNER JOIN LOGINUSER AS L ON U.AUTHORID = L.ID;"
+  },
+
+  "update" : {
+    "date"   : "UPDATE USERS SET updateDate = ? WHERE kid = ?",
+    "accout_number" : "UPDATE USERS SET account_number = ? WHERE kid = ?"
+  },
+
+  "insert" : {
+
+  },
+  "delete" : {
+
+  }
+}

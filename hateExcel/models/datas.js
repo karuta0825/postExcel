@@ -2,25 +2,22 @@
 // メンバ変数の宣言
 var 
   database = require('./database'),
+  // SQLクエリは別ファイルで管理する
+  querys   = require('./list_query'),
   db = database.createClient(),
   datas = exports
   ;
 
+console.log(querys.select.all);
+
 datas.getAll = function ( callback ) {
   db.query(
-    'SELECT U.id, kid, server, genics, userkey, name, updateDate, company FROM USER AS U'
+    "SELECT U.id, kid, server, genics, userkey, name, DATE_FORMAT( updateDate, '%Y-%m-%d') as updateDate, company FROM USER AS U"
     + ' INNER JOIN LOGINUSER AS L ON U.AUTHORID = L.ID;',
     function ( err, results, fields ) {
       db.end();
       if ( err ) { console.log(err); return; }
-      if ( results && results.length > 0 ) {
-        console.log(results); 
-        for ( var i = 0; i<results.length; i+=1 ) {
-          console.log(results[i].updateDate.toString());
-          results[i].updateDate = results[i].updateDate.toString();
-        }
-        callback( results );
-      }
+      callback( results );
     }
   );
 };

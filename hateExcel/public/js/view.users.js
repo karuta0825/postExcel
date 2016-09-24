@@ -9,7 +9,8 @@ customer.view = ( function () {
     _setJqueryMap, _showTable, _onClickColName,
 
     /*public method*/
-    rowsort, initModule
+    redrawTable,   updateTable,
+    initModule
   ;
 
   var view = {
@@ -39,6 +40,10 @@ customer.view = ( function () {
 
   };
 
+  /**
+   * テーブル描画
+   * @param  {Array} data - data get DB
+   */
   _showTable = function ( data ) {
     var
       tmpl = $('#template').html(),
@@ -46,15 +51,24 @@ customer.view = ( function () {
     $('tbody').append( rows );
   };
 
+  /**
+   * 並び替えイベント登録
+   */
   _onClickColName = function () {
     _.each( view, function ( val, key ) {
       $('thead .' + key ).on( 'click', function () {
-        customer.model.sortByCol( key, customer.view.rowsort );
+        customer.model.sortByCol( key, redrawTable );
       })
     });
   };
 
-  var selectRow = function ( col, data ) {
+  /**
+   * 
+   * @param  {[type]} col
+   * @param  {[type]} data
+   * @return {[type]}
+   */
+  var updateTable = function ( col, data ) {
     var rows   = jqueryMap.$row;
     $(rows).remove();
     _showTable( data );
@@ -66,7 +80,7 @@ customer.view = ( function () {
    * @param  {[type]} col
    * @param  {[type]} data
    */
-  var rowsort = function ( col , data ) {
+  var redrawTable = function ( col , data ) {
 
     // 行数取得
     var rows = jqueryMap.$row;
@@ -97,9 +111,9 @@ customer.view = ( function () {
   };
 
   return {
-    initModule : initModule,
-    rowsort : rowsort,
-    selectRow  : selectRow
+    initModule  : initModule,
+    redrawTable : redrawTable,
+    updateTable : updateTable
   }
 
 

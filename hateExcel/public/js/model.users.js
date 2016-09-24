@@ -19,11 +19,7 @@ customer.model = ( function () {
   };
 
   findByServer = function ( server, callback ) {
-    // return $.grep( _data, function ( val ) {
-    //   return server === val.server;
-    // });
     _data = $.grep( _all_data, function ( val ) { return server === val.server;})
-
     callback( 'server', _data );
   };
 
