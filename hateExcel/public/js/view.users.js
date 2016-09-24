@@ -46,9 +46,11 @@ customer.view = ( function () {
    */
   _showTable = function ( data ) {
     var
-      tmpl = $('#template').html(),
-      rows = _.template( tmpl, data );
-    $('tbody').append( rows );
+      data     =  { list : data },
+      tmpl     = $('#template').html(),
+      complied = _.template( tmpl )
+    ;
+    $('tbody').append( complied( data ) );
   };
 
   /**

@@ -69,19 +69,9 @@ $(function(){
     }
   };
 
-
-
   customer.model.initModule();
   customer.view.initModule();
 
-
-
-  // ソートイベント作成　上記イベントを一つにまとめた。
-  // _.each( view, function ( val, key ) {
-  //   $('thead .' + key ).on( 'click', function () {
-  //     customer.model.sortByCol( key, customer.view.rowsort );
-  //   })
-  // });
 
   // 列表示・非表示イベント作成
   _.each( view, function ( val, key ) {

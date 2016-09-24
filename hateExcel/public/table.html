@@ -68,7 +68,7 @@
         <!-- table body -->
         <tbody>
           <script type="text/template" id="template">
-            <% _.each( customer.model.getData() , function ( item ) { %>
+            <% _.each( list , function ( item ) { %>
               <tr id='id<%- item.id %>' >
                 <td><input type="checkbox"></td>
                 <td class='cell kid' >    <%- item.kid     %> </td>

@@ -19,11 +19,11 @@ customer.model = ( function () {
   };
 
   findByServer = function ( server, callback ) {
-    _data = $.grep( _all_data, function ( val ) { return server === val.server;})
+    var data = $.grep( _data, function ( val ) { return server === val.server;})
     if ( callback ) {
-      callback( 'server', _data );
+      callback( 'server', data );
     }
-    return _data;
+    return data;
   };
 
   findByGenics = function ( genics ) {
