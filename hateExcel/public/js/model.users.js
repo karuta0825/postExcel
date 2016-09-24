@@ -20,7 +20,10 @@ customer.model = ( function () {
 
   findByServer = function ( server, callback ) {
     _data = $.grep( _all_data, function ( val ) { return server === val.server;})
-    callback( 'server', _data );
+    if ( callback ) {
+      callback( 'server', _data );
+    }
+    return _data;
   };
 
   findByGenics = function ( genics ) {

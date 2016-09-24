@@ -1,14 +1,23 @@
 @charset 'UTF-8';
 
-body {
-  height : 100%;
+html body {
+  width : 100%;
+  height : 100%;  
+}
+
+#container {
+  position : relative;
+  margin: 0 auto;
+  width :auto;
 }
 
 #user {
   width  : 150px;
+  height : auto;
   min-height : 100%;
-  background-color:#EBEBDC;
+  /*background-color:#EBEBDC;*/
   float :left;
+  position : absolute;
 }
 
 #user li {
@@ -18,15 +27,21 @@ body {
 
 #config {
   font-family: "メイリオ", sans-serif;
-  width : 100%;
   height : 150px;
-  background-color : red;
+  /*background-color : red;*/
+  margin-left: 180px; 
 }
 
+
 /*テーブル全体*/
-.table {
-  display : table;
-  width : auto;
-  margin-top  : 10px; 
-  margin-left : 180px;
+.table-responsive {
+  width :auto;
+  margin-left: 180px;
 }
+
+tbody {
+  color :#696969;
+}
+
+
+
