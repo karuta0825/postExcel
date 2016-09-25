@@ -14,7 +14,7 @@
     <div id='user'>
       <script type="text/template" id='servers'>
         <% _.each( list_server, function ( server ) { %>
-          <ul> <%- server.NAME %> </ul>
+          <ul> <%- server.name %> </ul>
         <% }) %>
       </script>
     </div>
@@ -34,23 +34,7 @@
       <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">Import</button>
       <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">Export</button>
 
-      <div class="modal fade" id="myModal">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Modal タイトル</h4>
-            </div>
-            <div class="modal-body">
-              <input></input><br>
-              <input></input><br>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-primary" data-dismiss="modal">キャンセル</button>
-              <button type="button" class="btn btn-primary" >決定</button>
-            </div>
-          </div>
-        </div>
-      </div>
+
 
     </div>
 
@@ -77,7 +61,7 @@
                 <td class='cell genics'>  <%- item.genics  %> </td>
                 <td class='cell userkey'> <%- item.userkey %> </td>  
                 <td class='cell author'>  <%- item.name    %> </td>
-                <td class='cell updateDate'>  <%- item.updateDate %> </td>
+                <td class='cell updateDate'>  <%- item.update_on %> </td>
               </tr>
             <% }); %>
           </script>

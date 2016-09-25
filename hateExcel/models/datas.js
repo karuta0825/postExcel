@@ -12,8 +12,8 @@ console.log(querys.select.all);
 
 datas.getAll = function ( callback ) {
   db.query(
-    "SELECT U.id, kid, server, genics, userkey, name, DATE_FORMAT( updateDate, '%Y-%m-%d') as updateDate, company FROM USER AS U"
-    + ' INNER JOIN LOGINUSER AS L ON U.AUTHORID = L.ID;',
+    "SELECT U.id, kid, server, genics, userkey, name, DATE_FORMAT( update_on, '%Y-%m-%d') as update_on, company FROM USER AS U"
+    + ' INNER JOIN LOGIN_USERS AS L ON U.AUTHOR_ID = L.ID;',
     function ( err, results, fields ) {
       db.end();
       if ( err ) { console.log(err); return; }
@@ -24,12 +24,12 @@ datas.getAll = function ( callback ) {
 
 datas.getServers = function ( callback ) {
   db.query(
-    'SELECT ADDRESS, NAME, TYPE, ENV.ENVIRONMENT FROM SERVERS AS SV '
-    + 'INNER JOIN ENVIRONMENT AS ENV ON SV.ENVIRONMENT = ENV.ID '
-    + 'ORDER BY ENVIRONMENT, NAME',
+    'SELECT ip, name, type, ENV.environment FROM SERVERS AS SV '
+    + 'INNER JOIN ENVIRONMENTS AS ENV ON SV.ENVIRONMENT_ID = ENV.ID '
+    + 'ORDER BY environment, name',
     function ( err, results, fields ) {
       db.end();
-      if ( err ) { return; }
+      if ( err ) { console.log(err); return; }
       console.log(err);
       console.log(results);      
       callback( results );

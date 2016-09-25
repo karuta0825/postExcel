@@ -4,7 +4,7 @@ customer.model = ( function () {
 
   var 
     /*private member*/
-    _data, _all_data, _sortOrder = 1,
+    _data, _sortOrder = 1,
     /*private method*/
 
     /*public  method*/
@@ -62,18 +62,26 @@ customer.model = ( function () {
 
   initModule = function () {
     _data = customer.db.selectAll('all');
-    _all_data = _data;
+    return {
+      findByKid    : findByKid,
+      findByServer : findByServer,
+      findByGenics : findByGenics,
+      sortByCol    : sortByCol,
+      getData      : getData      
+    }
   };
 
   /*public method*/
+  // return {
+  //   initModule   : initModule,
+  //   findByKid    : findByKid,
+  //   findByServer : findByServer,
+  //   findByGenics : findByGenics,
+  //   sortByCol    : sortByCol,
+  //   getData      : getData
+  // };
   return {
-    initModule   : initModule,
-    findByKid    : findByKid,
-    findByServer : findByServer,
-    findByGenics : findByGenics,
-    sortByCol    : sortByCol,
-    getData      : getData
+    initModule   : initModule
   };
-
 
 }());

@@ -3,7 +3,7 @@ customer.view = ( function () {
 
   var 
     /*private member*/
-    jqueryMap = {}, 
+    jqueryMap = {}, _model,
 
     /*private method*/
     _setJqueryMap, _showTable, _onClickColName,
@@ -59,7 +59,8 @@ customer.view = ( function () {
   _onClickColName = function () {
     _.each( view, function ( val, key ) {
       $('thead .' + key ).on( 'click', function () {
-        customer.model.sortByCol( key, redrawTable );
+        // customer.model.sortByCol( key, redrawTable );
+        _model.sortByCol( key, redrawTable );
       })
     });
   };
@@ -70,7 +71,7 @@ customer.view = ( function () {
    * @param  {[type]} data
    * @return {[type]}
    */
-  var updateTable = function ( col, data ) {
+  updateTable = function ( col, data ) {
     var rows   = jqueryMap.$row;
     $(rows).remove();
     _showTable( data );
@@ -82,7 +83,7 @@ customer.view = ( function () {
    * @param  {[type]} col
    * @param  {[type]} data
    */
-  var redrawTable = function ( col , data ) {
+  redrawTable = function ( col , data ) {
 
     // 行数取得
     var rows = jqueryMap.$row;
@@ -101,8 +102,12 @@ customer.view = ( function () {
   };
 
   initModule = function () {
+    // モデル初期化
+    _model = customer.model.initModule();
+
     // テーブル描画
-    _showTable( customer.model.getData() );
+    // _showTable( customer.model.getData() );
+    _showTable( _model.getData() );
 
     // 描画後dom要素のキャッシュ
     _setJqueryMap();
@@ -110,9 +115,14 @@ customer.view = ( function () {
     // イベント登録
     _onClickColName();
 
+    // $('#config').append( customer.db._ajaxHtml('template/modal.html'));
+    customer.db._ajaxHtml('template/modal.html', function ( result ) {
+      $('#config').append(result);
+    })
   };
 
   return {
+    // _model : function () { return _model } ,
     initModule  : initModule,
     redrawTable : redrawTable,
     updateTable : updateTable

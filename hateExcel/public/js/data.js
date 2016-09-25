@@ -4,7 +4,7 @@ customer.db = ( function (){
 
   var 
     configMap, data, getData,
-    _ajaxPost, _ajaxGet,
+    _ajaxPost, _ajaxGet, _ajaxHtml,
     selectAll, select,
     insert,    update, remove
   ;
@@ -22,9 +22,19 @@ customer.db = ( function (){
    return result;
   };
 
-  getData = function () {
-    return JSON.parse(data);
+  _ajaxHtml = function ( url, callback ) {
+    $.ajax({
+      dataType: 'text',
+      url     : url,
+      success : function ( result ) {
+        callback(result);
+      },
+      error   :  function ( XMLHttpRequest ) {
+        console.log(XMLHttpRequest.responseText);
+      }
+    });
   };
+
 
   _ajaxPost = function ( data, add_del ) {
     $.ajax({
@@ -61,13 +71,12 @@ customer.db = ( function (){
   };
 
   return {
-    _ajaxGet  : _ajaxGet,
+    _ajaxHtml : _ajaxHtml,
     selectAll : selectAll,
     select    : select,
     insert    : insert,
     update    : update,
-    remove    : remove,
-    getData   : getData
+    remove    : remove
   };
 
 }());

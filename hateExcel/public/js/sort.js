@@ -39,7 +39,7 @@
   // クライアント側操作
 $(function(){
 
-  // html内のtemplateをロード
+  // 表示設定テンプレート
   // var colTmpl = $('#view-config').html();
   // var cols = _.template( colTmpl, view );
   // $('#config').append( cols );
@@ -69,7 +69,8 @@ $(function(){
     }
   };
 
-  customer.model.initModule();
+  // シェルはView作成だけでよい
+  // その後の処理は、viewの中で対応する
   customer.view.initModule();
 
 
