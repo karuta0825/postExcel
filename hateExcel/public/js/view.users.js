@@ -90,7 +90,8 @@ customer.view.kids = ( function () {
     var rows   = jqueryMap.$row;
     $(rows).remove();
     _showTable( data );
-    _setJqueryMap();  
+    _setJqueryMap();
+    _onClickAccountNumber();
   };
 
   /**

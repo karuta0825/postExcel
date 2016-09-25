@@ -74,7 +74,12 @@ customer.model.kids = ( function () {
 
   /*public method*/
   return {
-    initModule   : initModule
+    initModule   : initModule,
+    findByKid    : findByKid,
+    findByServer : findByServer,
+    findByGenics : findByGenics,
+    sortByCol    : sortByCol,
+    getData      : getData
   };
 
 }());
