@@ -1,6 +1,6 @@
 // var customer;
-// customer = customer || {};
-customer.model = ( function () {
+customer.model = customer.model || {};
+customer.model.users = ( function () {
 
   var 
     /*private member*/

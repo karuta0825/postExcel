@@ -20,9 +20,10 @@ html body {
   position : absolute;
 }
 
-#user li {
-  list-style: none;
+#user ul {    
+  /*list-style: none;*/
   margin-left: -20px;
+  /*border-bottom: 1px solid #696969;*/
 }
 
 #config {
@@ -41,6 +42,11 @@ html body {
 
 tbody {
   color :#696969;
+}
+
+.modal-body span {
+  display: inline-block;
+  width : 100px;
 }
 
 

@@ -71,7 +71,11 @@ $(function(){
 
   // シェルはView作成だけでよい
   // その後の処理は、viewの中で対応する
-  customer.view.initModule();
+  for ( var key in customer.view ) {
+    if ( customer.view.hasOwnProperty(key) ) {
+      customer.view[key].initModule();
+    }
+  }
 
 
   // 列表示・非表示イベント作成

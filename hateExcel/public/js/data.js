@@ -22,17 +22,18 @@ customer.db = ( function (){
    return result;
   };
 
-  _ajaxHtml = function ( url, callback ) {
-    $.ajax({
-      dataType: 'text',
-      url     : url,
-      success : function ( result ) {
-        callback(result);
-      },
-      error   :  function ( XMLHttpRequest ) {
-        console.log(XMLHttpRequest.responseText);
-      }
-    });
+  _ajaxHtml = function ( url ) {
+     var result = $.ajax({
+        dataType : 'text',
+        url      : url,
+        async    : false,
+        success  : function ( result ) {
+        },
+        error    : function ( XMLHttpRequest ) {
+          console.log(XMLHttpRequest);
+        }
+      }).responseText;
+     return result;
   };
 
 

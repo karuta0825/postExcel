@@ -1,4 +1,5 @@
-customer.view = ( function () {
+customer.view = customer.view || {};
+customer.view.user = ( function () {
 
 
   var 
@@ -103,7 +104,7 @@ customer.view = ( function () {
 
   initModule = function () {
     // モデル初期化
-    _model = customer.model.initModule();
+    _model = customer.model.users.initModule();
 
     // テーブル描画
     // _showTable( customer.model.getData() );
@@ -116,9 +117,7 @@ customer.view = ( function () {
     _onClickColName();
 
     // $('#config').append( customer.db._ajaxHtml('template/modal.html'));
-    customer.db._ajaxHtml('template/modal.html', function ( result ) {
-      $('#config').append(result);
-    })
+  
   };
 
   return {
