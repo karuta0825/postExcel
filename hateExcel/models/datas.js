@@ -12,8 +12,7 @@ console.log(querys.select.all);
 
 datas.getAll = function ( callback ) {
   db.query(
-    "SELECT U.id, kid, server, genics, userkey, name, DATE_FORMAT( update_on, '%Y-%m-%d') as update_on, company FROM USER AS U"
-    + ' INNER JOIN LOGIN_USERS AS L ON U.AUTHOR_ID = L.ID;',
+    querys.select.all,
     function ( err, results, fields ) {
       db.end();
       if ( err ) { console.log(err); return; }
@@ -30,8 +29,6 @@ datas.getServers = function ( callback ) {
     function ( err, results, fields ) {
       db.end();
       if ( err ) { console.log(err); return; }
-      console.log(err);
-      console.log(results);      
       callback( results );
     }
   );
@@ -44,18 +41,18 @@ datas.getServers = function ( callback ) {
  */
 datas.insert = function ( data, callback ) {
   var params = [
-    data.id,
-    data.name,
-    data.age,
-    data.tf,
-    data.sex
+    data.kid,
+    data.server,
+    data.genics,
+    data.userkey,
+    data.company,
+    data.author_id
   ];
-  console.log(data);
   db.query(
-    'INSERT INTO TEST '
-      + '(ID, NAME, AGE, TF, SEX, DATE)'
+    'INSERT INTO KIDS '
+      + '(kid, server, genics, userkey, company, author_id, update_on )'
       + 'VALUES '
-      + '(?,  ?,    ?,   ?,  ?,   NOW() )'
+      + '(?,   ?,      ?,      ?,       ?,       ?,         NOW() )'
       + ';',
     params,
     function ( err, results, fileds ) {

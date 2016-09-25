@@ -13,33 +13,57 @@ customer.view.config = ( function (){
     initModule
   ;
 
+  // modalの数だけこれつくるのは大変だ！クラスかできないか？
   _setJqueryMap = function () {
-    var $modal = $('#myModal');
+    var 
+      $modal       = $('#myModal'),
+      $modal_body  = $modal.find('.modal-body')
+    ;
 
     jqueryMap = {
-      modal  : $modal,
-      header : $modal.find('.modal-header'),
-      body   : $modal.find('.modal-body'),
-      cansel : $modal.find('.cancel'),
-      ok     : $modal.find('.ok')
+      $modal  : $modal,
+      $header : $modal.find('.modal-header'),
+      $body   : $modal.find('.modal-body'),
+      $cansel : $modal.find('.cancel'),
+      $ok     : $modal.find('.ok')
     }
+
+    jqueryMap.$input = {
+      kid     : $modal_body.find('#kid'),
+      company : $modal_body.find('#company'),
+      address : $modal_body.find('#address'),
+      server  : $modal_body.find('#server'),
+      genics  : $modal_body.find('#genics'),
+      userkey : $modal_body.find('#userkey')
+    };
+
   };
 
   _onClickOk = function () {
-    $(jqueryMap.ok).on( 'click', function () {
-      console.log( $(jqueryMap.body).find('#kid').val() );
+    $(jqueryMap.$ok).on( 'click', function () {
+
+      var params = {
+        kid       : $(jqueryMap.$input.kid).val(),
+        server    : $(jqueryMap.$input.server).val(),
+        address   : $(jqueryMap.$input.address).val(),
+        company   : $(jqueryMap.$input.company).val(),
+        genics    : $(jqueryMap.$input.genics).val(),
+        userkey   : $(jqueryMap.$input.userkey).val(),
+        author_id : 1 //TODO : 入力できるように
+      };
+
+      // validate check
+
+      // modelを経由してajaxpost
+      _model.addKid( params );
+
     });
-
-    // validate check
-
-    // modelを経由してajaxpost
 
   };
 
   initModule = function () {
 
     if ( ! _model ) { 
-      // viewが監視するmodelは複数あるよね！
       _model = customer.model.config.initModule(); 
     }
 

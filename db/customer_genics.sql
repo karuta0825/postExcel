@@ -16,30 +16,30 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `login_users`
+-- Table structure for table `genics`
 --
 
-DROP TABLE IF EXISTS `login_users`;
+DROP TABLE IF EXISTS `genics`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `login_users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(10) NOT NULL,
-  `password` varchar(15) NOT NULL,
-  `newadd` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `password_UNIQUE` (`password`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+CREATE TABLE `genics` (
+  `kid` varchar(9) NOT NULL,
+  `line_type` varchar(45) DEFAULT NULL,
+  `genics_id` varchar(45) DEFAULT NULL,
+  `password` varchar(45) DEFAULT NULL,
+  `created_on` datetime DEFAULT NULL,
+  PRIMARY KEY (`kid`),
+  UNIQUE KEY `kid_UNIQUE` (`kid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `login_users`
+-- Dumping data for table `genics`
 --
 
-LOCK TABLES `login_users` WRITE;
-/*!40000 ALTER TABLE `login_users` DISABLE KEYS */;
-INSERT INTO `login_users` VALUES (1,'赤鬼','aka',1),(2,'青鬼','ao',0),(3,'黄鬼','yello',1);
-/*!40000 ALTER TABLE `login_users` ENABLE KEYS */;
+LOCK TABLES `genics` WRITE;
+/*!40000 ALTER TABLE `genics` DISABLE KEYS */;
+/*!40000 ALTER TABLE `genics` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-09-25 23:17:16
+-- Dump completed on 2016-09-25 23:17:17

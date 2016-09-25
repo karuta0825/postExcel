@@ -48,11 +48,13 @@ app.get('/servers', function ( req, res ) {
 });
 
 app.post('/add', function ( req, res ) {
+  console.log(req.body);
   //post送信で渡ってきたデータ
   var data = req.body;
   datas.insert( data, function ( err ) {
     // insert時のエラー処理
     if (err) {
+      console.log(err);
       res.status( 500 ).send( err.message );
       return;
     }

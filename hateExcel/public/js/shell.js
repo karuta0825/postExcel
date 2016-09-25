@@ -24,14 +24,15 @@
   };
 
   var headerMap = {
-    check   : '対象',
-    kid     : 'KID',
-    company : '名前',
-    server  : 'サーバ',
-    genics  : 'genicd',
-    userKey : 'ユーザキー',
-    author  : '作成者',
-    updateDate : '更新日'
+    check          : '対象',
+    kid            : 'KID',
+    company        : '名前',
+    server         : 'サーバ',
+    genics         : 'genicd',
+    userKey        : 'ユーザキー',
+    author         : '作成者',
+    account_number : 'アカウント数',
+    updateDate     : '更新日'
   };
 
   var data, list_server;
@@ -76,13 +77,5 @@ $(function(){
       customer.view[key].initModule();
     }
   }
-
-
-  // 列表示・非表示イベント作成
-  _.each( view, function ( val, key ) {
-    $('#' + key).on( 'click', function (){
-      viewCol(key);
-    });
-  });
 
 });

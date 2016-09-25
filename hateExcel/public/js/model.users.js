@@ -1,6 +1,6 @@
 // var customer;
 customer.model = customer.model || {};
-customer.model.users = ( function () {
+customer.model.kids = ( function () {
 
   var 
     /*private member*/
@@ -9,7 +9,8 @@ customer.model.users = ( function () {
 
     /*public  method*/
     findByKid, findByServer, findByGenics,
-    sortByCol, getData,      initModule
+    sortByCol, getData,
+    initModule
   ;
 
   findByKid = function ( kid ) {
@@ -35,8 +36,8 @@ customer.model.users = ( function () {
   sortByCol = function ( col, callbackFromView ) {
     
     _data.sort( function ( item1, item2 ) {
-      item1 = _.isString( item1[col] ) && item1[col].toString().toLowerCase() || item1[key];
-      item2 = _.isString( item2[col] ) && item2[col].toString().toLowerCase() || item2[key];
+      item1 = _.isString( item1[col] ) && item1[col].toString().toLowerCase() || item1[col];
+      item2 = _.isString( item2[col] ) && item2[col].toString().toLowerCase() || item2[col];
       if ( item1 < item2 ) {
         return -1 * _sortOrder;
       }
@@ -67,19 +68,11 @@ customer.model.users = ( function () {
       findByServer : findByServer,
       findByGenics : findByGenics,
       sortByCol    : sortByCol,
-      getData      : getData      
-    }
+      getData      : getData
+    };
   };
 
   /*public method*/
-  // return {
-  //   initModule   : initModule,
-  //   findByKid    : findByKid,
-  //   findByServer : findByServer,
-  //   findByGenics : findByGenics,
-  //   sortByCol    : sortByCol,
-  //   getData      : getData
-  // };
   return {
     initModule   : initModule
   };

@@ -1,5 +1,5 @@
 customer.view = customer.view || {};
-customer.view.user = ( function () {
+customer.view.kids = ( function () {
 
 
   var 
@@ -7,7 +7,8 @@ customer.view.user = ( function () {
     jqueryMap = {}, _model,
 
     /*private method*/
-    _setJqueryMap, _showTable, _onClickColName,
+    _setJqueryMap,   _showTable, 
+    _onClickColName, _onClickAccountNumber,
 
     /*public method*/
     redrawTable,   updateTable,
@@ -32,11 +33,12 @@ customer.view.user = ( function () {
     jqueryMap.$body    = $table.find('tbody');
     jqueryMap.$row     = $table.find('tr');
     jqueryMap.$col     = { 
-      kid     : $body.find('.kid'),
-      severs  : $body.find('.server'),
-      genics  : $body.find('.genics'),
-      userkey : $body.find('.userkey'),
-      author  : $body.find('.author')
+      kid            : $body.find('.kid'),
+      severs         : $body.find('.server'),
+      genics         : $body.find('.genics'),
+      userkey        : $body.find('.userkey'),
+      author         : $body.find('.author'),
+      account_number : $body.find('.account_number')
     };
 
   };
@@ -55,7 +57,7 @@ customer.view.user = ( function () {
   };
 
   /**
-   * 並び替えイベント登録
+   * 並び替えイベント登録-列名クリック時
    */
   _onClickColName = function () {
     _.each( view, function ( val, key ) {
@@ -63,6 +65,18 @@ customer.view.user = ( function () {
         // customer.model.sortByCol( key, redrawTable );
         _model.sortByCol( key, redrawTable );
       })
+    });
+  };
+
+  /**
+   * 詳細情報表示イベント登録-アカウント数クリック時
+   * @return {[type]}
+   */
+  _onClickAccountNumber = function () {
+    _.each( jqueryMap.$col.account_number, function (val , key) {
+      $(val).on('click', function () {
+        console.log($(this).html());
+      });
     });
   };
 
@@ -97,14 +111,14 @@ customer.view.user = ( function () {
       $(val).find('.userkey'   ).empty().append( data[key].userkey    );
       $(val).find('.author'    ).empty().append( data[key].name       );
       $(val).find('.company'   ).empty().append( data[key].company    );
-      $(val).find('.updateDate').empty().append( data[key].updateDate );
+      $(val).find('.update_on' ).empty().append( data[key].update_on  );
     });
 
   };
 
   initModule = function () {
     // モデル初期化
-    _model = customer.model.users.initModule();
+    _model = customer.model.kids.initModule();
 
     // テーブル描画
     // _showTable( customer.model.getData() );
@@ -115,8 +129,7 @@ customer.view.user = ( function () {
 
     // イベント登録
     _onClickColName();
-
-    // $('#config').append( customer.db._ajaxHtml('template/modal.html'));
+    _onClickAccountNumber();
   
   };
 

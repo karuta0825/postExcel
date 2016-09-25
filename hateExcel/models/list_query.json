@@ -1,7 +1,7 @@
 {
 
   "select" : {
-    "all" : "SELECT U.id, kid, server, genics, userkey, name, DATE_FORMAT( updateDate, '%Y-%m-%d') as updateDate, company FROM USER AS U INNER JOIN LOGINUSER AS L ON U.AUTHORID = L.ID;"
+    "all" : "SELECT U.id, U.kid, server, genics, userkey, name, DATE_FORMAT(update_on, '%Y-%m-%d') AS update_on, user_name AS company, (select count(kid) from accounts where kid = U.kid and is_admin = 0 ) as account_number FROM kids AS U INNER JOIN login_users AS L ON U.author_id = L.id INNER JOIN customers AS cus ON U.kid = cus.kid;"
   },
 
   "update" : {

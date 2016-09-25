@@ -16,30 +16,29 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `login_users`
+-- Table structure for table `accounts`
 --
 
-DROP TABLE IF EXISTS `login_users`;
+DROP TABLE IF EXISTS `accounts`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `login_users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(10) NOT NULL,
-  `password` varchar(15) NOT NULL,
-  `newadd` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `password_UNIQUE` (`password`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+CREATE TABLE `accounts` (
+  `kid` varchar(9) NOT NULL,
+  `clientid` varchar(10) NOT NULL,
+  `update_on` datetime NOT NULL,
+  `is_admin` tinyint(1) DEFAULT NULL,
+  UNIQUE KEY `clientid_UNIQUE` (`clientid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `login_users`
+-- Dumping data for table `accounts`
 --
 
-LOCK TABLES `login_users` WRITE;
-/*!40000 ALTER TABLE `login_users` DISABLE KEYS */;
-INSERT INTO `login_users` VALUES (1,'赤鬼','aka',1),(2,'青鬼','ao',0),(3,'黄鬼','yello',1);
-/*!40000 ALTER TABLE `login_users` ENABLE KEYS */;
+LOCK TABLES `accounts` WRITE;
+/*!40000 ALTER TABLE `accounts` DISABLE KEYS */;
+INSERT INTO `accounts` VALUES ('KID84785','itj-0001','2016-09-25 21:40:57',0),('KID84785','itj-0002','2016-09-25 21:44:53',0),('KID84785','itj-1999','2016-09-25 22:24:45',1),('KID92468','yaq-0001','2016-09-25 22:24:45',0);
+/*!40000 ALTER TABLE `accounts` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

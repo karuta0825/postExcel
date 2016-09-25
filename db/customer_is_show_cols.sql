@@ -16,28 +16,27 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `accouts`
+-- Table structure for table `is_show_cols`
 --
 
-DROP TABLE IF EXISTS `accouts`;
+DROP TABLE IF EXISTS `is_show_cols`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `accouts` (
-  `kid` varchar(9) NOT NULL,
-  `clientid` varchar(10) NOT NULL,
-  `update_on` datetime NOT NULL,
-  PRIMARY KEY (`kid`),
-  UNIQUE KEY `clientid_UNIQUE` (`clientid`)
+CREATE TABLE `is_show_cols` (
+  `login_user_id` int(11) NOT NULL,
+  `is_kid` varchar(45) DEFAULT NULL,
+  `is_userkey` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`login_user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `accouts`
+-- Dumping data for table `is_show_cols`
 --
 
-LOCK TABLES `accouts` WRITE;
-/*!40000 ALTER TABLE `accouts` DISABLE KEYS */;
-/*!40000 ALTER TABLE `accouts` ENABLE KEYS */;
+LOCK TABLES `is_show_cols` WRITE;
+/*!40000 ALTER TABLE `is_show_cols` DISABLE KEYS */;
+/*!40000 ALTER TABLE `is_show_cols` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -49,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-09-25 10:03:48
+-- Dump completed on 2016-09-25 23:17:16
