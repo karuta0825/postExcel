@@ -23,11 +23,11 @@ DROP TABLE IF EXISTS `servers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `servers` (
-  `address` varchar(15) NOT NULL,
+  `ip` varchar(15) NOT NULL,
   `name` varchar(10) NOT NULL,
   `type` varchar(5) NOT NULL,
-  `environment` tinyint(1) DEFAULT NULL,
-  PRIMARY KEY (`address`)
+  `environment_id` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`ip`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -50,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-09-24 14:34:21
+-- Dump completed on 2016-09-25 10:03:48

@@ -27,9 +27,9 @@ CREATE TABLE `user` (
   `kid` varchar(9) NOT NULL,
   `server` varchar(5) NOT NULL,
   `genics` varchar(10) NOT NULL,
-  `userKey` varchar(5) NOT NULL,
-  `updateDate` datetime DEFAULT NULL,
-  `authorId` int(11) DEFAULT NULL,
+  `userkey` varchar(5) NOT NULL,
+  `update_on` datetime DEFAULT NULL,
+  `author_id` int(11) DEFAULT NULL,
   `company` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`,`kid`),
   UNIQUE KEY `kid_UNIQUE` (`kid`),
@@ -56,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-09-24 14:34:21
+-- Dump completed on 2016-09-25 10:03:48
