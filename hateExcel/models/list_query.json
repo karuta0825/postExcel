@@ -1,7 +1,9 @@
 {
 
   "select" : {
-    "all" : "SELECT U.id, U.kid, server, genics, userkey, name, DATE_FORMAT(update_on, '%Y-%m-%d') AS update_on, user_name AS company, (select count(kid) from accounts where kid = U.kid and is_admin = 0 ) as account_number FROM kids AS U INNER JOIN login_users AS L ON U.author_id = L.id INNER JOIN customers AS cus ON U.kid = cus.kid;"
+    "all"     : "SELECT U.id, U.kid, server, genics, userkey, name, DATE_FORMAT(ACC.update_on, '%Y-%m-%d') AS update_on, user_name AS company, (select count(kid) from accounts where kid = U.kid and is_admin = 0 ) as account_number FROM kids AS U INNER JOIN login_users AS L ON U.author_id = L.id INNER JOIN customers AS cus ON U.kid = cus.kid INNER JOIN accounts as ACC ON ACC.kid = U.kid;",
+    "servers" : "SELECT ip, name, type, ENV.environment FROM servers AS SV INNER JOIN environments AS ENV ON SV.environment_id = ENV.id ORDER BY environment, name;",
+    "filter_accounts" : "SELECT C.kid, C.user_name, client_id, update_on FROM accounts AS ACC INNER JOIN customers AS C ON C.kid = ACC.kid WHERE C.kid = ?;"
   },
 
   "update" : {
@@ -10,9 +12,9 @@
   },
 
   "insert" : {
-
+    "kids" : "INSERT INTO kids ( kid, server, genics, userkey, company, author_id, update_on ) VALUES ( ?,?,?,?,?,?,NOW() );"
   },
   "delete" : {
-
+    "" : ""
   }
 }

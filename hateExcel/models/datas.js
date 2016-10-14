@@ -23,9 +23,7 @@ datas.getAll = function ( callback ) {
 
 datas.getServers = function ( callback ) {
   db.query(
-    'SELECT ip, name, type, ENV.environment FROM SERVERS AS SV '
-    + 'INNER JOIN ENVIRONMENTS AS ENV ON SV.ENVIRONMENT_ID = ENV.ID '
-    + 'ORDER BY environment, name',
+    querys.select.servers,
     function ( err, results, fields ) {
       db.end();
       if ( err ) { console.log(err); return; }

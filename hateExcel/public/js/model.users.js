@@ -20,11 +20,13 @@ customer.model.kids = ( function () {
   };
 
   findByServer = function ( server, callback ) {
-    var data = $.grep( _data, function ( val ) { return server === val.server;})
+    var data = $.grep( _data, function ( val ) { return server === val.server;});
     if ( callback ) {
       callback( 'server', data );
+    } 
+    else {
+      return data;
     }
-    return data;
   };
 
   findByGenics = function ( genics ) {
