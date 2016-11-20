@@ -16,6 +16,10 @@ var app = express();
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+app.use(express.cookieParser());
+app.use(express.session({ secret: "password" }));
+
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.json());
@@ -29,15 +33,35 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-app.get('/', routes.index);
-app.get('/users', user.list);
+app.get('/login', function ( req, res ) {
+  res.render('login', { title : 'login'} );
+});
 
+app.post('/login', function ( req, res ) {
+  var pass = req.body.pass;
+  console.log( "req.body.pass " + pass );
+  if ( pass === 'xxx' ) {
+    req.session.pass = true;
+  }
+  res.redirect('/');
+});
+
+app.get('/', function ( req, res ) {
+  if ( !req.session.pass ) {
+    res.redirect('/login');
+  }
+  else {
+    res.render('index');
+  }
+});
 
 app.get('/all', function ( req, res ) {
+
   res.header("Content-Type", "application/json; charset=utf-8");
   datas.getAll( function (results){
     res.json(results);  
   });
+
 });
 
 app.get('/servers', function ( req, res ) {
@@ -76,7 +100,7 @@ app.post('/update', function ( req, res ) {
   console.log(data);
   datas.update( data, function ( err ) {
     if ( err ) {
-      res.status(500).send( err.message );
+      res.status( 500 ).send( err.message );
       return;
     }
   });

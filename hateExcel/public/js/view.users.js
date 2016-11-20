@@ -7,20 +7,39 @@ customer.view.kids = ( function () {
     jqueryMap = {}, _model,
 
     /*private method*/
-    _setJqueryMap,   _showTable, 
+    _setJqueryMap,
+    _showTable, _showTableHeader,
     _onClickColName, _onClickAccountNumber,
 
     /*public method*/
-    redrawTable,   updateTable,
+    redrawTable, updateTable, 
+    hideTable,   setViewCol,
     initModule
   ;
 
+  // この情報はユーザーごとにもちDBから取得するように変更予定
   var view = {
-    kid     : true,
-    server : true,
-    genics  : true,
-    userkey : true,
-    account_number : true
+    kid            : true,
+    company        : true,
+    server         : true,
+    genics         : true,
+    userkey        : true,
+    name           : true,
+    account_number : true,
+    update_on      : true
+  };
+
+  // 今後DBから取得する予定
+  var headerMap = {
+    check          : '対象',
+    kid            : 'KID',
+    company        : '名前',
+    server         : 'サーバ',
+    genics         : 'genicd',
+    userkey        : 'ユーザキー',
+    name           : '作成者',
+    account_number : 'アカウント数',
+    update_on      : '更新日'
   };
 
   _setJqueryMap = function () {
@@ -30,7 +49,7 @@ customer.view.kids = ( function () {
     ;
 
     jqueryMap.$table  = $table;
-    jqueryMap.$header = $table.find('th');
+    jqueryMap.$header = $header;
     jqueryMap.$body   = $table.find('tbody');
     jqueryMap.$row    = $table.find('tr');
     jqueryMap.$col    = { 
@@ -43,6 +62,18 @@ customer.view.kids = ( function () {
     };
   };
 
+  _showTableHeader = function () {
+    var 
+      data = { headerMap : headerMap },
+      tmpl = customer.db._ajaxHtml('template/tableHeader.html'),
+      complied = _.template( tmpl )
+      ;
+
+    // dataの引数がeachの引数をプロパティにもつObjectでないといけない
+    $('thead').append( complied( data ) );
+
+  };
+
   /**
    * テーブル描画
    * @param  {Array} data - data get DB
@@ -50,10 +81,17 @@ customer.view.kids = ( function () {
   _showTable = function ( data ) {
     var
       data     =  { list : data },
-      tmpl     = $('#template').html(),
+      tmpl     = customer.db._ajaxHtml('template/tableContent.html'),
       complied = _.template( tmpl )
-    ;
+      ;
     $('tbody').append( complied( data ) );
+  };
+
+  /**
+   * テーブル非表示
+   */
+  hideTable = function () {
+    jqueryMap.$table.hide();
   };
 
   /**
@@ -78,6 +116,22 @@ customer.view.kids = ( function () {
         console.log($(this).parent()[0]);
       });
     });
+  };
+
+
+  /**
+   * 指定した列を表示・非表示
+   * @param {String} key - テーブルの列のkey名
+   */
+  setViewCol = function ( key ) {
+   if ( view[key] === true ) {
+      $( '.' + key ).hide();
+      view[key] = false;
+    }
+    else {
+      $( '.' + key ).show();
+      view[key] = true;
+    }
   };
 
   /**
@@ -121,6 +175,9 @@ customer.view.kids = ( function () {
   initModule = function () {
     // モデル初期化
     _model = customer.model.kids.initModule();
+
+    // テーブルヘッダー描画
+    _showTableHeader();
 
     // テーブル描画
     // _showTable( customer.model.getData() );

@@ -15,9 +15,9 @@ html body {
   width  : 150px;
   height : auto;
   min-height : 100%;
-  /*background-color:#EBEBDC;*/
   float :left;
-  position : absolute;
+  position : fixed;
+  text-align: right;
 }
 
 #user ul {    
@@ -29,7 +29,7 @@ html body {
 #config {
   font-family: "メイリオ", sans-serif;
   height : 150px;
-  /*background-color : red;*/
+  background-color : red;
   margin-left: 180px; 
 }
 
@@ -38,6 +38,10 @@ html body {
 .table-responsive {
   width :auto;
   margin-left: 180px;
+}
+
+table {
+  margin-top: 20px;
 }
 
 tbody {

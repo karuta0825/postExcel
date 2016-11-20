@@ -8,8 +8,6 @@ var
   datas = exports
   ;
 
-console.log(querys.select.all);
-
 datas.getAll = function ( callback ) {
   db.query(
     querys.select.all,

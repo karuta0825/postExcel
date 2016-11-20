@@ -1,5 +1,4 @@
-<!DOCTYPE HTML>
-<html>
+﻿<html>
 <head>
   <title>tableタグを使わない表作成</title>
   <meta charset='utf-8'>
@@ -12,31 +11,33 @@
     
 
     <!-- enviroment view -->
-    <div id='config'></div>
+    <div id='user'>
+      <script type="text/template" id='servers'>
+        // <% _.each( list_server, function ( server ) { %>
+        //   <ul> <%- server.name %> </ul>
+        // <% }) %>
+      </script>
+    </div>
 
     <!-- user action view -->
-    <div id='user'>
+    <div id='config'>
+      <script type="text/template" id='view-config'>
+        // <% _.each( view, function ( val, key ) { %>
+        //   <div id=<%- key %> > <%- key %> </div>
+        // <% }); %>
+      </script>
 
-      <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">TOP</button>
-      <br>      
-      <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">新規ユーザ</button>
-      <br>
-      <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">ユーザ追加</button>
-      <br>
-      <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">ユーザ削除</button>
-      <br>
+      <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">新規</button>
+      <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">追加・削減</button>
+      <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">削除</button>
       <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">表示設定</button>
-      <br>
       <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">Import</button>
-      <br>
       <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">Export</button>
-      <br>
 
     </div>
 
-    <!-- table view -->
+      <!-- table view -->
     <div class='table-responsive'>
-      <a href="#">戻る</a>
       <table class='table table-hover table-condensed'>
         <!-- table header -->
         <thead>
