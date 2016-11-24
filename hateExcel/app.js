@@ -83,9 +83,9 @@ app.get('/servers', function ( req, res ) {
   });
 });
 
-app.get('tableHeader', function ( req, res ) {
+app.get('/tableHeader', function ( req, res ) {
   res.header("Content-Type", "application/json; charset=utf-8");
-  datas.getServers( function ( results ) {
+  datas.getHeader( function ( results ) {
     res.json( results );
   });
 });

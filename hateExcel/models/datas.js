@@ -61,6 +61,29 @@ datas.getServers = function ( callback ) {
   );
 };
 
+datas.getHeader = function ( callback ) {
+  db.query(
+    querys.select.header,
+    function ( err, results, fields ) {
+      db.end();
+      if ( err ) { console.log(err); return; }
+      callback( results );
+    }
+  );
+};
+
+
+datas.getColumnsInfo = function ( uid, callback ) {
+  db.query(
+    querys.select.servers,
+    function ( err, results, fields ) {
+      db.end();
+      if ( err ) { console.log(err); return; }
+      callback( results );
+    }
+  );  
+};
+
 /**
  * [insert description]
  * @param  {Object}   data
