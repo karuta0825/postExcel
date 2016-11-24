@@ -7,9 +7,9 @@
   <tr id='id<%- item.id %>' >
     <td><input type="checkbox"></td>
 
-<%   for ( i = 1; i<len; i+=1 ){%>
-       <td class='cell <%- keys[i] %>'> <%- item[keys[i]]  %>   </td> 
-<%   } %>
-
+<% for ( i = 1; i<len; i+=1 ){%>
+    <td class='cell <%- keys[i] %>'> <%- item[keys[i]]  %>   </td> 
+<% } %>
   </tr>
 <% }); %>
+<!-- ここのクラス名もテンプレート化できないだろうか？ -->

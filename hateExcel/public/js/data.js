@@ -37,11 +37,11 @@ customer.db = ( function (){
   };
 
 
-  _ajaxPost = function ( data, add_del ) {
+  _ajaxPost = function ( data, url ) {
     $.ajax({
       dataType: 'json',
       type    : 'post',
-      url     : add_del,
+      url     : url,
       data    : data,
       success : function ( data ) {
         console.log('success');
@@ -56,7 +56,8 @@ customer.db = ( function (){
     return JSON.parse( _ajaxGet( url ) ) ; 
   };
 
-  select    = function ( params ) {
+  select    = function ( url, params ) {
+    return JSON.parse( _ajaxPost( url, params ));
   };
 
   insert    = function ( params ) {

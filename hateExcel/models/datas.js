@@ -8,6 +8,27 @@ var
   datas = exports
   ;
 
+datas.getUser = function ( data, callback ) {
+  var 
+    params = [ 
+      data.user,
+      data.pass
+    ];
+  db.query(
+    querys.select.users,
+    params,
+    function ( err, results, fileds ) {
+      db.end();
+      if ( err ) { 
+        console.log( err ); 
+        console.log(result);
+        callback();
+      }
+      callback( results[0] );
+    }
+  );
+};
+
 datas.getAll = function ( callback ) {
   db.query(
     querys.select.all,

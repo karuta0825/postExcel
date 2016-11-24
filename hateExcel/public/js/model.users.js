@@ -35,6 +35,12 @@ customer.model.kids = ( function () {
     })[0];
   };
 
+  /**
+   * データソート
+   * @param  {String} col - colのキー名
+   * @param  {[type]} callbackFromView - Viewで使用するコールバック関数
+   * @return {Array}  - ソート結果
+   */
   sortByCol = function ( col, callbackFromView ) {
     
     _data.sort( function ( item1, item2 ) {

@@ -38,12 +38,17 @@ app.get('/login', function ( req, res ) {
 });
 
 app.post('/login', function ( req, res ) {
+  var user = req.body.user;
   var pass = req.body.pass;
-  console.log( "req.body.pass " + pass );
-  if ( pass === 'xxx' ) {
-    req.session.pass = true;
-  }
-  res.redirect('/');
+
+  datas.getUser( req.body, function ( results ) {
+    if ( results.user_id ) {
+      console.log(results);
+      req.session.pass = true;
+      req.session.user = results.user_id;
+    }
+    res.redirect('/')
+  });
 });
 
 app.get('/', function ( req, res ) {
@@ -65,6 +70,27 @@ app.get('/all', function ( req, res ) {
 });
 
 app.get('/servers', function ( req, res ) {
+  res.header("Content-Type", "application/json; charset=utf-8");
+  datas.getHeader( function ( results ) {
+    res.json( results );
+  });
+});
+
+app.get('tableHeader', function ( req, res ) {
+  res.header("Content-Type", "application/json; charset=utf-8");
+  datas.getServers( function ( results ) {
+    res.json( results );
+  });    
+});
+
+app.get('/tableInfo', function ( req, res ) {
+  res.header("Content-Type", "application/json; charset=utf-8");
+  datas.getServers( function ( results ) {
+    res.json( results );
+  });  
+});
+
+app.get('/columns', function ( req, res ) {
   res.header("Content-Type", "application/json; charset=utf-8");
   datas.getServers( function ( results ) {
     res.json( results );

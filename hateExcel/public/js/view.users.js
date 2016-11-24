@@ -57,10 +57,11 @@ customer.view.kids = ( function () {
       sever          : $body.find('.server'),
       genics         : $body.find('.genics'),
       userkey        : $body.find('.userkey'),
-      author         : $body.find('.author'),
+      name           : $body.find('.name'),
       account_number : $body.find('.account_number')
     };
   };
+
 
   _showTableHeader = function () {
     var 
@@ -164,7 +165,7 @@ customer.view.kids = ( function () {
       $(val).find('.server'        ).empty().append( data[key].server     );
       $(val).find('.genics'        ).empty().append( data[key].genics     );
       $(val).find('.userkey'       ).empty().append( data[key].userkey    );
-      $(val).find('.author'        ).empty().append( data[key].name       );
+      $(val).find('.name'          ).empty().append( data[key].name       );
       $(val).find('.company'       ).empty().append( data[key].company    );
       $(val).find('.update_on'     ).empty().append( data[key].update_on  );
       $(val).find('.account_number').empty().append( data[key].account_number );
