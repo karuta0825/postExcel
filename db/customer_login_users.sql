@@ -24,11 +24,12 @@ DROP TABLE IF EXISTS `login_users`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `login_users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` varchar(45) DEFAULT NULL,
   `name` varchar(10) NOT NULL,
   `password` varchar(15) NOT NULL,
   `newadd` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `password_UNIQUE` (`password`)
+  UNIQUE KEY `user_id_UNIQUE` (`uid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -38,7 +39,7 @@ CREATE TABLE `login_users` (
 
 LOCK TABLES `login_users` WRITE;
 /*!40000 ALTER TABLE `login_users` DISABLE KEYS */;
-INSERT INTO `login_users` VALUES (1,'赤鬼','aka',1),(2,'青鬼','ao',0),(3,'黄鬼','yello',1);
+INSERT INTO `login_users` VALUES (1,'aka','赤鬼','aka',1),(2,'ao','青鬼','ao',0),(3,NULL,'黄鬼','yello',1);
 /*!40000 ALTER TABLE `login_users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-10-14 15:40:07
+-- Dump completed on 2016-11-24 23:33:23
