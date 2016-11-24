@@ -8,23 +8,33 @@ var
   datas = exports
   ;
 
-datas.getUser = function ( data, callback ) {
+datas.authenticate = function ( data, callback ) {
   var 
     params = [ 
       data.user,
       data.pass
     ];
+
   db.query(
     querys.select.users,
     params,
     function ( err, results, fileds ) {
       db.end();
+      // DBエラーのとき
       if ( err ) { 
         console.log( err ); 
-        console.log(result);
-        callback();
+        callback(err);
+        return;
       }
-      callback( results[0] );
+      // 検索ヒットしたとき
+      if ( results && results.length > 0 ) {
+        callback( null, results[0] );
+        return;
+      }
+      // 検索ゼロ件のとき
+      console.log( 'err: ' + err );
+      callback( err, null )
+      return;
     }
   );
 };

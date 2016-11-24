@@ -38,25 +38,32 @@ app.get('/login', function ( req, res ) {
 });
 
 app.post('/login', function ( req, res ) {
-  var user = req.body.user;
-  var pass = req.body.pass;
+  var user = req.body.user || '';
+  var pass = req.body.pass || '';
 
-  datas.getUser( req.body, function ( results ) {
-    if ( results.user_id ) {
-      console.log(results);
+  // 認証
+  datas.authenticate( req.body, function ( err, results ) {
+
+    // DBエラー出ないとき、検索結果がゼロ出ないときは、ログインできる
+    if ( err !== null || results !== null ) {
       req.session.pass = true;
-      req.session.user = results.user_id;
+      req.session.uid = results.user_id;
     }
-    res.redirect('/')
+
+    res.redirect('/');
+    return;
   });
+
 });
 
 app.get('/', function ( req, res ) {
   if ( !req.session.pass ) {
     res.redirect('/login');
+    return;
   }
   else {
     res.render('index');
+    return;
   }
 });
 
@@ -80,10 +87,11 @@ app.get('tableHeader', function ( req, res ) {
   res.header("Content-Type", "application/json; charset=utf-8");
   datas.getServers( function ( results ) {
     res.json( results );
-  });    
+  });
 });
 
 app.get('/tableInfo', function ( req, res ) {
+  var users = req.session.uid;
   res.header("Content-Type", "application/json; charset=utf-8");
   datas.getServers( function ( results ) {
     res.json( results );
