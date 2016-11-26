@@ -14,7 +14,7 @@
     <div id='user'>
       <script type="text/template" id='servers'>
         <% _.each( list_server, function ( server ) { %>
-          <ul> <%- server.name %> </ul>
+          <ul> <%- server.name %> <%- server.environment %> </ul>
         <% }) %>
       </script>
     </div>
@@ -27,9 +27,9 @@
         <% }); %>
       </script>
 
-      <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">新規</button>
-      <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">追加・削減</button>
-      <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">削除</button>
+      <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">新規ユーザ</button>
+      <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">ユーザ削除</button>
+      <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">クライアント追加</button>
       <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">表示設定</button>
       <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">Import</button>
       <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">Export</button>
@@ -37,12 +37,21 @@
       <a data-toggle="modal" data-target="#myModal">
         呼び出し
       </a>
-
-
     </div>
+
+
 
       <!-- table view -->
     <div class='table-responsive'>
+        <!-- サーバ絞り込み機能 -->
+        <select name="server">
+          <option value="AP1-1">AP1-1</option>
+          <option value="AP2-1">AP2-1</option>
+          <option value="AP2-3">AP2-4</option>
+          <option value="AP5-3">AP4-4</option>
+        </select>
+        <br>
+        <br>
       <table class='table table-hover table-condensed'>
         <!-- table header -->
         <thead>
@@ -58,14 +67,14 @@
             <% _.each( list , function ( item ) { %>
               <tr id='id<%- item.id %>' >
                 <td><input type="checkbox"></td>
-                <td class='cell kid'>           <%- item.kid     %> </td>
-                <td class='cell company'>       <%- item.company %> </td>
-                <td class='cell server'>        <%- item.server  %> </td>
-                <td class='cell genics'>        <%- item.genics  %> </td>
-                <td class='cell userkey'>       <%- item.userkey %> </td>  
-                <td class='cell author'>        <%- item.name    %> </td>
-                <td class='cell account_number'> <%- item.account_number %> </td>
-                <td class='cell update_on'>     <%- item.update_on %> </td>
+                <td class='kid'>            <%- item.kid     %> </td>
+                <td class='company'>        <%- item.company %> </td>
+                <td class='server'>         <%- item.server  %> </td>
+                <td class='genics'>         <%- item.genics  %> </td>
+                <td class='userkey'>        <%- item.userkey %> </td>
+                <td class='author'>         <%- item.name    %> </td>
+                <td class='account_number'> <%- item.account_number %></td>
+                <td class='update_on'>      <%- item.update_on %> </td>
               </tr>
             <% }); %>
           </script>
