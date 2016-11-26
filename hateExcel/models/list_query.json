@@ -5,7 +5,8 @@
     "servers" : "SELECT ip, name, type, ENV.environment FROM servers AS SV INNER JOIN environments AS ENV ON SV.environment_id = ENV.id ORDER BY environment, name;",
     "filter_accounts" : "SELECT C.kid, C.user_name, client_id, update_on FROM accounts AS ACC INNER JOIN customers AS C ON C.kid = ACC.kid WHERE C.kid = ?;",
     "users"   : "select * from login_users where uid = ? and password = ?;",
-    "header"  : "select * from columns where uid = 0" 
+    "header"  : "select * from columns where uid = 0;",
+    "show_columns" : "select * from columns where uid = ?;"
   },
 
   "update" : {

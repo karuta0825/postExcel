@@ -70,21 +70,32 @@ app.get('/', function ( req, res ) {
 /**
  * JSON返すロジックは、基本同じなので、共通化してほしい
  * urlと、datas側のロジックが異なり、それ以外は全部同じだろ？
+ * 他にもテーブルで全部管理するのは、ありだな。入り口は一つで、
+ * postで送る情報をで分離するのである。
  */
-
 var json_requests = [
-  { url : '/all'         ,  callback : function () { } },
-  { url : '/servers'     ,  callback : function () { } },
-  { url : '/tableHeader' ,  callback : function () { } },
-  { url : '/tableInfo'   ,  callback : function () { } },
-  { url : '/columns'     ,  callback : function () { } },
-  { url : '/add'         ,  callback : function () { } },
-  { url : '/delete'      ,  callback : function () { } },
-  { url : '/update'      ,  callback : function () { } }
+  { url : '/all'         ,  method : 'getAll'     },
+  { url : '/servers'     ,  method : 'getServers' },
+  { url : '/tableHeader' ,  method : 'getHeader'  },
+  { url : '/columns'     ,  method : 'getColumns' }
 ];
 
+
+/**
+ * JSONを返すapp.getの一括登録
+ */
+// for ( var i = 0; i < json_requests.length; i+=1 ) {
+//   console.log(json_requests[i].method);
+//   app.get( json_requests[i].url, function ( req, res ) {
+//     res.header("Content-Type", "application/json; charset=utf-8");
+//     console.log( json_requests[i] );
+//     datas[ json_requests[i].method ]( function ( results ) {
+//       res.json( results );
+//     });
+//   });
+// }
+
 app.get('/all', function ( req, res ) {
-  console.log(req.session);
   res.header("Content-Type", "application/json; charset=utf-8");
   datas.getAll( function (results){
     res.json(results);  
@@ -106,17 +117,10 @@ app.get('/tableHeader', function ( req, res ) {
   });
 });
 
-app.get('/tableInfo', function ( req, res ) {
-  var users = req.session.uid;
-  res.header("Content-Type", "application/json; charset=utf-8");
-  datas.getServers( function ( results ) {
-    res.json( results );
-  });  
-});
-
 app.get('/columns', function ( req, res ) {
+  var uid = req.session.uid;
   res.header("Content-Type", "application/json; charset=utf-8");
-  datas.getServers( function ( results ) {
+  datas.getColumns( uid, function ( results ) {
     res.json( results );
   });
 });

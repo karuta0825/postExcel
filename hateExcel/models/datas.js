@@ -74,9 +74,11 @@ datas.getHeader = function ( callback ) {
 };
 
 
-datas.getColumnsInfo = function ( uid, callback ) {
+datas.getColumns = function ( uid, callback ) {
+  var params = [uid];
   db.query(
-    querys.select.servers,
+    querys.select.show_columns,
+    params,
     function ( err, results, fields ) {
       db.end();
       if ( err ) { console.log(err); return; }

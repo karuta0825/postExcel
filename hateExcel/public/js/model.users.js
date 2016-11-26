@@ -9,7 +9,7 @@ customer.model.kids = ( function () {
 
     /*public  method*/
     findByKid, findByServer, findByGenics,
-    sortByCol, getData,
+    sortByCol, getData, getHeader,
     initModule
   ;
 
@@ -69,6 +69,11 @@ customer.model.kids = ( function () {
     return _data;
   };
 
+  getHeader = function () {
+    return customer.db.selectAll('/tableHeader')[0];
+  }
+
+
   initModule = function () {
     _data = customer.db.selectAll('all');
     return {
@@ -87,7 +92,8 @@ customer.model.kids = ( function () {
     findByServer : findByServer,
     findByGenics : findByGenics,
     sortByCol    : sortByCol,
-    getData      : getData
+    getData      : getData,
+    getHeader    : getHeader
   };
 
 }());
