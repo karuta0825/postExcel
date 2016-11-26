@@ -28,6 +28,7 @@ datas.authenticate = function ( data, callback ) {
       }
       // 検索ヒットしたとき
       if ( results && results.length > 0 ) {
+        delete results[0].password;
         callback( null, results[0] );
         return;
       }
