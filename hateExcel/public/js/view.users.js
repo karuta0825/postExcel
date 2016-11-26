@@ -29,19 +29,6 @@ customer.view.kids = ( function () {
     update_on      : true
   };
 
-  // 今後DBから取得する予定
-  var headerMap = {
-    check          : '対象',
-    kid            : 'KID',
-    company        : '名前',
-    server         : 'サーバ',
-    genics         : 'genicd',
-    userkey        : 'ユーザキー',
-    name           : '作成者',
-    account_number : 'アカウント数',
-    update_on      : '更新日'
-  };
-
   _setJqueryMap = function () {
     var $table  = $('.table'),
         $header = $table.find('thead'),
@@ -52,21 +39,19 @@ customer.view.kids = ( function () {
     jqueryMap.$header = $header;
     jqueryMap.$body   = $table.find('tbody');
     jqueryMap.$row    = $table.find('tr');
-    jqueryMap.$col    = { 
-      kid            : $body.find('.kid'),
-      sever          : $body.find('.server'),
-      genics         : $body.find('.genics'),
-      userkey        : $body.find('.userkey'),
-      name           : $body.find('.name'),
-      account_number : $body.find('.account_number')
-    };
+    jqueryMap.$col    = {};
+
+    // すべての列情報をセット
+    _.each( customer.model.kids.getHeader(), function ( val, key ) {
+      jqueryMap.$col[key] = $body.find('.' + key);
+    });
+
   };
 
 
   _showTableHeader = function () {
     var 
-      data = { headerMap : customer.db.selectAll('/tableHeader')[0] },
-      // data = { headerMap : headerMap },
+      data = { headerMap : customer.model.kids.getHeader() },
       tmpl = customer.db._ajaxHtml('template/tableHeader.html'),
       complied = _.template( tmpl )
       ;
@@ -160,18 +145,20 @@ customer.view.kids = ( function () {
   redrawTable = function ( col , data ) {
 
     // 行数取得
-    var rows = jqueryMap.$row;
+    var 
+      $rows      = jqueryMap.$row,
+      headerMap = customer.model.kids.getHeader()
+      ;
 
-    rows.each( function ( key, val ) {
+    delete headerMap.uid;
+
+    $rows.each( function ( key, val ) {
+      // idだけは個別処理
       $(val).attr('id', 'id' + data[key].id );
-      $(val).find('.kid'           ).empty().append( data[key].kid        );
-      $(val).find('.server'        ).empty().append( data[key].server     );
-      $(val).find('.genics'        ).empty().append( data[key].genics     );
-      $(val).find('.userkey'       ).empty().append( data[key].userkey    );
-      $(val).find('.name'          ).empty().append( data[key].name       );
-      $(val).find('.company'       ).empty().append( data[key].company    );
-      $(val).find('.update_on'     ).empty().append( data[key].update_on  );
-      $(val).find('.account_number').empty().append( data[key].account_number );
+      // 各々の列の値をクリアしてソートした値をセット
+      _.each( headerMap, function ( v, k ) {
+        $(val).find('.' + k).empty().append( data[key][k]);
+      });
     });
 
   };
@@ -193,6 +180,7 @@ customer.view.kids = ( function () {
     // イベント登録
     _onClickColName();
     _onClickAccountNumber();
+
   
   };
 
