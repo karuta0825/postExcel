@@ -30,7 +30,7 @@ CREATE TABLE `columns` (
   `server` varchar(45) DEFAULT '1',
   `userkey` varchar(45) DEFAULT '1',
   `genics` varchar(45) DEFAULT '1',
-  `account` varchar(45) DEFAULT '1',
+  `account_number` varchar(45) DEFAULT '1',
   `name` varchar(45) DEFAULT '1',
   `update_on` varchar(45) DEFAULT '1',
   UNIQUE KEY `user_id_UNIQUE` (`uid`)
@@ -43,7 +43,7 @@ CREATE TABLE `columns` (
 
 LOCK TABLES `columns` WRITE;
 /*!40000 ALTER TABLE `columns` DISABLE KEYS */;
-INSERT INTO `columns` VALUES (0,'対象','KID','顧客名','サーバ','ユーザーキー','GenicsID','アカウント数','更新者','更新日'),(1,NULL,'1','1','1','1','1','1','1','1');
+INSERT INTO `columns` VALUES (0,'対象','KID','顧客名','サーバ','ユーザキー','GenicsID','アカウント数','作成者','更新日'),(1,NULL,'1','1','1','1','1','1','1','1');
 /*!40000 ALTER TABLE `columns` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -56,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-11-24 23:33:23
+-- Dump completed on 2016-11-26 12:15:42
