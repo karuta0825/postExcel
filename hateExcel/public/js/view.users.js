@@ -65,10 +65,13 @@ customer.view.kids = ( function () {
 
   _showTableHeader = function () {
     var 
-      data = { headerMap : headerMap },
+      data = { headerMap : customer.db.selectAll('/tableHeader')[0] },
+      // data = { headerMap : headerMap },
       tmpl = customer.db._ajaxHtml('template/tableHeader.html'),
       complied = _.template( tmpl )
       ;
+
+    delete data.headerMap.uid;
 
     // dataの引数がeachの引数をプロパティにもつObjectでないといけない
     $('thead').append( complied( data ) );
