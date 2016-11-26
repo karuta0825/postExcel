@@ -47,7 +47,7 @@ app.post('/login', function ( req, res ) {
     // DBエラー出ないとき、検索結果がゼロ出ないときは、ログインできる
     if ( err !== null || results !== null ) {
       req.session.pass = true;
-      req.session.uid = results.user_id;
+      req.session.uid = results.id;
     }
 
     res.redirect('/');
@@ -67,8 +67,24 @@ app.get('/', function ( req, res ) {
   }
 });
 
-app.get('/all', function ( req, res ) {
+/**
+ * JSON返すロジックは、基本同じなので、共通化してほしい
+ * urlと、datas側のロジックが異なり、それ以外は全部同じだろ？
+ */
 
+var json_requests = [
+  { url : '/all'         ,  callback : function () { } },
+  { url : '/servers'     ,  callback : function () { } },
+  { url : '/tableHeader' ,  callback : function () { } },
+  { url : '/tableInfo'   ,  callback : function () { } },
+  { url : '/columns'     ,  callback : function () { } },
+  { url : '/add'         ,  callback : function () { } },
+  { url : '/delete'      ,  callback : function () { } },
+  { url : '/update'      ,  callback : function () { } }
+];
+
+app.get('/all', function ( req, res ) {
+  console.log(req.session);
   res.header("Content-Type", "application/json; charset=utf-8");
   datas.getAll( function (results){
     res.json(results);  
@@ -78,7 +94,7 @@ app.get('/all', function ( req, res ) {
 
 app.get('/servers', function ( req, res ) {
   res.header("Content-Type", "application/json; charset=utf-8");
-  datas.getHeader( function ( results ) {
+  datas.getServers( function ( results ) {
     res.json( results );
   });
 });
