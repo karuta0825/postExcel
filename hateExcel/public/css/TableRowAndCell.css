@@ -12,7 +12,7 @@ html body {
 }
 
 #user {
-  width  : 150px;
+  width  : 170px;
   height : auto;
   min-height : 100%;
   float :left;
@@ -30,14 +30,14 @@ html body {
   font-family: "メイリオ", sans-serif;
   height : 150px;
   background-color : red;
-  margin-left: 180px; 
+  margin-left: 210px; 
 }
 
 
 /*テーブル全体*/
 .table-responsive {
   width :auto;
-  margin-left: 180px;
+  margin-left: 210px;
 }
 
 table {
@@ -51,6 +51,20 @@ tbody {
 .modal-body span {
   display: inline-block;
   width : 100px;
+}
+
+.navi  {
+  display: block;
+  margin-top: 10px;
+}
+
+a.navi {
+ color : #000000;
+ text-decoration: none;
+}
+
+a.navi:hover {
+  color : #339faf;
 }
 
 
