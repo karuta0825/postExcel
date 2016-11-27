@@ -15,7 +15,6 @@ customer.db = ( function (){
       url      : url,
       async    : false,
       success  : function ( result ) {
-        // return result;
       }
     }).responseText;
    // data = result;
@@ -37,19 +36,17 @@ customer.db = ( function (){
   };
 
 
-  _ajaxPost = function ( data, url ) {
-    $.ajax({
+  _ajaxPost = function ( url, data ) {
+    var result = $.ajax({
       dataType: 'json',
       type    : 'post',
       url     : url,
+      async    : false,
       data    : data,
-      success : function ( data ) {
-        console.log('success');
-      },
-      error   :  function ( XMLHttpRequest ) {
-        console.log(XMLHttpRequest.responseText);
+      success : function ( result ) {
       }
-    });
+    }).responseText;
+    return result;
   };
 
   selectAll = function ( url ) {

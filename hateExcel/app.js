@@ -125,6 +125,14 @@ app.get('/columns', function ( req, res ) {
   });
 });
 
+app.post('/accounts', function ( req, res ) {
+  var kid = req.body.kid;
+  res.header("Content-Type", "application/json; charset=utf-8");
+  datas.getAccounts( kid, function ( results ) {
+    res.json( results );
+  });  
+});
+
 app.post('/add', function ( req, res ) {
   console.log(req.body);
   //post送信で渡ってきたデータ

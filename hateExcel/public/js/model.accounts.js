@@ -9,21 +9,17 @@ customer.model.accounts = ( function () {
   /*member*/
   var 
     _accounts,
-    getAccounts,
-    getAccontsByKid
+    getAccounts
     ;
 
 
-  getAccontsByKid = function ( kid ) {
-
-  };
-
   getAccounts = function ( kid ) {
-    return customer.db.select('', kid )[0];
+    _accounts = customer.db.select('/accounts', kid );
+    console.log(_accounts);
+    return _accounts;
   };
 
   return {
-    getAccontsByKid : getAccontsByKid,
     getAccounts     : getAccounts
   };
 

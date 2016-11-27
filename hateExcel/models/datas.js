@@ -87,6 +87,21 @@ datas.getColumns = function ( uid, callback ) {
   );  
 };
 
+datas.getAccounts = function ( kid, callback ) {
+  var params = [kid];
+  db.query(
+    querys.select.accounts,
+    params,
+    function ( err, results, fields ) {
+      db.end();
+      if ( err ) { console.log(err); return; }
+      console.log('results');
+      console.log(results);
+      callback( results ) ;
+    }
+  );
+};
+
 /**
  * [insert description]
  * @param  {Object}   data

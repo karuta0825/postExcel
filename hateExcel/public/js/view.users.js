@@ -100,9 +100,13 @@ customer.view.kids = ( function () {
    * @return {[type]}
    */
   _onClickAccountNumber = function () {
+    var row, kid;
     _.each( jqueryMap.$col.account_number, function (val , key) {
       $(val).on('click', function () {
-        console.log($(this).parent()[0]);
+        row = $(this).parent()[0];
+        kid = $(row).find('.kid').text();
+        kid = kid.trim();
+        customer.model.accounts.getAccounts({kid:kid});
       });
     });
   };
