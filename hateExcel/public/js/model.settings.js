@@ -15,10 +15,20 @@ customer.model.settings = ( function () {
     },
     _columnsMap,
     changeColumnsView,
+    changeColumnView,
     initModule
     ;
 
   /*method*/
+
+
+  changeColumnViewj = function ( column ) {
+
+  };
+
+  getColumnsMap = function () {
+    return _columnsMap;
+  };
 
   /**
    * [changeColumnsView description]

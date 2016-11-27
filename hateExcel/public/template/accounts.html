@@ -1,0 +1,9 @@
+<% _.each( list , function ( item ) { %>
+  <tr id='id<%- item.id %>' >
+    <td><input type="checkbox"></td>
+    <td class='cell kid'>            <%- item.kid     %>        </td>
+    <td class='cell account'>        <%- item.account %>        </td>
+    <td class='cell name'>           <%- item.name    %>        </td>
+    <td class='cell update_on'>      <%- item.update_on %>      </td>
+  </tr>
+<% }); %>
