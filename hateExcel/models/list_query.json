@@ -1,7 +1,7 @@
 {
 
   "select" : {
-    "all"          : "SELECT U.id, U.kid, user_name AS company, server, genics, userkey, name, (SELECT COUNT(kid) FROM accounts WHERE kid = U.kid AND is_admin = 0) AS account_number, ( select DATE_FORMAT( update_on, '%Y-%m-%d') from accounts where kid = U.kid limit 1 )AS update_on FROM kids AS U INNER JOIN login_users AS L ON U.author_id = L.id INNER JOIN customers AS cus ON U.kid = cus.kid;",
+    "all"          : "SELECT U.id, U.kid, user_name AS company, server, genics, userkey, name, (SELECT COUNT(kid) FROM accounts WHERE kid = U.kid AND is_admin = 0) AS account_number, ( select max( DATE_FORMAT( update_on, '%Y-%m-%d') ) from accounts where kid = U.kid )AS update_on FROM kids AS U INNER JOIN login_users AS L ON U.author_id = L.id INNER JOIN customers AS cus ON U.kid = cus.kid;",
     "servers"      : "SELECT ip, name, type, ENV.environment FROM servers AS SV INNER JOIN environments AS ENV ON SV.environment_id = ENV.id ORDER BY environment, name;",
     "accounts"     : "SELECT * FROM accounts where kid = ? and is_admin = 0;",
     "users"        : "SELECT * FROM login_users where uid = ? and password = ?;",

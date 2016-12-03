@@ -4,7 +4,7 @@ customer.db = ( function (){
 
   var 
     configMap, data, getData,
-    _ajaxPost, _ajaxGet, _ajaxHtml,
+    _ajaxPost, _ajaxGet, ajaxHtml,
     selectAll, select,
     insert,    update, remove
   ;
@@ -21,7 +21,7 @@ customer.db = ( function (){
    return result;
   };
 
-  _ajaxHtml = function ( url ) {
+  ajaxHtml = function ( url ) {
      var result = $.ajax({
         dataType : 'text',
         url      : url,
@@ -70,7 +70,7 @@ customer.db = ( function (){
   };
 
   return {
-    _ajaxHtml : _ajaxHtml,
+    getHtml   : ajaxHtml,
     selectAll : selectAll,
     select    : select,
     insert    : insert,

@@ -52,7 +52,6 @@ customer.model.kids = ( function () {
       else if ( item1 > item2 ) {
         return 1 * _sortOrder;
       }
-      // return 0;
     });
 
     // 並び替え方向の入れ替え

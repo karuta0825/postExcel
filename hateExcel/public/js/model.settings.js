@@ -21,30 +21,33 @@ customer.model.settings = ( function () {
 
   /*method*/
 
+  changeColumnView = function ( column ) {
+    var checked = _columnsMap[column];
 
-  changeColumnViewj = function ( column ) {
+    if ( checked === DISPLAY.SHOW ) {
+      _columnsMap[column] = DISPLAY.HIDE;
+    }
+    else {
+      _columnsMap[column] = DISPLAY.SHOW;
+    }
+    customer.view.kids.setViewCol( column );
 
   };
 
-  getColumnsMap = function () {
-    return _columnsMap;
-  };
-
-  /**
-   * [changeColumnsView description]
-   * @param  {Object} columnsMap - 変更オブジェクト
-   */
-  changeColumnsView = function ( columnsMap ) {
-    customer.db.update('/', columnsMap );
+  updateColumnsView = function () {
+    // customer.db.update('/columns', _columnsMap );
   };
 
   initModule = function () {
     _columnsMap = customer.db.selectAll('/columns')[0];
     delete _columnsMap.uid;
+    delete _columnsMap.check;
   };
 
   return {
-    changeColumnsView : changeColumnsView
+    initModule        : initModule,
+    changeColumnView  : changeColumnView,
+    updateColumnsView : updateColumnsView
   };
 
 }());

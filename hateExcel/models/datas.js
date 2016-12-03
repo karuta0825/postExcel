@@ -95,8 +95,6 @@ datas.getAccounts = function ( kid, callback ) {
     function ( err, results, fields ) {
       db.end();
       if ( err ) { console.log(err); return; }
-      console.log('results');
-      console.log(results);
       callback( results ) ;
     }
   );
@@ -155,6 +153,23 @@ datas.delete = function ( data, callback ) {
      }
   );
 }
+
+datas.updateColumns = function ( data, uid, callback ) {
+  var params= [];
+  params.push( uid );
+  db.query(
+    querys.update.columns,
+    params,
+    function ( err ) {
+      db.end();
+      if ( err ) {
+        callback( err );
+        return;
+      }
+      callback( null );
+    }
+  );
+};
 
 datas.update = function ( data, callback ) {
   var params = [

@@ -52,7 +52,7 @@ customer.view.kids = ( function () {
   _showTableHeader = function () {
     var 
       data = { headerMap : customer.model.kids.getHeader() },
-      tmpl = customer.db._ajaxHtml('template/tableHeader.html'),
+      tmpl = customer.db.getHtml('template/tableHeader.html'),
       complied = _.template( tmpl )
       ;
 
@@ -70,7 +70,7 @@ customer.view.kids = ( function () {
   _showTable = function ( data ) {
     var
       data     =  { list : data },
-      tmpl     = customer.db._ajaxHtml('template/tableContent.html'),
+      tmpl     = customer.db.getHtml('template/tableContent.html'),
       complied = _.template( tmpl )
       ;
     $('tbody').append( complied( data ) );
@@ -118,11 +118,11 @@ customer.view.kids = ( function () {
    */
   setViewCol = function ( key ) {
    if ( view[key] === true ) {
-      $( '.' + key ).hide();
+      $('table .' + key ).hide();
       view[key] = false;
     }
     else {
-      $( '.' + key ).show();
+      $( 'table .' + key ).show();
       view[key] = true;
     }
   };
@@ -192,7 +192,8 @@ customer.view.kids = ( function () {
     // _model : function () { return _model } ,
     initModule  : initModule,
     redrawTable : redrawTable,
-    updateTable : updateTable
+    updateTable : updateTable,
+    setViewCol  : setViewCol
   }
 
 

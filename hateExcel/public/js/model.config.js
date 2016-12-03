@@ -5,6 +5,7 @@ customer.model.config = ( function () {
     /*private member*/
     _data,
     /*private method*/
+    _loadHtml,
     /*public method*/
     addKid,
     initModule
@@ -14,9 +15,13 @@ customer.model.config = ( function () {
     customer.db.insert( params );
   };
 
-  initModule = function () {
-    var html = customer.db._ajaxHtml('template/modal.new.html');
+  _loadHtml = function ( url ) {
+    var html = customer.db.getHtml(url);
     $('#config').append(html);
+  };
+
+  initModule = function () {
+    _loadHtml('template/modal.new.html');
     return {
       addKid : addKid
     }

@@ -125,6 +125,21 @@ app.get('/columns', function ( req, res ) {
   });
 });
 
+app.post('/columns', function ( req, res ) {
+  var 
+    headerMap = req.body.headerMap,
+    uid       = req.session.uid
+    ;
+
+  datas.update( headerMap, uid, function ( err ) {
+    if ( err ) {
+      res.status( 500 ).send( err.message );
+      return;
+    }
+  });
+
+});
+
 app.post('/accounts', function ( req, res ) {
   var kid = req.body.kid;
   res.header("Content-Type", "application/json; charset=utf-8");
