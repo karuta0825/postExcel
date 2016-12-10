@@ -62,7 +62,10 @@ customer.view.viewConfig = ( function (){
     var checkMap = jqueryMap.$check;
     _.each( checkMap, function ( val, key ) {
       $(val).on( 'click', function () {
-        customer.model.settings.changeColumnView( key );
+        customer.model.settings.switchDisplayMode( 
+          key,
+          customer.view.kids.setViewCol
+        );
       });
     });
   };

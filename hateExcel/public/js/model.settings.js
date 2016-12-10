@@ -14,27 +14,28 @@ customer.model.settings = ( function () {
       HIDE : '0'
     },
     _columnsMap,
-    changeColumnsView,
-    changeColumnView,
+    switchDisplayMode,
     initModule
     ;
 
   /*method*/
 
-  changeColumnView = function ( column ) {
-    var checked = _columnsMap[column];
+  switchDisplayMode = function ( column, callback ) {
+    var is_checked = _columnsMap[column];
 
-    if ( checked === DISPLAY.SHOW ) {
+    if ( is_checked === DISPLAY.SHOW ) {
       _columnsMap[column] = DISPLAY.HIDE;
     }
     else {
       _columnsMap[column] = DISPLAY.SHOW;
     }
-    customer.view.kids.setViewCol( column );
 
+    if ( typeof callback === 'function') {
+      callback( column );
+    }
   };
 
-  updateColumnsView = function () {
+  updateDisplayMode = function () {
     // customer.db.update('/columns', _columnsMap );
   };
 
@@ -46,8 +47,8 @@ customer.model.settings = ( function () {
 
   return {
     initModule        : initModule,
-    changeColumnView  : changeColumnView,
-    updateColumnsView : updateColumnsView
+    switchDisplayMode : switchDisplayMode,
+    updateDisplayMode : updateDisplayMode
   };
 
 }());

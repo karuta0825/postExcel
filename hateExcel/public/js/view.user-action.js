@@ -1,5 +1,5 @@
 customer.view = customer.view || {};
-customer.view.config = ( function (){
+customer.view.userAction = ( function (){
 
 
   var 

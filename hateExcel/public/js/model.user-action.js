@@ -1,3 +1,7 @@
+/**
+ * 
+ */
+
 customer.model = customer.model || {};
 customer.model.config = ( function () {
 
@@ -5,7 +9,6 @@ customer.model.config = ( function () {
     /*private member*/
     _data,
     /*private method*/
-    _loadHtml,
     /*public method*/
     addKid,
     initModule
@@ -15,13 +18,9 @@ customer.model.config = ( function () {
     customer.db.insert( params );
   };
 
-  _loadHtml = function ( url ) {
-    var html = customer.db.getHtml(url);
-    $('#config').append(html);
-  };
-
   initModule = function () {
-    _loadHtml('template/modal.new.html');
+    var html = customer.db.getHtml('template/modal.new.html');
+    $('#config').append(html);
     return {
       addKid : addKid
     }

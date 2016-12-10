@@ -1,5 +1,5 @@
 customer.view = customer.view || {};
-customer.view.kids = ( function () {
+customer.view.table = ( function () {
 
 
   var 
@@ -111,7 +111,6 @@ customer.view.kids = ( function () {
     });
   };
 
-
   /**
    * 指定した列を表示・非表示
    * @param {String} key - テーブルの列のkey名
@@ -184,6 +183,7 @@ customer.view.kids = ( function () {
     // イベント登録
     _onClickColName();
     _onClickAccountNumber();
+    // _.each( jqueryMap.$col.account_number, onClickAccount )
 
   
   };
