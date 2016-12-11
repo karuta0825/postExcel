@@ -8,7 +8,6 @@ customer.view.viewConfig = ( function (){
 
     /*private method*/
     _setJqueryMap, 
-
     /*public method*/
     initModule
   ;
@@ -29,9 +28,7 @@ customer.view.viewConfig = ( function (){
       $ok     : $modal.find('.ok')
     };
 
-    // DBから取得したものをつかって、よりメンテナンスしやすく
     jqueryMap.$check = {};
-
     headerMap = customer.model.kids.getHeader();
     delete headerMap.check;
     delete headerMap.uid;
@@ -64,7 +61,7 @@ customer.view.viewConfig = ( function (){
       $(val).on( 'click', function () {
         customer.model.settings.switchDisplayMode( 
           key,
-          customer.view.kids.setViewCol
+          customer.view.table.setViewCol
         );
       });
     });
@@ -82,10 +79,17 @@ customer.view.viewConfig = ( function (){
 
     _setJqueryMap();
 
-    customer.model.settings.initModule();
-
     _onClickOk();
     _onClickCheck();
+
+    _.each( customer.model.settings.getColumnState(), function ( val, key ) {
+      if ( val === '1' ) {
+        jqueryMap.$check[key].prop('checked', 'true');
+      }
+      else {
+        jqueryMap.$check[key].prop('checked', 'false');
+      }
+    });
 
   };
 
