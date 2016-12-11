@@ -4,7 +4,8 @@ customer.model.kids = ( function () {
 
   var 
     /*private member*/
-    _data, _sortOrder = 1,
+    _data, _headerMap = {},
+     _sortOrder = 1,
     /*private method*/
 
     /*public  method*/
@@ -69,12 +70,13 @@ customer.model.kids = ( function () {
   };
 
   getHeader = function () {
-    return customer.db.selectAll('/tableHeader')[0];
-  }
+    return _headerMap;
+  };
 
 
   initModule = function () {
     _data = customer.db.selectAll('all');
+    _headerMap = customer.db.selectAll('/tableHeader')[0];
     return {
       findByKid    : findByKid,
       findByServer : findByServer,
