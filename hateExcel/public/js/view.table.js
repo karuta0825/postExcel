@@ -17,17 +17,6 @@ customer.view.table = ( function () {
     initModule
   ;
 
-  // この情報はユーザーごとにもちDBから取得するように変更予定
-  var view = {
-    kid            : true,
-    company        : true,
-    server         : true,
-    genics         : true,
-    userkey        : true,
-    name           : true,
-    account_number : true,
-    update_on      : true
-  };
 
   _setJqueryMap = function () {
     var $table  = $('.table'),
@@ -36,16 +25,17 @@ customer.view.table = ( function () {
     ;
 
     jqueryMap.$table  = $table;
-    jqueryMap.$header = $header;
-    jqueryMap.$body   = $table.find('tbody');
-    jqueryMap.$row    = $table.find('tr');
+    jqueryMap.$header = {};
+    jqueryMap.$body   = {};
     jqueryMap.$col    = {};
+    jqueryMap.$row    = $table.find('tr');
 
-    // すべての列情報をセット
     _.each( customer.model.kids.getHeader(), function ( val, key ) {
-      jqueryMap.$col[key] = $body.find('.' + key);
+      jqueryMap.$header[key] = $header.find( '.' + key );
+      jqueryMap.$body[key]   = $body.find( '.' + key);
+      jqueryMap.$col[key]    = $table.find( '.' + key);
     });
-
+    
   };
 
 
@@ -87,7 +77,8 @@ customer.view.table = ( function () {
    * 並び替えイベント登録-列名クリック時
    */
   _onClickColName = function () {
-    _.each( view, function ( val, key ) {
+    var colsMap = customer.model.settings.getColumnState();
+    _.each( colsMap, function ( val, key ) {
       $('thead .' + key ).on( 'click', function () {
         // customer.model.sortByCol( key, redrawTable );
         _model.sortByCol( key, redrawTable );
@@ -101,7 +92,7 @@ customer.view.table = ( function () {
    */
   _onClickAccountNumber = function () {
     var row, kid;
-    _.each( jqueryMap.$col.account_number, function (val , key) {
+    _.each( jqueryMap.$body.account_number, function (val , key) {
       $(val).on('click', function () {
         row = $(this).parent()[0];
         kid = $(row).find('.kid').text();
@@ -116,13 +107,12 @@ customer.view.table = ( function () {
    * @param {String} key - テーブルの列のkey名
    */
   setViewCol = function ( key ) {
-   if ( view[key] === true ) {
-      $('table .' + key ).hide();
-      view[key] = false;
+    var colsMap = customer.model.settings.getColumnState();
+   if ( colsMap[key] === '1' ) {
+      jqueryMap.$col[key].hide();
     }
     else {
-      $( 'table .' + key ).show();
-      view[key] = true;
+      jqueryMap.$col[key].show();
     }
   };
 
@@ -160,7 +150,7 @@ customer.view.table = ( function () {
       $(val).attr('id', 'id' + data[key].id );
       // 各々の列の値をクリアしてソートした値をセット
       _.each( headerMap, function ( v, k ) {
-        $(val).find('.' + k).empty().append( data[key][k]);
+        $(val).find('.' + k).empty().append( data[key][k] );
       });
     });
 
@@ -169,6 +159,7 @@ customer.view.table = ( function () {
   initModule = function () {
     // モデル初期化
     _model = customer.model.kids.initModule();
+    customer.model.settings.initModule();
 
     // テーブルヘッダー描画
     _showTableHeader();
@@ -183,7 +174,6 @@ customer.view.table = ( function () {
     // イベント登録
     _onClickColName();
     _onClickAccountNumber();
-    // _.each( jqueryMap.$col.account_number, onClickAccount )
 
   
   };
