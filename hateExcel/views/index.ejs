@@ -4,6 +4,7 @@
   <title>tableタグを使わない表作成</title>
   <meta charset='utf-8'>
   <link href="./css/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <link href="./css/bootstrap/bootstrap-datepicker.min.css" rel="stylesheet">
   <link rel="stylesheet" href="./css/TableRowAndCell.css" />
 </head>
 <body>
@@ -13,11 +14,45 @@
 
     <!-- enviroment view -->
     <div id='config'>
-      <div>menu1</div>
-      <div>menu2</div>
-      <div>menu3</div>
+      <div id='navi'>
+        <ul id='normal' class='dropmenu'>
+          <li><a href="#">LM</a>
+            <ul>
+              <li><a href="#">オンプレ</a></li>
+              <li><a href="#">クラウド</a></li>
+            </ul>
+          </li>
+          <li><a href="#">ES</a>
+            <ul>
+              <li><a href="#">オンプレ</a></li>
+              <li><a href="#">クラウド</a></li>
+            </ul>
+          </li>
+          <li><a href="#">DEMO</a>
+          </li>
+        </ul>
+      </div>
+
+      <div id='filter'>
+        <select class='server-select' name="server">
+          <option value="">サーバ</option>
+          <option value="AP1-1">AP1-1</option>
+          <option value="AP1-2">AP1-2</option>
+          <option value="AP1-3">AP1-3</option>
+          <option value="AP1-4">AP1-4</option>
+        </select>
+
+
+        <div class="date-select">
+          <label for="mydate">日付：</label>
+          <input type="text" class="form-control" id="mydate">
+        </div>
+      </div>
+
 
     </div>
+
+
 
     <!-- user action view -->
     <div id='user'>
@@ -52,6 +87,8 @@
   <!-- load javascript  -->
   <script src='./js/lib/jquery-2.1.4.min.js'></script>
   <script src="./js/lib/bootstrap/bootstrap.min.js"></script>
+  <script src="./js/lib/bootstrap/bootstrap-datepicker.min.js"></script>
+  <script src="./js/lib/bootstrap/bootstrap-datepicker.ja.min.js"></script>
   <script src='./js/lib/underscore.js'></script>
   <script src='./js/data.js'></script>
   <script src='./js/model.kids.js'></script>

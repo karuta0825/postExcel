@@ -1,0 +1,35 @@
+<html>
+<head>
+  <title></title>
+    <link href="./css/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <link href="./css/bootstrap/bootstrap-datepicker.min.css" rel="stylesheet">
+  <style type="text/css" media="screen">
+    .form-control {
+        display : inline ;
+      width : 100px;
+    }
+  </style>
+</head>
+<body>
+
+      <div class="date-select">
+        <span for="mydate">日付：</span>
+        <input type="text" class="form-control" id="mydate">
+        <span>以前</span>
+      </div>
+
+</body>
+
+  <script src='./js/lib/jquery-2.1.4.min.js'></script>
+  <script src="./js/lib/bootstrap/bootstrap.min.js"></script>
+  <script src="./js/lib/bootstrap/bootstrap-datepicker.min.js"></script>
+  <script src="./js/lib/bootstrap/bootstrap-datepicker.ja.min.js"></script>
+  <script>
+    
+  $('#mydate').datepicker({
+    format : 'yyyy/mm/dd',
+    language : 'ja',
+    autoclose : true
+  });
+  </script>
+</html>

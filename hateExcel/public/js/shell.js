@@ -10,12 +10,23 @@ $(function(){
   // var servers    = _.template( serverTmpl, list_server );
   // $('#user').append(servers);
 
+  
+
+  // _.each( customer.model, function ( val, key ) {
+  //   console.log(val);
+  //   val.initModule();
+  // });
+
+  $('#mydate').datepicker({
+    format : 'yyyy/mm/dd',
+    language : 'ja',
+    autoclose : true
+  });
+
   // シェルはView作成だけでよい
   // その後の処理は、viewの中で対応する
-  for ( var key in customer.view ) {
-    if ( customer.view.hasOwnProperty(key) ) {
-      customer.view[key].initModule();
-    }
-  }
+  _.each( customer.view, function ( val, key ) {
+    val.initModule();
+  });
 
 });
