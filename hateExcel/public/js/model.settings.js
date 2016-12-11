@@ -14,14 +14,23 @@ customer.model.settings = ( function () {
       HIDE : '0'
     },
     _columnsMap,
+    getColumnState,
     switchDisplayMode,
+    updateDisplayMode,
     initModule
     ;
 
   /*method*/
+  getColumnState = function () {
+    return _columnsMap;
+  };
 
   switchDisplayMode = function ( column, callback ) {
     var is_checked = _columnsMap[column];
+
+    if ( typeof callback === 'function') {
+      callback( column );
+    }
 
     if ( is_checked === DISPLAY.SHOW ) {
       _columnsMap[column] = DISPLAY.HIDE;
@@ -29,10 +38,7 @@ customer.model.settings = ( function () {
     else {
       _columnsMap[column] = DISPLAY.SHOW;
     }
-
-    if ( typeof callback === 'function') {
-      callback( column );
-    }
+    
   };
 
   updateDisplayMode = function () {
@@ -47,6 +53,7 @@ customer.model.settings = ( function () {
 
   return {
     initModule        : initModule,
+    getColumnState    : getColumnState,
     switchDisplayMode : switchDisplayMode,
     updateDisplayMode : updateDisplayMode
   };
