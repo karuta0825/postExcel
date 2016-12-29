@@ -28,7 +28,7 @@ customer.model.settings = ( function () {
   switchDisplayMode = function ( column, callback ) {
     var is_checked = _columnsMap[column];
 
-    if ( typeof callback === 'function') {
+    if ( typeof callback === 'function' ) {
       callback( column );
     }
 
@@ -38,11 +38,11 @@ customer.model.settings = ( function () {
     else {
       _columnsMap[column] = DISPLAY.SHOW;
     }
-    
-  };
+
+  };  
 
   updateDisplayMode = function () {
-    // customer.db.update('/columns', _columnsMap );
+    customer.db.update('/updateColumns', _columnsMap );
   };
 
   initModule = function () {

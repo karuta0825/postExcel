@@ -183,6 +183,13 @@ app.post('/update', function ( req, res ) {
   });
 });
 
+app.post('/updateColumns', function ( req, res ) {
+  var data = req.body;
+  console.log(data);
+  res.redirect('/');
+  return;
+});
+
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

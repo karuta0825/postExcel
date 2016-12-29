@@ -69,7 +69,7 @@ customer.view.viewConfig = ( function (){
 
   _onClickOk = function () {
     $(jqueryMap.$ok).on( 'click', function () {
-      console.log('update');
+      customer.model.settings.updateDisplayMode();
     });
   };
 

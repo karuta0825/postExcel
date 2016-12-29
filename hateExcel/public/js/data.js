@@ -61,8 +61,8 @@ customer.db = ( function (){
     _ajaxPost( params, 'add' );
   };
 
-  update    = function ( params ) {
-    _ajaxPost( params, 'update');
+  update    = function ( url, params ) {
+    _ajaxPost( url, params );
   };
 
   remove    = function ( params ) {
