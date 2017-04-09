@@ -1,0 +1,45 @@
+<html>
+<head>
+<!--   <link rel="stylesheet" href="css/material.css"/>
+  <script src="js/lib/material.js"></script>
+ -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+  <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+  <script src='./js/lib/jquery-2.1.4.min.js'></script>
+</head>
+<body>
+
+<!-- Always shows a header, even in smaller screens. -->
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+  <header class="mdl-layout__header">
+    <div class="mdl-layout__header-row">
+      <!-- Title メニュー変更に応じて変わる -->
+      <span class="mdl-layout-title">ユーザー管理</span>
+      <!-- Add spacer, to align navigation to the right -->
+      <div class="mdl-layout-spacer"></div>
+      <!-- Navigation. We hide it in small screens. -->
+      <nav class="mdl-navigation mdl-layout--large-screen-only"></nav>
+    </div>
+  </header>
+  <div class="mdl-layout__drawer">
+    <span class="mdl-layout-title">メニュー</span>
+    <nav class="mdl-navigation">
+      <a class="mdl-navigation__link" href="#">HOME</a>
+      <a class="mdl-navigation__link" href="#">ユーザー新規登録</a>
+      <a class="mdl-navigation__link" href="#">ユーザー情報</a>
+      <a class="mdl-navigation__link" href="#">設定</a>
+    </nav>
+  </div>
+  <main class="mdl-layout__content">
+    <div class="page-content">
+
+      <!-- setting -->
+      <div id='settings'></div>
+
+
+    </div>
+  </main>
+</div>
+</body>
+</html>

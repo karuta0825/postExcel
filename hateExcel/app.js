@@ -6,6 +6,7 @@
 var express = require('express');
 var routes = require('./routes');
 var user = require('./routes/user');
+var index = require('./routes/index');
 var http = require('http');
 var path = require('path');
 var datas = require('./models/datas');
@@ -24,9 +25,11 @@ app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
+app.use(express.bodyParser({uploadDir:'./uploads'}));
 app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
+
 
 // development only
 if ('development' == app.get('env')) {
@@ -98,7 +101,7 @@ var json_requests = [
 app.get('/all', function ( req, res ) {
   res.header("Content-Type", "application/json; charset=utf-8");
   datas.getAll( function (results){
-    res.json(results);  
+    res.json(results);
   });
 
 });
@@ -109,6 +112,7 @@ app.get('/servers', function ( req, res ) {
     res.json( results );
   });
 });
+
 
 app.get('/tableHeader', function ( req, res ) {
   res.header("Content-Type", "application/json; charset=utf-8");
@@ -126,7 +130,7 @@ app.get('/columns', function ( req, res ) {
 });
 
 app.post('/columns', function ( req, res ) {
-  var 
+  var
     headerMap = req.body.headerMap,
     uid       = req.session.uid
     ;
@@ -142,11 +146,20 @@ app.post('/columns', function ( req, res ) {
 
 app.post('/accounts', function ( req, res ) {
   var kid = req.body.kid;
+  console.log()
   res.header("Content-Type", "application/json; charset=utf-8");
   datas.getAccounts( kid, function ( results ) {
     res.json( results );
-  });  
+  });
 });
+
+app.get('/services', function ( req, res ) {
+  res.header("Content-Type", "application/json; charset=utf-8");
+  datas.getServices( function ( results ) {
+    res.json( results );
+  });
+});
+
 
 app.post('/add', function ( req, res ) {
   console.log(req.body);
@@ -186,8 +199,24 @@ app.post('/update', function ( req, res ) {
 app.post('/updateColumns', function ( req, res ) {
   var data = req.body;
   console.log(data);
-  res.redirect('/');
-  return;
+  console.log( req.session.uid );
+  datas.updateColumns( data, req.session.uid, function ( err ) {
+    if ( err ) {
+      res.status( 500 ).send( err.message );
+      return;
+    }
+    res.redirect('/');
+  });
+});
+
+// アップロード用パス
+app.post('/upload', index.upload );
+
+app.post('/fncadd', function ( req, res ){
+    var num = parseInt( req.body.num, 10 );
+    res.header("Content-Type", "application/json; charset=utf-8");
+    console.log( num );
+    res.json( JSON.stringify( { data :  num + 1 } )) ;
 });
 
 

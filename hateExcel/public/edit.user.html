@@ -1,0 +1,128 @@
+<!-- ユーザー登録が可能 -->
+
+<!-- ユーザ新規登録 -->
+<div id='user-edit' >
+
+
+  <div class='user-edit__container mdl-tabs mdl-js-tabs mdl-js-ripple-effect mdl-shadow--2dp'>
+    <button class='btn btn--backList' href='#view-usr'> ＜ 一覧に戻る</button>
+
+
+    <div class='user-edit__header'>
+
+      <div class='user-edit-header__tab mdl-tabs__tab-bar'>
+        <a href="#usr-base-panel"    class="mdl-tabs__tab is-active">基本情報</a>
+        <a href="#usr-service-panel" class="mdl-tabs__tab ">サービス種類</a>
+        <a href="#usr-account-panel" class="mdl-tabs__tab ">アカウント情報</a>
+        <a href="#usr-partner-panel" class="mdl-tabs__tab">パートナー</a>
+        <a href="#usr-quota-panel" class="mdl-tabs__tab">クォータ</a>
+        <a href="#usr-history-panel" class="mdl-tabs__tab">履歴</a>
+      </div>
+
+      <!-- 各タブに移行させる -->
+<!--       <div class='user-edit-header__action'>
+        <button class='btn btn--edit mdl-button mdl-js-button mdl-button--raised mdl-button--accent'>編集</button>
+      </div>
+ -->
+    </div>
+
+    <div class='user-edit__body'>
+
+      <!-- 基本情報 -->
+      <div class="mdl-tabs__panel is-active" id="usr-base-panel">
+        <div class='user-edit-header__action'>
+          <button class='btn btn--edit mdl-button mdl-js-button mdl-button--raised mdl-button--accent'>編集</button>
+        </div>
+
+        <ul class='user-base-list'>
+
+          <li class='user-base-list__item kid'>
+            <span class='item-key'>KID</span>
+            <input class='item-value is-edit' type='text' value='KID111111'></input>
+          </li>
+
+          <li class='user-base-list__item customer'>
+            <span class='item-key'>事業者名</span>
+            <input class='item-value' type='text' value='KID111111' disabled='disabled'></input>
+          </li>
+
+          <li class='user-base-list__item userkey'>
+            <span class='item-key'>ユーザーキー</span>
+            <input class='item-value' type='text' value='USEKEY' disabled='disabled'></input>
+          </li>
+
+          <li class='user-base-list__item account'>
+            <span class='item-key'>アカウント数</span>
+            <input class='item-value' type='number' min='1'></input>
+            <div class='item-action'>
+              <button class='btn btn-minus-account mdl-js-button mdl-button--raised'>-</button>
+              <button class='btn btn-plus-account mdl-js-button mdl-button--raised'>+</button>
+            </div>
+          </li>
+
+        </ul>
+      </div>
+
+      <!-- サービス種類 -->
+      <div class="mdl-tabs__panel" id="usr-service-panel">
+        <!-- アクション -->
+        <div class='user-edit-header__action'>
+          <button class='btn btn--edit mdl-button mdl-js-button mdl-button--raised mdl-button--accent'>編集</button>
+        </div>
+
+      </div>
+
+      <!-- アカウント情報 -->
+      <div class="mdl-tabs__panel" id="usr-account-panel">
+
+        <!-- アクション -->
+        <div class='user-edit-header__action'>
+          <button class='btn btn--edit mdl-button mdl-js-button mdl-button--raised mdl-button--accent'>ダウンロード</button>
+        </div>
+
+      </div>
+
+      <!-- パートナー情報 -->
+      <div class="mdl-tabs__panel" id="usr-partner-panel">
+        <ul class='partner-list'>
+
+          <li class='partner-list__item kid'>
+            <span class='item-key'>KID</span>
+            <input class='item-value is-edit' type='text' value='KID111111'></input>
+          </li>
+
+          <li class='partner-list__item customer'>
+            <span class='item-key'>事業者名</span>
+            <input class='item-value' type='text' value='KID111111' disabled='disabled'></input>
+          </li>
+
+          <li class='partner-list__item userkey'>
+            <span class='item-key'>ユーザーキー</span>
+            <input class='item-value' type='text' value='USEKEY' disabled='disabled'></input>
+          </li>
+
+          <li class='partner-list__item account'>
+            <span class='item-key'>アカウント数</span>
+            <input class='item-value' type='number' min='1'></input>
+            <div class='item-action'>
+              <button class='btn btn-minus-account mdl-js-button mdl-button--raised'>-</button>
+              <button class='btn btn-plus-account mdl-js-button mdl-button--raised'>+</button>
+            </div>
+          </li>
+
+        </ul>
+      </div>
+
+      <!-- クォータ -->
+      <div class="mdl-tabs__panel" id="usr-quota-panel">
+      </div>
+
+      <!-- 履歴 -->
+      <div class="mdl-tabs__panel" id="usr-history-panel">
+      </div>
+
+    </div>
+  </div>
+
+</div>
+

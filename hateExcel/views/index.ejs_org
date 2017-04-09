@@ -1,0 +1,97 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>tableタグを使わない表作成</title>
+  <meta charset='utf-8'>
+  <link href="./css/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <link href="./css/bootstrap/bootstrap-datepicker.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="./css/TableRowAndCell.css" />
+  <link rel="stylesheet" href="./css/base.css" />
+
+</head>
+<body>
+
+  <div id='container'>
+
+    <div id='header'>
+      <div class='btn btn--logout'>logout</div>
+    </div>
+
+    <!-- navigation -->
+    <div id='nav'>
+      <!-- フォントサイズ大きく -->
+      <ul>
+        <li class='btn--navi'>TOP</li>
+        <li class='btn--navi'>新規登録</li>
+        <li class='btn--navi'>参照・更新</li>
+        <li class='btn--navi'>
+          <a class='toggle'>設定</a>
+          <ul class='inner child'>
+            <li class='btn--navi servers'>サーバ</li>
+            <li class='btn--navi'>サービス情報</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <div id='contents'>
+
+      <div id='main'>
+        <!-- top -->
+<!--
+        <div id='top'>
+
+          <div class='article article-notice'>
+            <h4 class='article-notice_title'># お知らせ</h4>
+            <ul class='article-notice_list'>
+              <li class='artcle-notice_item'><span class='state'>1</span><span class='msg'>message</span></li>
+              <li class='artcle-notice_item'><span class='state'>2</span><span class='msg'>message</span></li>
+              <li class='artcle-notice_item'><span class='state'>3</span><span class='msg'>message</span></li>
+              <li class='artcle-notice_item'><span class='state'>4</span><span class='msg'>message</span></li>
+              <li class='artcle-notice_item'><span class='state'>5</span><span class='msg'>message</span></li>
+            </ul>
+          </div>
+
+          <div class='article article-graph'>
+            <h4 class='article-graph_title'># ユーザ増加率  </h4>
+            <p>img1</p>
+            <p>img2</p>
+            <p>img3</p>
+          </div>
+
+        </div>
+ -->
+        <!-- setting -->
+        <div id='settings'></div>
+
+
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- load css and javascript  -->
+  <!-- OSS -->
+  <script src='./js/lib/jquery-2.1.4.min.js'></script>
+  <script src='./js/lib/jquery.uriAnchor.js'></script>
+  <script src="./js/lib/bootstrap/bootstrap.min.js"></script>
+  <script src="./js/lib/bootstrap/bootstrap-datepicker.min.js"></script>
+  <script src="./js/lib/bootstrap/bootstrap-datepicker.ja.min.js"></script>
+  <script src='./js/lib/underscore.js'></script>
+  <!-- My Project Souce -->
+  <script src='./js/data.js'></script>
+  <script src='./js/model.kids.js'></script>
+  <script src='./js/model.user-action.js'></script>
+  <script src='./js/model.accounts.js'></script>
+  <script src='./js/model.settings.js'></script>
+  <script src='./js/model.servers.js'></script>
+  <script src='./js/view.table.js'></script>
+  <script src='./js/view.setting.servers.js'></script>
+  <script src='./js/view.user-action.js'></script>
+  <script src='./js/view.view-config.js'></script>
+  <script src='./js/view.accounts.js'></script>
+  <script src='./js/shell.js' charset='utf-8'></script>
+</body>
+</html>

@@ -2,17 +2,31 @@
 customer.model = customer.model || {};
 customer.model.kids = ( function () {
 
-  var 
+  var
     /*private member*/
     _data, _headerMap = {},
      _sortOrder = 1,
     /*private method*/
 
     /*public  method*/
-    findByKid, findByServer, findByGenics,
+    findById, findByKid, findByServer, findByGenics,
     sortByCol, getData, getHeader,
     initModule
   ;
+
+  findById = function ( id ) {
+    return $.grep( _data, function ( val ) {
+      return id === val.id;
+    })[0];
+  };
+
+  findByIds = function ( list_id ) {
+    var list = [];
+    _.each( list_id, function ( val, key ) {
+      list.push( findById(val) );
+    });
+    return list;
+  };
 
   findByKid = function ( kid ) {
     return $.grep( _data, function ( val ) {
@@ -24,7 +38,7 @@ customer.model.kids = ( function () {
     var data = $.grep( _data, function ( val ) { return server === val.server;});
     if ( callback ) {
       callback( 'server', data );
-    } 
+    }
     else {
       return data;
     }
@@ -43,7 +57,7 @@ customer.model.kids = ( function () {
    * @return {Array}  - ソート結果
    */
   sortByCol = function ( col, callbackFromView ) {
-    
+
     _data.sort( function ( item1, item2 ) {
       item1 = _.isString( item1[col] ) && item1[col].toString().toLowerCase() || item1[col];
       item2 = _.isString( item2[col] ) && item2[col].toString().toLowerCase() || item2[col];
@@ -77,18 +91,13 @@ customer.model.kids = ( function () {
   initModule = function () {
     _data = customer.db.selectAll('all');
     _headerMap = customer.db.selectAll('/tableHeader')[0];
-    return {
-      findByKid    : findByKid,
-      findByServer : findByServer,
-      findByGenics : findByGenics,
-      sortByCol    : sortByCol,
-      getData      : getData
-    };
   };
 
   /*public method*/
   return {
     initModule   : initModule,
+    findById     : findById,
+    findByIds    : findByIds,
     findByKid    : findByKid,
     findByServer : findByServer,
     findByGenics : findByGenics,

@@ -1,169 +1,510 @@
 @charset 'UTF-8';
 
-html body {
-  width : 100%;
-  height : 100%;
-  font-family: "メイリオ", sans-serif;
-  font-size: 12px;
-}
-
-#container {
-  position : relative;
-  margin: 0 auto;
-  width :auto;
-}
-
-#user {
-  width  : 170px;
-  height : auto;
-  min-height : 100%;
-  float :left;
+/* --------------
+    navigation
+-----------------*/
+#nav {
   position : fixed;
   text-align: right;
+  margin-top: 100px;
+  height: 100%;
+  width: 200px;
 }
 
-#user ul {    
-  margin-left: -20px;
-}
-
-#config {
-  font-family: "メイリオ", sans-serif;
-  height : 200px;
-  margin-left: 210px; 
-  border-bottom: 1px solid #696969;
-}
-
-#filter {
-}
-
-
-/*テーブル全体*/
-.table-responsive {
-  width :auto;
-  margin-left: 210px;
-}
-
-table {
-  margin-top: 20px;
-}
-
-tbody {
-  color :#696969;
-}
-
-.modal-body span {
-  display: inline-block;
-  width : 100px;
-}
-
-.navi  {
-  width : 150px;
-  margin-left: auto;
+.btn--navi  {
   display: block;
   margin-top: 10px;
 }
 
-a.navi {
- color : #000000;
- text-decoration: none;
-}
-
-a.navi:hover {
-  color : #339faf;
-}
-
-.modal-body > ul {
-  list-style: none;
-}
-
-/*select box*/
-.server-select {
-  margin-top: 40px;
-  width: 100px;
-}
-
-/*select date*/
-.date-select {
-  width : 150px;
-  display: inline;
-}
-
-.date-select input{
-  height:   25px;
-  width : 150px;
-  display: inline;
-}
-
-
-
-/*drop down menu*/
-.dropmenu{ 
-  *zoom: 1;
-  list-style-type: none;
-  width: 960px;
-  /*margin: 5px auto 30px;*/
-  padding: 0;
-}
-
-.dropmenu:before, .dropmenu:after{
-  content: "";
-  display: table;
-  }
-.dropmenu:after{
-  clear: both;    
-}
-.dropmenu li{
-  position: relative;
-  width: 100px;
-  float: left;
-  margin: 0;
-  padding: 0;
-  text-align: center;
-}
-
-.dropmenu li a{
-  display: block;
-  margin: 0;
-  padding: 15px 0 11px;
-  color: #696969;
-  font-size: 12px;
-  line-height: 1;
-  text-decoration: none;
-} 
-
-.dropmenu li ul{
-  list-style: none;
-  position: absolute;
-  z-index: 9999;
-  top: 100%;
-  left: 0;
-  margin: 0;
-  padding: 0;
-}
-
-.dropmenu li ul li{
-  width: 100px;
-  height : 20px;
-}
-
-.dropmenu li ul li a{
-  padding: 13px 30px;
-  text-align: center;
-  font-size: 9px;
-  height: 20px;
-}
-
-.dropmenu li:hover > a{
-}
-
-.dropmenu li a:hover{
-  border-bottom: 1px solid #696969;
-}
-
-
-#normal li ul{
+.navi-lower-level {
   display: none;
+  margin : 0;
+  padding: 0;
 }
-#normal li:hover ul{
+
+.navi-lower-level .mdl-navigation__link.btn-navi {
+  padding-left : 60px;
+}
+
+.navi-upper-level .arrow {
+  display          : inline-block;
+  width            : 12px;
+  height           : 12px;
+  background-size  : 12px 12px;
+  background-image : url(../imgs/arrow.png);
+  position         : absolute;
+  right            : 16px;
+  margin-top       : 5px;
+  transition       : all .15s linear;
+}
+
+.arrow.arrow--rotate {
+  transform : rotate(90deg);
+}
+
+/* -------------------
+  header
+---------------------- */
+
+.login-user {
+  width: 100px;
+  height: 40px;
+}
+
+.login-user .login-user__icon {
+  display: inline-block;
+  background-image: url(../imgs/girls.png);
+  width            : 40px;
+  height           : 40px;
+  background-size  : 40px 40px;
+  background       : white;
+}
+
+
+/* -------------------
+  common mdl overwrite
+---------------------- */
+.mdl-tabs__panel {
+  /*min-width: 900px;*/
+  /*width : 900px;*/
+  margin: 0 auto;
+}
+
+.mdl-textfield {
+  display: block;
+  width : 100%;
+}
+
+.mdl-tabs__panel {
+  padding : 15px;
+  margin-top: 30px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+/* --------------
+   common button
+----------------- */
+
+.btn {
+  /*outline : none;*/
+}
+
+.btn--del {
+  padding : 0;
+  min-width: 27px;
+  height: 27px;
+  margin: auto;
+  line-height: 0px;
+}
+
+/* --------------
+   common field
+----------------- */
+
+.mdl-selectfield {
+  width : 90%;
+}
+
+
+/* -------------------
+   common contents
+---------------------- */
+.main-contents {
+  display: none;
+  /*width : 1200px;*/
+  margin: 0 auto;
+}
+
+.main-contents.is-active {
   display: block;
 }
+
+/*.setting__action {
+  width : 180px;
+  margin-left : auto;
+}
+*/
+
+.setting__action {
+  width: 60%;
+  min-width : 60%;
+  margin: 20px auto;
+  text-align: right;
+}
+
+.setting__body .mdl-data-table {
+  margin: 0 auto;
+  min-width: 60%;
+}
+
+
+/* -------------------
+   home
+---------------------- */
+
+.small-font {
+  font-size: 0.6em;
+}
+
+.article-notice, .article-graph {
+  margin: 30px auto;
+  width: 75%;
+  min-width: 750px;
+}
+
+.article-graph {
+  height: 400px;
+}
+
+.article-notice__list {
+  list-style: none;
+  padding:0;
+  margin: 0;
+}
+
+.article__title {
+  margin: 0;
+  background : #dedcdc;
+  text-align: center;
+  font-size: 1.2em;
+  padding: 5px 0px;
+  color : #595959;
+}
+
+.article-notice__item--header {
+  border-bottom: 1px solid #dedcdc;
+  margin-bottom: 10px;
+  padding:5px 0;
+}
+
+.article-notice__list .state,
+.article-notice__list .date ,
+.article-notice__list .user ,
+.article-notice__list .msg    {
+  display: inline-block;
+  margin: 9px 14px;
+}
+
+.article-notice__list .state {
+  width : 70px;
+  border-radius: 5px;
+  margin-left: 40px;
+}
+
+.article-notice__item--header .state {
+  text-align: left;
+}
+
+.article-notice__item--body .state {
+  text-align: center;
+  color: white;
+}
+
+.article-notice__item--body .state--warning {
+  background: #ffb600;
+}
+
+.article-notice__item--body .state--primary {
+  background: #7575ff;
+}
+
+.article-notice__item--body .state--info {
+  background: #32e274;
+}
+
+.article-notice__item--body .state--danger {
+  background: #ff5b94;
+}
+
+.article-notice__list .date {
+  width: 87px;
+}
+
+.article-notice__list .user {
+  width: 100px;
+}
+
+
+.article__footer {
+  margin-top: 10px;
+  padding: 6px 0;
+  border-top: 1px solid #dedcdc;
+  text-align: center;
+  font-size: 0.8em;
+  cursor: pointer;
+}
+
+/* -------------------
+   register user
+---------------------- */
+
+.user-register {
+  width: 100%;
+  height: 100%;
+  text-align: right;
+}
+
+.upload {
+  width : 85%;
+  height: 85%;
+  margin: 20px auto;
+  border: 5px dashed rgb(103,58,183);
+  border-radius: 25px;
+  text-align: center;
+}
+
+.upload__title {
+  position :absolute;
+  top  : 66%;
+  left : 50%;
+  -webkit-transform: translateY(-50%) translateX(-50%);
+  transform: translateY(-50%) translateX(-50%);
+  font-size: 20px;
+}
+
+.upload__img {
+  display: inline-block;
+  width: 128px;
+  height: 128px;
+  background-size: 128px 128px;
+  background-image: url(../imgs/icon_file.png);
+  position: absolute;
+  top: 44%;
+  right: 46%;
+}
+
+.btn--upload {
+  margin-top : 30px;
+  margin-right: 7%;
+}
+
+
+/* -------------------
+   view users
+---------------------- */
+
+/*.main-contents.main-contents--view-usr {*/
+#tmp {
+  display: flex;
+  display: -webkit-flex;
+}
+
+.users-table td.kid{
+  color : #ff4081;
+}
+
+.main-contents--view-usr .mdl-data-table {
+  margin-left: 30px;
+  margin-right: 30px;
+  /*float: left;*/
+  /*min-width: 95%;*/
+  width: 96%;
+  /*display: table;*/
+}
+
+.main-contents__filter {
+  width : 220px;
+  height: 1000px;
+  min-width: 220px;
+}
+
+.filter__title {
+  border-bottom: 1px solid rgba(0,0,0,0.12);
+  padding: 15px;
+  text-align: center;
+  font-size: 19px;
+}
+
+.filter-item {
+  margin-top : 25px;
+  margin-left : 20px;
+}
+
+.filter-item__title {
+  font-size:14px;
+  font-weight: 600;
+}
+
+.filter-item__body {
+  padding-top   : 10px;
+  padding-left: 2px;
+}
+
+.filter-item .btn {
+  width         : 70px;
+  height        : 30px;
+  margin-left   : 10px;
+  border-radius : 4px;
+  border        : 1px solid #dedcdc;
+  background    : white;
+  color         : #dedcdc;
+  font-size     : 10px;
+}
+
+.mobile .filter-item__body .btn {
+  width : 78px;
+}
+
+.filter-item__body .btn--mon {
+  border-radius: 4px 0px 0px 4px;
+}
+
+.filter-item__body .btn--moff {
+  margin-left: -7px;
+  border-radius: 0px 4px 4px 0px;
+}
+
+.filter-item .btn--on {
+  background: #673ab7;
+  border: 1px solid #673ab7;
+  color: white;
+}
+
+.filter-item .select-servers {
+  width: 150px;
+  margin-left: 9px;
+  height: 30px;
+  background: white;
+  border: 1px solid #dedcdc;
+  color : #696969;
+  outline: none;
+}
+
+.users-table__header {
+  margin-left: 30px;
+  margin-top : 20px;
+  height: 50px;
+  min-height: 0px; /* mdl-card overwrite */
+}
+
+.users-table__action {
+  margin-top :  20px;
+  margin-left: 30px;
+  text-align: right;
+  width: 96%;
+}
+
+.users-table {
+  width : 100%;
+  overflow-x: auto;
+}
+
+
+/* -------------------
+    edit or view users
+---------------------- */
+
+.mdl-tabs__panel {
+  margin-top: 0px;
+}
+
+#user-edit {
+  height: 100%;
+}
+
+.user-edit__container {
+  width: 80%;
+  min-width: 760px;
+  height: 95%;
+  background: white;
+  margin: 20px auto;
+}
+
+.user-edit-header__action {
+  text-align: right;
+  padding-right: 20px;
+}
+
+/*.user-edit__header .btn--backList {*/
+.btn--backList {
+  height      : 35px;
+  margin-left : 11px;
+  margin-top  : 7px;
+  background  : white;
+  color       : #696969;
+  border      : none;
+  /*text-decoration : underline ;*/
+  cursor      : pointer;
+}
+
+.user-base-list,
+.partner-list {
+  width:  85%;
+  margin: 0 auto;
+  padding-left: 0px;
+  list-style: none;
+}
+
+.user-base-list__item {
+  margin : 25px 0 0 0;
+  width: 85%;
+}
+
+.user-base-list__item .item-key,
+.user-base-list__item .item-value
+ {
+  display: inline-block;
+  font-size: 15px;
+  height: 27px;
+}
+
+.user-base-list__item .item-key {
+  width : 150px;
+}
+
+.user-base-list__item .item-value {
+  width : 60%;
+  border :none;
+  border-bottom: 1px solid #dedcdc;
+  padding-left : 5px;
+}
+
+.user-base-list__item .item-value[disabled] {
+  background: white;
+}
+
+.user-base-list__item .item-value.is-edit {
+  border: 1px solid #dedcdc;
+  background: whitesmoke;
+  border-radius: 5px;
+}
+
+.user-base-list .account .item-value {
+  width : 60%;
+}
+
+.user-base-list .item-action {
+  float: right;
+}
+
+.user-base-list .account .btn {
+  border: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 5px
+}
+
+.user-base-list .btn-minus-account {
+}
+
+.user-base-list .btn-plus-account {
+  margin-left: 5px;
+  margin-right :2px;
+  background: #ff4081;
+  color: white;
+}
+
+.account-table {
+  width: 80%;
+  margin: 30px auto;
+}
+
+/* -------------------
+   setting servers
+---------------------- */
+
+/* -------------------
+   setting services
+---------------------- */
+

@@ -1,4 +1,4 @@
--- MySQL dump 10.13  Distrib 5.7.12, for osx10.9 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.17, for macos10.12 (x86_64)
 --
 -- Host: 127.0.0.1    Database: customer
 -- ------------------------------------------------------
@@ -24,7 +24,6 @@ DROP TABLE IF EXISTS `columns`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `columns` (
   `uid` int(11) DEFAULT NULL,
-  `check` varchar(45) DEFAULT NULL,
   `kid` varchar(45) DEFAULT '1',
   `company` varchar(45) DEFAULT '1',
   `server` varchar(45) DEFAULT '1',
@@ -43,7 +42,7 @@ CREATE TABLE `columns` (
 
 LOCK TABLES `columns` WRITE;
 /*!40000 ALTER TABLE `columns` DISABLE KEYS */;
-INSERT INTO `columns` VALUES (0,'対象','KID','顧客名','サーバ','ユーザキー','GenicsID','作成者','アカウント数','更新日'),(1,NULL,'1','1','1','1','1','1','1','1');
+INSERT INTO `columns` VALUES (0,'KID','顧客名','サーバ','ユーザキー','GenicsID','作成者','アカウント数','更新日'),(1,'1','1','1','1','1','1','1','1');
 /*!40000 ALTER TABLE `columns` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -56,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-11-27 17:51:03
+-- Dump completed on 2017-04-10  0:56:33

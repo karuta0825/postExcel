@@ -1,0 +1,89 @@
+<html>
+<head>
+  <title></title>
+    <link href="./css/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <link href="./css/bootstrap/bootstrap-datepicker.min.css" rel="stylesheet">
+  <style type="text/css" media="screen"></style>
+</head>
+<body>
+
+  <form method='post' enctype="multipart/form-data" action="/upload">
+    <input type='file' name='upload'>
+    <input type='submit'>
+  </form>
+
+  <button class='btn-add'>btn</button>
+
+
+</body>
+
+  <script src='./js/lib/jquery-2.1.4.min.js'></script>
+  <script src="./js/lib/bootstrap/bootstrap.min.js"></script>
+  <script src="./js/lib/bootstrap/bootstrap-datepicker.min.js"></script>
+  <script src="./js/lib/bootstrap/bootstrap-datepicker.ja.min.js"></script>
+
+  <script>
+    // ajaxの直列について勉強
+    var fncAdd = function ( data ) {
+      var dfd = $.Deferred();
+      $.ajax({
+        type: 'post',
+        url: '/fncadd',
+        data : data
+      })
+      .done(function(returnData) {
+        console.log( returnData );
+        dfd.resolve( returnData );
+      });
+      // fail()は省略
+      return dfd.promise();
+    };
+
+    var fncAdd2 = function ( data ) {
+      return $.ajax({
+        type: 'post',
+        url: '/fncadd',
+        data : data
+      });
+    };
+
+    $(function () {
+      $('.btn-add').on( 'click', function () {
+        // fncAdd( { num : 1 } )
+        //   .then( function ( data ) {
+        //     fncAdd( { num : JSON.parse(data).data } )
+        //   })
+        //   .then( function ( data ) {
+        //     fncAdd( { num : JSON.parse(data).data } )
+        //   });
+
+        // fncAdd2( { num : 1 })
+        //   .then ( function ( data ) {
+        //     fncAdd2( { num : JSON.parse(data).data} )
+        //       .then ( function ( data ) {
+        //         fncAdd2( { num : JSON.parse(data).data} )
+        //       })
+        //   })
+
+        var next = fncAdd2( { num : 1} ).then( function ( data ) {
+          console.log( data );
+          return fncAdd2( { num : JSON.parse( data ).data });
+        });
+
+        var nextnext = next.then( function (data) {
+          console.log( data );
+          return fncAdd2( { num : JSON.parse( data ).data });
+        });
+
+        nextnext.done( function (data) {
+          console.log(data);
+          console.log('end')
+        });
+
+
+      });
+    });
+  </script>
+
+
+</html>

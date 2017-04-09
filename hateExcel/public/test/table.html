@@ -1,0 +1,98 @@
+﻿<html>
+<head>
+  <title>tableタグを使わない表作成</title>
+  <meta charset='utf-8'>
+  <link href="./css/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="./css/TableRowAndCell.css" />
+</head>
+<body>
+
+  <div id='container'>
+
+
+    <!-- enviroment view -->
+    <div id='user'>
+      <script type="text/template" id='servers'>
+        <% _.each( list_server, function ( server ) { %>
+          <ul> <%- server.name %> <%- server.environment %> </ul>
+        <% }) %>
+      </script>
+    </div>
+
+    <!-- user action view -->
+    <div id='config'>
+      <script type="text/template" id='view-config'>
+        <% _.each( view, function ( val, key ) { %>
+          <div id=<%- key %> > <%- key %> </div>
+        <% }); %>
+      </script>
+
+      <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">新規ユーザ</button>
+      <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">ユーザ削除</button>
+      <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">クライアント追加</button>
+      <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">表示設定</button>
+      <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">Import</button>
+      <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">Export</button>
+
+      <a data-toggle="modal" data-target="#myModal">
+        呼び出し
+      </a>
+    </div>
+
+
+
+      <!-- table view -->
+    <div class='table-responsive'>
+        <!-- サーバ絞り込み機能 -->
+        <select name="server">
+          <option value="AP1-1">AP1-1</option>
+          <option value="AP2-1">AP2-1</option>
+          <option value="AP2-3">AP2-4</option>
+          <option value="AP5-3">AP4-4</option>
+        </select>
+        <br>
+        <br>
+      <table class='table table-hover table-condensed'>
+        <!-- table header -->
+        <thead>
+          <script type="text/template" id='table-header'>
+            <% _.each( headerMap, function ( val, key ){ %>
+              <th class=<%- key %> > <%- val  %> </th>
+            <% }); %>
+          </script>
+        </thead>
+        <!-- table body -->
+        <tbody>
+          <script type="text/template" id="template">
+            <% _.each( list , function ( item ) { %>
+              <tr id='id<%- item.id %>' >
+                <td><input type="checkbox"></td>
+                <td class='kid'>            <%- item.kid     %> </td>
+                <td class='company'>        <%- item.company %> </td>
+                <td class='server'>         <%- item.server  %> </td>
+                <td class='genics'>         <%- item.genics  %> </td>
+                <td class='userkey'>        <%- item.userkey %> </td>
+                <td class='author'>         <%- item.name    %> </td>
+                <td class='account_number'> <%- item.account_number %></td>
+                <td class='update_on'>      <%- item.update_on %> </td>
+              </tr>
+            <% }); %>
+          </script>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+  <!-- load javascript  -->
+  <script src='./js/lib/jquery-2.1.4.min.js'></script>
+  <script src="./js/bootstrap/bootstrap.min.js"></script>
+  <script src='./js/lib/underscore.js'></script>
+  <script src='./js/data.js'></script>
+  <script src='./js/model.users.js'></script>
+  <script src='./js/model.config.js'></script>
+  <script src='./js/view.users.js'></script>
+  <script src='./js/view.config.js'></script>
+  <script src='./js/shell.js' charset='utf-8'></script>
+</body>
+</html>

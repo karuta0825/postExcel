@@ -3,94 +3,118 @@
 <head>
   <title>tableタグを使わない表作成</title>
   <meta charset='utf-8'>
-  <link href="./css/bootstrap/bootstrap.min.css" rel="stylesheet">
-  <link href="./css/bootstrap/bootstrap-datepicker.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="css/material.min.css"/>
+  <link rel="stylesheet" href="css/mdl-selectfield.css"/>
   <link rel="stylesheet" href="./css/TableRowAndCell.css" />
+  <link rel="stylesheet" href="./css/base.css" />
+
 </head>
 <body>
 
-  <div id='container'>
-    
-    <!-- enviroment view -->
-    <div id='config'>
-      <div id='navi'>
-        <ul id='normal' class='dropmenu'>
-          <li><a href="#">LM</a>
-            <ul>
-              <li><a href="#">オンプレ</a></li>
-              <li><a href="#">クラウド</a></li>
-            </ul>
-          </li>
-          <li><a href="#">ES</a>
-            <ul>
-              <li><a href="#">オンプレ</a></li>
-              <li><a href="#">クラウド</a></li>
-            </ul>
-          </li>
-          <li><a href="#">DEMO</a>
-          </li>
-        </ul>
+  <!-- レイアウトフレーム -->
+  <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <!-- ヘッダー -->
+    <header class="mdl-layout__header">
+      <div class="mdl-layout__header-row">
+
+        <!-- TODO:Title メニュー変更に応じて変わる -->
+        <span class="mdl-layout-title">ユーザー管理</span>
+
+        <!-- Add spacer, to align navigation to the right -->
+        <div class="mdl-layout-spacer"></div>
+
+        <!-- ヘッダー右メニューボタン -->
+        <nav class="mdl-navigation mdl-layout--large-screen-only">
+          <!-- ログインユーザー名 -->
+          <div class='login-user'>
+            <span class='login-user__icon'></span>
+            <span class='login-user__name'></span>
+          </div>
+
+          <!-- 更新 -->
+          <button class='reload'>reload</button>
+
+          <!-- その他 -->
+          <button id="demo-menu-lower-right" class="mdl-button mdl-js-button
+                                                    mdl-button--icon">
+            <i class="material-icons">more_vert</i>
+          </button>
+
+          <!-- その他リスト -->
+          <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="demo-menu-lower-right">
+            <li class="mdl-menu__item">ログアウト</li>
+            <li class="mdl-menu__item">表示列</li>
+          </ul>
+        </nav>
+
       </div>
+    </header>
 
-      <div id='filter'>
-        <select class='server-select' name="server">
-          <option value="">サーバ</option>
-          <option value="AP1-1">AP1-1</option>
-          <option value="AP1-2">AP1-2</option>
-          <option value="AP1-3">AP1-3</option>
-          <option value="AP1-4">AP1-4</option>
-        </select>
-
-        <div class="date-select">
-          <label for="mydate">日付：</label>
-          <input type="text" class="form-control" id="mydate">
-        </div>
-      </div>
+    <!-- ナビゲーション -->
+    <div class="mdl-layout__drawer">
+      <span class="mdl-layout-title">メニュー</span>
+      <nav class="mdl-navigation">
+        <a class="mdl-navigation__link btn-navi" href="#home">HOME</a>
+        <a class="mdl-navigation__link btn-navi" href="#reg-usr">ユーザー新規登録</a>
+        <a class="mdl-navigation__link btn-navi" href="#view-usr">ユーザー情報</a>
+        <a class="mdl-navigation__link navi-upper-level">設定<span class='arrow'></span> </a>
+          <ul class='navi-lower-level'>
+            <li class="mdl-navigation__link btn-navi" href="#settings-servers">サーバ情報</li>
+            <li class="mdl-navigation__link btn-navi" href="#settings-services">サービス情報</li>
+            <li class="mdl-navigation__link btn-navi" href="#settings-login-info">ユーザー情報</li>
+          </ul>
+      </nav>
     </div>
 
+    <!-- メインコンテンツ -->
+    <main class="mdl-layout__content">
 
+      <!-- HOME -->
+      <div class='main-contents main-contents--home is-active'></div>
 
-    <!-- user action view -->
-    <div id='user'>
-      <a class='navi' data-toggle="modal" data-target="#myModal">ユーザー追加</a>
-      <a class='navi' data-toggle="modal" data-target="#myModal">ユーザー削除</a>
-      <a class='navi' data-toggle="modal" data-target="#myModal">クライアント追加</a>
-      <a class='navi' data-toggle="modal" data-target="#myModal">クライアント削除</a>
-      <a class='navi' data-toggle="modal" data-target="#viewConfig">表示設定</a>
-      <a class='navi' data-toggle="modal" data-target="#myModal">Import</a>
-      <a class='navi' data-toggle="modal" data-target="#myModal">Export</a>
-    </div>
+      <!-- 新規登録 -->
+      <div class='main-contents main-contents--reg-usr'></div>
 
-    <!-- table view -->
-    <div class='table-responsive'>
-      <a href="#">All</a>
-      >
-      <a href="#">アカウント</a>
-      <table class='table table-hover table-condensed'>
-        <!-- table header -->
-        <thead>
-        </thead>
-        <!-- table body -->
-        <tbody>
-        </tbody>
-      </table>
-    </div>
+      <!-- 編集 -->
+      <div class='main-contents main-contents--edit-usr'></div>
+
+      <!-- 参照・更新 -->
+      <div class='main-contents main-contents--view-usr'></div>
+
+      <!-- 設定 -->
+      <div class='main-contents main-contents--settings-servers'></div>
+      <div class='main-contents main-contents--settings-services'></div>
+      <div class='main-contents main-contents--settings-login-info'></div>
+
+    </main>
+
   </div>
 
   <!-- load javascript  -->
+  <!-- OSS -->
   <script src='./js/lib/jquery-2.1.4.min.js'></script>
-  <script src="./js/lib/bootstrap/bootstrap.min.js"></script>
-  <script src="./js/lib/bootstrap/bootstrap-datepicker.min.js"></script>
-  <script src="./js/lib/bootstrap/bootstrap-datepicker.ja.min.js"></script>
+  <script src='./js/lib/jquery.uriAnchor.js'></script>
   <script src='./js/lib/underscore.js'></script>
+  <script src="js/lib/material.js"></script>
+  <script src="js/lib/mdl-selectfield.js"></script>
+
+  <!-- My Project Souce -->
   <script src='./js/data.js'></script>
+  <script src='./js/lib/util.js'></script>
+  <!-- model -->
   <script src='./js/model.kids.js'></script>
-  <script src='./js/model.user-action.js'></script>
+  <script src='./js/model.servers.js'></script>
   <script src='./js/model.accounts.js'></script>
-  <script src='./js/model.settings.js'></script>
-  <script src='./js/view.table.js'></script>
-  <script src='./js/view.user-action.js'></script>
-  <script src='./js/view.view-config.js'></script>
+  <script src='./js/model.services.js'></script>
+  <!-- view -->
+  <script src='./js/view.home.js'></script>
+  <script src='./js/view.register.user.js'></script>
+  <script src='./js/view.edit.user.js'></script>
+  <script src='./js/view.users.js'></script>
+  <script src='./js/view.setting.servers.js'></script>
+  <script src='./js/view.setting.services.js'></script>
+  <!-- shell -->
   <script src='./js/shell.js' charset='utf-8'></script>
 </body>
 </html>

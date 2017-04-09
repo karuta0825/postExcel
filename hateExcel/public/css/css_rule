@@ -1,0 +1,36 @@
+CSSのルール
+
+■命名規則
+'-' : 名前の分割
+'_' : 名前空間_要素
+'__': 要素__状態
+
+ex)
+btn
+btn-navigation
+
+btn-notice__alert
+btn-notice__new
+btn-notice__warning
+
+btn_invisible
+btn_visible
+
+main-content_header
+main-content_body
+main-content_footer
+
+//要素に種類がある場合どうするの？
+main-content_header-xxx
+main-content_header-yyy
+main-content_header-zzz
+
+
+//階層構造をどうやって表現するかということだ
+
+
+■各要素に適用できるものは何か？
+・位置
+・サイズ
+・色
+・状態（[非]表示）

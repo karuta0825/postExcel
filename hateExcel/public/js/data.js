@@ -1,8 +1,11 @@
-var customer;
-customer =  customer || {};
+var customer = {
+  model : {},
+  view  : {}
+};
+
 customer.db = ( function (){
 
-  var 
+  var
     configMap, data, getData,
     _ajaxPost, _ajaxGet, ajaxHtml,
     selectAll, select,
@@ -50,7 +53,7 @@ customer.db = ( function (){
   };
 
   selectAll = function ( url ) {
-    return JSON.parse( _ajaxGet( url ) ) ; 
+    return JSON.parse( _ajaxGet( url ) ) ;
   };
 
   select    = function ( url, params ) {

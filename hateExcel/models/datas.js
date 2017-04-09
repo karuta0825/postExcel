@@ -1,6 +1,6 @@
 
 // メンバ変数の宣言
-var 
+var
   database = require('./database'),
   // SQLクエリは別ファイルで管理する
   querys   = require('./list_query'),
@@ -9,8 +9,8 @@ var
   ;
 
 datas.authenticate = function ( data, callback ) {
-  var 
-    params = [ 
+  var
+    params = [
       data.user,
       data.pass
     ];
@@ -21,8 +21,8 @@ datas.authenticate = function ( data, callback ) {
     function ( err, results, fileds ) {
       db.end();
       // DBエラーのとき
-      if ( err ) { 
-        console.log( err ); 
+      if ( err ) {
+        console.log( err );
         callback(err);
         return;
       }
@@ -84,7 +84,7 @@ datas.getColumns = function ( uid, callback ) {
       if ( err ) { console.log(err); return; }
       callback( results );
     }
-  );  
+  );
 };
 
 datas.getAccounts = function ( kid, callback ) {
@@ -99,6 +99,20 @@ datas.getAccounts = function ( kid, callback ) {
     }
   );
 };
+
+datas.getServices = function ( callback ) {
+  db.query(
+    querys.select.services,
+    [],
+    function ( err, results, fields ) {
+      db.end();
+      if ( err ) { console.log(err); return; }
+      callback( results ) ;
+    }
+  );
+};
+
+
 
 /**
  * [insert description]
@@ -126,7 +140,7 @@ datas.insert = function ( data, callback ) {
       // エラー時
       if ( err ) {
         callback( err );
-        return; 
+        return;
       }
       // 正常時
       callback(null);
@@ -155,8 +169,18 @@ datas.delete = function ( data, callback ) {
 }
 
 datas.updateColumns = function ( data, uid, callback ) {
-  var params= [];
-  params.push( uid );
+  var params = [
+    data.kid,
+    data.company,
+    data.server,
+    data.userkey,
+    data.genics,
+    data.name,
+    data.account_number,
+    data.update_on,
+    uid
+  ];
+  console.log(params);
   db.query(
     querys.update.columns,
     params,
@@ -167,6 +191,8 @@ datas.updateColumns = function ( data, uid, callback ) {
         return;
       }
       callback( null );
+      console.log('end callback(null)');
+      return;
     }
   );
 };

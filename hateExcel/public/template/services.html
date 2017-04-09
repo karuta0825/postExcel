@@ -1,0 +1,31 @@
+<table class='mdl-data-table mdl-js-data-table mdl-shadow--2dp'>
+  <!-- template -->
+  <thead>
+    <th class='mdl-data-table__cell--non-numeric'>サービスID</th>
+    <th class='mdl-data-table__cell--non-numeric'>サービス名</th>
+    <th class='del-flg'>削除</th>
+  </thead>
+
+  <tbody>
+    <% _.each( list, function ( item, num ) { %>
+      <!-- <tr data-id=<%- item.id %> > -->
+      <tr>
+
+        <td class='service_id'>
+          <input type='text' value=<%- item.service_id %> >
+        </td>
+
+        <td class='service_name'>
+          <input type='text' value=<%- item.service_name %> >
+        </td>
+
+        <td align='center' class='del'>
+          <button class='btn btn--del mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect'>-
+          </button>
+        </td>
+
+      </tr>
+    <% });%>
+  </tbody>
+
+</table>
