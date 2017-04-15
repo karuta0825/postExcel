@@ -1,0 +1,101 @@
+{
+  "partner" : {
+    "pid"         : "12345",
+    "company"     : "パートナさん",
+    "postal_cd"   : "111-1111",
+    "address"     : "北海道札幌市中央区1-1",
+    "affiliation" : "所属",
+    "name"        : "担当者",
+    "tel"         : "090-1111-1111",
+    "fax"         : "080-1111-1111",
+    "email"       : "mail@partner.co.jp",
+    "emergency"   : {
+      "company" : "緊急パートナー",
+      "name"    : "担当者",
+      "tel"     : "090-1111-2222",
+      "email"   : "mail2@partner.co.jp"
+    }
+  },
+  "user" : {
+    "kid"         : "55000",
+    "office"      : "事業所名",
+    "postal_cd"   : "222-2222",
+    "address"     : "沖縄県那覇市泉崎1丁目1−1−1",
+    "affiliation" : "所属",
+    "name"        : "担当者",
+    "tel"         : "090-2222-2222",
+    "fax"         : "080-2222-2222"
+  },
+  "our_front" : {
+    "branch_office" : "支社",
+    "affiliation"   : "所属",
+    "name"          : "担当者",
+    "tel"           : "090-3333-3333",
+    "email"         : "080-3333-3333"
+  },
+  "lisences" : {
+    "base" : {
+      "kihon"          : { "num" : 0, "start" : 20170101 },
+      "mobile"         : { "num" : 0, "start" : 20170101 },
+      "add_one_client" : { "num" : 0, "start" : 20170101 },
+      "add_one_user"   : { "num" : 0, "start" : 20170101 },
+      "always_vpn"     : { "num" : 0, "start" : 20170101 }
+    },
+    "operation" : {
+      "care_management" : {
+        "care_plan"    : { "num" : 0, "start" : 20170101 },
+        "care_aide"    : { "num" : 0, "start" : 20170101 },
+        "zaitaku_aide" : { "num" : 0, "start" : 20170101 },
+        "kaigoyobo"    : { "num" : 0, "start" : 20170101 }
+      },
+      "visit" : {
+        "care_plan"    : { "num" : 0, "start" : 20170101 },
+        "care_plan"    : { "num" : 0, "start" : 20170101 },
+        "care_plan"    : { "num" : 0, "start" : 20170101 },
+        "care_plan"    : { "num" : 0, "start" : 20170101 }
+      },
+      "day" : {
+        "care_plan"    : { "num" : 0, "start" : 20170101 },
+        "care_plan"    : { "num" : 0, "start" : 20170101 }
+      },
+      "kyotaku" : {
+        "care_plan"    : { "num" : 0, "start" : 20170101 },
+        "care_plan"    : { "num" : 0, "start" : 20170101 },
+        "care_plan"    : { "num" : 0, "start" : 20170101 },
+        "care_plan"    : { "num" : 0, "start" : 20170101 },
+        "care_plan"    : { "num" : 0, "start" : 20170101 }
+      },
+      "shisetsu" : {
+        "care_plan"    : { "num" : 0, "start" : 20170101 },
+        "care_plan"    : { "num" : 0, "start" : 20170101 },
+        "care_plan"    : { "num" : 0, "start" : 20170101 }
+      }
+    },
+    "option" : {
+      "syohou"               : { "num" : 0, "start" : 20170101 },
+      "azukari"              : { "num" : 0, "start" : 20170101 },
+      "sxr"                  : { "num" : 0, "start" : 20170101 },
+      "kaigoyobo"            : { "num" : 0, "start" : 20170101 },
+      "syoukibotakino_kango" : { "num" : 0, "start" : 20170101 },
+      "teiki_jyunkai_kango"  : { "num" : 0, "start" : 20170101 }
+    },
+    "mobile" : {
+      "office_id"   : "",
+      "number"      : 0,
+      "kyotaku"     : { "num" : 0, "start" : 20170101 },
+      "kango"       : { "num" : 0, "start" : 20170101 },
+      "kaigo"       : { "num" : 0, "start" : 20170101 },
+      "riha"        : { "num" : 0, "start" : 20170101 },
+      "sako"        : { "num" : 0, "start" : 20170101 },
+      "start_up"    : { "num" : 0, "start" : 20170101 },
+      "one_add"     : { "num" : 0, "start" : 20170101 },
+      "storage_add" : { "num" : 0, "start" : 20170101 }
+    },
+    "assessment" : {
+      "MDS2_0"                    : { "num" : 0, "start" : 20170101 },
+      "houkatu_jiritsu"           : { "num" : 0, "start" : 20170101 },
+      "kyotaku_service_guideline" : { "num" : 0, "start" : 20170101 },
+      "MDB2_1"                    : { "num" : 0, "start" : 20170101 }
+    }
+  }
+}
