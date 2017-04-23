@@ -8,12 +8,10 @@
   // member
     jqueryMap = {}
   , _setJqueryMap
-  , _onClickSave
   , _onClickCSVImport
   , _makeInput
   , switchMode
   , backUserTable
-  , reset
   , initModule
   ;
 
@@ -84,9 +82,6 @@
 
   };
 
-  reset = function () {
-
-  };
 
   backUserTable = function () {
     $('.main-contents').removeClass('is-active');
@@ -103,7 +98,7 @@
 
     var
       data     = { list : data }
-    , tmpl     = customer.db.getHtml('template/usrs.accounts.html')
+    , tmpl     = customer.db.getHtml('template/user.client.html')
     , complied = _.template( tmpl )
     ;
 
@@ -116,6 +111,7 @@
 
   };
 
+
   initModule = function () {
 
     // コンテンツの挿入
@@ -126,6 +122,7 @@
 
     // イベント登録
     $('.btn--backList').on( 'click', backUserTable );
+
 
   };
 
