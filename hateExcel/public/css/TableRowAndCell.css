@@ -98,6 +98,7 @@
   line-height: 0px;
 }
 
+
 /* --------------
    common field
 ----------------- */
@@ -409,6 +410,7 @@
   height: 95%;
   background: white;
   margin: 20px auto;
+  overflow-y: auto;
 }
 
 .user-edit-header__action {
@@ -428,43 +430,44 @@
   cursor      : pointer;
 }
 
-.user-base-list,
+.user-list,
 .partner-list {
   width:  85%;
+  min-width: 705px;
   margin: 0 auto;
   padding-left: 0px;
   list-style: none;
 }
 
-.user-base-list__item {
+.user-list__item {
   margin : 25px 0 0 0;
-  width: 85%;
+  width: 100%;
 }
 
-.user-base-list__item .item-key,
-.user-base-list__item .item-value
+.user-edit__body .item-key,
+.user-edit__body .item-value
  {
   display: inline-block;
   font-size: 15px;
   height: 27px;
 }
 
-.user-base-list__item .item-key {
+.user-edit__body .item-key {
   width : 150px;
 }
 
-.user-base-list__item .item-value {
-  width : 60%;
+.user-edit__body .item-value {
+  width : 70%;
   border :none;
   border-bottom: 1px solid #dedcdc;
   padding-left : 5px;
 }
 
-.user-base-list__item .item-value[disabled] {
+.user-edit__body .item-value[disabled] {
   background: white;
 }
 
-.user-base-list__item .item-value.is-edit {
+.user-edit__body .item-value.is-edit {
   border: 1px solid #dedcdc;
   background: whitesmoke;
   border-radius: 5px;
@@ -474,21 +477,22 @@
   width : 60%;
 }
 
-.user-base-list .item-action {
-  float: right;
+.user-list .item-action {
+  display: inline-block;
+  margin-left: 15px;
 }
 
-.user-base-list .account .btn {
+.user-list .account .btn {
   border: none;
   width: 28px;
   height: 28px;
   border-radius: 5px
 }
 
-.user-base-list .btn-minus-account {
+.user-list .btn-minus-account {
 }
 
-.user-base-list .btn-plus-account {
+.user-list .btn-plus-account {
   margin-left: 5px;
   margin-right :2px;
   background: #ff4081;
