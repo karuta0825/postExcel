@@ -1,0 +1,48 @@
+
+<html>
+<head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+  <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+  <script src='../js/lib/jquery-2.1.4.min.js'></script>
+</head>
+<body>
+  <button id="show-modal-example" type="button" class="mdl-button mdl-button--raised">Show Modal</button>
+
+
+  <dialog class="mdl-dialog" id="modal-example">
+      <div class="mdl-dialog__content">
+          <p>
+              This is an example of the MDL Dialog being used as a modal.
+              It is using the full width action design intended for use with buttons
+              that do not fit within the specified <a rel="nofollow" rel="noreferrer"href="https://www.google.com/design/spec/components/dialogs.html#dialogs-specs">length metrics</a>.
+          </p>
+      </div>
+      <div class="mdl-dialog__actions mdl-dialog__actions--full-width">
+          <button type="button" class="mdl-button">Close</button>
+          <button type="button" class="mdl-button" disabled>Inactive action</button>
+      </div>
+  </dialog>
+
+  <script>
+(function() {
+        'use strict';
+        var dialog = $('#modal-example').get(0);
+        var closeButton = $(dialog).find('button');
+        var showButton = document.querySelector('#show-modal-example');
+        if (! dialog.showModal) {
+            dialogPolyfill.registerDialog(dialog);
+        }
+        var closeClickHandler = function(event) {
+            dialog.close();
+        };
+        var showClickHandler = function(event) {
+            dialog.showModal();
+        };
+        showButton.addEventListener('click', showClickHandler);
+        // closeButton.addEventListener('click', closeClickHandler);
+        closeButton.on('click', closeClickHandler);
+    }());
+  </script>
+</body>
+</html>
