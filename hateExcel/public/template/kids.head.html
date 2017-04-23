@@ -1,0 +1,5 @@
+<!-- サーバテンプレート thead用-->
+
+<% _.each( headerMap, function ( val, key ){ %>
+  <th class='mdl-data-table__cell--non-numeric <%- key %>' > <%- val  %> </th>
+<% }); %>

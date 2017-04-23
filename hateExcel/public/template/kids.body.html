@@ -1,0 +1,20 @@
+<!-- サーバテンプレート tbody用-->
+
+<% var keys = Object.keys( list[0] ),
+  len = keys.length,
+  i;
+%>
+
+<% _.each( list , function ( item ) { %>
+  <tr id='id<%- item.id %>' >
+<%   for ( i = 1; i<len; i+=1 ){ %>
+<!-- 入力内容が数値以外のとき左寄せ -->
+<%     if ( typeof item[keys[i]] === 'number') { %>
+         <td class='<%- keys[i] %>'> <%- item[keys[i]] %> </td>
+<%     } else { %>
+         <td class='mdl-data-table__cell--non-numeric <%- keys[i] %>'> <%- item[keys[i]]  %>   </td>
+<%     } %>
+<%   } %>
+  </tr>
+<% }); %>
+

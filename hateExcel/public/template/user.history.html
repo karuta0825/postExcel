@@ -1,0 +1,20 @@
+<table class='history-table mdl-data-table mdl-js-data-table mdl-data-table--selectable'>
+
+  <thead>
+    <th class='mdl-data-table__cell--non-numeric'></th>
+    <th class='mdl-data-table__cell--non-numeric'></th>
+    <th class='mdl-data-table__cell--non-numeric'></th>
+  </thead>
+  <tbody>
+
+    <% _.each( list, function ( item, num ) { %>
+      <tr>
+        <td class='mdl-data-table__cell--non-numeric'><%- item.client_id %></td>
+        <td class='mdl-data-table__cell--non-numeric'><%- item.client_pass %></td>
+        <td class='mdl-data-table__cell--non-numeric'><%- item.update_on %></td>
+      </tr>
+    <% }); %>
+
+  </tbody>
+
+</table>
