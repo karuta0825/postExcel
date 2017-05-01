@@ -128,6 +128,19 @@ datas.getLicenses = function ( kid, callback ) {
   );
 };
 
+datas.getBaseInfo = function ( kid, callback ) {
+  var params = [kid];
+  db.query(
+    querys.select.base_info,
+    params,
+    function ( err, results, fields ) {
+      db.end();
+      if ( err ) { console.log(err); return; }
+      callback( results ) ;
+    }
+  );
+}
+
 /**
  * [insert description]
  * @param  {Object}   data

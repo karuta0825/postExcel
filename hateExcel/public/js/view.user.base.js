@@ -70,6 +70,9 @@
     baseView.get('btnPlus').addClass('is-hidden');
     baseView.get('btnMinus').addClass('is-hidden');
 
+    // データの初期化
+    reset();
+
   };
 
   _onClickEdit = function () {
@@ -127,19 +130,42 @@
     }
   };
 
-  makeUserInfo = function ( data ) {
-      baseView.get('kid'       ).find('.item-value').val(data);
-      baseView.get('customer'  ).find('.item-value').val(data);
-      baseView.get('userkey'   ).find('.item-value').val(data);
-      baseView.get('server'    ).find('.item-value').val(data);
-      baseView.get('db_pass'   ).find('.item-value').val(data);
-      baseView.get('account'   ).find('.item-value').val(data);
-      baseView.get('postal_cd' ).find('.item-value').val(data);
-      baseView.get('address'   ).find('.item-value').val(data);
-      baseView.get('affliation').find('.item-value').val(data);
-      baseView.get('owner'     ).find('.item-value').val(data);
-      baseView.get('tel'       ).find('.item-value').val(data);
-      baseView.get('fax'       ).find('.item-value').val(data);
+  makeUserInfo = function ( kid ) {
+    var data = customer.model.userBaseInfo.fetch(kid);
+
+    baseView.get('userkey'   ).find('.item-value').val(data.userkey);
+    baseView.get('server'    ).find('.item-value').val(data.server);
+    // baseView.get('db_pass'   ).find('.item-value').val(server.db_pass);
+    baseView.get('account'   ).find('.item-value').val(data.account_number);
+
+    baseView.get('kid'       ).find('.item-value').val(data.kid);
+    baseView.get('customer'  ).find('.item-value').val(data.user_name);
+    baseView.get('postal_cd' ).find('.item-value').val(data.postal_cd);
+    baseView.get('address'   ).find('.item-value').val(data.address);
+    baseView.get('affliation').find('.item-value').val(data.affliation);
+    baseView.get('owner'     ).find('.item-value').val(data.owner);
+    baseView.get('tel'       ).find('.item-value').val(data.tel);
+    baseView.get('fax'       ).find('.item-value').val(data.fax);
+  };
+
+  reset = function () {
+
+    var data = customer.model.userBaseInfo.getCache();
+
+    baseView.get('userkey'   ).find('.item-value').val(data.userkey);
+    baseView.get('server'    ).find('.item-value').val(data.server);
+    // baseView.get('db_pass'   ).find('.item-value').val(server.db_pass);
+    baseView.get('account'   ).find('.item-value').val(data.account_number);
+
+    baseView.get('kid'       ).find('.item-value').val(data.kid);
+    baseView.get('customer'  ).find('.item-value').val(data.user_name);
+    baseView.get('postal_cd' ).find('.item-value').val(data.postal_cd);
+    baseView.get('address'   ).find('.item-value').val(data.address);
+    baseView.get('affliation').find('.item-value').val(data.affliation);
+    baseView.get('owner'     ).find('.item-value').val(data.owner);
+    baseView.get('tel'       ).find('.item-value').val(data.tel);
+    baseView.get('fax'       ).find('.item-value').val(data.fax);
+
   };
 
   initModule = function () {
@@ -157,11 +183,12 @@
 
   };
 
-  cms.view.userbase = {
-    initModule : initModule,
+  cms.view.userBaseInfo = {
+    initModule   : initModule,
     makeUserInfo : makeUserInfo,
-    get : function () { return baseView; },
-    getViewInfo : getViewInfo
+    reset        : reset,
+    getViewInfo  : getViewInfo,
+    get          : function () { return baseView; }
   };
 
 

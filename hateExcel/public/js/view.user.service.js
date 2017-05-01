@@ -76,19 +76,19 @@
 
   initModule = function () {
 
-    makeServiceTable( customer.model.services.getLicenses( { kid : 'KID77777' } ) );
+    // makeServiceTable( customer.model.services.getLicenses( { kid : 'KID77777' } ) );
 
-    licenseView = new Controller('#usr-service-panel');
-    licenseView.initElement( elements );
+    // licenseView = new Controller('#usr-service-panel');
+    // licenseView.initElement( elements );
 
-        // 初期状態ではチェックボックス非表示
-    $('.service-table .mdl-checkbox').parent('th').addClass('is-hidden');
-    $('.service-table .mdl-checkbox').parent('td').addClass('is-hidden');
+    //     // 初期状態ではチェックボックス非表示
+    // $('.service-table .mdl-checkbox').parent('th').addClass('is-hidden');
+    // $('.service-table .mdl-checkbox').parent('td').addClass('is-hidden');
 
-    licenseView.addListener({
-      'click btn__edit' : edit,
-      'click btn__cancel' : cancel
-    });
+    // licenseView.addListener({
+    //   'click btn__edit' : edit,
+    //   'click btn__cancel' : cancel
+    // });
 
   };
 

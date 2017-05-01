@@ -168,6 +168,16 @@ app.post('/licenses', function ( req, res ) {
   });
 });
 
+app.post('/baseInfo', function ( req, res ) {
+  var kid = req.body.kid;
+  console.log(kid);
+  res.header("Content-Type", "application/json; charset=utf-8");
+  datas.getBaseInfo( kid, function ( results ) {
+    res.json( results );
+  });
+});
+
+
 app.post('/add', function ( req, res ) {
   console.log(req.body);
   //post送信で渡ってきたデータ

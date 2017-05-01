@@ -160,6 +160,8 @@
   _onClickKid = function () {
     var kid = $(this).text().trim();
 
+    customer.view.userBaseInfo.makeUserInfo(kid);
+
     // クライアントテーブル作成
     customer.view.editUsrs.makeAccountTable(
       customer.model.accounts.getAccounts({ kid : kid })
