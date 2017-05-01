@@ -499,6 +499,19 @@
   color: white;
 }
 
+/* -------------------
+   service tab
+---------------------- */
+.service-table {
+  margin : 0 auto;
+}
+
+
+
+/* -------------------
+   client tab
+---------------------- */
+
 .account-table {
   width: 80%;
   margin: 30px auto;

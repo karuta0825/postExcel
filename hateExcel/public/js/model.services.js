@@ -7,17 +7,23 @@ customer.model.services = ( function () {
 
   /*member*/
   var
-    _services,
-    getServices
-    ;
+    _services
+  , _licenses
+  , getServices
+  , getLicenses
+  ;
 
   getServices = function () {
-    _services = customer.db.selectAll('/services');
-    return _services;
+    return _services = customer.db.selectAll('/services');
+  };
+
+  getLicenses = function ( kid ) {
+    return customer.db.select('/licenses', kid );
   };
 
   return {
     getServices : getServices,
+    getLicenses : getLicenses  
   };
 
 }());

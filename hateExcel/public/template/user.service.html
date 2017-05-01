@@ -1,0 +1,31 @@
+<!-- アクション -->
+<div class='user-edit-header__action'>
+  <button class='btn btn--cancel is-hidden mdl-button mdl-js-button mdl-button--raised mdl-button--accent'>キャンセル</button>
+  <button class='btn btn--save is-hidden mdl-button mdl-js-button mdl-button--raised mdl-button--accent'>保存</button>
+  <button class='btn btn--edit mdl-button mdl-js-button mdl-button--raised mdl-button--accent'>編集</button>
+</div>
+
+<table class='service-table mdl-data-table mdl-js-data-table mdl-data-table--selectable'>
+  <!-- template -->
+  <thead>
+    <th class='mdl-data-table__cell--non-numeric'>サービスID</th>
+    <th class='mdl-data-table__cell--non-numeric'>サービス名</th>
+  </thead>
+
+  <tbody>
+    <% _.each( list, function ( item, num ) { %>
+
+      <% if ( item.is_used === 0 ) { %>
+        <tr class='is-hidden'>
+      <% } else { %>
+        <tr>
+      <% } %>
+
+        <td class='service_id mdl-data-table__cell--non-numeric'><%- item.service_id %></td>
+        <td class='service_name mdl-data-table__cell--non-numeric'><%- item.service_name %></td>
+
+      </tr>
+    <% });%>
+  </tbody>
+
+</table>

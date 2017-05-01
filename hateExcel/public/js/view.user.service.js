@@ -8,14 +8,14 @@
     licenseView
   , elements = {
       'btn' : {
-        'edit'       : '.btn--edit',
-        'cancel'     : '.btn--cancel',
-        'save'       : '.btn--save',
+        'edit'   : '.btn--edit',
+        'cancel' : '.btn--cancel',
+        'save'   : '.btn--save',
       },
-      'input' : {
-      }
+      'table' : '.service-table',
+      'checkbox' : '.mdl-checkbox'
     }
-  , drawServices
+  , makeServiceTable
   , cancel
   , save
   , edit
@@ -24,32 +24,47 @@
   , initModule
   ;
 
-  drawServices = function () {
+  makeServiceTable = function ( data ) {
+
+    var
+      data     = { list : data }
+    , tmpl     = customer.db.getHtml('template/user.service.html')
+    , complied = _.template( tmpl )
+    ;
+
+    $('#user-edit')
+      .find('#usr-service-panel')
+      .append( complied(data) );
 
   };
 
   cancel = function () {
-    _.each( licenseView.get('input'), function (val, key){
-      val.find('.item-value').removeClass('is-edit');
-      val.find('.item-value').prop('disabled', true);
-    });
 
+    licenseView.get('table').find('tr').removeClass('is-selected');
+
+    // チェックボックスの非表示
+    licenseView.get('checkbox').parent('th').addClass('is-hidden');
+    licenseView.get('checkbox').parent('td').addClass('is-hidden');
+
+    // ボタン制御
     licenseView.get('btn__edit').removeClass('is-hidden');
     licenseView.get('btn__cancel').addClass('is-hidden');
     licenseView.get('btn__save').addClass('is-hidden');
-
-    // モデルのデータを挿入
 
   };
 
   save = function () {};
 
   edit = function () {
-    _.each( licenseView.get('input'), function (val, key){
-      val.find('.item-value').addClass('is-edit');
-      val.find('.item-value').prop('disabled', false);
-    });
 
+    // モデルから現在サービスにチェックをつける
+
+    // チェックボックス表示
+    licenseView.get('table').find('tr').removeClass('is-hidden');
+    licenseView.get('checkbox').parent('th').removeClass('is-hidden');
+    licenseView.get('checkbox').parent('td').removeClass('is-hidden');
+
+    // ボタン制御
     licenseView.get('btn__edit').addClass('is-hidden');
     licenseView.get('btn__cancel').removeClass('is-hidden');
     licenseView.get('btn__save').removeClass('is-hidden');
@@ -60,15 +75,16 @@
 
 
   initModule = function () {
-    // View挿入
-    $('#usr-partner-panel')
-    .append( customer.db.getHtml('template/user.partner.html'));
 
-    // View管理定義
-    licenseView = new Controller('#usr-partner-panel');
+    makeServiceTable( customer.model.services.getLicenses( { kid : 'KID77777' } ) );
+
+    licenseView = new Controller('#usr-service-panel');
     licenseView.initElement( elements );
 
-    // Event定義
+        // 初期状態ではチェックボックス非表示
+    $('.service-table .mdl-checkbox').parent('th').addClass('is-hidden');
+    $('.service-table .mdl-checkbox').parent('td').addClass('is-hidden');
+
     licenseView.addListener({
       'click btn__edit' : edit,
       'click btn__cancel' : cancel
@@ -77,8 +93,9 @@
   };
 
   // to public
-  cms.view.userPartner = {
+  cms.view.userService = {
     initModule : initModule,
+    makeServiceTable : makeServiceTable,
     get : function () { return licenseView; }
   }
 

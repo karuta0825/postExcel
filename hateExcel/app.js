@@ -160,6 +160,13 @@ app.get('/services', function ( req, res ) {
   });
 });
 
+app.post('/licenses', function ( req, res ) {
+  var kid = req.body.kid;
+  res.header("Content-Type", "application/json; charset=utf-8");
+  datas.getLicenses( kid, function ( results ) {
+    res.json( results );
+  });
+});
 
 app.post('/add', function ( req, res ) {
   console.log(req.body);

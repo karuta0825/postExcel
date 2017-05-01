@@ -112,7 +112,21 @@ datas.getServices = function ( callback ) {
   );
 };
 
-
+datas.getLicenses = function ( kid, callback ) {
+  var params = [kid];
+  console.log( querys.select.licenses )
+  console.log( params )
+  db.query(
+    querys.select.licenses,
+    params,
+    function ( err, results, fields ) {
+      db.end();
+      console.log( results );
+      if ( err ) { console.log(err); return; }
+      callback( results ) ;
+    }
+  );
+};
 
 /**
  * [insert description]

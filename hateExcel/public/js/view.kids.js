@@ -160,14 +160,16 @@
   _onClickKid = function () {
     var kid = $(this).text().trim();
 
-    // getModel
-    console.log(
-      customer.model.accounts.getAccounts({ kid : kid })
-    );
-
+    // クライアントテーブル作成
     customer.view.editUsrs.makeAccountTable(
       customer.model.accounts.getAccounts({ kid : kid })
     );
+
+    // サービステーブル作成
+    // customer.view.userService.makeServiceTable(
+    //   customer.model.services.getLicenses({ kid : kid })
+    // );
+
 
     $('.main-contents').removeClass('is-active');
 

@@ -10,8 +10,9 @@
   , _setJqueryMap
   , _onClickCSVImport
   , _makeInput
-  , switchMode
   , backUserTable
+  , makeAccountTable
+  , makeServiceTable
   , initModule
   ;
 
@@ -128,7 +129,7 @@
 
   cms_view.editUsrs = {
     initModule : initModule,
-    makeAccountTable : makeAccountTable
+    makeAccountTable : makeAccountTable,
   };
 
 }( jQuery, customer.view ));
