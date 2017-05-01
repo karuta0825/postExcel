@@ -24,7 +24,7 @@ DROP TABLE IF EXISTS `services`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `services` (
   `service_id` varchar(2) NOT NULL,
-  `service_name` varchar(45) DEFAULT NULL,
+  `service_name` varchar(45) NOT NULL,
   PRIMARY KEY (`service_id`),
   UNIQUE KEY `service_id_UNIQUE` (`service_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -36,7 +36,7 @@ CREATE TABLE `services` (
 
 LOCK TABLES `services` WRITE;
 /*!40000 ALTER TABLE `services` DISABLE KEYS */;
-INSERT INTO `services` VALUES ('A1','A1サービス'),('A2','A2サービス'),('A3','A3サービス'),('K1','基本サービス'),('SK','SKオプション'),('SO','SOオプション'),('U1','U1サービス');
+INSERT INTO `services` VALUES ('C1','C1サービス'),('C2','C2サービス'),('C3','C3サービス'),('C4','C4サービス'),('K1','基本サービス'),('S2','S2サービス'),('S3','S3サービス'),('S9','S9サービス'),('SC','SCサービス'),('SE','SEサービス'),('SH','SHサービス'),('SI','SIサービス'),('SJ','SJサービス'),('SL','SLサービス'),('SM','SMサービス'),('SO','SOサービス'),('U1','U1サービス'),('U2','U2サービス'),('U3','U3サービス'),('U4','U4サービス'),('U5','U5サービス'),('U6','U6サービス'),('U7','U7サービス'),('U8','U8サービス'),('U9','U9サービス'),('UA','UAサービス'),('UB','UBサービス'),('UC','UCサービス'),('UD','UDサービス'),('UE','UEサービス'),('UF','UFサービス'),('UG','UGサービス'),('UH','UHサービス'),('UI','UIサービス');
 /*!40000 ALTER TABLE `services` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -49,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-04-10  0:56:33
+-- Dump completed on 2017-05-01 12:56:38

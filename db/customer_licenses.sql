@@ -26,11 +26,38 @@ CREATE TABLE `licenses` (
   `kid` varchar(8) NOT NULL,
   `K1` int(2) DEFAULT NULL,
   `A1` int(2) DEFAULT NULL,
-  `A2` int(2) DEFAULT NULL,
-  `A3` int(2) DEFAULT NULL,
-  `SK` int(2) DEFAULT NULL,
+  `U2` int(2) DEFAULT NULL,
+  `U3` int(2) DEFAULT NULL,
+  `U4` int(2) DEFAULT NULL,
+  `U5` int(2) DEFAULT NULL,
+  `U6` int(2) DEFAULT NULL,
+  `U7` int(2) DEFAULT NULL,
+  `U8` int(2) DEFAULT NULL,
+  `U9` int(2) DEFAULT NULL,
+  `UA` int(2) DEFAULT NULL,
+  `UB` int(2) DEFAULT NULL,
+  `UC` int(2) DEFAULT NULL,
+  `UD` int(2) DEFAULT NULL,
+  `UE` int(2) DEFAULT NULL,
+  `UF` int(2) DEFAULT NULL,
+  `UG` int(2) DEFAULT NULL,
+  `UH` int(2) DEFAULT NULL,
+  `UI` int(2) DEFAULT NULL,
+  `C1` int(2) DEFAULT NULL,
+  `C2` int(2) DEFAULT NULL,
+  `C3` int(2) DEFAULT NULL,
+  `C4` int(2) DEFAULT NULL,
+  `S2` int(2) DEFAULT NULL,
+  `S3` int(2) DEFAULT NULL,
+  `S9` int(2) DEFAULT NULL,
+  `SC` int(2) DEFAULT NULL,
+  `SE` int(2) DEFAULT NULL,
+  `SH` int(2) DEFAULT NULL,
+  `SI` int(2) DEFAULT NULL,
+  `SJ` int(2) DEFAULT NULL,
+  `SL` int(2) DEFAULT NULL,
+  `SM` int(2) DEFAULT NULL,
   `SO` int(2) DEFAULT NULL,
-  `U1` int(2) DEFAULT NULL,
   PRIMARY KEY (`kid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -53,4 +80,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-04-10  0:56:33
+-- Dump completed on 2017-05-01 12:56:38

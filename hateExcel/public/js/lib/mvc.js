@@ -21,26 +21,71 @@
    * @return {[type]}
    * TODO: deep性能をつけよう
    */
-  Controller.fn.initElement = function ( elements_map ) {
+  Controller.fn.initElement = function ( elements_map, key ) {
 
     this['selector'] = elements_map;
+    this.deep( elements_map, key );
 
-    _.each( elements_map, function ( val, key ) {
-      this['_el'][key] = this.$(val);
-    },this);
+    // _.each( elements_map, function ( val, key ) {
+    //   this['_el'][key] = this.$(val);
+    // },this);
 
-  }
+  };
+
+  Controller.fn.deep = function ( obj, key ) {
+
+    for ( var i in obj ) {
+      if ( ! (typeof obj[i] === 'object')) {
+        if ( !key ) {
+          this['_el'][i] = this.$(obj[i]);
+        }
+        else {
+          this['_el'][key][i] = this.$(obj[i]);
+        }
+      }
+      else {
+        this['_el'][i] = {}
+        this.deep(obj[i], i );
+      }
+    }
+  };
 
   Controller.fn.propertys = function () {
     return _.keys( this['_el'] );
   };
 
   Controller.fn.get = function ( property ) {
-    return this['_el'][property];
+
+    var local = this['_el'];
+    property = property.split('__');
+
+    if ( property.length === 1 ) {
+      return this['_el'][property[0]];
+    }
+
+    for ( var i=0; i < property.length; i+=1 ) {
+      local = local[ property[i] ];
+    }
+    return local;
+
   };
 
   Controller.fn.getSelector = function ( property ) {
-    return this['selector'][property];
+    // return this['selector'][property];
+
+    var local = this['selector'];
+    property = property.split('__');
+
+    if ( property.length === 1 ) {
+      return this['selector'][property[0]];
+    }
+
+    for ( var i=0; i < property.length; i+=1 ) {
+        local = local[ property[i] ];
+    }
+
+    return local;
+
   };
 
   Controller.fn.hasElement = function ( property ) {

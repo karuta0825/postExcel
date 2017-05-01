@@ -128,18 +128,18 @@
   };
 
   makeUserInfo = function ( data ) {
-      baseView.get('kid'       ).find('.item-value').val(data[]);
-      baseView.get('customer'  ).find('.item-value').val(data[]);
-      baseView.get('userkey'   ).find('.item-value').val(data[]);
-      baseView.get('server'    ).find('.item-value').val(data[]);
-      baseView.get('db_pass'   ).find('.item-value').val(data[]);
-      baseView.get('account'   ).find('.item-value').val(data[]);
-      baseView.get('postal_cd' ).find('.item-value').val(data[]);
-      baseView.get('address'   ).find('.item-value').val(data[]);
-      baseView.get('affliation').find('.item-value').val(data[]);
-      baseView.get('owner'     ).find('.item-value').val(data[]);
-      baseView.get('tel'       ).find('.item-value').val(data[]);
-      baseView.get('fax'       ).find('.item-value').val(data[]);
+      baseView.get('kid'       ).find('.item-value').val(data);
+      baseView.get('customer'  ).find('.item-value').val(data);
+      baseView.get('userkey'   ).find('.item-value').val(data);
+      baseView.get('server'    ).find('.item-value').val(data);
+      baseView.get('db_pass'   ).find('.item-value').val(data);
+      baseView.get('account'   ).find('.item-value').val(data);
+      baseView.get('postal_cd' ).find('.item-value').val(data);
+      baseView.get('address'   ).find('.item-value').val(data);
+      baseView.get('affliation').find('.item-value').val(data);
+      baseView.get('owner'     ).find('.item-value').val(data);
+      baseView.get('tel'       ).find('.item-value').val(data);
+      baseView.get('fax'       ).find('.item-value').val(data);
   };
 
   initModule = function () {

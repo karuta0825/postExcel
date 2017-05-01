@@ -4,25 +4,36 @@
     "company"     : "パートナさん",
     "postal_cd"   : "111-1111",
     "address"     : "北海道札幌市中央区1-1",
-    "affiliation" : "所属",
-    "name"        : "担当者",
-    "tel"         : "090-1111-1111",
-    "fax"         : "080-1111-1111",
-    "email"       : "mail@partner.co.jp",
-    "emergency"   : {
-      "company" : "緊急パートナー",
-      "name"    : "担当者",
-      "tel"     : "090-1111-2222",
-      "email"   : "mail2@partner.co.jp"
+    "contact"     : {
+      "se" : {
+        "affiliation" : "所属",
+        "name"        : "担当者",
+        "tel"         : "090-1111-1111",
+        "fax"         : "080-1111-1111",
+        "email"       : "mail@partner.co.jp"
+      },
+      "sa" : {
+        "affiliation" : "所属",
+        "name"        : "担当者",
+        "tel"         : "090-1111-1111",
+        "fax"         : "080-1111-1111",
+        "email"       : "mail@partner.co.jp"
+      },
+      "emergency"   : {
+        "company" : "緊急パートナー",
+        "name"    : "担当者",
+        "tel"     : "090-1111-2222",
+        "email"   : "mail2@partner.co.jp"
+      }
     }
   },
   "user" : {
     "kid"         : "55000",
-    "office"      : "事業所名",
+    "name"        : "事業所名",
     "postal_cd"   : "222-2222",
     "address"     : "沖縄県那覇市泉崎1丁目1−1−1",
     "affiliation" : "所属",
-    "name"        : "担当者",
+    "owner"       : "担当者",
     "tel"         : "090-2222-2222",
     "fax"         : "080-2222-2222"
   },
