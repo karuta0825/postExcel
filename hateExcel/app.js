@@ -14,7 +14,7 @@ var datas = require('./models/datas');
 var app = express();
 
 // all environments
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 8000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
@@ -203,15 +203,24 @@ app.post('/delete', function ( req, res ) {
 });
 
 app.post('/update', function ( req, res ) {
-  var data = req.body;
-  console.log(data);
-  datas.update( data, function ( err ) {
-    if ( err ) {
+  var
+    data      = req.body.data
+  , condition = req.body.condition
+  , table     = req.body.table
+  ;
+
+  console.log( req.body );
+
+  datas.update( data, condition, table, function ( err ) {
+    if  ( err ) {
       res.status( 500 ).send( err.message );
       return;
     }
+    res.redirect('/');
   });
+
 });
+
 
 app.post('/updateColumns', function ( req, res ) {
   var data = req.body;
