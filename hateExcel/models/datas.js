@@ -114,8 +114,6 @@ datas.getServices = function ( callback ) {
 
 datas.getLicenses = function ( kid, callback ) {
   var params = [kid];
-  console.log( querys.select.licenses )
-  console.log( params )
   db.query(
     querys.select.licenses,
     params,
@@ -193,7 +191,7 @@ datas.delete = function ( data, callback ) {
       callback( null );
      }
   );
-}
+};
 
 datas.updateColumns = function ( data, uid, callback ) {
   var params = [
@@ -218,29 +216,23 @@ datas.updateColumns = function ( data, uid, callback ) {
         return;
       }
       callback( null );
-      console.log('end callback(null)');
       return;
     }
   );
 };
 
-datas.update = function ( data, callback ) {
-  var params = [
-    data.age,
-    data.name
-  ];
-  console.log(params);
+datas.update = function ( data, condition, table, callback ) {
   db.query(
-    'UPDATE TEST SET AGE = ? WHERE NAME = ?',
-    params,
+    querys.update[table],
+    [ data, condition ],
     function ( err ) {
       db.end();
       if ( err ) {
-        console.log('update error');
+        console.log('err');
         callback( err );
         return;
       }
-      callback( null );
+      callback(null);
     }
   );
-}
+};
