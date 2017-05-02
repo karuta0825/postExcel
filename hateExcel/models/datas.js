@@ -144,22 +144,10 @@ datas.getBaseInfo = function ( kid, callback ) {
  * @param  {Object}   data
  * @param  {Function} callback
  */
-datas.insert = function ( data, callback ) {
-  var params = [
-    data.kid,
-    data.server,
-    data.genics,
-    data.userkey,
-    data.company,
-    data.author_id
-  ];
+datas.insert = function ( data, table, callback ) {
   db.query(
-    'INSERT INTO KIDS '
-      + '(kid, server, genics, userkey, company, author_id, update_on )'
-      + 'VALUES '
-      + '(?,   ?,      ?,      ?,       ?,       ?,         NOW() )'
-      + ';',
-    params,
+    querys.insert[table],
+    [data],
     function ( err, results, fileds ) {
       db.end();
       // エラー時
@@ -172,6 +160,13 @@ datas.insert = function ( data, callback ) {
     }
   );
 };
+
+// test
+// datas.insert(
+//   { kid : 'KID77891', type : '更新', content_name : '基本情報', item_name : 'TEL', before : '090-1111-1111', after : '090-2222-2222', date : new Date(), login_id : '1' },
+//   'historys',
+//   function (i) {console.log(i);}
+// );
 
 
 datas.delete = function ( data, callback ) {
