@@ -8,6 +8,8 @@
     _cache
   , fetch
   , getCache
+  , checkWhatsUpdated
+  , update
   ;
 
   fetch = function ( kid ) {
@@ -21,6 +23,20 @@
 
   getCache = function () {
     return _cache;
+  };
+
+  checkWhatsUpdated = function ( view_data ) {
+
+    var result = {};
+
+    for ( var i in view_data ) {
+      if ( view_data[i] !== '' && view_data[i] !== _cache[i] ) {
+        result[i] = view_data[i];
+      }
+    }
+
+    return result;
+
   };
 
   /**
@@ -42,6 +58,7 @@
   cms.model.userBaseInfo = {
     fetch : fetch,
     getCache : getCache,
+    checkWhatsUpdated : checkWhatsUpdated,
     update : update
   };
 

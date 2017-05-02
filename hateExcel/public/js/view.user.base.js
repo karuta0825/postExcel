@@ -6,24 +6,23 @@
 
   var
     elements = {
-      'kid'        : '.kid',
-      'customer'   : '.customer',
-      'userkey'    : '.userkey',
-      'server'     : '.server',
-      'db_pass'    : '.db_pass',
-      'account'    : '.account',
-      'postal_cd'  : '.postal_cd',
-      'address'    : '.address',
-      'affliation' : '.affliation',
-      'owner'      : '.owner',
-      'tel'        : '.tel',
-      'fax'        : '.fax',
-      'client'     : '.account',
-      'btnMinus'   : '.btn-minus-account',
-      'btnPlus'    : '.btn-plus-account',
-      'btnEdit'    : '.btn--edit',
-      'btnCancel'  : '.btn--cancel',
-      'btnSave'    : '.btn--save'
+      'kid'           : '.kid',
+      'user_name'     : '.user_name',
+      'userkey'       : '.userkey',
+      'server'        : '.server',
+      'db_pass'       : '.db_pass',
+      'postal_cd'     : '.postal_cd',
+      'address'       : '.address',
+      'affliation'    : '.affliation',
+      'owner'         : '.owner',
+      'tel'           : '.tel',
+      'fax'           : '.fax',
+      'client_number' : '.client_number',
+      'btnMinus'      : '.btn-minus-account',
+      'btnPlus'       : '.btn-plus-account',
+      'btnEdit'       : '.btn--edit',
+      'btnCancel'     : '.btn--cancel',
+      'btnSave'       : '.btn--save'
     }
   , baseView
   , _onClickCancel
@@ -52,7 +51,7 @@
   _onClickCancel = function () {
     // 編集不可
     _toggleEditMode( 'kid'       , false );
-    _toggleEditMode( 'customer'  , false );
+    _toggleEditMode( 'user_name'  , false );
     _toggleEditMode( 'userkey'   , false );
     _toggleEditMode( 'server'    , false );
     _toggleEditMode( 'db_pass'   , false );
@@ -78,7 +77,7 @@
   _onClickEdit = function () {
     // 編集可
     _toggleEditMode( 'kid'       , true );
-    _toggleEditMode( 'customer'  , true );
+    _toggleEditMode( 'user_name' , true );
     _toggleEditMode( 'userkey'   , true );
     _toggleEditMode( 'server'    , true );
     _toggleEditMode( 'db_pass'   , true );
@@ -99,14 +98,14 @@
   };
 
   _increaseClient = function () {
-    var now = Number(baseView.get('client').find('.item-value').val());
-    baseView.get('client').find('.item-value').val( now + 1 );
+    var now = Number(baseView.get('client_number').find('.item-value').val());
+    baseView.get('client_number').find('.item-value').val( now + 1 );
   };
 
   _decreaseClient = function () {
-    var now = Number(baseView.get('client').find('.item-value').val());
+    var now = Number(baseView.get('client_number').find('.item-value').val());
     if ( now > 0 ) {
-      baseView.get('client').find('.item-value').val( now - 1 );
+      baseView.get('client_number').find('.item-value').val( now - 1 );
     }
   };
 
@@ -115,56 +114,56 @@
    */
   getViewInfo = function () {
     return {
-      'kid'        : baseView.get('kid'       ).find('.item-value').val(),
-      'customer'   : baseView.get('customer'  ).find('.item-value').val(),
-      'userkey'    : baseView.get('userkey'   ).find('.item-value').val(),
-      'server'     : baseView.get('server'    ).find('.item-value').val(),
-      'db_pass'    : baseView.get('db_pass'   ).find('.item-value').val(),
-      'client'     : baseView.get('account'   ).find('.item-value').val(),
-      'postal_cd'  : baseView.get('postal_cd' ).find('.item-value').val(),
-      'address'    : baseView.get('address'   ).find('.item-value').val(),
-      'affliation' : baseView.get('affliation').find('.item-value').val(),
-      'owner'      : baseView.get('owner'     ).find('.item-value').val(),
-      'tel'        : baseView.get('tel'       ).find('.item-value').val(),
-      'fax'        : baseView.get('fax'       ).find('.item-value').val()
+      'kid'           : baseView.get('kid'          ).find('.item-value').val(),
+      'user_name'     : baseView.get('user_name'    ).find('.item-value').val(),
+      'userkey'       : baseView.get('userkey'      ).find('.item-value').val(),
+      'server'        : baseView.get('server'       ).find('.item-value').val(),
+      'db_pass'       : baseView.get('db_pass'      ).find('.item-value').val(),
+      'client_number' : Number(baseView.get('client_number').find('.item-value').val() ),
+      'postal_cd'     : Number(baseView.get('postal_cd'    ).find('.item-value').val() ),
+      'address'       : baseView.get('address'      ).find('.item-value').val(),
+      'affliation'    : baseView.get('affliation'   ).find('.item-value').val(),
+      'owner'         : baseView.get('owner'        ).find('.item-value').val(),
+      'tel'           : baseView.get('tel'          ).find('.item-value').val(),
+      'fax'           : baseView.get('fax'          ).find('.item-value').val()
     }
   };
 
   makeUserInfo = function ( kid ) {
     var data = customer.model.userBaseInfo.fetch(kid);
 
-    baseView.get('userkey'   ).find('.item-value').val(data.userkey);
-    baseView.get('server'    ).find('.item-value').val(data.server);
+    baseView.get('userkey'      ).find('.item-value').val(data.userkey);
+    baseView.get('server'       ).find('.item-value').val(data.server);
     // baseView.get('db_pass'   ).find('.item-value').val(server.db_pass);
-    baseView.get('account'   ).find('.item-value').val(data.account_number);
+    baseView.get('client_number').find('.item-value').val(data.client_number);
 
-    baseView.get('kid'       ).find('.item-value').val(data.kid);
-    baseView.get('customer'  ).find('.item-value').val(data.user_name);
-    baseView.get('postal_cd' ).find('.item-value').val(data.postal_cd);
-    baseView.get('address'   ).find('.item-value').val(data.address);
-    baseView.get('affliation').find('.item-value').val(data.affliation);
-    baseView.get('owner'     ).find('.item-value').val(data.owner);
-    baseView.get('tel'       ).find('.item-value').val(data.tel);
-    baseView.get('fax'       ).find('.item-value').val(data.fax);
+    baseView.get('kid'          ).find('.item-value').val(data.kid);
+    baseView.get('user_name'    ).find('.item-value').val(data.user_name);
+    baseView.get('postal_cd'    ).find('.item-value').val(data.postal_cd);
+    baseView.get('address'      ).find('.item-value').val(data.address);
+    baseView.get('affliation'   ).find('.item-value').val(data.affliation);
+    baseView.get('owner'        ).find('.item-value').val(data.owner);
+    baseView.get('tel'          ).find('.item-value').val(data.tel);
+    baseView.get('fax'          ).find('.item-value').val(data.fax);
   };
 
   reset = function () {
 
     var data = customer.model.userBaseInfo.getCache();
 
-    baseView.get('userkey'   ).find('.item-value').val(data.userkey);
-    baseView.get('server'    ).find('.item-value').val(data.server);
+    baseView.get('userkey'      ).find('.item-value').val(data.userkey);
+    baseView.get('server'       ).find('.item-value').val(data.server);
     // baseView.get('db_pass'   ).find('.item-value').val(server.db_pass);
-    baseView.get('account'   ).find('.item-value').val(data.account_number);
+    baseView.get('client_number').find('.item-value').val(data.client_number);
 
-    baseView.get('kid'       ).find('.item-value').val(data.kid);
-    baseView.get('customer'  ).find('.item-value').val(data.user_name);
-    baseView.get('postal_cd' ).find('.item-value').val(data.postal_cd);
-    baseView.get('address'   ).find('.item-value').val(data.address);
-    baseView.get('affliation').find('.item-value').val(data.affliation);
-    baseView.get('owner'     ).find('.item-value').val(data.owner);
-    baseView.get('tel'       ).find('.item-value').val(data.tel);
-    baseView.get('fax'       ).find('.item-value').val(data.fax);
+    baseView.get('kid'          ).find('.item-value').val(data.kid);
+    baseView.get('user_name'    ).find('.item-value').val(data.user_name);
+    baseView.get('postal_cd'    ).find('.item-value').val(data.postal_cd);
+    baseView.get('address'      ).find('.item-value').val(data.address);
+    baseView.get('affliation'   ).find('.item-value').val(data.affliation);
+    baseView.get('owner'        ).find('.item-value').val(data.owner);
+    baseView.get('tel'          ).find('.item-value').val(data.tel);
+    baseView.get('fax'          ).find('.item-value').val(data.fax);
 
   };
 
