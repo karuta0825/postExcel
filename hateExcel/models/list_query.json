@@ -15,7 +15,8 @@
   "update" : {
     "date"          : "UPDATE USERS SET updateDate = ? WHERE kid = ?",
     "accout_number" : "UPDATE USERS SET account_number = ? WHERE kid = ?",
-    "columns"       : "UPDATE columns SET kid = ?, company = ?, server = ?, userKey = ?, genics = ?, name = ?, account_number = ?, update_on = ? WHERE uid = ?;"
+    "columns"       : "UPDATE columns SET kid = ?, company = ?, server = ?, userKey = ?, genics = ?, name = ?, account_number = ?, update_on = ? WHERE uid = ?;",
+    "customers"     : "UPDATE customers SET ? WHERE ?"
   },
 
   "insert" : {
