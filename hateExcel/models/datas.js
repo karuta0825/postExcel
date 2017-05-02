@@ -231,3 +231,10 @@ datas.update = function ( data, condition, table, callback ) {
     }
   );
 };
+
+// datas.update(
+//   { user_name : 'MMmサービスセンター', address : '東京都品川区' },
+//   { kid : 'KID00824' },
+//   'customers',
+//   function (i) { console.log(i); }
+// );
