@@ -52,9 +52,7 @@
   _save = function () {
     // update
     customer.model.userBaseInfo.update( getViewInfo(), makeUserInfo );
-
-    // history
-
+    
     // 編集不可
     _toggleEditMode( 'kid'       , false );
     _toggleEditMode( 'user_name' , false );
