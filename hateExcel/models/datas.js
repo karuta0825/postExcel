@@ -50,6 +50,30 @@ datas.getAll = function ( callback ) {
   );
 };
 
+datas.selectAll = function ( table, callback ) {
+  db.query(
+    querys.select[table],
+    function ( err, results, fields ) {
+      db.end();
+      if ( err ) { console.log(err); return; }
+      callback( results );
+    }
+  );
+};
+
+datas.select = function ( condition, access, callback ) {
+  db.query(
+    querys.select[access],
+    [condition],
+    function ( err, results, fields ) {
+      db.end();
+      if ( err ) { console.log(err); return; }
+      callback(results);
+    }
+  );
+};
+
+
 datas.getServers = function ( callback ) {
   db.query(
     querys.select.servers,

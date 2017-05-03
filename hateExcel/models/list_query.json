@@ -9,7 +9,8 @@
     "show_columns" : "SELECT * FROM columns where uid = ?;",
     "services"     : "SELECT * FROM services;",
     "licenses"     : "SELECT L.service_id , S.service_name , L.is_used FROM licenses L left join services S on L.service_id = S.service_id WHERE kid = ?;" ,
-    "base_info"    : "SELECT * FROM CUSTOMERS WHERE kid = ?;"
+    "base_info"    : "SELECT * FROM CUSTOMERS WHERE kid = ?;",
+    "historys"     : "SELECT * FROM HISTORYS WHERE ?;"
   },
 
   "update" : {
