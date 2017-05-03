@@ -25,6 +25,7 @@
       'btnSave'       : '.btn--save'
     }
   , baseView
+  , _save
   , _onClickCancel
   , _onClickSave
   , _onClickEdit
@@ -48,10 +49,38 @@
     }
   };
 
+  _save = function () {
+    // update
+    customer.model.userBaseInfo.update( getViewInfo(), makeUserInfo );
+
+    // history
+
+    // 編集不可
+    _toggleEditMode( 'kid'       , false );
+    _toggleEditMode( 'user_name' , false );
+    _toggleEditMode( 'userkey'   , false );
+    _toggleEditMode( 'server'    , false );
+    _toggleEditMode( 'db_pass'   , false );
+    _toggleEditMode( 'postal_cd' , false );
+    _toggleEditMode( 'address'   , false );
+    _toggleEditMode( 'affliation', false );
+    _toggleEditMode( 'owner'     , false );
+    _toggleEditMode( 'tel'       , false );
+    _toggleEditMode( 'fax'       , false );
+
+    // ボタン状態制御
+    baseView.get('btnEdit').removeClass('is-hidden');
+    baseView.get('btnCancel').addClass('is-hidden');
+    baseView.get('btnSave').addClass('is-hidden');
+    baseView.get('btnPlus').addClass('is-hidden');
+    baseView.get('btnMinus').addClass('is-hidden');
+
+  };
+
   _onClickCancel = function () {
     // 編集不可
     _toggleEditMode( 'kid'       , false );
-    _toggleEditMode( 'user_name'  , false );
+    _toggleEditMode( 'user_name' , false );
     _toggleEditMode( 'userkey'   , false );
     _toggleEditMode( 'server'    , false );
     _toggleEditMode( 'db_pass'   , false );
@@ -177,7 +206,8 @@
      'click btnEdit'   : _onClickEdit,
      'click btnCancel' : _onClickCancel,
      'click btnPlus'   : _increaseClient,
-     'click btnMinus'  : _decreaseClient
+     'click btnMinus'  : _decreaseClient,
+     'click btnSave'   : _save
     });
 
   };

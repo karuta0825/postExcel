@@ -44,7 +44,7 @@ customer.db = ( function (){
       dataType: 'json',
       type    : 'post',
       url     : url,
-      async    : false,
+      async   : false,
       data    : data,
       success : function ( result ) {
       }
@@ -61,7 +61,7 @@ customer.db = ( function (){
   };
 
   insert    = function ( params ) {
-    _ajaxPost( params, 'add' );
+    _ajaxPost( '/insert', params );
   };
 
   update    = function ( url, params ) {
@@ -69,7 +69,7 @@ customer.db = ( function (){
   };
 
   remove    = function ( params ) {
-    _ajaxPost( params, 'delete' );
+    _ajaxPost( '/delete', params );
   };
 
   return {

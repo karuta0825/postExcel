@@ -70,34 +70,6 @@ app.get('/', function ( req, res ) {
   }
 });
 
-/**
- * JSON返すロジックは、基本同じなので、共通化してほしい
- * urlと、datas側のロジックが異なり、それ以外は全部同じだろ？
- * 他にもテーブルで全部管理するのは、ありだな。入り口は一つで、
- * postで送る情報をで分離するのである。
- */
-var json_requests = [
-  { url : '/all'         ,  method : 'getAll'     },
-  { url : '/servers'     ,  method : 'getServers' },
-  { url : '/tableHeader' ,  method : 'getHeader'  },
-  { url : '/columns'     ,  method : 'getColumns' }
-];
-
-
-/**
- * JSONを返すapp.getの一括登録
- */
-// for ( var i = 0; i < json_requests.length; i+=1 ) {
-//   console.log(json_requests[i].method);
-//   app.get( json_requests[i].url, function ( req, res ) {
-//     res.header("Content-Type", "application/json; charset=utf-8");
-//     console.log( json_requests[i] );
-//     datas[ json_requests[i].method ]( function ( results ) {
-//       res.json( results );
-//     });
-//   });
-// }
-
 app.get('/all', function ( req, res ) {
   res.header("Content-Type", "application/json; charset=utf-8");
   datas.getAll( function (results){
@@ -178,18 +150,32 @@ app.post('/baseInfo', function ( req, res ) {
 });
 
 
-app.post('/add', function ( req, res ) {
-  console.log(req.body);
+app.post('/insert', function ( req, res ) {
   //post送信で渡ってきたデータ
-  var data = req.body;
-  datas.insert( data, function ( err ) {
-    // insert時のエラー処理
-    if (err) {
-      console.log(err);
-      res.status( 500 ).send( err.message );
-      return;
-    }
-  });
+  var
+    data = req.body.data
+  , table = req.body.table
+  ;
+
+  for ( var i = 0; i < data.length; i+= 1 ) {
+    data[i]['login_id'] = req.session.uid;
+    data[i]['create_on'] = new Date();
+
+    console.log(data[i]);
+
+    datas.insert( data[i], table, function ( err ) {
+      // insert時のエラー処理
+      if (err) {
+        console.log(err);
+        res.status( 500 ).send( err.message );
+        return;
+      }
+
+    });
+  }
+  // res.status(200).send('ok');
+  res.redirect('/');
+
 });
 
 app.post('/delete', function ( req, res ) {
@@ -199,6 +185,7 @@ app.post('/delete', function ( req, res ) {
       res.status( 500 ).send( err.message );
       return;
     }
+    res.redirect('/');
   });
 });
 

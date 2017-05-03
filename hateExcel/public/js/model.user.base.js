@@ -6,9 +6,10 @@
 
   var
     _cache
+  , _updateHistory
   , fetch
   , getCache
-  , checkWhatsUpdated
+  , _checkWhatsUpdated
   , update
   ;
 
@@ -25,7 +26,7 @@
     return _cache;
   };
 
-  checkWhatsUpdated = function ( view_data ) {
+  _checkWhatsUpdated = function ( view_data ) {
 
     var result = {};
 
@@ -40,25 +41,78 @@
   };
 
   /**
-   * customerテーブルをアップデート
-   * @param  {[type]} data
-   * @param  {[type]} condition
-   * @return {[type]}
+   * この関数は、customer.dbが持つか、Modelクラスに持たせるのがよい。
+   * @param  {[type]} update_data
+   * @return {Object}
    */
-  update = function ( data, condition ) {
+  _diffUpdated = function ( update_data ) {
+    var
+      before = {}
+    , after  = {}
+    , list_history = []
+    ;
 
-    customer.db.update('/update', {
-      data      : data,
-      condition : condition,
-      table     : 'customers'
+    for ( var i in update_data ) {
+
+      list_history.push({
+        kid          : _cache['kid'],
+        type         : '更新',
+        content_name : '基本情報',
+        item_name    : '',
+        before       : _cache[i],
+        after        : update_data[i]
+      });
+
+    }
+
+    return list_history;
+
+  };
+
+  /**
+   * customerテーブルをアップデート
+   * @param  {Object}   data
+   * @param  {String}   kid
+   * @param  {function} callback - 再描画用view関数
+   */
+  update = function ( data, callback ) {
+
+    var update_data = _checkWhatsUpdated( data );
+
+    if ( _.keys(update_data).length > 0 ) {
+
+      // データの更新
+      customer.db.update('/update', {
+        data      : update_data,
+        condition : { 'kid' : _cache['kid'] },
+        table     : 'customers'
+      });
+
+      // 履歴の更新
+      _updateHistory( _diffUpdated( update_data ) );
+
+      // 再描画
+      if ( typeof callback === 'function' ) {
+        callback( _cache['kid'] );
+      }
+
+    }
+
+  };
+
+  _updateHistory = function ( data ) {
+
+    customer.db.insert({
+      data  : data,
+      table : 'historys'
     });
 
   };
 
+  // To pubic
   cms.model.userBaseInfo = {
     fetch : fetch,
     getCache : getCache,
-    checkWhatsUpdated : checkWhatsUpdated,
     update : update
   };
 

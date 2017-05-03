@@ -1,4 +1,3 @@
-
 // メンバ変数の宣言
 var
   database = require('./database'),
@@ -147,7 +146,7 @@ datas.getBaseInfo = function ( kid, callback ) {
 datas.insert = function ( data, table, callback ) {
   db.query(
     querys.insert[table],
-    [data],
+    data,
     function ( err, results, fileds ) {
       db.end();
       // エラー時
@@ -156,7 +155,9 @@ datas.insert = function ( data, table, callback ) {
         return;
       }
       // 正常時
-      callback(null);
+      else {
+        callback(null);
+      }
     }
   );
 };
@@ -183,7 +184,9 @@ datas.delete = function ( data, callback ) {
         callback( err );
         return;
       }
-      callback( null );
+      else {
+        callback( null );
+      }
      }
   );
 };
