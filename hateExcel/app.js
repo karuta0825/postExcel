@@ -70,30 +70,6 @@ app.get('/', function ( req, res ) {
   }
 });
 
-app.post('/select', function ( req, res ) {
-  var
-    condition = req.body.condition
-  , table = req.body.table
-  ;
-
-  console.log( req.body );
-
-  res.header("Content-Type", "application/json; charset=utf-8");
-
-  if ( condition ) {
-    datas.select( condition, table, function (results){
-      res.json(results);
-    });
-  }
-  else {
-    datas.selectAll( table, function (results){
-      res.json(results);
-    });
-  }
-
-});
-
-
 app.get('/all', function ( req, res ) {
   res.header("Content-Type", "application/json; charset=utf-8");
   datas.getAll( function (results){
