@@ -1,17 +1,23 @@
-<table class='history-table mdl-data-table mdl-js-data-table mdl-data-table--selectable'>
+<table class='history-table mdl-data-table mdl-js-data-table'>
 
   <thead>
-    <th class='mdl-data-table__cell--non-numeric'></th>
-    <th class='mdl-data-table__cell--non-numeric'></th>
-    <th class='mdl-data-table__cell--non-numeric'></th>
+    <th class='mdl-data-table__cell--non-numeric create_on'>更新日</th>
+    <th class='mdl-data-table__cell--non-numeric type'>種類</th>
+    <th class='mdl-data-table__cell--non-numeric content_name'>分類</th>
+    <th class='mdl-data-table__cell--non-numeric item_name'>項目</th>
+    <th class='mdl-data-table__cell--non-numeric msg'>内容</th>
+    <th class='mdl-data-table__cell--non-numeric update_name'>更新者</th>
   </thead>
   <tbody>
 
     <% _.each( list, function ( item, num ) { %>
       <tr>
-        <td class='mdl-data-table__cell--non-numeric'><%- item.client_id %></td>
-        <td class='mdl-data-table__cell--non-numeric'><%- item.client_pass %></td>
-        <td class='mdl-data-table__cell--non-numeric'><%- item.update_on %></td>
+        <td class='mdl-data-table__cell--non-numeric'><%- item.create_on %></td>
+        <td class='mdl-data-table__cell--non-numeric'><%- item.type %></td>
+        <td class='mdl-data-table__cell--non-numeric'><%- item.content_name %></td>
+        <td class='mdl-data-table__cell--non-numeric'><%- item.item_name %></td>
+        <td class='mdl-data-table__cell--non-numeric'><%- item.msg %></td>
+        <td class='mdl-data-table__cell--non-numeric'><%- item.update_name %></td>
       </tr>
     <% }); %>
 
