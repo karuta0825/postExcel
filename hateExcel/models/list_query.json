@@ -20,7 +20,7 @@
   },
 
   "insert" : {
-    "kids" : "INSERT INTO kids ( kid, server, genics, userkey, company, author_id, update_on ) VALUES ( ?,?,?,?,?,?,NOW() );",
+    "kids"     : "INSERT INTO kids ( kid, server, genics, userkey, company, author_id, update_on ) VALUES ( ?,?,?,?,?,?,NOW() );",
     "historys" : "INSERT INTO historys SET ?;"
 
   },
