@@ -14,7 +14,15 @@
   , initModule
   ;
 
-  _drawTable = function ( data ) {
+  drawTable = function ( data ) {
+    var
+      data     = { list : data }
+    , tmpl     = customer.db.getHtml('template/user.history.html')
+    , complied = _.template( tmpl )
+    ;
+
+    $('#user-edit').find('#usr-history-panel').find('table').remove();
+    $('#user-edit').find('#usr-history-panel').append( complied(data) );
 
   };
 
@@ -25,7 +33,8 @@
 
   // to public
   cms.view.userHistory = {
-    initModule : initModule
+    initModule : initModule,
+    drawTable  : drawTable
   };
 
 

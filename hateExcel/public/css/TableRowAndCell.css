@@ -396,6 +396,10 @@
     edit or view users
 ---------------------- */
 
+#user-edit table {
+  margin :  20px auto;
+}
+
 .mdl-tabs__panel {
   margin-top: 0px;
 }

@@ -172,6 +172,9 @@
     //   customer.model.services.getLicenses({ kid : kid })
     // );
 
+    customer.model.userHistory.fetch( kid,
+      customer.view.userHistory.drawTable
+    );
 
     $('.main-contents').removeClass('is-active');
 

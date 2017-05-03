@@ -11,14 +11,23 @@
   , getCache
   ;
 
-  fetch = function ( kid ) {
+  fetch = function ( kid, callback ) {
 
     _cache = customer.db.select('/select', {
       'condition' : { 'kid' : kid },
       'table' : 'historys'
     });
 
-    return _cache;
+    _.each( _cache, function ( val, key ) {
+      val['msg'] = val.before + 'から' + val.after + 'に' + val.type;
+    });
+
+    if ( typeof callback === 'function' ) {
+      callback(_cache);
+    }
+    else {
+      return _cache;
+    }
 
   };
 

@@ -6,6 +6,22 @@
 
   var
     _cache
+  , config = {
+      item_name_map : {
+        'kid'           : 'KID',
+        'user_name'     : '顧客名',
+        'userkey'       : 'ユーザーキー',
+        'server'        : 'サーバ',
+        'db_pass'       : 'DBパスワード',
+        'postal_cd'     : '郵便番号',
+        'address'       : '住所',
+        'affliation'    : '所属',
+        'owner'         : '担当者',
+        'tel'           : '電話番号',
+        'fax'           : 'FAX',
+        'client_number' : 'クライアント数'
+      }
+    }
   , _updateHistory
   , fetch
   , getCache
@@ -58,7 +74,7 @@
         kid          : _cache['kid'],
         type         : '更新',
         content_name : '基本情報',
-        item_name    : '',
+        item_name    : config.item_name_map[i],
         before       : _cache[i],
         after        : update_data[i]
       });
@@ -95,6 +111,11 @@
       if ( typeof callback === 'function' ) {
         callback( _cache['kid'] );
       }
+
+      // 履歴テーブルの再描画
+      customer.model.userHistory.fetch(_cache['kid'],
+        customer.view.userHistory.drawTable
+      );
 
     }
 
