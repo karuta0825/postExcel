@@ -52,7 +52,7 @@
   _save = function () {
     // update
     customer.model.userBaseInfo.update( getViewInfo(), makeUserInfo );
-    
+
     // 編集不可
     _toggleEditMode( 'kid'       , false );
     _toggleEditMode( 'user_name' , false );
@@ -156,8 +156,7 @@
     }
   };
 
-  makeUserInfo = function ( kid ) {
-    var data = customer.model.userBaseInfo.fetch(kid);
+  makeUserInfo = function (　data ) {
 
     baseView.get('userkey'      ).find('.item-value').val(data.userkey);
     baseView.get('server'       ).find('.item-value').val(data.server);

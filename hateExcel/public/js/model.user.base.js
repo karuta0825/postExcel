@@ -29,13 +29,21 @@
   , update
   ;
 
-  fetch = function ( kid ) {
+  fetch = function ( kid, callback  ) {
+    
     _cache = $.extend(
       {},
       customer.model.kids.findByKid(kid),
       customer.db.select('/baseInfo', {'kid' : kid} )[0]
     );
-    return _cache;
+
+    if ( typeof callback === 'function' ) {
+      callback( _cache );
+    }
+    else {
+      return _cache;
+    }
+
   };
 
   getCache = function () {
@@ -95,6 +103,7 @@
 
     var update_data = _checkWhatsUpdated( data );
 
+    // updateする対象が存在する場合
     if ( _.keys(update_data).length > 0 ) {
 
       // データの更新

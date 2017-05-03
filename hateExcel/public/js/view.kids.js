@@ -160,7 +160,10 @@
   _onClickKid = function () {
     var kid = $(this).text().trim();
 
-    customer.view.userBaseInfo.makeUserInfo(kid);
+    // 基本情報タブ描画
+    customer.model.userBaseInfo.fetch( kid,
+      customer.view.userBaseInfo.makeUserInfo
+    );
 
     // クライアントテーブル作成
     customer.view.editUsrs.makeAccountTable(
@@ -171,7 +174,8 @@
     // customer.view.userService.makeServiceTable(
     //   customer.model.services.getLicenses({ kid : kid })
     // );
-
+  
+    // 履歴タブの描画
     customer.model.userHistory.fetch( kid,
       customer.view.userHistory.drawTable
     );
