@@ -78,6 +78,27 @@ app.get('/all', function ( req, res ) {
 
 });
 
+app.post('/select', function ( req, res ) {
+  var
+    condition = req.body.condition
+  , table = req.body.table
+  ;
+
+  res.header("Content-Type", "application/json; charset=utf-8");
+
+  if ( condition ) {
+    datas.select( condition, table, function ( results ) {
+      res.json( results );
+    });
+  }
+  else {
+    datas.selectAll( table, function ( results ) {
+      res.json( results );
+    });
+  }
+
+});
+
 app.get('/servers', function ( req, res ) {
   res.header("Content-Type", "application/json; charset=utf-8");
   datas.getServers( function ( results ) {
