@@ -19,7 +19,8 @@
     "accout_number" : "UPDATE USERS SET account_number = ? WHERE kid = ?",
     "columns"       : "UPDATE columns SET kid = ?, company = ?, server = ?, userKey = ?, genics = ?, name = ?, account_number = ?, update_on = ? WHERE uid = ?;",
     "customers"     : "UPDATE customers SET ? WHERE ?",
-    "partners"      : "UPDATE partners SET ? WHERE ?"
+    "partners"      : "UPDATE partners SET ? WHERE ?",
+    "licenses"      : "UPDATE licenses SET ? WHERE ?"
   },
 
   "insert" : {

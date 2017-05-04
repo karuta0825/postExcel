@@ -38,6 +38,7 @@
   , edit
   , reset
   , setInfo
+  , getViewInfo
   , clear
   , initModule
   ;

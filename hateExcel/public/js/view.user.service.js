@@ -15,7 +15,7 @@
       'table' : '.service-table',
       'th_checkbox' : 'th .mdl-checkbox',
       'td_checkbox' : 'td .mdl-checkbox',
-      'checkbox' : '.mdl-checkbox',
+      'checkbox' : '.mdl-checkbox'
     }
   , _checked
   , _unchecked
@@ -24,6 +24,7 @@
   , setViewInfo
   , setChecked
   , makeServiceTable
+  , getViewInfo
   , cancel
   , save
   , edit
@@ -31,11 +32,6 @@
   , initModule
   ;
 
-  /**
-   * [checked description]
-   * @param  {Object} data - サービスIDごとの使用可否
-   * @return {[type]}
-   */
   _checked = function ( row_element ) {
 
     var checkbox = $(row_element).find('label');
@@ -64,6 +60,21 @@
     $(el).addClass('is-hidden');
   };
 
+  _setChecked = function ( data ) {
+
+    _.each( data, function ( val, key ) {
+
+      if ( val === 1 ) {
+        _checked( licenseView.get('table').find('.' + key) );
+      }
+      else {
+        _unchecked( licenseView.get('table').find('.' + key) );
+      }
+
+    });
+
+  };
+
   makeServiceTable = function ( data ) {
 
     var
@@ -80,6 +91,32 @@
 
   };
 
+  /**
+   * 画面からチェックの付いたサービスを取得
+   * @return {Object} result - 画面のチェックが付いたサービス一覧
+   */
+  getViewInfo = function () {
+
+    var 
+      result = {}
+    , obj = licenseView.get('table').find('tbody').find('tr')
+    ;
+
+    _.each( obj, function ( val, key ) {
+
+      if ( $(val).hasClass('is-selected') ) {
+        result[ $(val).attr('class').split(' ')[0] ] = 1;
+      }
+      else {
+        result[ $(val).attr('class').split(' ')[0] ] = 0;
+      }
+
+    }); 
+
+    return result;
+
+  };
+
   cancel = function () {
 
     // テーブル初期化
@@ -90,7 +127,13 @@
 
   };
 
-  save = function () {};
+  save = function () {
+
+    customer.model.services.update( getViewInfo(), setViewInfo );
+
+    cancel();
+
+  };
 
   edit = function () {
 
@@ -114,21 +157,6 @@
 
       if ( val === 0 ) {
         _unselected( licenseView.get('table').find('.' + key) );
-      }
-
-    });
-
-  };
-
-  _setChecked = function ( data ) {
-
-    _.each( data, function ( val, key ) {
-
-      if ( val === 1 ) {
-        _checked( licenseView.get('table').find('.' + key) );
-      }
-      else {
-        _unchecked( licenseView.get('table').find('.' + key) );
       }
 
     });
@@ -164,7 +192,8 @@
 
     licenseView.addListener({
       'click btn__edit'   : edit,
-      'click btn__cancel' : cancel
+      'click btn__cancel' : cancel,
+      'click btn__save' : save
     });
 
     licenseView.get('checkbox').addClass('is-hidden');
@@ -177,6 +206,7 @@
     makeServiceTable : makeServiceTable,
     clear : clear,
     setViewInfo : setViewInfo,
+    getViewInfo : getViewInfo,
     get : function () { return licenseView; }
   }
 

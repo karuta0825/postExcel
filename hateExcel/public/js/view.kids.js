@@ -9,6 +9,7 @@
     jqueryMap = {}
   // private
   , _setJqueryMap
+  , _makeSelectBox
   , _drawHead
   , _drawBody
   , _onClickColumn
@@ -70,6 +71,10 @@
         jqueryMap.col[key]    = table.find(  '.' + key );
       });
     }
+
+  };
+
+  _makeSelectBox = function () {
 
   };
 
@@ -165,12 +170,12 @@
       customer.view.userBaseInfo.makeUserInfo
     );
 
-    // クライアントテーブル作成
+    // クライアントテーブル描画
     customer.view.editUsrs.makeAccountTable(
       customer.model.accounts.getAccounts({ kid : kid })
     );
 
-    // サービステーブル作成
+    // サービステーブル描画
     customer.model.services.fetchLicenses( kid,
       customer.view.userService.setViewInfo
     );

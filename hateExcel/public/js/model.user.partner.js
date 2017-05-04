@@ -30,6 +30,7 @@
     }
   , _updateHistory
   , _checkWhatsUpdated
+  , _diffUpdated
   , fetch
   , freeCache
   , getCache

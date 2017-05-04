@@ -19,7 +19,7 @@
     });
 
     _.each( _cache, function ( val, key ) {
-      val['msg'] = val.before + 'から' + val.after + 'に' + val.type;
+      val['msg'] = val.before + 'から' + val.after + 'に変更';
     });
 
     if ( typeof callback === 'function' ) {
