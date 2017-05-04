@@ -37,6 +37,22 @@
 
   };
 
+  var makeSelectBox = function ( list_select, class_name ) {
+
+    var 
+      select = $('<select>', { 'class' : class_name })
+    , option
+    ;
+
+    _.each( list_select, function (val, key) {
+      option = $('<option>', { 'value' : val.name, 'text' : val.name });
+      select.append(option);
+    });
+
+    return select;
+
+  };
+
   /**
    * jsonを受け取って、csvファイル用のblobオブジェクトを返す
    * @param  {String} mapList    - オブジェクト配列
@@ -84,6 +100,7 @@
 
 
   util.makeSelect       = _makeSelect;
+  util.makeSelectBox = makeSelectBox;
   util.convertMap2Blob  = _makeBlobFromMapList;
   util.downloadFile     = _downloadFile;
 
