@@ -30,7 +30,7 @@
   ;
 
   fetch = function ( kid, callback  ) {
-    
+
     _cache = $.extend(
       {},
       customer.model.kids.findByKid(kid),
@@ -118,7 +118,7 @@
 
       // 再描画
       if ( typeof callback === 'function' ) {
-        callback( _cache['kid'] );
+        callback( fetch(_cache['kid']) );
       }
 
       // 履歴テーブルの再描画
