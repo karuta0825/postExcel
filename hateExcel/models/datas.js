@@ -55,7 +55,10 @@ datas.selectAll = function ( table, callback ) {
     querys.select[table],
     function ( err, results, fields ) {
       db.end();
-      if ( err ) { console.log(err); return; }
+      if ( err ) {
+        console.log(err);
+        callback(err);
+      }
       callback( results );
     }
   );
@@ -67,7 +70,11 @@ datas.select = function ( condition, access, callback ) {
     [condition],
     function ( err, results, fields ) {
       db.end();
-      if ( err ) { console.log(err); return; }
+      if ( err ) {
+        console.log(err);
+        // エラーもオブジェクトなのでそのまま返す
+        callback(err);
+      }
       callback(results);
     }
   );
