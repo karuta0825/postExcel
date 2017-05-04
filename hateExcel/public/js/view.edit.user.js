@@ -28,7 +28,7 @@
     jqueryMap.tab_bar   = {
        'usr-base'    : content.find('a[href="#usr-base-panel"]')
       ,'usr-service' : content.find('a[href="#usr-service-panel"]')
-      ,'usr-account' : content.find('a[href="#usr-account-panel"]')
+      ,'usr-client'  : content.find('a[href="#usr-client-panel"]')
       ,'usr-partner' : content.find('a[href="#usr-partner-panel"]')
       ,'usr-quota'   : content.find('a[href="#usr-quota-panel"]')
       ,'usr-history' : content.find('a[href="#usr-history-panel"]')
@@ -37,14 +37,14 @@
     jqueryMap.tab_panel = {
        'usr-base'    : content.find('#usr-base-panel')
       ,'usr-service' : content.find('#usr-service-panel')
-      ,'usr-account' : content.find('#usr-account-panel')
+      ,'usr-client'  : content.find('#usr-client-panel')
       ,'usr-partner' : content.find('#usr-partner-panel')
       ,'usr-quota'   : content.find('#usr-quota-panel')
       ,'usr-history' : content.find('#usr-history-panel')
     };
 
     jqueryMap.serviceTable = jqueryMap.tab_panel['usr-service'].find('table');
-    jqueryMap.accountTable = jqueryMap.tab_panel['usr-account'].find('table');
+    jqueryMap.accountTable = jqueryMap.tab_panel['usr-client'].find('table');
     jqueryMap.historyTable = jqueryMap.tab_panel['usr-history'].find('table');
 
   };
@@ -85,6 +85,11 @@
 
 
   backUserTable = function () {
+
+    // 各タブの初期化
+    customer.view.userPartner.clear();
+    customer.view.userService.clear();
+
     $('.main-contents').removeClass('is-active');
 
     // クリックされたコンテンツにis-activeを付与
@@ -105,9 +110,9 @@
 
     jqueryMap.accountTable.remove();
 
-    jqueryMap.tab_panel['usr-account'].append( complied(data) );
+    jqueryMap.tab_panel['usr-client'].append( complied(data) );
 
-    componentHandler.upgradeElements( jqueryMap.tab_panel['usr-account'] );
+    componentHandler.upgradeElements( jqueryMap.tab_panel['usr-client'] );
     _setJqueryMap();
 
   };
