@@ -194,9 +194,8 @@ app.post('/insert', function ( req, res ) {
 
     });
   }
-  // res.status(200).send('ok');
-  res.redirect('/');
-
+  res.status(200).send('ok');
+  // res.redirect('/');
 });
 
 app.post('/delete', function ( req, res ) {
@@ -224,7 +223,8 @@ app.post('/update', function ( req, res ) {
       res.status( 500 ).send( err.message );
       return;
     }
-    res.redirect('/');
+    res.status(200).send('ok');
+    // res.redirect('/');
   });
 
 });

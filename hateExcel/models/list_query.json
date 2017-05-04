@@ -11,7 +11,8 @@
     "licenses"     : "SELECT * FROM licenses WHERE ?;" ,
     "base_info"    : "SELECT * FROM CUSTOMERS WHERE kid = ?;",
     "historys"     : "SELECT H.type, H.content_name, H.item_name, H.before, H.after, DATE_FORMAT( create_on, '%Y-%m-%d %H:%i:%s') as create_on, L.name as creater FROM HISTORYS H LEFT JOIN login_users L ON H.login_id = L.id WHERE ? order by create_on desc;",
-    "partners"     : "SELECT * FROM partners WHERE ?;"
+    "partners"     : "SELECT * FROM partners WHERE ?;",
+    "customers"    : "SELECT * FROM CUSTOMERS WHERE ?"
   },
 
   "update" : {

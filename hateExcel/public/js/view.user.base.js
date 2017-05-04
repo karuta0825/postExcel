@@ -146,7 +146,7 @@
       'user_name'     : baseView.get('user_name'    ).find('.item-value').val(),
       'userkey'       : baseView.get('userkey'      ).find('.item-value').val(),
       'server'        : baseView.get('server'       ).find('.item-value').val(),
-      'db_pass'       : baseView.get('db_pass'      ).find('.item-value').val(),
+      'db_password'   : baseView.get('db_pass'      ).find('.item-value').val(),
       'client_number' : Number(baseView.get('client_number').find('.item-value').val() ),
       'postal_cd'     : Number(baseView.get('postal_cd'    ).find('.item-value').val() ),
       'address'       : baseView.get('address'      ).find('.item-value').val(),

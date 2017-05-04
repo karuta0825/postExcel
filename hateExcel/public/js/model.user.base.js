@@ -34,7 +34,10 @@
     _cache = $.extend(
       {},
       customer.model.kids.findByKid(kid),
-      customer.db.select('/baseInfo', {'kid' : kid} )[0]
+      customer.db.select('/select', {
+        condition : {'kid' : kid},
+        table : 'customers'
+      })[0]
     );
 
     if ( typeof callback === 'function' ) {
