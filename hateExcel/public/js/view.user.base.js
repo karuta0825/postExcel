@@ -161,7 +161,7 @@
 
     baseView.get('userkey'      ).find('.item-value').val(data.userkey);
     baseView.get('server'       ).find('.item-value').val(data.server);
-    // baseView.get('db_pass'   ).find('.item-value').val(server.db_pass);
+    baseView.get('db_pass'      ).find('.item-value').val(data.db_password);
     baseView.get('client_number').find('.item-value').val(data.client_number);
 
     baseView.get('kid'          ).find('.item-value').val(data.kid);
@@ -180,7 +180,7 @@
 
     baseView.get('userkey'      ).find('.item-value').val(data.userkey);
     baseView.get('server'       ).find('.item-value').val(data.server);
-    // baseView.get('db_pass'   ).find('.item-value').val(server.db_pass);
+    baseView.get('db_pass'      ).find('.item-value').val(data.db_password);
     baseView.get('client_number').find('.item-value').val(data.client_number);
 
     baseView.get('kid'          ).find('.item-value').val(data.kid);

@@ -79,8 +79,15 @@ customer.model.kids = ( function () {
 
   };
 
+  /**
+   * TODO:引数でシステムタイプやバージョン取り出すかどうか選択可能にする
+   */
   getData = function () {
-    return _data;
+    return _.map( _data, function ( val, key ) {
+      delete val.system_type;
+      delete val.version;
+      return val;
+    });
   };
 
   getHeader = function () {
