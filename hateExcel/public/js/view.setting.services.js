@@ -95,7 +95,7 @@
 
     jqueryMap.table.remove();
     // ボディのみ再描画
-    _drawTable( customer.model.servers.getServices() );
+    _drawTable( customer.model.servers.fetchServices() );
     jqueryMap.del.on( 'click', _onClickDel );
 
   };
@@ -138,7 +138,7 @@
 
     _setJqueryMap();
 
-    _drawTable( customer.model.services.getServices() );
+    _drawTable( customer.model.services.fetchServices() );
 
     jqueryMap.add.on(    'click', _onClickAdd    );
     jqueryMap.save.on(   'click', _onClickSave   );

@@ -15,16 +15,14 @@
   <tbody>
     <% _.each( list, function ( item, num ) { %>
 
-      <% if ( item.is_used === 0 ) { %>
-        <tr class='is-hidden'>
-      <% } else { %>
-        <tr>
-      <% } %>
-
-        <td class='service_id mdl-data-table__cell--non-numeric'><%- item.service_id %></td>
-        <td class='service_name mdl-data-table__cell--non-numeric'><%- item.service_name %></td>
-
+      <tr class=<%- item.service_id %> >
+        <td class='service_id mdl-data-table__cell--non-numeric'>
+          <%- item.service_id %>
+        </td>
+        <td class='service_name mdl-data-table__cell--non-numeric'><%- item.service_name %>
+        </td>
       </tr>
+
     <% });%>
   </tbody>
 

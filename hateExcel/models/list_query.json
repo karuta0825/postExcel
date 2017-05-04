@@ -8,16 +8,18 @@
     "header"       : "SELECT * FROM columns where uid = 0;",
     "show_columns" : "SELECT * FROM columns where uid = ?;",
     "services"     : "SELECT * FROM services;",
-    "licenses"     : "SELECT L.service_id , S.service_name , L.is_used FROM licenses L left join services S on L.service_id = S.service_id WHERE kid = ?;" ,
+    "licenses"     : "SELECT * FROM licenses WHERE ?;" ,
     "base_info"    : "SELECT * FROM CUSTOMERS WHERE kid = ?;",
-    "historys"     : "SELECT H.type, H.content_name, H.item_name, H.before, H.after, DATE_FORMAT( create_on, '%Y-%m-%d %H:%i:%s') as create_on, L.name as creater FROM HISTORYS H LEFT JOIN login_users L ON H.login_id = L.id WHERE ? order by create_on desc;"
+    "historys"     : "SELECT H.type, H.content_name, H.item_name, H.before, H.after, DATE_FORMAT( create_on, '%Y-%m-%d %H:%i:%s') as create_on, L.name as creater FROM HISTORYS H LEFT JOIN login_users L ON H.login_id = L.id WHERE ? order by create_on desc;",
+    "partners"     : "SELECT * FROM partners WHERE ?;"
   },
 
   "update" : {
     "date"          : "UPDATE USERS SET updateDate = ? WHERE kid = ?",
     "accout_number" : "UPDATE USERS SET account_number = ? WHERE kid = ?",
     "columns"       : "UPDATE columns SET kid = ?, company = ?, server = ?, userKey = ?, genics = ?, name = ?, account_number = ?, update_on = ? WHERE uid = ?;",
-    "customers"     : "UPDATE customers SET ? WHERE ?"
+    "customers"     : "UPDATE customers SET ? WHERE ?",
+    "partners"      : "UPDATE partners SET ? WHERE ?"
   },
 
   "insert" : {

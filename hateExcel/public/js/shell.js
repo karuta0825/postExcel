@@ -11,6 +11,7 @@ $(function(){
 
   // modelの初期化
   customer.model.servers.initModule();
+  customer.model.services.initModule();
   customer.model.kids.initModule();
 
 

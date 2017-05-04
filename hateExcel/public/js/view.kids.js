@@ -171,10 +171,15 @@
     );
 
     // サービステーブル作成
-    // customer.view.userService.makeServiceTable(
-    //   customer.model.services.getLicenses({ kid : kid })
-    // );
-  
+    customer.model.services.fetchLicenses( kid,
+      customer.view.userService.setViewInfo
+    );
+
+    // パートナータブの描画
+    customer.model.userPartner.fetch( kid,
+      customer.view.userPartner.setInfo
+    );
+
     // 履歴タブの描画
     customer.model.userHistory.fetch( kid,
       customer.view.userHistory.drawTable
