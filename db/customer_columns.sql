@@ -23,15 +23,18 @@ DROP TABLE IF EXISTS `columns`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `columns` (
-  `uid` int(11) DEFAULT NULL,
+  `uid` int(11) NOT NULL,
   `kid` varchar(45) DEFAULT '1',
   `company` varchar(45) DEFAULT '1',
   `server` varchar(45) DEFAULT '1',
   `userkey` varchar(45) DEFAULT '1',
-  `genics` varchar(45) DEFAULT '1',
+  `db_password` varchar(45) DEFAULT '1',
+  `fenics` varchar(45) DEFAULT '1',
+  `client_number` varchar(45) DEFAULT '1',
+  `m_fenics_key` varchar(45) DEFAULT '1',
   `name` varchar(45) DEFAULT '1',
-  `account_number` varchar(45) DEFAULT '1',
   `update_on` varchar(45) DEFAULT '1',
+  PRIMARY KEY (`uid`),
   UNIQUE KEY `user_id_UNIQUE` (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -42,7 +45,7 @@ CREATE TABLE `columns` (
 
 LOCK TABLES `columns` WRITE;
 /*!40000 ALTER TABLE `columns` DISABLE KEYS */;
-INSERT INTO `columns` VALUES (0,'KID','顧客名','サーバ','ユーザキー','GenicsID','作成者','アカウント数','更新日'),(1,'1','1','1','1','1','1','1','1');
+INSERT INTO `columns` VALUES (0,'KID','顧客名','サーバ','ユーザキー','DBパスワード','fenicsキー','クライアント数','モバイルfenicsキー','作成者','更新日'),(1,'1','1','1','1','1','1','1','1','1','1');
 /*!40000 ALTER TABLE `columns` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +58,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-05-04 12:49:15
+-- Dump completed on 2017-05-04 22:25:31
