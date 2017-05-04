@@ -35,6 +35,7 @@
   , getViewInfo
   , makeUserInfo
   , reset
+  , clear
   , initModule
   ;
 
