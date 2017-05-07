@@ -75,7 +75,7 @@ customer.model.services = ( function () {
 
   _updateHistory = function ( data ) {
 
-    customer.db.insert({
+    customer.db.insert('/insert', {
       data  : data,
       table : 'historys'
     });

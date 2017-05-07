@@ -37,13 +37,15 @@
 
   };
 
-  util.addOption = function ( list_option, selectbox ) {
+  util.addOption = function ( list_option, selectbox, has_all ) {
 
     var option;
 
     $(selectbox).find('option').remove();
 
-    $(selectbox).append( $('<option>', { 'value' : 'all', 'text' : '全て' }) );
+    if ( !has_all ) {
+      $(selectbox).append( $('<option>', { 'value' : 'all', 'text' : '全て' }) );
+    }
 
     _.each( list_option, function (val, key) {
       option = $('<option>', { 'value' : val.name, 'text' : val.name });
