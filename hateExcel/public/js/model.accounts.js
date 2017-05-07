@@ -3,25 +3,18 @@
  * クライアント情報モデル
  *
  */
-customer.model = customer.model || {};
-customer.model.accounts = ( function () {
+( function ( $, cms ) {
 
   /*member*/
   var
-    _accounts,
-    getAccounts
-    ;
+    _model = new Model({
+      'table' : 'accounts'
+    })
+  ;
 
-  getAccounts = function ( kid ) {
-    _accounts = customer.db.select('/select', {
-     condition : [ kid ],
-     'table' : 'accounts'
-    });
-    return _accounts;
+  // to public
+  cms.model.accounts = {
+    getAccounts : $.proxy( _model.fetch, _model )
   };
 
-  return {
-    getAccounts     : getAccounts,
-  };
-
-}());
+}( jQuery, customer ));

@@ -37,19 +37,20 @@
 
   };
 
-  var makeSelectBox = function ( list_select, class_name ) {
+  util.addOption = function ( list_option, selectbox ) {
 
-    var 
-      select = $('<select>', { 'class' : class_name })
-    , option
-    ;
+    var option;
 
-    _.each( list_select, function (val, key) {
+    $(selectbox).find('option').remove();
+
+    $(selectbox).append( $('<option>', { 'value' : 'all', 'text' : '全て' }) );
+
+    _.each( list_option, function (val, key) {
       option = $('<option>', { 'value' : val.name, 'text' : val.name });
-      select.append(option);
+      $(selectbox).append(option);
     });
 
-    return select;
+    return selectbox;
 
   };
 
@@ -100,7 +101,7 @@
 
 
   util.makeSelect       = _makeSelect;
-  util.makeSelectBox = makeSelectBox;
+  // util.makeSelectBox = makeSelectBox;
   util.convertMap2Blob  = _makeBlobFromMapList;
   util.downloadFile     = _downloadFile;
 
