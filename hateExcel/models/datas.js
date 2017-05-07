@@ -272,3 +272,43 @@ datas.update = function ( data, condition, table, callback ) {
 //   'customers',
 //   function (i) { console.log(i); }
 // );
+
+var makeUserKey = function () {
+  var c = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  var l = 5;
+  var cl = c.length;
+  var r = '';
+
+  for(var i=0; i<l; i++){
+    r += c[Math.floor(Math.random()*cl)];
+  }
+
+  return r;
+
+}
+
+var findNewUserkey = function ( input ) {
+  var userkey = makeUserKey();
+
+  if ( input ) {
+    userkey = input;
+  }
+
+  datas.select(
+    userkey,
+    'userkey',
+    function ( result ) {
+      if ( result.length !== 0 ) {
+        console.log(result);
+        findNewUserkey();
+      }
+      else {
+        console.log('ok: ' +  userkey)
+      }
+    }
+  );
+}
+
+// for ( var i = 0; i< 1000; i+=1 ) {
+  findNewUserkey('PJNPN');
+// }
