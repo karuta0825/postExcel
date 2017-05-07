@@ -67,7 +67,8 @@ datas.selectAll = function ( table, callback ) {
 datas.select = function ( condition, access, callback ) {
   db.query(
     querys.select[access],
-    [condition],
+    // [condition],
+    condition,
     function ( err, results, fields ) {
       db.end();
       if ( err ) {

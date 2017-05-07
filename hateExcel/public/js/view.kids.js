@@ -17,6 +17,8 @@
   , _onClickKid
   , _onClickDownload
   , _onClickToggle
+  , _filterVertion
+  , _filterSystem
   // public
   , initModule
   , drawTable
@@ -48,10 +50,15 @@
     // new cache
     else {
       jqueryMap.tableWraper  = content.find('.users-table__body');
+
       jqueryMap.btnOnpre     = filter.find('.btn--onpre');
       jqueryMap.btnCloud     = filter.find('.btn--cloud');
+      jqueryMap.btnOnpreCloud = filter.find('.btn--onpre-cloud');
+
       jqueryMap.btnLM        = filter.find('.btn--LM');
       jqueryMap.btnES        = filter.find('.btn--ES');
+      jqueryMap.btnESLM      = filter.find('.btn--ESLM');
+
       jqueryMap.btnMobileOn  = filter.find('.btn--mon');
       jqueryMap.btnMobileOff = filter.find('.btn--moff');
 
@@ -171,9 +178,9 @@
     );
 
     // クライアントテーブル描画
-    customer.view.editUsrs.makeAccountTable(
-      customer.model.accounts.getAccounts({ kid : kid })
-    );
+    // customer.view.editUsrs.makeAccountTable(
+    //   customer.model.accounts.getAccounts({ kid : kid })
+    // );
 
     // サービステーブル描画
     customer.model.services.fetchLicenses( kid,
@@ -233,7 +240,10 @@
 
   };
 
-  _onClickToggle = function () {
+  _onClickToggle = function ( a ) {
+    console.log(this);
+    console.log(a);
+    console.log(b);
     $(this).toggleClass('btn--on');
   };
 
@@ -246,6 +256,67 @@
       jqueryMap.btnMobileOff.removeClass('btn--on');
       jqueryMap.btnMobileOn.addClass('btn--on');
     }
+  };
+
+  _filterSystem = function () {
+
+    var list_class = $(this).attr('class').split(' ');
+
+    switch ( list_class[1] ) {
+      case 'btn--onpre' :
+        jqueryMap.btnOnpre.addClass('btn--on');
+        jqueryMap.btnCloud.removeClass('btn--on');
+        jqueryMap.btnOnpreCloud.removeClass('btn--on');
+        customer.model.kids.setCondition( { 'system_type' : 'onpre' }, regenerateTable );
+        break;
+      case 'btn--cloud' :
+        jqueryMap.btnOnpre.removeClass('btn--on');
+        jqueryMap.btnCloud.addClass('btn--on');
+        jqueryMap.btnOnpreCloud.removeClass('btn--on');
+        customer.model.kids.setCondition( { 'system_type' : 'cloud' }, regenerateTable );
+        break;
+      case 'btn--onpre-cloud' :
+        jqueryMap.btnOnpre.removeClass('btn--on');
+        jqueryMap.btnCloud.removeClass('btn--on');
+        jqueryMap.btnOnpreCloud.addClass('btn--on');
+        customer.model.kids.setCondition( { 'system_type' : 'all'}, regenerateTable );
+        break;
+      default:
+        break;
+    }
+
+  };
+
+  /**
+   * クラス化できるメソッドですね
+   */
+  _filterVertion = function () {
+
+    var list_class = $(this).attr('class').split(' ');
+
+    switch ( list_class[1] ) {
+      case 'btn--ES' :
+        jqueryMap.btnES.addClass('btn--on');
+        jqueryMap.btnLM.removeClass('btn--on');
+        jqueryMap.btnESLM.removeClass('btn--on');
+        customer.model.kids.setCondition( {'version' : 'ES'}, regenerateTable );
+        break;
+      case 'btn--LM' :
+        jqueryMap.btnES.removeClass('btn--on');
+        jqueryMap.btnLM.addClass('btn--on');
+        jqueryMap.btnESLM.removeClass('btn--on');
+        customer.model.kids.setCondition( { 'version' : 'LM' }, regenerateTable );
+        break;
+      case 'btn--ESLM' :
+        jqueryMap.btnES.removeClass('btn--on');
+        jqueryMap.btnLM.removeClass('btn--on');
+        jqueryMap.btnESLM.addClass('btn--on');
+        customer.model.kids.setCondition( { 'version' : 'all'}, regenerateTable );
+        break;
+      default:
+        break;
+    }
+
   };
 
   initModule = function () {
@@ -267,7 +338,7 @@
     jqueryMap.header.on( 'click', _onClickColumn );
 
     $('select#servers').change( function () {
-      var data_filtered = customer.model.kids.findByServer( $(this).val() );
+      var data_filtered = customer.model.kids.find( { server : $(this).val() });
       regenerateTable( data_filtered );
     });
 
@@ -275,11 +346,13 @@
     jqueryMap.btnDownload.on( 'click', _onClickDownload );
     jqueryMap.body.kid.on( 'click', _onClickKid );
 
-    jqueryMap.btnOnpre.on( 'click', _onClickToggle );
-    jqueryMap.btnCloud.on( 'click', _onClickToggle );
+    jqueryMap.btnOnpre.on( 'click', _filterSystem );
+    jqueryMap.btnCloud.on( 'click', _filterSystem );
+    jqueryMap.btnOnpreCloud.on( 'click', _filterSystem );
 
-    jqueryMap.btnLM.on( 'click', _onClickToggle );
-    jqueryMap.btnES.on( 'click', _onClickToggle );
+    jqueryMap.btnLM.on( 'click', _filterVertion );
+    jqueryMap.btnES.on( 'click', _filterVertion );
+    jqueryMap.btnESLM.on( 'click', _filterVertion );
 
     jqueryMap.btnMobileOn.on( 'click', _onClickMobileSwitch );
     jqueryMap.btnMobileOff.on( 'click', _onClickMobileSwitch );

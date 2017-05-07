@@ -4,50 +4,58 @@ customer.model.kids = ( function () {
 
   var
     /*private member*/
-    _data, _headerMap = {},
-     _sortOrder = 1,
+    _data
+  , _headerMap = {}
+  , _condition = {
+      system_type : 'all',
+      version     : 'all',
+      server      : 'all'
+    }
+  , _sortOrder = 1
     /*private method*/
-
     /*public  method*/
-    findById, findByKid, findByServer, findByGenics,
-    sortByCol, getData, getHeader,
-    initModule
+  , find
+  , sortByCol
+  , getData
+  , getHeader
+  , initModule
   ;
 
-  findById = function ( id ) {
-    return $.grep( _data, function ( val ) {
-      return id === val.id;
-    })[0];
-  };
+  /**
+   * 条件に一致したデータを抽出(and条件)
+   * @param  {Object}   condition_map - 絞り込む条件を決めるためのキー・バリュー
+   * @param  {Function} callback      - viewから描画関数
+   * @return {Array}    filterd       - 抽出結果
+   */
+  find = function ( condition_map, callback ) {
 
-  findByIds = function ( list_id ) {
-    var list = [];
-    _.each( list_id, function ( val, key ) {
-      list.push( findById(val) );
+    var filtered = _data;
+
+    _.each( condition_map, function ( val, key ) {
+
+      if ( val !== 'all') {
+        filtered = _.select( filtered, function ( v, k ) {
+          return v[key] === val;
+        });
+      }
+
     });
-    return list;
-  };
 
-  findByKid = function ( kid ) {
-    return $.grep( _data, function ( val ) {
-      return kid === val.kid;
-    })[0];
-  };
+    filtered = _.map( filtered, _.clone );
 
-  findByServer = function ( server, callback ) {
-    var data = $.grep( _data, function ( val ) { return server === val.server;});
-    if ( callback ) {
-      callback( 'server', data );
+    filtered = _.map( filtered, function ( val, key ) {
+      delete val.system_type;
+      delete val.version;
+      return val;
+    });
+
+    if ( typeof callback === 'function' ) {
+      callback( filtered );
     }
     else {
-      return data;
+      return filtered;
     }
-  };
 
-  findByGenics = function ( genics ) {
-    return $.grep( _data, function ( val ) {
-      return genics === val.genics;
-    })[0];
   };
 
   /**
@@ -79,15 +87,33 @@ customer.model.kids = ( function () {
 
   };
 
+  setCondition = function ( obj, callback ) {
+
+    _.each( obj, function (val, key) {
+      _condition[key] = val;
+    });
+
+    find( _condition, callback );
+
+  };
+
   /**
    * TODO:引数でシステムタイプやバージョン取り出すかどうか選択可能にする
    */
-  getData = function () {
-    return _.map( _data, function ( val, key ) {
+  getData = function ( is_all ) {
+
+    if ( is_all ) {
+      return _data;
+    }
+
+    var clone = _.map( _data, _.clone );
+
+    return _.map( clone, function ( val, key ) {
       delete val.system_type;
       delete val.version;
       return val;
     });
+
   };
 
   getHeader = function () {
@@ -103,11 +129,8 @@ customer.model.kids = ( function () {
   /*public method*/
   return {
     initModule   : initModule,
-    findById     : findById,
-    findByIds    : findByIds,
-    findByKid    : findByKid,
-    findByServer : findByServer,
-    findByGenics : findByGenics,
+    find : find,
+    setCondition : setCondition,
     sortByCol    : sortByCol,
     getData      : getData,
     getHeader    : getHeader
