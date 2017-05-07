@@ -52,13 +52,15 @@
     else {
       jqueryMap.tableWraper  = content.find('.users-table__body');
 
-      jqueryMap.btnOnpre     = filter.find('.btn--onpre');
-      jqueryMap.btnCloud     = filter.find('.btn--cloud');
+      jqueryMap.btnOnpre      = filter.find('.btn--onpre');
+      jqueryMap.btnCloud      = filter.find('.btn--cloud');
       jqueryMap.btnOnpreCloud = filter.find('.btn--onpre-cloud');
+      jqueryMap.btnSystem     = filter.find('.system .filter-item__body');
 
       jqueryMap.btnLM        = filter.find('.btn--LM');
       jqueryMap.btnES        = filter.find('.btn--ES');
       jqueryMap.btnESLM      = filter.find('.btn--ESLM');
+      jqueryMap.btnVersion   = filter.find('.version .filter-item__body');
 
       jqueryMap.btnBusiv  = filter.find('.btn--busiv');
       jqueryMap.btnFenics = filter.find('.btn--fenics');
@@ -250,9 +252,9 @@
 
   };
 
-  _selectSystem = function () {
+  _selectSystem = function ( event ) {
 
-    var list_class = $(this).attr('class').split(' ');
+    var list_class = $( event.target ).attr('class').split(' ');
 
     switch ( list_class[1] ) {
       case 'btn--onpre' :
@@ -282,9 +284,9 @@
   /**
    * クラス化できるメソッドですね
    */
-  _selectVertion = function () {
+  _selectVertion = function ( event ) {
 
-    var list_class = $(this).attr('class').split(' ');
+    var list_class = $( event.target ).attr('class').split(' ');
 
     switch ( list_class[1] ) {
       case 'btn--ES' :
@@ -344,7 +346,6 @@
         break;
     }
 
-
   };
 
   _selectNetwork = function ( event ) {
@@ -386,7 +387,6 @@
   };
 
 
-
   initModule = function () {
     // table load
     $('.main-contents--view-usr').append( customer.db.getHtml('list.users.html') );
@@ -402,18 +402,14 @@
       customer.model.kids.setCondition( { server : $(this).val() }, regenerateTable );
     });
 
+    // ボタンイベント登録
     jqueryMap.btnEdit.on( 'click', _onClickEdit );
     jqueryMap.btnDownload.on( 'click', _onClickDownload );
     jqueryMap.body.kid.on( 'click', _onClickKid );
 
-    jqueryMap.btnOnpre.on( 'click', _selectSystem );
-    jqueryMap.btnCloud.on( 'click', _selectSystem );
-    jqueryMap.btnOnpreCloud.on( 'click', _selectSystem );
-
-    jqueryMap.btnLM.on( 'click', _selectVertion );
-    jqueryMap.btnES.on( 'click', _selectVertion );
-    jqueryMap.btnESLM.on( 'click', _selectVertion );
-
+    // フィルターイベント登録
+    jqueryMap.btnSystem.on( 'click', _selectSystem );
+    jqueryMap.btnVersion.on( 'click', _selectVertion );
     jqueryMap.btnNetwork.on('click', _selectNetwork );
     jqueryMap.btnMobile.on( 'click', _selectMobileAvailable );
 
