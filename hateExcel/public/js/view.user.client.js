@@ -74,22 +74,29 @@
 
   };
 
-  drawTable = function ( data, is_redraw ) {
+  redrawTable = function ( data ) {
 
     var
-      data     = { list : data, is_redraw : is_redraw }
+      data     = { list : data, is_redraw : true }
     , tmpl     = customer.db.getHtml('template/user.client.html')
     , complied = _.template( tmpl )
     ;
 
-    if ( clientView ) {
-      clientView.wrap.find('table').remove();
-      clientView.wrap.append( complied(data) );
-      componentHandler.upgradeElements( clientView.wrap );
-    }
-    else {
-      $('#usr-client-panel').append( complied(data) );
-    }
+    clientView.wrap.find('table').remove();
+    clientView.wrap.append( complied(data) );
+    componentHandler.upgradeElements( clientView.wrap );
+
+  };
+
+  drawTable = function ( data ) {
+
+    var
+      data     = { list : data, is_redraw : false }
+    , tmpl     = customer.db.getHtml('template/user.client.html')
+    , complied = _.template( tmpl )
+    ;
+
+    $('#usr-client-panel').append( complied(data) );
 
   };
 
@@ -126,6 +133,7 @@
   cms.view.userClient = {
     initModule : initModule,
     drawTable  : drawTable,
+    redrawTable : redrawTable,
     clear : clear,
     get : function() { return clientView; }
   };

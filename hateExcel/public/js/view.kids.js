@@ -188,9 +188,9 @@
     );
 
     // クライアントテーブル描画
-    // customer.view.editUsrs.makeAccountTable(
-    //   customer.model.accounts.getAccounts({ kid : kid })
-    // );
+    customer.model.accounts.fetch(kid,
+      customer.view.userClient.redrawTable
+    );
 
     // サービステーブル描画
     customer.model.services.fetchLicenses( kid,
@@ -414,9 +414,7 @@
     jqueryMap.btnES.on( 'click', _selectVertion );
     jqueryMap.btnESLM.on( 'click', _selectVertion );
 
-
     jqueryMap.btnNetwork.on('click', _selectNetwork );
-
     jqueryMap.btnMobile.on( 'click', _selectMobileAvailable );
 
 

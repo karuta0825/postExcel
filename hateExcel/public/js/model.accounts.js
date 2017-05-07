@@ -14,7 +14,7 @@
 
   // to public
   cms.model.accounts = {
-    getAccounts : $.proxy( _model.fetch, _model )
+    fetch : $.proxy( _model.fetch, _model )
   };
 
 }( jQuery, customer ));
