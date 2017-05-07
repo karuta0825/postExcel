@@ -13,7 +13,10 @@ customer.model.accounts = ( function () {
     ;
 
   getAccounts = function ( kid ) {
-    _accounts = customer.db.select('/accounts', kid );
+    _accounts = customer.db.select('/select', {
+     condition : [ kid ],
+     'table' : 'accounts'
+    });
     return _accounts;
   };
 
