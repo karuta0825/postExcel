@@ -273,9 +273,11 @@ datas.update = function ( data, condition, table, callback ) {
 //   function (i) { console.log(i); }
 // );
 
-var makeUserKey = function () {
+var async = require('async');
+
+var makeUserKey = function ( length ) {
   var c = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  var l = 5;
+  var l = length;
   var cl = c.length;
   var r = '';
 
@@ -287,12 +289,30 @@ var makeUserKey = function () {
 
 }
 
-var findNewUserkey = function ( input ) {
-  var userkey = makeUserKey();
 
-  if ( input ) {
-    userkey = input;
-  }
+var findNewDbPass = function ( data, callback ) {
+  var db_pass = 'U' + makeUserKey(6);
+
+  datas.select(
+    db_pass,
+    'db_password',
+    function ( result ) {
+      if ( result.length !== 0 ) {
+        console.log(result);
+        findNewDbPass( null, callback );
+      }
+      else {
+        // console.log('ok: ' +  db_pass)
+        if ( typeof callback === 'function') {
+          callback( null, db_pass );
+        }
+      }
+    }
+  );
+};
+
+var findNewUserkey = function ( data, callback ) {
+  var userkey = makeUserKey(6);
 
   datas.select(
     userkey,
@@ -300,15 +320,85 @@ var findNewUserkey = function ( input ) {
     function ( result ) {
       if ( result.length !== 0 ) {
         console.log(result);
-        findNewUserkey();
+        findNewUserkey( null, callback );
       }
       else {
-        console.log('ok: ' +  userkey)
+        // console.log('ok: ' +  userkey + ' kid: ' + data)
+
+        if ( typeof callback === 'function') {
+          callback( null, userkey );
+        }
       }
     }
   );
-}
+};
 
-// for ( var i = 0; i< 1000; i+=1 ) {
-  findNewUserkey('PJNPN');
-// }
+var findNewKid = function ( data, callback ) {
+
+  datas.selectAll(
+    'kid',
+    function ( result ) {
+      var kid = Number(result[0].kid.slice(3)) + 1;
+      // console.log( 'KID' + kid );
+      if ( typeof callback === 'function') {
+        callback( null, 'KID' + kid );
+      }
+    }
+  );
+
+};
+
+// findNewKid( null, findNewUserkey );
+
+var tmp = 'XYMMS'
+var bool = true;
+
+async.series([
+    function(callback) {
+        console.log('function1');
+        datas.selectAll(
+          'kid',
+          function ( result ) {
+            var kid = Number(result[0].kid.slice(3)) + 1;
+            if ( typeof callback === 'function') {
+              callback( null, 'KID' + kid );
+            }
+          }
+        );
+    },
+    function(callback) {
+      console.log('function2');
+
+      if ( bool ) {
+        var userkey = tmp;
+        bool = false;
+      }
+      else {
+        var userkey = makeUserKey(6);
+      }
+
+      datas.select(
+        userkey,
+        'userkey',
+        function ( result ) {
+          if ( result.length !== 0 ) {
+            console.log('not unique');
+            findNewUserkey( null, callback );
+          }
+          else {
+            if ( typeof callback === 'function') {
+              callback( null, userkey );
+            }
+          }
+        }
+      );
+    },
+    function(callback) {
+        console.log('function3');
+        findNewDbPass(null, callback );
+    }
+], function(data, results) {
+    console.log(results);
+    console.log('end');
+});
+
