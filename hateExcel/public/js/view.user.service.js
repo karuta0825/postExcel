@@ -97,7 +97,7 @@
    */
   getViewInfo = function () {
 
-    var 
+    var
       result = {}
     , obj = licenseView.get('table').find('tbody').find('tr')
     ;
@@ -111,7 +111,7 @@
         result[ $(val).attr('class').split(' ')[0] ] = 0;
       }
 
-    }); 
+    });
 
     return result;
 
@@ -185,7 +185,8 @@
 
   initModule = function () {
 
-    makeServiceTable( customer.model.services.getCache('services') );
+    // makeServiceTable( customer.model.services.getCache('services') );
+    customer.model.services.getCache('services', makeServiceTable );
 
     licenseView = new Controller('#usr-service-panel');
     licenseView.initElement( elements );
@@ -193,7 +194,7 @@
     licenseView.addListener({
       'click btn__edit'   : edit,
       'click btn__cancel' : cancel,
-      'click btn__save' : save
+      'click btn__save'   : save
     });
 
     licenseView.get('checkbox').addClass('is-hidden');

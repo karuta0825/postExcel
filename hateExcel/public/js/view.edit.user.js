@@ -49,40 +49,6 @@
 
   };
 
-  /**
-   * セレクトボックス作成
-   */
-  _makeSelect = function ( id, name, list_select_items ) {
-    var
-      div      = $('<div>',    { 'class' : 'mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label' })
-    , select   = $('<select>', { 'class' : 'mdl-selectfield__select', 'id' : id, 'name' : id })
-    , div_icon = $('<div>',    { 'class' : 'mdl-selectfield__icon' })
-    , i        = $('<i>',      { 'class' : 'material-icons', 'text' : 'arrow_drop_down' })
-    , label    = $('<label>',  { 'class' : 'mdl-selectfield__label', 'text' : name })
-    , option   = $('<option>', { 'value' : '' })
-    ;
-
-    // セレクトオプション初期値を追加
-    select.append( option );
-
-    // セレクトオプション内容追加
-    _.each( list_select_items, function ( val, key ) {
-      select.append( $('<option>', { 'value' : val, 'text' : val } ) );
-    });
-
-    //
-    div_icon.append( i );
-
-    // union
-    div.append( select )
-       .append( div_icon )
-       .append( label )
-       ;
-
-    return div;
-
-  };
-
 
   backUserTable = function () {
 

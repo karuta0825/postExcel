@@ -318,7 +318,7 @@
 }
 
 .filter-item {
-  margin-top : 25px;
+  margin-top : 20px;
   margin-left : 20px;
 }
 
@@ -335,6 +335,7 @@
 .filter-item .btn {
   width         : 70px;
   height        : 30px;
+  margin-bottom : 10px;
   margin-left   : 10px;
   border-radius : 4px;
   border        : 1px solid #dedcdc;
@@ -344,16 +345,16 @@
 }
 
 .mobile .filter-item__body .btn {
-  width : 78px;
+  /*width : 78px;*/
 }
 
 .filter-item__body .btn--mon {
-  border-radius: 4px 0px 0px 4px;
+  /*border-radius: 4px 0px 0px 4px;*/
 }
 
 .filter-item__body .btn--moff {
-  margin-left: -7px;
-  border-radius: 0px 4px 4px 0px;
+  /*margin-left: -7px;*/
+  /*border-radius: 0px 4px 4px 0px;*/
 }
 
 .filter-item .btn--on {
@@ -506,20 +507,16 @@
 /* -------------------
    service tab
 ---------------------- */
-.service-table {
+.service-table,
+.account-table,
+.history-table {
+  width : 80%;
   margin : 0 auto;
 }
-
-
 
 /* -------------------
    client tab
 ---------------------- */
-
-.account-table {
-  width: 80%;
-  margin: 30px auto;
-}
 
 /* -------------------
    setting servers

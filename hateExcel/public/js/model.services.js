@@ -107,8 +107,15 @@ customer.model.services = ( function () {
 
   };
 
-  getCache = function ( content ) {
-    return _cache[content];
+  getCache = function ( content, callback ) {
+
+    if ( typeof callback === 'function') {
+      callback( _cache[content] );
+    }
+    else {
+      return _cache[content];
+    }
+
   };
 
   initModule = function () {

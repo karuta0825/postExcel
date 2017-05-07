@@ -1,32 +1,33 @@
 
 ( function ( $, exports ) {
 
-  // Contorllerの役割は何か？
-  // DOM管理（作成、更新）
-  // Event登録、削除
+  /**
+   * View Controller クラス
+   */
+
   exports.Controller = function ( content ) {
-    this.view = $(content);
+    this.wrap = $(content);
     this['_el'] = {};
   };
 
   Controller.fn = Controller.prototype;
 
   Controller.fn.$ = function ( selector ) {
-    return $( selector, this.view );
+    return $( selector, this.wrap );
   }
 
   /**
    * [initElement description]
-   * @param  {[type]} elements_map
+   * @param  {[type]} map_element
    * @return {[type]}
    * TODO: deep性能をつけよう
    */
-  Controller.fn.initElement = function ( elements_map, key ) {
+  Controller.fn.initElement = function ( map_element, key ) {
 
-    this['selector'] = elements_map;
-    this.deep( elements_map, key );
+    this['selector'] = map_element;
+    this.deep( map_element, key );
 
-    // _.each( elements_map, function ( val, key ) {
+    // _.each( map_element, function ( val, key ) {
     //   this['_el'][key] = this.$(val);
     // },this);
 
@@ -92,16 +93,16 @@
     return this['_el'][property] ? true : false;
   };
 
-  Controller.fn.addElement = function ( elements_map ) {
-    _.each( elements_map, function ( val, key ) {
+  Controller.fn.addElement = function ( map_element ) {
+    _.each( map_element, function ( val, key ) {
       if ( !this.get(key) ) {
         this['_el'][key] = this.$(val);
       }
     },this);
   };
 
-  Controller.fn.updateElement = function ( elements_map ) {
-    _.each( elements_map, function ( val, key ) {
+  Controller.fn.updateElement = function ( map_element ) {
+    _.each( map_element, function ( val, key ) {
       if ( this.get(key) ) {
         this['_el'][key] = this.$(val);
       }
@@ -110,7 +111,7 @@
 
   /**
    * [addListener description]
-   * @param {[type]} callbacks_map
+   * @param {[type]} map_callback
    * @example
    * Controller.addListner({
    *   'click kid'     : function () { console.log(this); },
@@ -118,8 +119,8 @@
    * });
    * TODO: listenerを複数つけられるようにする？
    */
-  Controller.fn.addListener = function ( callbacks_map, context ) {
-    _.each( callbacks_map, function ( val, key ) {
+  Controller.fn.addListener = function ( map_callback, context ) {
+    _.each( map_callback, function ( val, key ) {
       var
         event    = key.split(' ')[0]
       , property = key.split(' ')[1]
@@ -127,15 +128,231 @@
 
       if ( this.get(property) ) {
         if ( context ) {
-          $(this.view).on( event, this.getSelector(property), $.proxy(val,this) );
+          $(this.wrap).on( event, this.getSelector(property), $.proxy(val,this) );
         }
         else {
-          $(this.view).on( event, this.getSelector(property), val );
+          $(this.wrap).on( event, this.getSelector(property), val );
         }
       }
 
     },this);
   };
+
+
+  /**
+   *  MODEL クラス
+   */
+
+  exports.Model = function ( map_setttings ) {
+
+    this['_cache'] = [];
+    this['config'] = map_setttings;
+
+    // example
+    // this.config = {
+    //   tab       : '',
+    //   item_name : '',
+    //   table     : '',
+      // condition : {
+      //   select : '',
+      //   update : '',
+      //   insert : ''
+      // },
+      // filter : ''
+    // };
+
+    // validate
+    // this.validate( map_settings );
+
+  };
+
+  Model.fn = Model.prototype;
+
+  Model.fn.fetch = function ( kid, callback ) {
+
+     this['_cache'] = customer.db.select('/select', {
+      'condition' : [kid],
+      'table'     : this['config']['table']
+    });
+
+    // if ( this['config'].hasOwnProperty('add_method_to_fetch') ) {
+    //   this['config']['add_method_to_fetch']( this.['_cache']);
+    // }
+
+    if ( typeof callback === 'function' ) {
+      callback( this['_cache'] );
+    }
+    else {
+      return  this['_cache'] ;
+    }
+
+  };
+
+  Model.fn.getCache = function ( callback ) {
+
+    if ( typeof callback === 'function' ) {
+      callback( this._cache );
+    }
+    else {
+      return this._cache;
+    }
+
+  };
+
+  Model.fn.freeCache = function () {
+    this['_cache'] = null;
+  };
+
+
+  Model.fn.sortByKey = function ( key, callback ) {
+
+  };
+
+  Model.fn.find = function ( map_condition, callback ) {
+
+    var filtered = _data;
+
+    _.each( condition_map, function ( val, key ) {
+
+      if ( val !== 'all') {
+        filtered = _.select( filtered, function ( v, k ) {
+          return v[key] === val;
+        });
+      }
+
+    });
+
+    filtered = _.map( filtered, _.clone );
+
+    filtered = _.map( filtered, function ( val, key ) {
+      delete val.system_type;
+      delete val.version;
+      return val;
+    });
+
+    if ( typeof callback === 'function' ) {
+      callback( filtered );
+    }
+    else {
+      return filtered;
+    }
+
+  };
+
+  Model.fn.setCondition = function ( obj, callback ) {
+
+    _.each( obj, function (val, key) {
+      _condition[key] = val;
+    });
+
+    find( _condition, callback );
+
+  };
+
+
+  /**
+   * [_checkWhatsUpdated description]
+   * @param  {[type]} view_data
+   * @return {[type]}
+   * @private
+   */
+  Model.fn._checkWhatsUpdated = function ( view_data ) {
+
+    var result = {};
+
+    if ( !this['_cache'] ) {
+      return view_data;
+    }
+
+    for ( var i in view_data ) {
+      if ( view_data[i] !== '' && view_data[i] !== this['_cache[i]'] ) {
+        result[i] = view_data[i];
+      }
+    }
+
+    return result;
+
+  };
+
+  /**
+   * [_diffUpdated description]
+   * @param  {[type]} update_data
+   * @return {[type]}
+   * @private
+   */
+  Model.fn._diffUpdated = function ( update_data ) {
+    var
+      before = {}
+    , after  = {}
+    , list_history = []
+    ;
+
+    for ( var i in update_data ) {
+
+      list_history.push({
+        kid          : this['_cache']['kid'],
+        type         : '更新',
+        content_name : this['config']['tab'],
+        item_name    : this['config']['item_name_map'][i],
+        before       : this['_cache'][i],
+        after        : update_data[i]
+      });
+
+    }
+
+    return list_history;
+
+  };
+
+  /**
+   * [_updateHistory description]
+   * @param  {[type]} data
+   * @return {[type]}
+   * @private
+   */
+  Model.fn._updateHistory = function ( data ) {
+
+    customer.db.insert({
+      data  : data,
+      table : 'historys'
+    });
+
+  };
+
+
+  Model.fn.update = function ( data, callback ) {
+
+    var update_data = this._checkWhatsUpdated( data );
+
+    // updateする対象が存在する場合
+    if ( _.keys(update_data).length > 0 ) {
+
+      // データの更新
+      customer.db.update('/update', {
+        data      : update_data,
+        condition : this['config']['condition'],
+        table     : this['config']['table']
+      });
+
+      // 履歴の更新
+      this._updateHistory( this._diffUpdated( update_data ) );
+
+      // 再描画
+      if ( typeof callback === 'function' ) {
+        callback( fetch(_cache['kid']) );
+      }
+
+      // 履歴テーブルの再描画
+      customer.model.userHistory.fetch(_cache['kid'],
+        customer.view.userHistory.drawTable
+      );
+
+    }
+
+  };
+
+
+
 
 }(jQuery, this));
 
