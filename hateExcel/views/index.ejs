@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-  <title>tableタグを使わない表作成</title>
+  <title>KID管理</title>
   <meta charset='utf-8'>
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="css/material.min.css"/>
@@ -56,7 +56,8 @@
       <span class="mdl-layout-title">メニュー</span>
       <nav class="mdl-navigation">
         <a class="mdl-navigation__link btn-navi" href="#home">HOME</a>
-        <a class="mdl-navigation__link btn-navi" href="#reg-usr">ユーザー新規登録</a>
+        <a class="mdl-navigation__link btn-navi" href="#mk-usr">ユーザー作成</a>
+        <a class="mdl-navigation__link btn-navi" href="#reg-usr">ユーザー登録</a>
         <a class="mdl-navigation__link btn-navi" href="#view-usr">ユーザー情報</a>
         <a class="mdl-navigation__link navi-upper-level">設定<span class='arrow'></span> </a>
           <ul class='navi-lower-level'>
@@ -73,7 +74,10 @@
       <!-- HOME -->
       <div class='main-contents main-contents--home is-active'></div>
 
-      <!-- 新規登録 -->
+      <!-- ユーザー作成 -->
+      <div class='main-contents main-contents--mk-usr'></div>
+
+      <!-- ユーザー登録 -->
       <div class='main-contents main-contents--reg-usr'></div>
 
       <!-- 編集 -->
@@ -113,6 +117,7 @@
   <script src='./js/model.user.history.js'></script>
   <!-- view -->
   <script src='./js/view.home.js'></script>
+  <script src='./js/view.make.user.js'></script>
   <script src='./js/view.register.user.js'></script>
   <script src='./js/view.kids.js'></script>
   <script src='./js/view.edit.user.js'></script>
