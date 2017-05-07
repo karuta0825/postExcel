@@ -5,6 +5,44 @@
     <button class='btn btn--download mdl-button mdl-js-button mdl-button--raised mdl-button--accent'>ダウンロード</button>
   </div>
 
+  <!-- ダウンロード用ダイアログ -->
+  <dialog class="mdl-dialog" id="modal-client-download">
+      <h5 class="mdl-dialog__title">Title</h5>
+      <div class="mdl-dialog__content">
+
+        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-client-bat">
+          <input type="checkbox" id="checkbox-client-bat" class="mdl-checkbox__input">
+          <span class="mdl-checkbox__label">ユーザー追加bat</span>
+          <a class='download--client is-hidden' href="">ダウンロード</a>
+        </label>
+
+        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-open-notice-csv">
+          <input type="checkbox" id="checkbox-open-notice-csv" class="mdl-checkbox__input">
+          <span class="mdl-checkbox__label">開通通知用CSV</span>
+          <a class='download--open-notice is-hidden' href="">ダウンロード</a>
+        </label>
+
+
+        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-spla-csv">
+          <input type="checkbox" id="checkbox-spla-csv" class="mdl-checkbox__input">
+          <span class="mdl-checkbox__label">SPLA追加用CSV</span>
+          <a class='download--spla is-hidden' href="">ダウンロード</a>
+        </label>
+
+        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-mail-csv">
+          <input type="checkbox" id="checkbox-mail-csv" class="mdl-checkbox__input">
+          <span class="mdl-checkbox__label">メール作成用CSV</span>
+          <a class='download--mail is-hidden' href="">ダウンロード</a>
+        </label>
+
+
+      </div>
+      <div class="mdl-dialog__actions">
+          <button type="button" class="mdl-button btn--exec">実行</button>
+          <button type="button" class="mdl-button btn--close">閉じる</button>
+      </div>
+  </dialog>
+
 <% } %>
 
 <table class='account-table mdl-data-table mdl-js-data-table mdl-data-table--selectable'>
@@ -27,4 +65,6 @@
   </tbody>
 
 </table>
+
+
 

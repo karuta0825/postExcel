@@ -516,7 +516,15 @@
 
 /* -------------------
    client tab
----------------------- */
+---------------------j- */
+
+#usr-client-panel .mdl-dialog {
+  width : 60%;
+}
+
+#usr-client-panel .mdl-dialog .mdl-checkbox {
+  margin : 10px 0;
+}
 
 /* -------------------
    setting servers

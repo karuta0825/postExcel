@@ -10,7 +10,7 @@
       <div class='filter-item__body'>
         <button class='btn btn--onpre'>オンプレ</button>
         <button class='btn btn--cloud'>クラウド</button>
-        <button class='btn btn--onpre-cloud'>両方</button>
+        <button class='btn btn--onpre-cloud btn--on'>両方</button>
       </div>
     </div>
 
@@ -20,7 +20,26 @@
       <div class='filter-item__body'>
         <button class='btn btn--ES'>ES</button>
         <button class='btn btn--LM'>LM</button>
-        <button class='btn btn--ESLM'>両方</button>
+        <button class='btn btn--ESLM btn--on'>両方</button>
+      </div>
+    </div>
+
+    <!-- サーバー -->
+    <div class='filter-item servers'>
+      <div class='filter-item__title'>サーバー</div>
+      <div class='filter-item__body'>
+        <select name="servers" class='select-servers'>
+        </select>
+      </div>
+    </div>
+
+    <!-- ネットワーク -->
+    <div class='filter-item network'>
+      <div class='filter-item__title'>ネットワーク</div>
+      <div class='filter-item__body'>
+        <button class='btn btn--busiv'>ビジV</button>
+        <button class='btn btn--fenics'>fenics</button>
+        <button class='btn btn--busiv-fenics btn--on'>両方</button>
       </div>
     </div>
 
@@ -30,23 +49,10 @@
       <div class='filter-item__body'>
         <button class='btn btn--mon'>あり</button>
         <button class='btn btn--moff'>なし</button>
-        <button class='btn btn--mon-off'>両方</button>
+        <button class='btn btn--mon-off btn--on'>両方</button>
       </div>
     </div>
 
-    <!-- サーバー -->
-    <div class='filter-item servers'>
-      <div class='filter-item__title'>サーバー</div>
-      <div class='filter-item__body'>
-        <select name="servers" class='select-servers'>
-        <option value="サンプル1">選択肢のサンプル1</option>
-        <option value="サンプル2">選択肢のサンプル2</option>
-        <option value="サンプル3">選択肢のサンプル3</option>
-        <option value="サンプル4">選択肢のサンプル4</option>
-        <option value="サンプル5">選択肢のサンプル5</option>
-        </select>
-      </div>
-    </div>
 
   </div>
 </div>
