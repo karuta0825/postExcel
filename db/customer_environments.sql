@@ -36,7 +36,7 @@ CREATE TABLE `environments` (
 
 LOCK TABLES `environments` WRITE;
 /*!40000 ALTER TABLE `environments` DISABLE KEYS */;
-INSERT INTO `environments` VALUES (1,'on_premises','ES'),(2,'on_premises','LM'),(3,'cloud','ES'),(4,'cloud','LM'),(5,'demo','LM');
+INSERT INTO `environments` VALUES (1,'onpre','ES'),(2,'onpre','LM'),(3,'cloud','ES'),(4,'cloud','LM'),(5,'demo','LM');
 /*!40000 ALTER TABLE `environments` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -49,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-05-04 22:25:30
+-- Dump completed on 2017-05-07 10:20:23

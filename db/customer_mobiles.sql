@@ -24,8 +24,9 @@ DROP TABLE IF EXISTS `mobiles`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `mobiles` (
   `kid` varchar(9) NOT NULL,
-  `fenics_key` varchar(45) DEFAULT NULL,
-  `password` varchar(45) DEFAULT NULL,
+  `fenics_key` varchar(45) NOT NULL,
+  `password` varchar(45) NOT NULL,
+  ` client_number` int(4) NOT NULL,
   `office_cd` int(10) DEFAULT NULL,
   PRIMARY KEY (`kid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -49,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-05-04 22:25:31
+-- Dump completed on 2017-05-07 10:20:25
