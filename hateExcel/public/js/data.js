@@ -60,8 +60,8 @@ customer.db = ( function (){
     return JSON.parse( _ajaxPost( url, params ));
   };
 
-  insert    = function ( params ) {
-    _ajaxPost( '/insert', params );
+  insert    = function ( url, params ) {
+    _ajaxPost( url, params );
   };
 
   update    = function ( url, params ) {

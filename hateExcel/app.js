@@ -178,6 +178,7 @@ app.post('/insert', function ( req, res ) {
   , table = req.body.table
   ;
 
+  // dataがArrayであることが前提だね
   for ( var i = 0; i < data.length; i+= 1 ) {
     data[i]['login_id'] = req.session.uid;
     data[i]['create_on'] = new Date();
@@ -193,8 +194,34 @@ app.post('/insert', function ( req, res ) {
     });
   }
   res.status(200).send('ok');
-  // res.redirect('/');
+
 });
+
+app.post('/makeUser', function ( req, res ) {
+
+  var 
+    data = req.body.data
+  , table = req.body.table
+  ;
+
+  // kid, userkey, db_password
+
+
+});
+
+var makeUserKey = function () {
+  var c = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  var l = 6;
+  var cl = c.length;
+  var r = '';
+
+  for(var i=0; i<l; i++){
+    r += c[Math.floor(Math.random()*cl)];
+  }
+
+  return r;
+  
+}
 
 app.post('/delete', function ( req, res ) {
   var data = req.body;
