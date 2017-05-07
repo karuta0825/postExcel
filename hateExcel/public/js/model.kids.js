@@ -9,7 +9,8 @@ customer.model.kids = ( function () {
   , _condition = {
       system_type : 'all',
       version     : 'all',
-      server      : 'all'
+      server      : 'all',
+      has_mobile  : 'all'
     }
   , _sortOrder = 1
     /*private method*/
@@ -20,6 +21,15 @@ customer.model.kids = ( function () {
   , getHeader
   , initModule
   ;
+
+  findByIds = function ( list_id ) {
+    var list = [];
+    _.each( list_id, function ( val, key ) {
+      list.push( find( { kid : val }) );
+    });
+    return list;
+  };
+
 
   /**
    * 条件に一致したデータを抽出(and条件)
@@ -33,7 +43,7 @@ customer.model.kids = ( function () {
 
     _.each( condition_map, function ( val, key ) {
 
-      if ( val !== 'all') {
+      if ( val !== 'all' ) {
         filtered = _.select( filtered, function ( v, k ) {
           return v[key] === val;
         });

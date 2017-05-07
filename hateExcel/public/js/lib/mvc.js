@@ -210,9 +210,9 @@
 
   Model.fn.find = function ( map_condition, callback ) {
 
-    var filtered = _data;
+    var filtered = this['_cache'];
 
-    _.each( condition_map, function ( val, key ) {
+    _.each( map_condition, function ( val, key ) {
 
       if ( val !== 'all') {
         filtered = _.select( filtered, function ( v, k ) {
@@ -220,14 +220,6 @@
         });
       }
 
-    });
-
-    filtered = _.map( filtered, _.clone );
-
-    filtered = _.map( filtered, function ( val, key ) {
-      delete val.system_type;
-      delete val.version;
-      return val;
     });
 
     if ( typeof callback === 'function' ) {

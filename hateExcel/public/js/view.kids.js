@@ -9,16 +9,17 @@
     jqueryMap = {}
   // private
   , _setJqueryMap
-  , _makeSelectBox
   , _drawHead
   , _drawBody
   , _onClickColumn
   , _onClickEdit
   , _onClickKid
   , _onClickDownload
-  , _onClickToggle
-  , _filterVertion
-  , _filterSystem
+  , _selectSystem
+  , _selectVertion
+  , _selectNetwork
+  , _selectServer
+  , _selectMobileAvailable
   // public
   , initModule
   , drawTable
@@ -59,8 +60,15 @@
       jqueryMap.btnES        = filter.find('.btn--ES');
       jqueryMap.btnESLM      = filter.find('.btn--ESLM');
 
+      jqueryMap.btnBusiv  = filter.find('.btn--busiv');
+      jqueryMap.btnFenics = filter.find('.btn--fenics');
+      jqueryMap.btnBusivFenics = filter.find('.btn--busiv-fenics')
+      jqueryMap.btnNetwork = filter.find('.network .filter-item__body');
+
       jqueryMap.btnMobileOn  = filter.find('.btn--mon');
       jqueryMap.btnMobileOff = filter.find('.btn--moff');
+      jqueryMap.btnMobileOnOff = filter.find('.btn--mon-off')
+      jqueryMap.btnMobile = filter.find('.mobile .filter-item__body');
 
       jqueryMap.btnEdit     = content.find('.btn--edit');
       jqueryMap.btnDownload = content.find('.btn--download');
@@ -81,9 +89,6 @@
 
   };
 
-  _makeSelectBox = function () {
-
-  };
 
   _drawHead = function ( data ) {
     var
@@ -104,6 +109,10 @@
     , tmpl     = customer.db.getHtml('template/kids.body.html')
     , complied = _.template( tmpl )
     ;
+
+    if ( data.list.length < 1 ) {
+      return;
+    }
 
     jqueryMap.tbody.append( complied( data ) );
 
@@ -159,6 +168,7 @@
     componentHandler.upgradeElements( jqueryMap.table );
 
     jqueryMap.body.kid.on( 'click', _onClickKid );
+    jqueryMap.header.on( 'click', _onClickColumn );
 
   };
 
@@ -232,7 +242,7 @@
 
     var filename = 'a';
     var header = 'id,';
-    var data = customer.model.kids.findByIds( ids );
+    var data = customer.model.kids.find( ids );
     header += _.values( customer.model.kids.getHeader() ).join(',');
     var Blob = util.convertMap2Blob( data, header );
     // ダウンロード
@@ -240,25 +250,7 @@
 
   };
 
-  _onClickToggle = function ( a ) {
-    console.log(this);
-    console.log(a);
-    console.log(b);
-    $(this).toggleClass('btn--on');
-  };
-
-  _onClickMobileSwitch = function () {
-    if ( jqueryMap.btnMobileOn.hasClass('btn--on') ) {
-      jqueryMap.btnMobileOn.removeClass('btn--on');
-      jqueryMap.btnMobileOff.addClass('btn--on');
-    }
-    else {
-      jqueryMap.btnMobileOff.removeClass('btn--on');
-      jqueryMap.btnMobileOn.addClass('btn--on');
-    }
-  };
-
-  _filterSystem = function () {
+  _selectSystem = function () {
 
     var list_class = $(this).attr('class').split(' ');
 
@@ -290,7 +282,7 @@
   /**
    * クラス化できるメソッドですね
    */
-  _filterVertion = function () {
+  _selectVertion = function () {
 
     var list_class = $(this).attr('class').split(' ');
 
@@ -299,25 +291,101 @@
         jqueryMap.btnES.addClass('btn--on');
         jqueryMap.btnLM.removeClass('btn--on');
         jqueryMap.btnESLM.removeClass('btn--on');
-        customer.model.kids.setCondition( {'version' : 'ES'}, regenerateTable );
+        customer.model.kids.setCondition( {'version' : 'ES', 'server' : 'all'}, regenerateTable );
+        // 選択サーバ変更
+        _selectServer('ES');
         break;
       case 'btn--LM' :
         jqueryMap.btnES.removeClass('btn--on');
         jqueryMap.btnLM.addClass('btn--on');
         jqueryMap.btnESLM.removeClass('btn--on');
-        customer.model.kids.setCondition( { 'version' : 'LM' }, regenerateTable );
+        customer.model.kids.setCondition( { 'version' : 'LM', 'server' : 'all' }, regenerateTable );
+        // 選択サーバ変更
+        _selectServer('LM');
         break;
       case 'btn--ESLM' :
         jqueryMap.btnES.removeClass('btn--on');
         jqueryMap.btnLM.removeClass('btn--on');
         jqueryMap.btnESLM.addClass('btn--on');
-        customer.model.kids.setCondition( { 'version' : 'all'}, regenerateTable );
+        customer.model.kids.setCondition( { 'version' : 'all', 'server' : 'all'}, regenerateTable );
+        //
+        _selectServer('all');
         break;
       default:
         break;
     }
 
   };
+
+  _selectMobileAvailable = function ( event ) {
+
+    var list_class = $(event.target).attr('class').split(' ');
+
+    switch ( list_class[1] ) {
+      case 'btn--mon' :
+        jqueryMap.btnMobileOn.addClass('btn--on');
+        jqueryMap.btnMobileOff.removeClass('btn--on');
+        jqueryMap.btnMobileOnOff.removeClass('btn--on');
+        customer.model.kids.setCondition( {'has_mobile' : 1 }, regenerateTable );
+        break;
+      case 'btn--moff' :
+        jqueryMap.btnMobileOn.removeClass('btn--on');
+        jqueryMap.btnMobileOff.addClass('btn--on');
+        jqueryMap.btnMobileOnOff.removeClass('btn--on');
+        customer.model.kids.setCondition( { 'has_mobile' : 0 }, regenerateTable );
+        break;
+      case 'btn--mon-off' :
+        jqueryMap.btnMobileOn.removeClass('btn--on');
+        jqueryMap.btnMobileOff.removeClass('btn--on');
+        jqueryMap.btnMobileOnOff.addClass('btn--on');
+        customer.model.kids.setCondition( { 'has_mobile' : 'all' }, regenerateTable );
+        break;
+      default:
+        break;
+    }
+
+
+  };
+
+  _selectNetwork = function ( event ) {
+
+    var list_class = $( event.target ).attr('class').split(' ');
+
+    switch ( list_class[1] ) {
+      case 'btn--busiv' :
+        jqueryMap.btnBusiv.addClass('btn--on');
+        jqueryMap.btnFenics.removeClass('btn--on');
+        jqueryMap.btnBusivFenics.removeClass('btn--on');
+        // customer.model.kids.setCondition( {'version' : 'ES', 'server' : 'all'}, regenerateTable );
+        break;
+      case 'btn--fenics' :
+        jqueryMap.btnBusiv.removeClass('btn--on');
+        jqueryMap.btnFenics.addClass('btn--on');
+        jqueryMap.btnBusivFenics.removeClass('btn--on');
+        // customer.model.kids.setCondition( { 'version' : 'LM', 'server' : 'all' }, regenerateTable );
+        break;
+      case 'btn--busiv-fenics' :
+        jqueryMap.btnBusiv.removeClass('btn--on');
+        jqueryMap.btnFenics.removeClass('btn--on');
+        jqueryMap.btnBusivFenics.addClass('btn--on');
+        // customer.model.kids.setCondition( { 'version' : 'all', 'server' : 'all'}, regenerateTable );
+        break;
+      default:
+        break;
+    }
+
+  };
+
+
+  _selectServer = function ( version ) {
+
+    var filtered = customer.model.servers.find({ 'version' : version, type : 'AP' });
+    var select =  util.addOption( filtered, $('.select-servers') );
+    $('.filter-item.servers .filter-item__body').append( select );
+
+  };
+
+
 
   initModule = function () {
     // table load
@@ -327,35 +395,30 @@
 
     drawTable();
 
-
-    // make select box
-    var servers = _.map( customer.model.servers.getServers(), function (item) {
-      return item.name
-    });
-    $('.filter__body').append( util.makeSelect( 'servers', 'サーバー', servers ) );
-
     // on event
     jqueryMap.header.on( 'click', _onClickColumn );
 
-    $('select#servers').change( function () {
-      var data_filtered = customer.model.kids.find( { server : $(this).val() });
-      regenerateTable( data_filtered );
+    $('.select-servers').change( function () {
+      customer.model.kids.setCondition( { server : $(this).val() }, regenerateTable );
     });
 
     jqueryMap.btnEdit.on( 'click', _onClickEdit );
     jqueryMap.btnDownload.on( 'click', _onClickDownload );
     jqueryMap.body.kid.on( 'click', _onClickKid );
 
-    jqueryMap.btnOnpre.on( 'click', _filterSystem );
-    jqueryMap.btnCloud.on( 'click', _filterSystem );
-    jqueryMap.btnOnpreCloud.on( 'click', _filterSystem );
+    jqueryMap.btnOnpre.on( 'click', _selectSystem );
+    jqueryMap.btnCloud.on( 'click', _selectSystem );
+    jqueryMap.btnOnpreCloud.on( 'click', _selectSystem );
 
-    jqueryMap.btnLM.on( 'click', _filterVertion );
-    jqueryMap.btnES.on( 'click', _filterVertion );
-    jqueryMap.btnESLM.on( 'click', _filterVertion );
+    jqueryMap.btnLM.on( 'click', _selectVertion );
+    jqueryMap.btnES.on( 'click', _selectVertion );
+    jqueryMap.btnESLM.on( 'click', _selectVertion );
 
-    jqueryMap.btnMobileOn.on( 'click', _onClickMobileSwitch );
-    jqueryMap.btnMobileOff.on( 'click', _onClickMobileSwitch );
+
+    jqueryMap.btnNetwork.on('click', _selectNetwork );
+
+    jqueryMap.btnMobile.on( 'click', _selectMobileAvailable );
+
 
   };
 
