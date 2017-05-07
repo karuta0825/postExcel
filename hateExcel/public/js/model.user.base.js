@@ -33,7 +33,7 @@
 
     _cache = $.extend(
       {},
-      customer.model.kids.find( {'kid' : kid} ),
+      customer.model.kids.find( {'kid' : kid} )[0],
       customer.db.select('/select', {
         condition : {'kid' : kid},
         table : 'customers'
