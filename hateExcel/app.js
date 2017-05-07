@@ -182,8 +182,6 @@ app.post('/insert', function ( req, res ) {
     data[i]['login_id'] = req.session.uid;
     data[i]['create_on'] = new Date();
 
-    console.log(data[i]);
-
     datas.insert( data[i], table, function ( err ) {
       // insert時のエラー処理
       if (err) {
@@ -215,8 +213,6 @@ app.post('/update', function ( req, res ) {
   , condition = req.body.condition
   , table     = req.body.table
   ;
-
-  console.log( req.body );
 
   datas.update( data, condition, table, function ( err ) {
     if  ( err ) {
