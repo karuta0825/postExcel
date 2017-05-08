@@ -339,50 +339,60 @@ var findNewKid = function ( data, callback ) {
 
 var findEnvironmentId = function ( data, callback ) {
 
-  // datas.select(
-  //   [data],
-  //   'kid',
-  //   function ( result ) {
-  //     var kid = Number(result[0].kid.slice(3)) + 1;
-  //     if ( typeof callback === 'function') {
-  //       callback( null, 'KID' + kid );
-  //     }
-  //   }
-  // );
+  var params = [
+    data.system_type,
+    data.version
+  ];
+
+  datas.select(
+    params,
+    'findEnvironmentId',
+    function ( result ) {
+      console.log(result[0]);
+      if ( typeof callback === 'function') {
+        callback( null, result[0].id );
+      }
+    }
+  );
 
 };
 
 
-var make_user = function ( environment_id, create_user_id ) {
-async.series([
-    function(callback) {
-      // console.log('function1');
-      findNewKid( environment_id, callback );
-    },
-    function(callback) {
-      // console.log('function2');
-      findNewUserkey(null, callback );
-    },
-    function(callback) {
-      // console.log('function3');
-      findNewDbPass(null, callback );
-    }
-], function(err, results) {
-
-    results.push( environment_id );
-    results.push( new Date() );
-    results.push( create_user_id );
-    console.log(results);
-
-    datas.insert( results, 'make_user', function ( result ) {
-      // 連続insertでKIDが重複していた場合、再作成
-      if ( result ){
-        make_user( environment_id, create_user_id );
+datas.make_user = function ( input_map, callback ) {
+  async.series([
+      function(callback) {
+        findNewKid( input_map.environment_id, callback );
+      },
+      function(callback) {
+        findNewUserkey(null, callback );
+      },
+      function(callback) {
+        findNewDbPass(null, callback );
+      },
+      function(callback) {
+        findEnvironmentId( input_map, callback );
       }
-    });
-});
+  ], function(err, results) {
+
+      results.push( input_map.server );
+      // results.push( input_map.environment_id );
+      results.push( new Date() );
+      results.push( input_map.create_user_id );
+      console.log(results);
+
+      // datas.insert( results, 'make_user', function ( result ) {
+      //   // 連続insertでKIDが重複していた場合、再作成
+      //   if ( result ){
+      //     make_user( input_map );
+      //   }
+      //   else {
+      //     callback(result);
+      //   }
+      // });
+      callback( results );
+  });
 };
 
 // for( var i = 0; i < 100; i += 1) {
-  // make_user(4, 1);
+  make_user(4, 1);
 // }

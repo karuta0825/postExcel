@@ -6,7 +6,7 @@
 ( function ( $, cms ) {
 
 
-  var 
+  var
     makeUserView
   , elements = {
       btn : {
@@ -15,22 +15,22 @@
       select : {
         system  : '.select-system',
         version : '.select-version',
-        server  : '.select-server' 
+        server  : '.select-server'
       }
     }
   , _makeSelectServer
   , _selectSystem
   , _makeUser
-  , initModule 
+  , initModule
   ;
 
   _selectSystem = function () {
      if ( $(this).val() ===  'onpre' ) {
-      makeUserView.get('select__version').addClass('is-hidden');
+      // makeUserView.get('select__version').addClass('is-hidden');
       makeUserView.get('select__server').addClass('is-hidden');
      }
      else {
-      makeUserView.get('select__version').removeClass('is-hidden');
+      // makeUserView.get('select__version').removeClass('is-hidden');
       makeUserView.get('select__server').removeClass('is-hidden');
      }
   };
@@ -43,29 +43,42 @@
 
   _makeUser = function () {
 
-    var param = {
-      'data' : {
-        system_type : makeUserView.get('select__system').val(),
-        version     : makeUserView.get('select__version').val(),
-        server      : makeUserView.get('select__server').val()
-      },
-      'table' : 'kids'
+    var
+      system_type = makeUserView.get('select__system').val()
+    , version     = makeUserView.get('select__version').val()
+    , server      = makeUserView.get('select__server').val()
+    , param
+    ;
+
+    if ( system_type === 'onpre' ) {
+      server = '';
+    }
+
+    param = {
+      data : {
+        system_type : system_type,
+        version : version,
+        server : server
+      }
     };
 
-    if ( param['data'].system_type !== 'onpre ') {
-      _.each( param['data'], function ( val, key ) {
-         if ( !val ) {
-          alert('情報不足のため、ユーザー作成できません');
-          return;
-         }
-      }); 
-    }
+    // if ( param['data'].system_type !== 'onpre') {
+    //   _.each( param['data'], function ( val, key ) {
+    //      if ( !val ) {
+    //       alert('情報不足のため、ユーザー作成できません');
+    //       return;
+    //      }
+    //   });
+    // }
 
     console.log( param );
 
     // KID, Userkey, DB Passwordを決める
-    // 決まったあとは、トリガー経由で自動で他のテーブルにデータが入る
-    // customer.db.insert( params );
+    // customer.db.insert( '/makeUser', param );
+
+
+    // kidsモデルを更新して再描画
+
 
   };
 

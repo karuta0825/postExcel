@@ -199,29 +199,16 @@ app.post('/insert', function ( req, res ) {
 
 app.post('/makeUser', function ( req, res ) {
 
-  var 
-    data = req.body.data
-  , table = req.body.table
-  ;
+  var data = req.body.data;
 
-  // kid, userkey, db_password
+  data.create_user_id = req.session.uid;
 
+  datas.make_user( data, function ( result ) {
+    res.status(200).send('ok');
+  });
 
 });
 
-var makeUserKey = function () {
-  var c = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  var l = 6;
-  var cl = c.length;
-  var r = '';
-
-  for(var i=0; i<l; i++){
-    r += c[Math.floor(Math.random()*cl)];
-  }
-
-  return r;
-  
-}
 
 app.post('/delete', function ( req, res ) {
   var data = req.body;

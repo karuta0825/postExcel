@@ -16,7 +16,8 @@
     "userkey"      : "SELECT userkey FROM kids WHERE userkey = ?;",
     "kid"          : "SELECT kid FROM kids WHERE environment_id = ? order by kid desc;",
     "db_password"  : "SELECT db_password from kids WHERE db_password = ?;",
-    "environments" : "SELECT * FROM environments;"
+    "environments" : "SELECT * FROM environments;",
+    "findEnvironmentId" : "select id from environments where system_type = ? and version = ?;"
 
   },
 
@@ -32,7 +33,7 @@
   "insert" : {
     "kids"     : "INSERT INTO kids ( kid, server, genics, userkey, company, create_user_id, update_on ) VALUES ( ?,?,?,?,?,?,NOW() );",
     "historys" : "INSERT INTO historys SET ?;",
-    "make_user" : "INSERT INTO kids( kid, userkey, db_password, environment_id, create_on, create_user_id ) value( ?, ?, ?, ?, ?, ? ); "
+    "make_user" : "INSERT INTO kids( kid, userkey, db_password, server, environment_id, create_on, create_user_id ) value( ?, ?, ?, ?, ?, ?, ? ); "
   },
 
   "delete" : {
