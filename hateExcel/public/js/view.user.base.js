@@ -18,6 +18,8 @@
       'tel'           : '.tel',
       'fax'           : '.fax',
       'client_number' : '.client_number',
+      'system_type'   : '.system_type',
+      'version'       : '.version',
       'btnMinus'      : '.btn-minus-account',
       'btnPlus'       : '.btn-plus-account',
       'btnEdit'       : '.btn--edit',
@@ -55,7 +57,7 @@
     customer.model.userBaseInfo.update( getViewInfo(), makeUserInfo );
 
     // 編集不可
-    _toggleEditMode( 'kid'       , false );
+    // _toggleEditMode( 'kid'       , false );
     _toggleEditMode( 'user_name' , false );
     _toggleEditMode( 'userkey'   , false );
     _toggleEditMode( 'server'    , false );
@@ -78,7 +80,7 @@
 
   _onClickCancel = function () {
     // 編集不可
-    _toggleEditMode( 'kid'       , false );
+    // _toggleEditMode( 'kid'       , false );
     _toggleEditMode( 'user_name' , false );
     _toggleEditMode( 'userkey'   , false );
     _toggleEditMode( 'server'    , false );
@@ -104,7 +106,7 @@
 
   _onClickEdit = function () {
     // 編集可
-    _toggleEditMode( 'kid'       , true );
+    // _toggleEditMode( 'kid'       , true );
     _toggleEditMode( 'user_name' , true );
     _toggleEditMode( 'userkey'   , true );
     _toggleEditMode( 'server'    , true );
@@ -180,6 +182,25 @@
     baseView.get('owner'        ).find('.item-value').val(data.owner);
     baseView.get('tel'          ).find('.item-value').val(data.tel);
     baseView.get('fax'          ).find('.item-value').val(data.fax);
+
+    if ( data.system_type === 'onpre' ) {
+      baseView.get('system_type').find('.onpre').addClass('choice--on');
+      baseView.get('system_type').find('.cloud').removeClass('choice--on');
+    }
+    else {
+      baseView.get('system_type').find('.onpre').removeClass('choice--on');
+      baseView.get('system_type').find('.cloud').addClass('choice--on');
+    }
+
+    if ( data.version === 'LM' ) {
+      baseView.get('version').find('.ES').removeClass('choice--on');
+      baseView.get('version').find('.LM').addClass('choice--on');
+    }
+    else {
+      baseView.get('version').find('.ES').addClass('choice--on');
+      baseView.get('version').find('.LM').removeClass('choice--on');
+    }
+
   };
 
   reset = function () {

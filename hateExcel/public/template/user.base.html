@@ -6,6 +6,21 @@
 
 <ul class='user-list'>
 
+  <h6>システム情報</h6>
+
+  <li class='user-list__item system_type'>
+    <span class='item-key'>システム環境</span>
+    <span class='choice onpre'>オンプレ</span>
+    <span class='choice cloud'>クラウド</span>
+  </li>
+
+  <li class='user-list__item version'>
+    <span class='item-key'>バージョン</span>
+    <span class='choice ES'>ES</span>
+    <span class='choice LM'>LM</span>
+  </li>
+
+
   <li class='user-list__item kid'>
     <span class='item-key'>KID</span>
     <input class='item-value' type='text' value='' disabled='disabled'></input>
@@ -32,13 +47,15 @@
   </li>
 
   <li class='user-list__item client_number'>
-    <span class='item-key'>アカウント数</span>
+    <span class='item-key'>クライアント数</span>
     <input class='item-value' type='number' min='1' value='0' disabled='disabled'></input>
     <div class='item-action'>
       <button class='btn btn-minus-account is-hidden mdl-js-button mdl-button--raised'>-</button>
       <button class='btn btn-plus-account is-hidden mdl-js-button mdl-button--raised'>+</button>
     </div>
   </li>
+
+  <h6>顧客情報</h6>
 
   <li class='user-list__item postal_cd'>
     <span class='item-key'>郵便番号</span>
