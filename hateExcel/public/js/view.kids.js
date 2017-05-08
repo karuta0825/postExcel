@@ -395,6 +395,8 @@
 
     drawTable();
 
+    _selectServer( 'all' );
+
     // on event
     jqueryMap.header.on( 'click', _onClickColumn );
 
