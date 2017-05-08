@@ -395,6 +395,7 @@
 
     drawTable();
 
+    // サーバー選択肢作成
     _selectServer( 'all' );
 
     // on event
