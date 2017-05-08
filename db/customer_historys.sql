@@ -31,7 +31,7 @@ CREATE TABLE `historys` (
   `before` varchar(45) DEFAULT NULL,
   `after` varchar(45) DEFAULT NULL,
   `create_on` datetime DEFAULT NULL,
-  `login_id` int(1) DEFAULT NULL,
+  `create_user_id` int(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=109 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -55,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-05-07 19:53:01
+-- Dump completed on 2017-05-08 21:55:31
