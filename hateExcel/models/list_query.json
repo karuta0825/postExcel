@@ -1,7 +1,7 @@
 {
 
   "select" : {
-    "all"          : "SELECT U.id, U.kid, user_name AS user_name, U.server, U.userkey, U.db_password, U.fenics_key, (SELECT COUNT(kid) FROM clients WHERE kid = U.kid AND is_admin = 0) AS client_number, U.has_mobile, ENV.system_type, ENV.version, name as creater, (SELECT MAX(DATE_FORMAT(update_on, '%Y-%m-%d')) FROM clients WHERE kid = U.kid) AS update_on FROM kids AS U LEFT JOIN login_users AS L ON U.author_id = L.id  LEFT JOIN customers AS cus ON U.kid = cus.kid LEFT JOIN environments AS ENV ON U.environment_id = ENV.id",
+    "all"          : "SELECT U.id, U.kid, user_name AS user_name, U.server, U.userkey, U.db_password, U.fenics_key, (SELECT COUNT(kid) FROM clients WHERE kid = U.kid AND is_admin = 0) AS client_number, U.has_mobile, ENV.system_type, ENV.version, name as creater, (SELECT MAX(DATE_FORMAT(update_on, '%Y-%m-%d')) FROM clients WHERE kid = U.kid) AS update_on FROM kids AS U LEFT JOIN login_users AS L ON U.create_user_id = L.id  LEFT JOIN customers AS cus ON U.kid = cus.kid LEFT JOIN environments AS ENV ON U.environment_id = ENV.id",
     "servers"      : "SELECT SV.id, SV.ip, SV.name, SV.type, ENV.version FROM servers AS SV INNER JOIN environments AS ENV ON SV.environment_id = ENV.id order by ip, version" ,
     "clients"     : "SELECT kid, client_id, client_pass, update_user, DATE_FORMAT( update_on, '%Y-%m-%d') as update_on FROM clients where kid = ?;",
     "users"        : "SELECT * FROM login_users where uid = ? and password = ?;",
@@ -10,7 +10,7 @@
     "services"     : "SELECT * FROM services;",
     "licenses"     : "SELECT * FROM licenses WHERE ?;" ,
     "base_info"    : "SELECT * FROM CUSTOMERS WHERE kid = ?;",
-    "historys"     : "SELECT H.type, H.content_name, H.item_name, H.before, H.after, DATE_FORMAT( create_on, '%Y-%m-%d %H:%i:%s') as create_on, L.name as creater FROM HISTORYS H LEFT JOIN login_users L ON H.login_id = L.id WHERE ? order by create_on desc;",
+    "historys"     : "SELECT H.type, H.content_name, H.item_name, H.before, H.after, DATE_FORMAT( create_on, '%Y-%m-%d %H:%i:%s') as create_on, L.name as creater FROM HISTORYS H LEFT JOIN login_users L ON H.create_user_id = L.id WHERE ? order by create_on desc;",
     "partners"     : "SELECT * FROM partners WHERE ?;",
     "customers"    : "SELECT * FROM CUSTOMERS WHERE ?;",
     "userkey"      : "SELECT userkey FROM kids WHERE userkey = ?;",
@@ -29,9 +29,9 @@
   },
 
   "insert" : {
-    "kids"     : "INSERT INTO kids ( kid, server, genics, userkey, company, author_id, update_on ) VALUES ( ?,?,?,?,?,?,NOW() );",
+    "kids"     : "INSERT INTO kids ( kid, server, genics, userkey, company, create_user_id, update_on ) VALUES ( ?,?,?,?,?,?,NOW() );",
     "historys" : "INSERT INTO historys SET ?;",
-    "make_user" : "INSERT INTO kids( kid, userkey, db_password, environment_id, create_on ) value( ?, ?, ?, ?, ? ); "
+    "make_user" : "INSERT INTO kids( kid, userkey, db_password, environment_id, create_on, create_user_id ) value( ?, ?, ?, ?, ?, ? ); "
   },
 
   "delete" : {

@@ -182,6 +182,7 @@ datas.insert = function ( data, table, callback ) {
       db.end();
       // エラー時
       if ( err ) {
+        console.log(err);
         callback( err );
         return;
       }
@@ -260,12 +261,6 @@ datas.update = function ( data, condition, table, callback ) {
   );
 };
 
-// datas.update(
-//   { user_name : 'MMmサービスセンター', address : '東京都品川区' },
-//   { kid : 'KID00824' },
-//   'customers',
-//   function (i) { console.log(i); }
-// );
 
 var async = require('async');
 
@@ -342,8 +337,23 @@ var findNewKid = function ( data, callback ) {
 
 };
 
+var findEnvironmentId = function ( data, callback ) {
 
-var make_user = function ( environment_id ) {
+  // datas.select(
+  //   [data],
+  //   'kid',
+  //   function ( result ) {
+  //     var kid = Number(result[0].kid.slice(3)) + 1;
+  //     if ( typeof callback === 'function') {
+  //       callback( null, 'KID' + kid );
+  //     }
+  //   }
+  // );
+
+};
+
+
+var make_user = function ( environment_id, create_user_id ) {
 async.series([
     function(callback) {
       // console.log('function1');
@@ -359,19 +369,20 @@ async.series([
     }
 ], function(err, results) {
 
-    console.log(results);
     results.push( environment_id );
     results.push( new Date() );
+    results.push( create_user_id );
+    console.log(results);
 
     datas.insert( results, 'make_user', function ( result ) {
       // 連続insertでKIDが重複していた場合、再作成
       if ( result ){
-        make_user( environment_id );
+        make_user( environment_id, create_user_id );
       }
     });
 });
 };
 
 // for( var i = 0; i < 100; i += 1) {
-  // make_user(4);
+  // make_user(4, 1);
 // }
