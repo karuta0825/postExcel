@@ -2,7 +2,7 @@
 
   "select" : {
     "all"          : "SELECT U.id, U.kid, user_name AS user_name, U.server, U.userkey, U.db_password, U.fenics_key, (SELECT COUNT(kid) FROM clients WHERE kid = U.kid AND is_admin = 0) AS client_number, U.has_mobile, ENV.system_type, ENV.version, name as creater, (SELECT MAX(DATE_FORMAT(update_on, '%Y-%m-%d')) FROM clients WHERE kid = U.kid) AS update_on FROM kids AS U LEFT JOIN login_users AS L ON U.create_user_id = L.id  LEFT JOIN customers AS cus ON U.kid = cus.kid LEFT JOIN environments AS ENV ON U.environment_id = ENV.id",
-    "servers"      : "SELECT SV.id, SV.ip, SV.name, SV.type, ENV.version FROM servers AS SV INNER JOIN environments AS ENV ON SV.environment_id = ENV.id order by ip, version" ,
+    "servers"      : "SELECT SV.id, SV.ip, SV.name, SV.type, ENV.version FROM servers AS SV INNER JOIN environments AS ENV ON SV.environment_id = ENV.id order by name, ip, version" ,
     "clients"     : "SELECT kid, client_id, client_pass, update_user, DATE_FORMAT( update_on, '%Y-%m-%d') as update_on FROM clients where kid = ?;",
     "users"        : "SELECT * FROM login_users where uid = ? and password = ?;",
     "header"       : "SELECT * FROM columns where uid = 0;",
