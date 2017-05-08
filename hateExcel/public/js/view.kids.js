@@ -107,7 +107,7 @@
 
   _drawBody = function ( data ) {
     var
-      data     = { list : data }
+      data     = { list : _.map(data, _.clone) }
     , tmpl     = customer.db.getHtml('template/kids.body.html')
     , complied = _.template( tmpl )
     ;
