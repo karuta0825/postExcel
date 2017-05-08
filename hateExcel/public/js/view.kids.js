@@ -106,11 +106,19 @@
   };
 
   _drawBody = function ( data ) {
-    var
-      data     = { list : _.map(data, _.clone) }
-    , tmpl     = customer.db.getHtml('template/kids.body.html')
-    , complied = _.template( tmpl )
-    ;
+
+    var clone, data, tmpl, complied;
+
+    clone = _.map(data, _.clone);
+    _.each( clone, function ( val, key ) {
+      delete val.system_type;
+      delete val.version;
+    });
+
+    data     = { list : clone };
+    tmpl     = customer.db.getHtml('template/kids.body.html');
+    complied = _.template( tmpl );
+
 
     if ( data.list.length < 1 ) {
       return;
