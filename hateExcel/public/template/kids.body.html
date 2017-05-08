@@ -5,7 +5,10 @@
   i;
 %>
 
-<% _.each( list , function ( item ) { %>
+<% _.each( list , function ( item ) {
+  delete item.version
+  delete item.system_type
+%>
   <tr id='id<%- item.id %>' >
 <%   for ( i = 1; i<len; i+=1 ){ %>
 <!-- 入力内容が数値以外のとき左寄せ -->

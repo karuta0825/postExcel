@@ -159,6 +159,14 @@
 
   makeUserInfo = function (　data ) {
 
+    // 該当サーバの検索
+    var list_option = customer.model.servers.find({
+      'version'     : data.version
+    });
+
+    // 検索結果をoptionとして追加
+    util.addOption( list_option, baseView.get('server').find('select'), true );
+
     baseView.get('userkey'      ).find('.item-value').val(data.userkey);
     baseView.get('server'       ).find('.item-value').val(data.server);
     baseView.get('db_pass'      ).find('.item-value').val(data.db_password);
@@ -200,6 +208,7 @@
 
     baseView = new Controller('#usr-base-panel');
     baseView.initElement(elements);
+
     baseView.addListener({
      'click btnEdit'   : _onClickEdit,
      'click btnCancel' : _onClickCancel,

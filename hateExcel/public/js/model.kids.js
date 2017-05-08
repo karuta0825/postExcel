@@ -51,14 +51,6 @@ customer.model.kids = ( function () {
 
     });
 
-    filtered = _.map( filtered, _.clone );
-
-    filtered = _.map( filtered, function ( val, key ) {
-      delete val.system_type;
-      delete val.version;
-      return val;
-    });
-
     if ( typeof callback === 'function' ) {
       callback( filtered );
     }
