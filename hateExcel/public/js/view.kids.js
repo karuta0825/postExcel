@@ -190,7 +190,7 @@
     );
 
     // クライアントテーブル描画
-    customer.model.accounts.fetch(kid,
+    customer.model.clients.fetch(kid,
       customer.view.userClient.redrawTable
     );
 

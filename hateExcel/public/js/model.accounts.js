@@ -8,12 +8,12 @@
   /*member*/
   var
     _model = new Model({
-      'table' : 'accounts'
+      'table' : 'clients'
     })
   ;
 
   // to public
-  cms.model.accounts = {
+  cms.model.clients = {
     fetch : $.proxy( _model.fetch, _model )
   };
 

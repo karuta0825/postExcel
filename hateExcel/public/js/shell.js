@@ -50,18 +50,18 @@ $(function(){
   });
 
   // urlルーティング設定
-  // $.uriAnchor.setAnchor( { accounts : 'close' } );
+  // $.uriAnchor.setAnchor( { clients : 'close' } );
 
   // $(window).on( 'hashchange', function () {
   //   var hash = $.uriAnchor.makeAnchorMap();
 
-  //   if ( hash.accounts === 'close' ) {
+  //   if ( hash.clients === 'close' ) {
   //     customer.view.table.showTable();
-  //     customer.view.accounts.hideTable();
+  //     customer.view.clients.hideTable();
   //   }
-  //   else if ( hash.accounts === 'open' ) {
+  //   else if ( hash.clients === 'open' ) {
   //     customer.view.table.hideTable();
-  //     customer.view.accounts.showTable();
+  //     customer.view.clients.showTable();
   //   }
   // });
 
