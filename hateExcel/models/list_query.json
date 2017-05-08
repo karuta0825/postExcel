@@ -15,7 +15,8 @@
     "customers"    : "SELECT * FROM CUSTOMERS WHERE ?;",
     "userkey"      : "SELECT userkey FROM kids WHERE userkey = ?;",
     "kid"          : "SELECT kid FROM kids WHERE environment_id = ? order by kid desc;",
-    "db_password"  : "SELECT db_password from kids WHERE db_password = ?;"
+    "db_password"  : "SELECT db_password from kids WHERE db_password = ?;",
+    "environments" : "SELECT * FROM environments;"
 
   },
 
