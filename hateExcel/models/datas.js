@@ -33,7 +33,7 @@ datas.authenticate = function ( data, callback ) {
       }
       // 検索ゼロ件のとき
       console.log( 'err: ' + err );
-      callback( err, null )
+      callback( err, null );
       return;
     }
   );
@@ -193,12 +193,6 @@ datas.insert = function ( data, table, callback ) {
   );
 };
 
-// test
-// datas.insert(
-//   { kid : 'KID77891', type : '更新', content_name : '基本情報', item_name : 'TEL', before : '090-1111-1111', after : '090-2222-2222', date : new Date(), login_id : '1' },
-//   'historys',
-//   function (i) {console.log(i);}
-// );
 
 
 datas.delete = function ( data, callback ) {
@@ -287,7 +281,7 @@ var makeUserKey = function ( length ) {
 
   return r;
 
-}
+};
 
 
 var findNewDbPass = function ( data, callback ) {
@@ -298,7 +292,7 @@ var findNewDbPass = function ( data, callback ) {
     'db_password',
     function ( result ) {
       if ( result.length !== 0 ) {
-        console.log(result);
+        console.log('not unique');
         findNewDbPass( null, callback );
       }
       else {
@@ -319,12 +313,11 @@ var findNewUserkey = function ( data, callback ) {
     'userkey',
     function ( result ) {
       if ( result.length !== 0 ) {
-        console.log(result);
+        console.log('not unique');
         findNewUserkey( null, callback );
       }
       else {
         // console.log('ok: ' +  userkey + ' kid: ' + data)
-
         if ( typeof callback === 'function') {
           callback( null, userkey );
         }
@@ -335,7 +328,8 @@ var findNewUserkey = function ( data, callback ) {
 
 var findNewKid = function ( data, callback ) {
 
-  datas.selectAll(
+  datas.select(
+    [data],
     'kid',
     function ( result ) {
       var kid = Number(result[0].kid.slice(3)) + 1;
@@ -348,57 +342,36 @@ var findNewKid = function ( data, callback ) {
 
 };
 
-// findNewKid( null, findNewUserkey );
 
-var tmp = 'XYMMS'
-var bool = true;
-
+var make_user = function ( environment_id ) {
 async.series([
     function(callback) {
-        console.log('function1');
-        datas.selectAll(
-          'kid',
-          function ( result ) {
-            var kid = Number(result[0].kid.slice(3)) + 1;
-            if ( typeof callback === 'function') {
-              callback( null, 'KID' + kid );
-            }
-          }
-        );
+      // console.log('function1');
+      findNewKid( environment_id, callback );
     },
     function(callback) {
-      console.log('function2');
-
-      if ( bool ) {
-        var userkey = tmp;
-        bool = false;
-      }
-      else {
-        var userkey = makeUserKey(6);
-      }
-
-      datas.select(
-        userkey,
-        'userkey',
-        function ( result ) {
-          if ( result.length !== 0 ) {
-            console.log('not unique');
-            findNewUserkey( null, callback );
-          }
-          else {
-            if ( typeof callback === 'function') {
-              callback( null, userkey );
-            }
-          }
-        }
-      );
+      // console.log('function2');
+      findNewUserkey(null, callback );
     },
     function(callback) {
-        console.log('function3');
-        findNewDbPass(null, callback );
+      // console.log('function3');
+      findNewDbPass(null, callback );
     }
-], function(data, results) {
-    console.log(results);
-    console.log('end');
-});
+], function(err, results) {
 
+    console.log(results);
+    results.push( environment_id );
+    results.push( new Date() );
+
+    datas.insert( results, 'make_user', function ( result ) {
+      // 連続insertでKIDが重複していた場合、再作成
+      if ( result ){
+        make_user( environment_id );
+      }
+    });
+});
+};
+
+// for( var i = 0; i < 100; i += 1) {
+  // make_user(4);
+// }
