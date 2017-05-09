@@ -19,6 +19,7 @@
   };
 
   makeNews = function ( list_item ) {
+
     return _.map( list_item, function ( val, key ) {
 
       if ( val.type === '新規') {

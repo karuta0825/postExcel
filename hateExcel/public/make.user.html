@@ -1,27 +1,37 @@
 
 <!-- ユーザー作成に必要な入力項目 -->
-<div class='input-to-make'>
+<p class='title'></p>
+<div class='input-to-make mdl-card mdl-shadow--3dp'>
 
   <!-- システム環境 -->
+  <span class='select-name'>システム環境</span>
   <select class='select-system'>
+    <option value='' disabled selected style='display:none;'>
+      システム環境を選択してください
+    </option>
     <option value="onpre">オンプレ</option>
     <option value="cloud">クラウド</option>
   </select>
 
   <!-- バージョン -->
+  <span class='select-name'>バージョン</span>
   <select class='select-version'>
-    <option value=""></option>
+    <option value='' disabled selected style='display:none;'>
+      バージョンを選択してください
+    </option>
     <option value="ES">ES</option>
     <option value="LM">LM</option>
   </select>
 
   <!-- サーバー -->
+  <span class='select-name server is-hidden'>サーバ</span>
   <select class='select-server is-hidden'>
-    <option>バージョンを先に決めてください</option>}
-    option
+    <option value='' disabled selected style='display:none;'>
+      バージョンを先に選択してください
+    </option>
   </select>
 
   <!-- 決定 -->
-  <button class='btn btn--ok'>OK</button>
+  <button class='btn--ok mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored'>作成</button>
 
 </div>

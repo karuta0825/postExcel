@@ -34,8 +34,6 @@
     , complied = _.template( tmpl )
     ;
 
-    console.log(data.list)
-
     homeView.get('notice__list').append( complied(data) );
 
   };

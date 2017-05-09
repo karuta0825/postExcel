@@ -236,6 +236,37 @@
 }
 
 /* -------------------
+   make user
+---------------------- */
+
+.input-to-make {
+  width : 60%;
+  margin : 100px auto 0 auto;
+}
+
+.input-to-make .select-name {
+  margin-left : 35px;
+  margin-top: 60px;
+  margin-bottom: 5px;
+  font-size: 0.6em;
+}
+
+.input-to-make .select-system,
+.input-to-make .select-version,
+.input-to-make .select-server {
+  margin : 0 35px 10px 35px;
+  height: 40px;
+}
+
+.input-to-make .btn--ok {
+  margin : 70px 36px 30px auto ;
+  width: 100px;
+}
+
+
+
+
+/* -------------------
    register user
 ---------------------- */
 

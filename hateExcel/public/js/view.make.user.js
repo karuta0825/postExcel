@@ -16,7 +16,8 @@
         system  : '.select-system',
         version : '.select-version',
         server  : '.select-server'
-      }
+      },
+      'server-title' : '.select-name.server'
     }
   , _makeSelectServer
   , _selectSystem
@@ -28,10 +29,12 @@
      if ( $(this).val() ===  'onpre' ) {
       // makeUserView.get('select__version').addClass('is-hidden');
       makeUserView.get('select__server').addClass('is-hidden');
+      makeUserView.get('server-title').addClass('is-hidden');
      }
      else {
       // makeUserView.get('select__version').removeClass('is-hidden');
       makeUserView.get('select__server').removeClass('is-hidden');
+      makeUserView.get('server-title').removeClass('is-hidden');
      }
   };
 
