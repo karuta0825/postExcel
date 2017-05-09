@@ -251,7 +251,7 @@ datas.update = function ( data, condition, table, callback ) {
     function ( err ) {
       db.end();
       if ( err ) {
-        console.log('err');
+        console.log(err);
         callback( err );
         return;
       }

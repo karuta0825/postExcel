@@ -2,31 +2,45 @@
  * home
  */
 
-( function ( $, cms_view ) {
+( function ( $, cms ) {
 
   var
   // member
-    jqueryMap = {}
+    homeView
+  , elements = {
+      'article' : {
+        'notice' : '.article-notice'
+      },
+      'notice' : {
+        'title' : '.article-notice .article__title',
+        'body'  : '.article-notice .article__body',
+        'list'  : '.article-notice__list',
+        'header' : '.article-notice__item--header',
+        'btnMore' : '.more-news'
+      }
+    }
   // private
-  , _setJqueryMap
-  , _onClickMore
+  , getMoreHistory
   // public
   , initModule
+  , drawNews
   ;
 
-  _setJqueryMap = function () {
+  drawNews = function ( data ) {
+
     var
-      notice = $('.article-notice')
-    , graph  = $('.article-graph')
+      data     = { list : data }
+    , tmpl     = customer.db.getHtml('template/home.news.html')
+    , complied = _.template( tmpl )
     ;
 
-    jqueryMap.notice = notice;
-    jqueryMap.graph  = graph;
-    jqueryMap.more   = notice.find('.article__footer');
+    console.log(data.list)
+
+    homeView.get('notice__list').append( complied(data) );
 
   };
 
-  _onClickMore = function () {
+  getMoreHistory = function () {
     console.log(this);
   };
 
@@ -34,15 +48,21 @@
 
     $('.main-contents--home').append( customer.db.getHtml('home.html') );
 
-    _setJqueryMap();
+    homeView = new Controller('.main-contents--home');
+    homeView.initElement( elements );
 
-    jqueryMap.more.on( 'click', _onClickMore );
+    drawNews( customer.model.historys.getCache() );
+
+    homeView.addListener({
+      'click notice__btnMore' : getMoreHistory
+    })
 
   };
 
-  cms_view.home = {
-    initModule : initModule
+  cms.view.home = {
+    initModule : initModule,
+    get : function () { return homeView; }
   }
 
 
-}(jQuery, customer.view ));
+}(jQuery, customer));

@@ -149,13 +149,21 @@
 }
 
 .article-notice, .article-graph {
-  margin: 30px auto;
+  margin: 30px auto 30px auto;
   width: 75%;
   min-width: 750px;
 }
 
-.article-graph {
-  height: 400px;
+.article__title {
+  margin : 0 0 10px 0;
+  padding-left: 7px;
+  font-size: 1.1em;
+  color : #595959;
+}
+
+.article__body {
+  width: 100%;
+  border-radius: 8px;
 }
 
 .article-notice__list {
@@ -164,19 +172,10 @@
   margin: 0;
 }
 
-.article__title {
-  margin: 0;
-  background : #dedcdc;
-  text-align: center;
-  font-size: 1.2em;
-  padding: 5px 0px;
-  color : #595959;
-}
-
 .article-notice__item--header {
   border-bottom: 1px solid #dedcdc;
   margin-bottom: 10px;
-  padding:5px 0;
+  height :40px;
 }
 
 .article-notice__list .state,

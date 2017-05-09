@@ -15,7 +15,7 @@
 
     _cache = customer.db.select('/select', {
       'condition' : { 'kid' : kid },
-      'table' : 'historys'
+      'table' : 'usrHistorys'
     });
 
     _.each( _cache, function ( val, key ) {
