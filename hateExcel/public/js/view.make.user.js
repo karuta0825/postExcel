@@ -47,6 +47,10 @@
       system_type = makeUserView.get('select__system').val()
     , version     = makeUserView.get('select__version').val()
     , server      = makeUserView.get('select__server').val()
+    , env_id      = customer.model.environments.find({
+        'system_type' : system_type,
+        'version'     : version
+      })[0].id
     , param
     ;
 
@@ -56,9 +60,10 @@
 
     param = {
       data : {
-        system_type : system_type,
-        version : version,
-        server : server
+        system_type    : system_type,
+        version        : version,
+        environment_id : env_id,
+        server         : server,
       }
     };
 
@@ -74,7 +79,7 @@
     console.log( param );
 
     // KID, Userkey, DB Passwordを決める
-    // customer.db.insert( '/makeUser', param );
+    customer.db.insert( '/makeUser', param );
 
 
     // kidsモデルを更新して再描画
