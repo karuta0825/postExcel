@@ -427,11 +427,11 @@
 
   };
 
-  cms_view.users = {
+  cms_view.kids = {
     initModule : initModule,
     redrawTable : redrawTable,
     regenerateTable : regenerateTable
-  }
+  };
 
 
 }( jQuery, customer.view ));
