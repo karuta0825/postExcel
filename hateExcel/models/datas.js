@@ -149,7 +149,6 @@ datas.getLicenses = function ( kid, callback ) {
     params,
     function ( err, results, fields ) {
       db.end();
-      console.log( results );
       if ( err ) { console.log(err); return; }
       callback( results ) ;
     }
@@ -382,7 +381,6 @@ datas.make_user = function ( input_map, callback ) {
       set['create_user_id'] = input_map['create_user_id'];
       set['create_on']      = new Date();
 
-      console.log(set);
 
       datas.insert( set, 'make_user', function ( result ) {
         // 連続insertでKIDが重複していた場合、再作成
