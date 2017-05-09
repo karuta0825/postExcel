@@ -359,6 +359,7 @@ var findEnvironmentId = function ( data, callback ) {
 
 
 datas.make_user = function ( input_map, callback ) {
+  var set = {};
   async.series([
       function(callback) {
         findNewKid( input_map.environment_id, callback );
@@ -368,31 +369,34 @@ datas.make_user = function ( input_map, callback ) {
       },
       function(callback) {
         findNewDbPass(null, callback );
-      },
-      function(callback) {
-        findEnvironmentId( input_map, callback );
       }
   ], function(err, results) {
+      if ( input_map.system_type === 'cloud' ) {
+        set['userkey']        = results[1];
+        set['db_password']    = results[2];
+      }
 
-      results.push( input_map.server );
-      // results.push( input_map.environment_id );
-      results.push( new Date() );
-      results.push( input_map.create_user_id );
-      console.log(results);
+      set['kid']           = results[0];
+      set['server']         = input_map['server'];
+      set['environment_id'] = input_map['environment_id'];
+      set['create_user_id'] = input_map['create_user_id'];
+      set['create_on']      = new Date();
 
-      // datas.insert( results, 'make_user', function ( result ) {
-      //   // 連続insertでKIDが重複していた場合、再作成
-      //   if ( result ){
-      //     make_user( input_map );
-      //   }
-      //   else {
-      //     callback(result);
-      //   }
-      // });
-      callback( results );
+      console.log(set);
+
+      datas.insert( set, 'make_user', function ( result ) {
+        // 連続insertでKIDが重複していた場合、再作成
+        if ( result ){
+          datas.make_user( input_map );
+        }
+        else {
+          callback(result);
+        }
+      });
+      // callback(set);
   });
 };
 
 // for( var i = 0; i < 100; i += 1) {
-  make_user(4, 1);
+  // make_user(4, 1);
 // }
