@@ -1,4 +1,4 @@
-
+﻿
 /**
  * Module dependencies.
  */
@@ -14,7 +14,7 @@ var datas = require('./models/datas');
 var app = express();
 
 // all environments
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 8000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
@@ -179,19 +179,21 @@ app.post('/insert', function ( req, res ) {
   ;
 
   // dataがArrayであることが前提だね
-  for ( var i = 0; i < data.length; i+= 1 ) {
-    data[i]['login_id'] = req.session.uid;
-    data[i]['create_on'] = new Date();
+  if ( Object.prototype.toString.call( data ) === '[object Array]' ) {
+    for ( var i = 0; i < data.length; i+= 1 ) {
+      data[i]['create_user_id'] = req.session.uid;
+      data[i]['create_on'] = new Date();
 
-    datas.insert( data[i], table, function ( err ) {
-      // insert時のエラー処理
-      if (err) {
-        console.log(err);
-        res.status( 500 ).send( err.message );
-        return;
-      }
+      datas.insert( data[i], table, function ( err ) {
+        // insert時のエラー処理
+        if (err) {
+          console.log(err);
+          res.status( 500 ).send( err.message );
+          return;
+        }
 
-    });
+      });
+    }
   }
   res.status(200).send('ok');
 
