@@ -1,0 +1,12 @@
+<% _.each( list, function ( val, key ) { %>
+
+  <li class='article-notice__item--body'>
+     <span class='<%- val.className %>'>
+      <%- val.type %>
+    </span>
+    <span class='date'><%- val.create_on %></span>
+    <span class='user'><%- val.name %></span>
+    <span class='msg'><%- val.msg %></span>
+  </li>
+
+<% }); %>
