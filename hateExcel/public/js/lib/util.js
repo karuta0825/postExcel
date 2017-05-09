@@ -117,6 +117,34 @@
     return nextData;
   };
 
+  util.dialog = function ( map_option ) {
+
+    // 入力チェック
+
+    var
+      dialog  = $('<dialog>', { 'class' : 'mdl-dialog', 'id' = map_option[id] } )
+    , title   = $('<h6>', { 'class' : 'mdl-dialog__title', 'text' : map_option[title] })
+    , content = $('<div>', { 'class' : 'mdl-dialog__content'})
+    , action  = $('<div>', { 'class' : 'mdl-dialog__action'} )
+    , btnYes
+    , btnNo
+    ;
+
+    action
+      .append(btnYes)
+      .append(btnNo)
+      ;
+
+    dialog
+      .append( title )
+      .append( content )
+      .append( action )
+      ;
+
+    $(map_option[selector]).append(dialog);
+
+  };
+
 
   util.makeSelect       = _makeSelect;
   // util.makeSelectBox = makeSelectBox;
