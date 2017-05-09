@@ -195,13 +195,10 @@ datas.insert = function ( data, table, callback ) {
 
 
 
-datas.delete = function ( data, callback ) {
-  var params = [
-    data.name
-  ];
+datas.delete = function ( data, query, callback ) {
   db.query(
-    'DELETE FROM TEST WHERE NAME= ?;',
-     params,
+    querys.delete[query],
+     data,
      function ( err, results, fields ) {
       db.end();
       if ( err ) {

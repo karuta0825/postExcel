@@ -1,6 +1,5 @@
 // var customer;
-customer.model = customer.model || {};
-customer.model.kids = ( function () {
+( function ( $, cms ) {
 
   var
     /*private member*/
@@ -20,6 +19,7 @@ customer.model.kids = ( function () {
   , sortByCol
   , getData
   , getHeader
+  , deleteKid
   , initModule
   ;
 
@@ -134,6 +134,13 @@ customer.model.kids = ( function () {
     return _headerMap;
   };
 
+  deleteKid = function ( list_kid ) {
+    customer.db.delete('/delete', {
+      'data'  : list_kid,
+      'table' : 'kids'
+    });
+  };
+
 
   initModule = function () {
     _data = customer.db.selectAll('all');
@@ -141,7 +148,7 @@ customer.model.kids = ( function () {
   };
 
   /*public method*/
-  return {
+  cms.model.kids = {
     initModule   : initModule,
     fetch : fetch,
     find : find,
@@ -151,4 +158,4 @@ customer.model.kids = ( function () {
     getHeader    : getHeader
   };
 
-}());
+}( jQuery, customer ));

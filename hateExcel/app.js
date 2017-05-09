@@ -213,14 +213,30 @@ app.post('/makeUser', function ( req, res ) {
 
 
 app.post('/delete', function ( req, res ) {
-  var data = req.body;
-  datas.delete( data, function ( err ) {
-    if ( err ) {
-      res.status( 500 ).send( err.message );
-      return;
+
+  var
+    data = req.body.data
+  , table = req.body.table
+  ;
+
+  // dataがArrayであることが前提だね
+  if ( Object.prototype.toString.call( data ) === '[object Array]' ) {
+    for ( var i = 0; i < data.length; i+= 1 ) {
+
+      datas.delete( data[i], table, function ( err ) {
+        // insert時のエラー処理
+        if (err) {
+          console.log(err);
+          res.status( 500 ).send( err.message );
+          return;
+        }
+
+      });
     }
-    res.redirect('/');
-  });
+  }
+
+  res.status(200).send('delete success');
+
 });
 
 app.post('/update', function ( req, res ) {
