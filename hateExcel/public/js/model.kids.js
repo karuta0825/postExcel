@@ -15,6 +15,7 @@ customer.model.kids = ( function () {
   , _sortOrder = 1
     /*private method*/
     /*public  method*/
+  , fetch
   , find
   , sortByCol
   , getData
@@ -28,6 +29,17 @@ customer.model.kids = ( function () {
       list.push( find( { kid : val }) );
     });
     return list;
+  };
+
+  fetch = function ( callback ) {
+    _data = customer.db.selectAll('all');
+
+    if ( typeof callback === 'function' ) {
+      callback( _data );
+    }
+    else  {
+      return _data;
+    }
   };
 
 
@@ -131,6 +143,7 @@ customer.model.kids = ( function () {
   /*public method*/
   return {
     initModule   : initModule,
+    fetch : fetch,
     find : find,
     setCondition : setCondition,
     sortByCol    : sortByCol,

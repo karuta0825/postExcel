@@ -54,6 +54,7 @@
 
   _save = function () {
     // update
+    customer.model.userBaseInfo.addClient( getViewInfo().client_number );
     customer.model.userBaseInfo.update( getViewInfo(), makeUserInfo );
 
     // 編集不可
@@ -75,6 +76,7 @@
     baseView.get('btnSave').addClass('is-hidden');
     baseView.get('btnPlus').addClass('is-hidden');
     baseView.get('btnMinus').addClass('is-hidden');
+
 
   };
 
@@ -156,10 +158,10 @@
       'owner'         : baseView.get('owner'        ).find('.item-value').val(),
       'tel'           : baseView.get('tel'          ).find('.item-value').val(),
       'fax'           : baseView.get('fax'          ).find('.item-value').val()
-    }
+    };
   };
 
-  makeUserInfo = function (　data ) {
+  makeUserInfo = function ( data ) {
 
     // 該当サーバの検索
     var list_option = customer.model.servers.find({

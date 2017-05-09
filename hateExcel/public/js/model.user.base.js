@@ -27,6 +27,7 @@
   , getCache
   , _checkWhatsUpdated
   , update
+  , addClient
   ;
 
   fetch = function ( kid, callback  ) {
@@ -62,6 +63,7 @@
         result[i] = view_data[i];
       }
     }
+
 
     return result;
 
@@ -105,6 +107,8 @@
   update = function ( data, callback ) {
 
     var update_data = _checkWhatsUpdated( data );
+    var historyData = _.extend( {}, update_data );
+    delete update_data.client_number;
 
     // updateする対象が存在する場合
     if ( _.keys(update_data).length > 0 ) {
@@ -116,11 +120,19 @@
         table     : 'customers'
       });
 
+    }
+
+    // クライアント数に変更あった場合も更新する
+    if ( _.keys(historyData).length > 0 ) {
+
       // 履歴の更新
-      _updateHistory( _diffUpdated( update_data ) );
+      _updateHistory( _diffUpdated( historyData ) );
 
       // 再描画
       if ( typeof callback === 'function' ) {
+        customer.model.kids.fetch(
+          customer.view.kids.regenerateTable
+        );
         callback( fetch(_cache['kid']) );
       }
 
@@ -130,6 +142,38 @@
       );
 
     }
+
+  };
+
+  addClient = function ( view_data ) {
+
+    var
+      _model        = customer.model.clients
+    , list_client   = _model.find.call( _model.fetch( _cache['kid'] ), {'is_admin' : 0 } )
+    , list_add_user = []
+    , length        = list_client.length
+    , diff          =  view_data - length
+    , clients
+    ;
+
+    if ( diff < 1 ) {
+      return ;
+    }
+
+    nextClient = util.getNextZeroPadData( list_client[ length - 1 ].client_id );
+    list_add_user.push( nextClient );
+
+    for ( var i = 1; i < diff; i += 1 ) {
+      nextClient = util.getNextZeroPadData( nextClient );
+      list_add_user.push( nextClient );
+    }
+
+
+    clients = _.map( list_add_user, function ( val, key ) {
+      return { 'kid' : _cache['kid'], client_id : val, client_pass :val, is_admin : 0 }
+    });
+
+    customer.model.clients.insert( clients, customer.view.userClient.redrawTable );
 
   };
 
@@ -146,7 +190,8 @@
   cms.model.userBaseInfo = {
     fetch : fetch,
     getCache : getCache,
-    update : update
+    update : update,
+    addClient : addClient
   };
 
 }( jQuery, customer ));
