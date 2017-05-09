@@ -331,7 +331,7 @@
 
       // 再描画
       if ( typeof callback === 'function' ) {
-        callback( fetch(_cache['kid']) );
+        callback( this.fetch( this['_cache']['kid']) );
       }
 
       // 履歴テーブルの再描画
@@ -339,6 +339,19 @@
         customer.view.userHistory.drawTable
       );
 
+    }
+
+  };
+
+  Model.fn.insert = function ( data, callback ) {
+
+    customer.db.insert('/insert', {
+      data  : data,
+      table : this['config']['table']
+    });
+
+    if ( typeof callback === 'function' ) {
+      callback( this.fetch( this['_cache'][0]['kid']) );
     }
 
   };

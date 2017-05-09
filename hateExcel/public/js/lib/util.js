@@ -102,6 +102,22 @@
   };
 
 
+  /**
+   * 次のクライアントナンバーを取得
+   */
+  util.getNextZeroPadData = function ( value ) {
+    var
+      numOnly  = value.match(/(\d+)$/)[0],
+      notNum   = value.substr(0, value.length - numOnly.length),
+      fmtNum   = Number(numOnly),
+      nextNum  = fmtNum + 1,
+      zeroPad  = ( '000' + nextNum ).slice( -1 * numOnly.length ),
+      nextData = notNum + zeroPad
+      ;
+    return nextData;
+  };
+
+
   util.makeSelect       = _makeSelect;
   // util.makeSelectBox = makeSelectBox;
   util.convertMap2Blob  = _makeBlobFromMapList;
