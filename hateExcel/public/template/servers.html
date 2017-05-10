@@ -4,7 +4,7 @@
 <% if ( !is_redraw ) { %>
   <thead>
     <tr>
-      <th class='env mdl-data-table__cell--non-numeric'>環境</th>
+      <th class='env mdl-data-table__cell--non-numeric'>バージョン</th>
       <th class='name mdl-data-table__cell--non-numeric'>サーバ名</th>
       <th class='ip mdl-data-table__cell--non-numeric'>IPアドレス</th>
       <th class='del-flg'>削除</th>
@@ -17,7 +17,7 @@
 
   <% _.each( list, function ( item, num ) { %>
     <tr data-id=<%- item.id %> >
-      <td class='env'>  <input type='text' value=<%- item.environment %> > </td>
+      <td class='env'>  <input type='text' value=<%- item.version %> > </td>
       <td class='name'> <input type='text' value=<%- item.name        %> > </td>
       <td class='ip'>   <input type='text' value=<%- item.ip%> >           </td>
       <td align='center' class='del'>  <button class='btn btn--del mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect'>-</button></td>
