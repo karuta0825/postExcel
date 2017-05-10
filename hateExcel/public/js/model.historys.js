@@ -66,7 +66,7 @@
       if ( typeof callback === 'function' ) {
         // 追加
         _model.union( list );
-        callback( _model.getCache() );
+        callback( makeNews( _model.getCache() ) ) ;
       }
       else {
         // 追加
@@ -77,12 +77,12 @@
     else {
       if ( typeof callback === 'function' ) {
         // 追加
-        _model.union( list.slice(0,10))
-        callback( _model.getCache() );
+        _model.union( list.slice(0,10));
+        callback( makeNews( _model.getCache() ) );
       }
       else {
         // 追加
-        _model.union( list.slice(0,10) )
+        _model.union( list.slice(0,10) );
         return _model.getCache();
       }
     }

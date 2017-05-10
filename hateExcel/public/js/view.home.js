@@ -15,6 +15,7 @@
         'title' : '.article-notice .article__title',
         'body'  : '.article-notice .article__body',
         'list'  : '.article-notice__list',
+        'items' : '.article-notice__item--body',
         'header' : '.article-notice__item--header',
         'btnMore' : '.article__footer'
       }
@@ -35,6 +36,7 @@
     , complied = _.template( tmpl )
     ;
 
+    homeView.get('notice__items').remove();
     homeView.get('notice__list').append( complied(data) );
 
   };
@@ -42,15 +44,7 @@
   getMoreHistory = function () {
 
     // モデルの更新
-    cms.model.historys.getMore();
-
-    // 描画
-
-  };
-
-  _addNews = function ( data ) {
-    var
-      li = $('<li>', { 'class' : 'article-notice__item--body'});
+    cms.model.historys.getMore( drawNews );
 
   };
 
@@ -65,14 +59,14 @@
 
     homeView.addListener({
       'click notice__btnMore' : getMoreHistory
-    })
+    });
 
   };
 
   cms.view.home = {
     initModule : initModule,
     get : function () { return homeView; }
-  }
+  };
 
 
 }(jQuery, customer));
