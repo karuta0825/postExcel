@@ -28,7 +28,7 @@
       }
       else if ( val.type === '追加') {
         val.className = 'state state--info'
-        val.msg = val.kid + 'の' + val.item_name + 'が追加されました'
+        val.msg = val.kid + 'に' + val.item_name + 'が追加されました'
       }
       else if ( val.type === '削除') {
         val.className = 'state state--danger'
