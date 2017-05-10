@@ -107,6 +107,10 @@
   width : 90%;
 }
 
+.mdl-dialog__title {
+  font-size: 1.1em;
+}
+
 
 /* -------------------
    common contents
@@ -157,13 +161,12 @@
 .article__title {
   margin : 0 0 10px 0;
   padding-left: 7px;
-  font-size: 1.1em;
   color : #595959;
 }
 
 .article__body {
   width: 100%;
-  border-radius: 8px;
+  border-radius: 5px;
 }
 
 .article-notice__list {
@@ -239,9 +242,17 @@
    make user
 ---------------------- */
 
+.main-contents--mk-usr__title {
+  width: 60%;
+  margin: 100px auto 10px auto;
+  padding-left: 7px;
+  color : #595959;
+}
+
 .input-to-make {
   width : 60%;
-  margin : 100px auto 0 auto;
+  margin : 0 auto 0 auto;
+  border-radius: 5px;
 }
 
 .input-to-make .select-name {

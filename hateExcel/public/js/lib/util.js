@@ -117,17 +117,34 @@
     return nextData;
   };
 
+  /**
+   * [dialog description]
+   * @param  {Object} map_option
+   * @param  {String}  map_option.selector
+   * @param  {String}  map_option.id
+   * @param  {String}  map_option.title
+   * @param  {String}  map_option.msg
+   */
   util.dialog = function ( map_option ) {
 
     // 入力チェック
+    if ( !_.isObject( map_option ) ) {
+      console.log("don't make dialog because argument is not object.");
+      return;
+    }
+
+    if ( !map_option.hasOwnProperty('selector') ) {
+      console.log("don't make dialog because the argument don't have selector key.");
+      return;
+    }
 
     var
-      dialog  = $('<dialog>', { 'class' : 'mdl-dialog', 'id' = map_option[id] } )
-    , title   = $('<h6>', { 'class' : 'mdl-dialog__title', 'text' : map_option[title] })
-    , content = $('<div>', { 'class' : 'mdl-dialog__content'})
-    , action  = $('<div>', { 'class' : 'mdl-dialog__action'} )
-    , btnYes
-    , btnNo
+      dialog  = $('<dialog>', { 'class' : 'mdl-dialog', 'id' : map_option['id'] } )
+    , title   = $('<h6>', { 'class' : 'mdl-dialog__title', 'text' : '確認' })
+    , content = $('<p>',  { 'class' : 'mdl-dialog__content', 'text' : map_option['msg']})
+    , action  = $('<div>', { 'class' : 'mdl-dialog__actions'} )
+    , btnYes  = $('<button>', { 'type' : 'button', 'class' : 'btn btn--exec mdl-button', 'text' : 'OK' })
+    , btnNo   = $('<button>', { 'type' : 'button', 'class' : 'btn btn--cancel mdl-button', 'text' : 'キャンセル' })
     ;
 
     action
@@ -141,7 +158,7 @@
       .append( action )
       ;
 
-    $(map_option[selector]).append(dialog);
+    $(map_option['selector']).append(dialog);
 
   };
 

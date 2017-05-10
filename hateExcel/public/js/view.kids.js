@@ -403,6 +403,11 @@
 
     drawTable();
 
+    util.dialog({
+      selector : '.main-contents--view-usr',
+      msg : '選択したユーザーを削除しますか?'
+    });
+
     // サーバー選択肢作成
     _selectServer( 'all' );
 

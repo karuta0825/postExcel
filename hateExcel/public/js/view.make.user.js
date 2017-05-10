@@ -20,7 +20,7 @@
         server  : '.select-server'
       },
       'server-title' : '.select-name.server',
-      'dialog' : '#modal-confirm-to-make'
+      'dialog' : '.mdl-dialog'
     }
   , _openDialog
   , _makeSelectServer
@@ -39,12 +39,10 @@
 
   _selectSystem = function () {
      if ( $(this).val() ===  'onpre' ) {
-      // makeUserView.get('select__version').addClass('is-hidden');
       makeUserView.get('select__server').addClass('is-hidden');
       makeUserView.get('server-title').addClass('is-hidden');
      }
      else {
-      // makeUserView.get('select__version').removeClass('is-hidden');
       makeUserView.get('select__server').removeClass('is-hidden');
       makeUserView.get('server-title').removeClass('is-hidden');
      }
@@ -96,10 +94,6 @@
     // KID, Userkey, DB Passwordを決める
     customer.db.insert( '/makeUser', param );
 
-
-    // kidsモデルを更新して再描画
-
-
   };
 
   initModule = function () {
@@ -108,10 +102,15 @@
 
     makeUserView = new Controller('.main-contents--mk-usr');
 
+    // ダイアログ作成
+    util.dialog({
+      selector : '.main-contents--mk-usr',
+      msg      : 'ユーザーを作成しますか？'
+    });
+
     makeUserView.initElement( elements );
 
     makeUserView.addListener({
-      // 'click btn__ok'          : _makeUser,
       'click btn__ok'          :  _openDialog,
       'click btn__cancel'      : _closeDialog,
       'click btn__exec'        : _closeDialog,
