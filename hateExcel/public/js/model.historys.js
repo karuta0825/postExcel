@@ -47,24 +47,44 @@
   /**
    * 次があるかどうかわからないよ
    */
-  getMore = function ( last_id ) {
+  getMore = function ( callback ) {
 
-    if (  _is_end ) {
+    if ( _is_end ) {
       console.log('読み込むデータがありません')
       return;
     }
 
+    var last_id = _.last( _model.getCache(), 1)[0].id;
+
     var list = customer.db.select('/select', {
-      'condition' : [last_id],
+      'condition' : [ last_id ],
       'table' : 'moreHistorys'
     });
 
     if ( list.length < 11 ) {
       _is_end = true;
-      return list;
+      if ( typeof callback === 'function' ) {
+        // 追加
+        _model.union( list );
+        callback( _model.getCache() );
+      }
+      else {
+        // 追加
+        _model.union( list );
+        return _model.getCache();
+      }
     }
     else {
-      return list.slice(0, 10);
+      if ( typeof callback === 'function' ) {
+        // 追加
+        _model.union( list.slice(0,10))
+        callback( _model.getCache() );
+      }
+      else {
+        // 追加
+        _model.union( list.slice(0,10) )
+        return _model.getCache();
+      }
     }
 
   };

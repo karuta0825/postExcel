@@ -188,6 +188,13 @@
 
   };
 
+  Model.fn.add = function ( item ) {
+    this['_cache'].push(item);
+  };
+
+  Model.fn.union = function ( list ) {
+    this['_cache'] = _.union( this['_cache'], list );
+  };
 
   Model.fn.getCache = function ( callback ) {
 

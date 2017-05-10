@@ -16,10 +16,11 @@
         'body'  : '.article-notice .article__body',
         'list'  : '.article-notice__list',
         'header' : '.article-notice__item--header',
-        'btnMore' : '.more-news'
+        'btnMore' : '.article__footer'
       }
     }
   // private
+  , _addNews
   , getMoreHistory
   // public
   , initModule
@@ -39,7 +40,18 @@
   };
 
   getMoreHistory = function () {
-    console.log(this);
+
+    // モデルの更新
+    cms.model.historys.getMore();
+
+    // 描画
+
+  };
+
+  _addNews = function ( data ) {
+    var
+      li = $('<li>', { 'class' : 'article-notice__item--body'});
+
   };
 
   initModule = function () {
