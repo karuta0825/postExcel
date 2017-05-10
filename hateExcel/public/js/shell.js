@@ -51,6 +51,10 @@ $(function(){
     $(this).children('.arrow').toggleClass('arrow--rotate');
   });
 
+  $('.mdl-menu--bottom-right .logout').on('click', function () {
+    window.location.href = '/logout';
+  });
+
   // urlルーティング設定
   // $.uriAnchor.setAnchor( { clients : 'close' } );
 

@@ -59,6 +59,11 @@ app.post('/login', function ( req, res ) {
 
 });
 
+app.get('/logout', function ( req, res ) {
+  req.session.pass = null;
+  res.redirect('/');
+});
+
 app.get('/', function ( req, res ) {
   if ( !req.session.pass ) {
     res.redirect('/login');
