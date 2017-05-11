@@ -96,7 +96,8 @@
     getMore    : getMore,
     getCache   : function () { return makeNews( _model.getCache() );},
     isEnd      : function () { return _is_end; },
-    makeNews   : makeNews
+    makeNews   : makeNews,
+    find       : $.proxy( _model.findUnion, _model )
   };
 
 } ( jQuery, customer ))

@@ -240,6 +240,9 @@
 
   };
 
+  /**
+   * 検索結果の和集合を返す
+   */
   Model.fn.findUnion = function ( list_condition ) {
 
     var
@@ -252,27 +255,17 @@
       return;
     }
 
-    _.each( list_condition, function ( obj, index ) {
+    _.each( list_condition, function ( condition, index ) {
 
-      filtered = this['_cache'];
-
-      if ( ! _.isObject( obj ) ) {
+      if ( ! _.isObject( condition ) ) {
         return;
       }
 
-      _.each( obj, function ( val, key ) {
-        if ( val !== 'all' ) {
-          filtered = _.select( filtered, function ( v, k ) {
-            return v[key] === val;
-          });
-        }
-      });
+      list_result = _.union( list_result, this.find( condition ) );
 
-      list_result = _.union( list_result, filtered );
+    }, this );
 
-    }, this);
-
-    return ary;
+    return list_result;
 
   };
 
