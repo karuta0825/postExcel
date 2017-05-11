@@ -24,6 +24,7 @@
   , _addNews
   , getMoreHistory
   // public
+  , hideFooter
   , initModule
   , drawNews
   ;
@@ -46,6 +47,14 @@
     // モデルの更新
     cms.model.historys.getMore( drawNews );
 
+    if ( cms.model.historys.isEnd() ) {
+      hideFooter();
+    }
+
+  };
+
+  hideFooter = function () {
+    homeView.get('notice__btnMore').addClass('is-hidden');
   };
 
   initModule = function () {
@@ -65,6 +74,7 @@
 
   cms.view.home = {
     initModule : initModule,
+    hideFooter : hideFooter,
     get : function () { return homeView; }
   };
 
