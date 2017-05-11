@@ -188,6 +188,7 @@
 
   };
 
+
   Model.fn.add = function ( item ) {
     this['_cache'].push(item);
   };
@@ -236,6 +237,42 @@
     else {
       return filtered;
     }
+
+  };
+
+  Model.fn.findUnion = function ( list_condition ) {
+
+    var
+     list_result = []
+   , filtered
+   ;
+
+    if ( !_.isArray( list_condition ) ) {
+      console.log('arguments is not array!')
+      return;
+    }
+
+    _.each( list_condition, function ( obj, index ) {
+
+      filtered = this['_cache'];
+
+      if ( ! _.isObject( obj ) ) {
+        return;
+      }
+
+      _.each( obj, function ( val, key ) {
+        if ( val !== 'all' ) {
+          filtered = _.select( filtered, function ( v, k ) {
+            return v[key] === val;
+          });
+        }
+      });
+
+      list_result = _.union( list_result, filtered );
+
+    }, this);
+
+    return ary;
 
   };
 
