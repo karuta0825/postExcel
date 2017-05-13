@@ -444,7 +444,7 @@
 }
 
 .memo {
-  width : 270px;
+  width : 370px;
   height: 95%;
   margin: 20px 20px 20px 10px;
 }
@@ -453,14 +453,80 @@
   margin-bottom: 14px;
 }
 
+.memo__body .header .filter {
+  height      : 23px;
+  line-height : 20px;
+  width       : 80px;
+  margin      : 14px;
+  /*float       : right;*/
+}
+
+.memo__body .memo-add {
+  position: absolute;
+  right: 13px;
+  top: 30px;
+}
+
 .memo__body {
   width: 98%;
   height: 96.5%;
 }
 
+.memo-list {
+  list-style: none;
+  padding:0;
+  margin: 0;
+}
+
 .memo__body .header {
   height: 48px;
   border-bottom: 1px solid #e0e0e0;
+}
+
+.memo__body .body {
+  overflow-y: auto;
+}
+
+.memo-item {
+  height: 95px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.memo-item__status {
+  width : 5px;
+  height: 100%;
+  margin-right: 10px;
+  background: #ff5b94;
+  float: left;
+}
+
+.memo-item__title {
+  display: block;
+  font-size: 1.1em;
+  padding-top: 4px;
+}
+
+.memo-item__body {
+  display: block;
+  height: 40px;
+  padding-top:5px;
+  padding-left: 10px;
+}
+
+.memo-item__body .action {
+  display: inline-block;
+  float: right;
+  margin-right: 7px;
+}
+
+.memo-item__body .action .material-icons {
+  font-size: 2em;
+}
+
+.memo-item__footer {
+  display: block;
+  width : 170px;
+  margin-left: auto;
 }
 
 #user-edit table {
@@ -521,7 +587,7 @@
   /*padding-left: 14px;*/
 
   border-radius: 5px;
-  background: #673ab7;
+  background: #bdbdbd;
   color : white;
   text-align: center;
 }
