@@ -217,7 +217,28 @@
 
   };
 
-  Model.fn.find = function ( map_condition, callback ) {
+  Model.fn.find = function ( conditions, callback ) {
+
+    var result;
+
+    if ( _.isArray( conditions   ) ){
+      result = this.findUnion( conditions );
+    }
+    else {
+      result = this.findOneCondition( conditions );
+    }
+
+    if ( typeof callback === 'function' ) {
+      callback( result );
+    }
+    else {
+      return result;
+    }
+
+
+  };
+
+  Model.fn.findOneCondition = function ( map_condition ) {
 
     var filtered = this['_cache'];
 
@@ -231,12 +252,7 @@
 
     });
 
-    if ( typeof callback === 'function' ) {
-      callback( filtered );
-    }
-    else {
-      return filtered;
-    }
+    return filtered;
 
   };
 
@@ -261,7 +277,7 @@
         return;
       }
 
-      list_result = _.union( list_result, this.find( condition ) );
+      list_result = _.union( list_result, this.findOneCondition( condition ) );
 
     }, this );
 

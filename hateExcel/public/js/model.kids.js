@@ -3,7 +3,7 @@
 
   var
     /*private member*/
-    _data
+    _model = new Model({ table : 'all' })
   , _headerMap = {}
   , _condition = {
       system_type : 'all',
@@ -11,66 +11,14 @@
       server      : 'all',
       has_mobile  : 'all'
     }
-  , _sortOrder = 1
     /*private method*/
+  , _sortOrder = 1
     /*public  method*/
-  , fetch
-  , find
   , sortByCol
-  , getData
+  , setCondition
   , getHeader
-  , deleteKid
   , initModule
   ;
-
-  findByIds = function ( list_id ) {
-    var list = [];
-    _.each( list_id, function ( val, key ) {
-      list.push( find( { kid : val }) );
-    });
-    return list;
-  };
-
-  fetch = function ( callback ) {
-    _data = customer.db.selectAll('all');
-
-    if ( typeof callback === 'function' ) {
-      callback( _data );
-    }
-    else  {
-      return _data;
-    }
-  };
-
-
-  /**
-   * 条件に一致したデータを抽出(and条件)
-   * @param  {Object}   condition_map - 絞り込む条件を決めるためのキー・バリュー
-   * @param  {Function} callback      - viewから描画関数
-   * @return {Array}    filterd       - 抽出結果
-   */
-  find = function ( condition_map, callback ) {
-
-    var filtered = _data;
-
-    _.each( condition_map, function ( val, key ) {
-
-      if ( val !== 'all' ) {
-        filtered = _.select( filtered, function ( v, k ) {
-          return v[key] === val;
-        });
-      }
-
-    });
-
-    if ( typeof callback === 'function' ) {
-      callback( filtered );
-    }
-    else {
-      return filtered;
-    }
-
-  };
 
   /**
    * データソート
@@ -107,42 +55,31 @@
       _condition[key] = val;
     });
 
-    find( _condition, callback );
+    _model.find( _condition, callback );
 
   };
 
   /**
    * TODO:引数でシステムタイプやバージョン取り出すかどうか選択可能にする
    */
-  getData = function () {
-      return _data;
-  };
-
   getHeader = function () {
     return _headerMap;
   };
 
-  deleteKid = function ( list_kid ) {
-    customer.db.delete('/delete', {
-      'data'  : list_kid,
-      'table' : 'kids'
-    });
-  };
-
 
   initModule = function () {
-    _data = customer.db.selectAll('all');
+    _model.fetch();
     _headerMap = customer.db.selectAll('/tableHeader')[0];
   };
 
   /*public method*/
   cms.model.kids = {
     initModule   : initModule,
-    fetch : fetch,
-    find : find,
+    fetch        : $.proxy( _model.fetch,    _model ),
+    getData      : $.proxy( _model.getCache, _model ),
+    find         : $.proxy( _model.find,     _model ),
     setCondition : setCondition,
     sortByCol    : sortByCol,
-    getData      : getData,
     getHeader    : getHeader
   };
 
