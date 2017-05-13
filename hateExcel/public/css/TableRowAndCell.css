@@ -90,7 +90,7 @@
   /*outline : none;*/
 }
 
-.btn--del {
+.setting .btn--del {
   padding : 0;
   min-width: 27px;
   height: 27px;

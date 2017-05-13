@@ -2,24 +2,28 @@
  *  list users
  */
 
-( function ( $, cms_view ) {
+( function ( $, cms ) {
 
   var
   // member
     jqueryMap = {}
   // private
   , _setJqueryMap
+  , _hideCol
   , _drawHead
   , _drawBody
   , _onClickColumn
   , _onClickEdit
   , _onClickKid
   , _onClickDownload
+  , _openDialog
+  , _closeDialog
   , _selectSystem
   , _selectVertion
   , _selectNetwork
   , _selectServer
   , _selectMobileAvailable
+  , _getSelectItem
   // public
   , initModule
   , drawTable
@@ -72,7 +76,11 @@
       jqueryMap.btnMobileOnOff = filter.find('.btn--mon-off')
       jqueryMap.btnMobile = filter.find('.mobile .filter-item__body');
 
-      jqueryMap.btnEdit     = content.find('.btn--edit');
+      jqueryMap.dialog = content.find('dialog');
+      jqueryMap.btnDialogOk = content.find('dialog .btn--exec');
+      jqueryMap.btnDialogCancel = content.find('dialog .btn--cancel');
+
+      jqueryMap.btnDel     = content.find('.btn--del');
       jqueryMap.btnDownload = content.find('.btn--download');
       jqueryMap.table       = table;
       jqueryMap.thead       = table.find('thead');
@@ -107,15 +115,9 @@
 
   _drawBody = function ( data ) {
 
-    var clone, data, tmpl, complied;
+    var data, tmpl, complied;
 
-    clone = _.map(data, _.clone);
-    // _.each( clone, function ( val, key ) {
-    //   delete val.system_type;
-    //   delete val.version;
-    // });
-
-    data     = { list : clone };
+    data     = { list : data };
     tmpl     = customer.db.getHtml('template/kids.body.html');
     complied = _.template( tmpl );
 
@@ -133,6 +135,14 @@
     jqueryMap.col['version'].addClass('is-hidden');
     jqueryMap.col['has_mobile'].addClass('is-hidden');
   }
+
+  _openDialog = function () {
+    jqueryMap.dialog.get(0).showModal();
+  };
+
+  _closeDialog = function () {
+    jqueryMap.dialog.get(0).close();
+  };
 
   drawTable = function () {
     _drawHead( customer.model.kids.getHeader() );
@@ -250,13 +260,7 @@
     // 確認ダイアログを表示させる
 
     // 対象を取得
-    var ids = _.map( $('.is-selected'), function (val,key){
-      return Number( $(val).attr('id').slice(2) );
-    });
-
-    if ( ids.length === 0 ) {
-      alert('選択されていません');
-    }
+    var ids = _getSelectItem();
 
     var filename = 'a';
     var header = 'id,';
@@ -393,7 +397,6 @@
 
   };
 
-
   _selectServer = function ( version ) {
 
     var filtered = customer.model.servers.find({ 'version' : version, type : 'AP' });
@@ -402,32 +405,55 @@
 
   };
 
+  _getSelectItem = function () {
+
+    var ids = _.map( $('.is-selected'), function (val,key){
+      return { 'id' : Number( $(val).attr('id').slice(2) ) } ;
+    });
+
+    if ( ids.length === 0 ) {
+      alert('選択されていません');
+    }
+
+    return ids;
+
+  };
+
+  _deleteUser = function () {
+    // modelを使ったデリート
+    _closeDialog();
+  };
+
 
   initModule = function () {
     // table load
     $('.main-contents--view-usr').append( customer.db.getHtml('list.users.html') );
 
-    _setJqueryMap();
-
-    drawTable();
-
+    // ダイアログ作成
     util.dialog({
       selector : '.main-contents--view-usr',
       msg : '選択したユーザーを削除しますか?'
     });
 
+    _setJqueryMap();
+
+    drawTable();
+
     // サーバー選択肢作成
     _selectServer( 'all' );
 
-    // on event
+    // ヘッダークリック
     jqueryMap.header.on( 'click', _onClickColumn );
 
+    // サーバー選択時
     $('.select-servers').change( function () {
       customer.model.kids.setCondition( { server : $(this).val() }, regenerateTable );
     });
 
     // ボタンイベント登録
-    jqueryMap.btnEdit.on( 'click', _onClickEdit );
+    jqueryMap.btnDel.on( 'click', function() {
+      jqueryMap.dialog.get(0).showModal();
+    } );
     jqueryMap.btnDownload.on( 'click', _onClickDownload );
     jqueryMap.body.kid.on( 'click', _onClickKid );
 
@@ -437,14 +463,18 @@
     jqueryMap.btnNetwork.on('click', _selectNetwork );
     jqueryMap.btnMobile.on( 'click', _selectMobileAvailable );
 
+    // ダイアログイベント登録
+    jqueryMap.btnDialogOk.on( 'click', _deleteUser );
+    jqueryMap.btnDialogCancel.on( 'click', _closeDialog );
 
   };
 
-  cms_view.kids = {
+  cms.view.kids = {
     initModule : initModule,
     redrawTable : redrawTable,
-    regenerateTable : regenerateTable
+    regenerateTable : regenerateTable,
+    get : _getSelectItem
   };
 
 
-}( jQuery, customer.view ));
+}( jQuery, customer ));
