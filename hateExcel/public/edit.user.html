@@ -1,52 +1,65 @@
 <!-- ユーザ新規登録 -->
 <div id='user-edit' >
 
+  <div class='user-edit__container'>
+    <div class='user-edit__title'>
+      <button class='btn btn--backList' href='#view-usr'> ＜ 一覧に戻る</button>
+    </div>
+    <div class='user-edit__body mdl-tabs mdl-js-tabs mdl-js-ripple-effect mdl-shadow--2dp '>
 
-  <div class='user-edit__container mdl-tabs mdl-js-tabs mdl-js-ripple-effect mdl-shadow--2dp'>
-    <button class='btn btn--backList' href='#view-usr'> ＜ 一覧に戻る</button>
+      <div class='user-edit__header'>
 
+        <div class='user-edit-header__tab mdl-tabs__tab-bar'>
 
-    <div class='user-edit__header'>
+          <a href="#usr-base-panel"    class="mdl-tabs__tab is-active">基本情報</a>
+          <a href="#usr-service-panel" class="mdl-tabs__tab ">サービス種類</a>
+          <a href="#usr-client-panel" class="mdl-tabs__tab ">クライアント情報</a>
+          <a href="#usr-network-panel" class="mdl-tabs__tab">ネットワーク</a>
+          <a href="#usr-partner-panel" class="mdl-tabs__tab">パートナー</a>
+          <a href="#usr-history-panel" class="mdl-tabs__tab">履歴</a>
 
-      <div class='user-edit-header__tab mdl-tabs__tab-bar'>
-
-        <a href="#usr-base-panel"    class="mdl-tabs__tab is-active">基本情報</a>
-        <a href="#usr-service-panel" class="mdl-tabs__tab ">サービス種類</a>
-        <a href="#usr-client-panel" class="mdl-tabs__tab ">クライアント情報</a>
-        <a href="#usr-network-panel" class="mdl-tabs__tab">ネットワーク</a>
-        <a href="#usr-partner-panel" class="mdl-tabs__tab">パートナー</a>
-        <a href="#usr-history-panel" class="mdl-tabs__tab">履歴</a>
+        </div>
 
       </div>
 
+      <div class='user-edit__body'>
+
+        <!-- 基本情報 -->
+        <div class="mdl-tabs__panel is-active" id="usr-base-panel">
+        </div>
+
+        <!-- サービス種類 -->
+        <div class="mdl-tabs__panel" id="usr-service-panel">
+        </div>
+
+        <!-- アカウント情報 -->
+        <div class="mdl-tabs__panel" id="usr-client-panel">
+        </div>
+
+        <!-- パートナー情報 -->
+        <div class="mdl-tabs__panel" id="usr-partner-panel">
+        </div>
+
+        <!-- クォータ -->
+        <div class="mdl-tabs__panel" id="usr-network-panel">
+        </div>
+
+        <!-- 履歴 -->
+        <div class="mdl-tabs__panel" id="usr-history-panel">
+        </div>
+
+      </div>
     </div>
 
-    <div class='user-edit__body'>
 
-      <!-- 基本情報 -->
-      <div class="mdl-tabs__panel is-active" id="usr-base-panel">
-      </div>
+  </div>
 
-      <!-- サービス種類 -->
-      <div class="mdl-tabs__panel" id="usr-service-panel">
-      </div>
-
-      <!-- アカウント情報 -->
-      <div class="mdl-tabs__panel" id="usr-client-panel">
-      </div>
-
-      <!-- パートナー情報 -->
-      <div class="mdl-tabs__panel" id="usr-partner-panel">
-      </div>
-
-      <!-- クォータ -->
-      <div class="mdl-tabs__panel" id="usr-network-panel">
-      </div>
-
-      <!-- 履歴 -->
-      <div class="mdl-tabs__panel" id="usr-history-panel">
-      </div>
-
+  <div class='memo'>
+    <div class='memo__title'>メモ</div>
+    <div class='memo__body mdl-card mdl-shadow--2dp'>
+      <div class='header'></div>
+      <div class='body'></div>
+      <div class='footer'></div>
     </div>
   </div>
 

@@ -438,26 +438,57 @@
     edit or view users
 ---------------------- */
 
+#user-edit {
+  display: flex;
+  height: 100%;
+}
+
+.memo {
+  width : 270px;
+  height: 95%;
+  margin: 20px 20px 20px 10px;
+}
+
+.memo__title {
+  margin-bottom: 14px;
+}
+
+.memo__body {
+  width: 98%;
+  height: 96.5%;
+}
+
+.memo__body .header {
+  height: 48px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
 #user-edit table {
-  margin :  20px auto;
+  margin : 20px auto;
 }
 
 .mdl-tabs__panel {
   margin-top: 0px;
+  overflow-y: auto;
+  height: 96%;
 }
 
-#user-edit {
-  height: 100%;
+.user-edit__title {
+  background: whitesmoke;
 }
 
 .user-edit__container {
   width: 80%;
   min-width: 760px;
-  height: 95%;
-  background: white;
-  margin: 20px auto;
-  overflow-y: auto;
+  margin: 20px 20px 20px 30px;
 }
+
+.user-edit__body {
+  background: white;
+  overflow-y: auto;
+  height: 96%;
+}
+
 
 .user-edit-header__action {
   text-align: right;
@@ -466,14 +497,13 @@
 
 /*.user-edit__header .btn--backList {*/
 .btn--backList {
-  height      : 35px;
-  margin-left : 11px;
-  margin-top  : 7px;
-  background  : white;
+  height      : 21px;
+  background  : whitesmoke;
   color       : #696969;
   border      : none;
   /*text-decoration : underline ;*/
   cursor      : pointer;
+  margin-bottom: 14px;
 }
 
 .user-list,
