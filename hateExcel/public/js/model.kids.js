@@ -114,20 +114,8 @@
   /**
    * TODO:引数でシステムタイプやバージョン取り出すかどうか選択可能にする
    */
-  getData = function ( is_all ) {
-
-    if ( is_all ) {
+  getData = function () {
       return _data;
-    }
-
-    var clone = _.map( _data, _.clone );
-
-    return _.map( clone, function ( val, key ) {
-      delete val.system_type;
-      delete val.version;
-      return val;
-    });
-
   };
 
   getHeader = function () {

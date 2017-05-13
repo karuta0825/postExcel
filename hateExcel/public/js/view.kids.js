@@ -110,10 +110,10 @@
     var clone, data, tmpl, complied;
 
     clone = _.map(data, _.clone);
-    _.each( clone, function ( val, key ) {
-      delete val.system_type;
-      delete val.version;
-    });
+    // _.each( clone, function ( val, key ) {
+    //   delete val.system_type;
+    //   delete val.version;
+    // });
 
     data     = { list : clone };
     tmpl     = customer.db.getHtml('template/kids.body.html');
@@ -128,10 +128,17 @@
 
   };
 
+  _hideCol = function () {
+    jqueryMap.col['system_type'].addClass('is-hidden');
+    jqueryMap.col['version'].addClass('is-hidden');
+    jqueryMap.col['has_mobile'].addClass('is-hidden');
+  }
+
   drawTable = function () {
     _drawHead( customer.model.kids.getHeader() );
     _drawBody( customer.model.kids.getData()   );
     _setJqueryMap();
+    _hideCol();
   };
 
   /**
@@ -173,6 +180,7 @@
     _drawHead( customer.model.kids.getHeader() );
     _drawBody( data );
     _setJqueryMap();
+    _hideCol();
 
     // これが肝 チェックボックスを生成してくれる
     componentHandler.upgradeElements( jqueryMap.table );
