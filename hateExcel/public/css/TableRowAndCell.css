@@ -506,6 +506,7 @@
   margin-bottom: 14px;
 }
 
+
 .user-list,
 .partner-list {
   width:  85%;
@@ -515,8 +516,19 @@
   list-style: none;
 }
 
+.user-list__section {
+  /*border-left: 6px solid #673ab7;*/
+  /*padding-left: 14px;*/
+
+  border-radius: 5px;
+  background: #673ab7;
+  color : white;
+  text-align: center;
+}
+
+
 .user-list__item {
-  margin : 25px 0 0 0;
+  margin : 25px 0 0 20px;
   width: 100%;
 }
 
@@ -564,6 +576,11 @@
   border: 1px solid #dedcdc;
   background: whitesmoke;
   border-radius: 5px;
+}
+
+.user-list .client_number .item-value,
+.user-list .number_pc .item-value {
+  width : 50px;
 }
 
 .user-base-list .account .item-value {
