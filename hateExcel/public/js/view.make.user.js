@@ -111,9 +111,9 @@
     makeUserView.initElement( elements );
 
     makeUserView.addListener({
-      'click btn__ok'          : _makeUser,
+      'click btn__ok'          : _openDialog,
       'click btn__cancel'      : _closeDialog,
-      'click btn__exec'        : _closeDialog,
+      'click btn__exec'        : _makeUser,
       'change select__system'  : _selectSystem,
       'change select__version' : _makeSelectServer
     });

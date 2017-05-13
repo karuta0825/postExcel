@@ -3,6 +3,7 @@ html, body {
   width  : 100%;
   height : 100%;
   font-family: "メイリオ", sans-serif;
+  font-size: 12px;
   background : whitesmoke;
   color :#696969;
 }
