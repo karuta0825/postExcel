@@ -248,6 +248,11 @@
 
   };
 
+  // ボタンの位置をもとに戻す
+  clear = function () {
+    _onClickCancel();
+  };
+
   initModule = function () {
     $('#usr-base-panel')
     .append( customer.db.getHtml('template/user.base.html'));
@@ -269,6 +274,7 @@
     initModule   : initModule,
     makeUserInfo : makeUserInfo,
     reset        : reset,
+    clear        : clear,
     getViewInfo  : getViewInfo,
     get          : function () { return baseView; }
   };

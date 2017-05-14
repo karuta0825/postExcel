@@ -30,7 +30,7 @@
       ,'usr-service' : content.find('a[href="#usr-service-panel"]')
       ,'usr-client'  : content.find('a[href="#usr-client-panel"]')
       ,'usr-partner' : content.find('a[href="#usr-partner-panel"]')
-      ,'usr-quota'   : content.find('a[href="#usr-quota-panel"]')
+      ,'usr-network' : content.find('a[href="#usr-network-panel"]')
       ,'usr-history' : content.find('a[href="#usr-history-panel"]')
     };
 
@@ -39,7 +39,7 @@
       ,'usr-service' : content.find('#usr-service-panel')
       ,'usr-client'  : content.find('#usr-client-panel')
       ,'usr-partner' : content.find('#usr-partner-panel')
-      ,'usr-quota'   : content.find('#usr-quota-panel')
+      ,'usr-network' : content.find('#usr-network-pel')
       ,'usr-history' : content.find('#usr-history-panel')
     };
 
@@ -65,6 +65,7 @@
     jqueryMap.tab_panel['usr-base'].addClass('is-active');
 
     // 各タブの初期化
+    customer.view.userBaseInfo.clear();
     customer.view.userPartner.clear();
     customer.view.userService.clear();
 
