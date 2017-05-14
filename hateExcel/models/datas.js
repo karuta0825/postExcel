@@ -4,7 +4,8 @@ var
   // SQLクエリは別ファイルで管理する
   querys   = require('./list_query'),
   db = database.createClient(),
-  datas = exports
+  datas = exports,
+  async = require('async')
   ;
 
 datas.authenticate = function ( data, callback ) {
@@ -39,16 +40,7 @@ datas.authenticate = function ( data, callback ) {
   );
 };
 
-datas.getAll = function ( callback ) {
-  db.query(
-    querys.select.all,
-    function ( err, results, fields ) {
-      db.end();
-      if ( err ) { console.log(err); return; }
-      callback( results );
-    }
-  );
-};
+
 
 datas.selectAll = function ( table, callback ) {
   db.query(
@@ -81,16 +73,6 @@ datas.select = function ( condition, access, callback ) {
   );
 };
 
-datas.getServers = function ( callback ) {
-  db.query(
-    querys.select.servers,
-    function ( err, results, fields ) {
-      db.end();
-      if ( err ) { console.log(err); return; }
-      callback( results );
-    }
-  );
-};
 
 datas.getHeader = function ( callback ) {
   db.query(
@@ -103,70 +85,6 @@ datas.getHeader = function ( callback ) {
   );
 };
 
-
-datas.getColumns = function ( uid, callback ) {
-  var params = [uid];
-  db.query(
-    querys.select.show_columns,
-    params,
-    function ( err, results, fields ) {
-      db.end();
-      if ( err ) { console.log(err); return; }
-      callback( results );
-    }
-  );
-};
-
-datas.getAccounts = function ( kid, callback ) {
-  var params = [kid];
-  db.query(
-    querys.select.accounts,
-    params,
-    function ( err, results, fields ) {
-      db.end();
-      if ( err ) { console.log(err); return; }
-      callback( results ) ;
-    }
-  );
-};
-
-datas.getServices = function ( callback ) {
-  db.query(
-    querys.select.services,
-    [],
-    function ( err, results, fields ) {
-      db.end();
-      if ( err ) { console.log(err); return; }
-      callback( results ) ;
-    }
-  );
-};
-
-datas.getLicenses = function ( kid, callback ) {
-  var params = [kid];
-  db.query(
-    querys.select.licenses,
-    params,
-    function ( err, results, fields ) {
-      db.end();
-      if ( err ) { console.log(err); return; }
-      callback( results ) ;
-    }
-  );
-};
-
-datas.getBaseInfo = function ( kid, callback ) {
-  var params = [kid];
-  db.query(
-    querys.select.base_info,
-    params,
-    function ( err, results, fields ) {
-      db.end();
-      if ( err ) { console.log(err); return; }
-      callback( results ) ;
-    }
-  );
-}
 
 /**
  * [insert description]
@@ -194,7 +112,6 @@ datas.insert = function ( data, table, callback ) {
 };
 
 
-
 datas.delete = function ( data, query, callback ) {
   db.query(
     querys.delete[query],
@@ -212,6 +129,25 @@ datas.delete = function ( data, query, callback ) {
      }
   );
 };
+
+
+
+datas.update = function ( data, condition, table, callback ) {
+  db.query(
+    querys.update[table],
+    [ data, condition ],
+    function ( err ) {
+      db.end();
+      if ( err ) {
+        console.log(err);
+        callback( err );
+        return;
+      }
+      callback(null);
+    }
+  );
+};
+
 
 datas.updateColumns = function ( data, uid, callback ) {
   var params = [
@@ -241,24 +177,7 @@ datas.updateColumns = function ( data, uid, callback ) {
   );
 };
 
-datas.update = function ( data, condition, table, callback ) {
-  db.query(
-    querys.update[table],
-    [ data, condition ],
-    function ( err ) {
-      db.end();
-      if ( err ) {
-        console.log(err);
-        callback( err );
-        return;
-      }
-      callback(null);
-    }
-  );
-};
 
-
-var async = require('async');
 
 var makeUserKey = function ( length ) {
   var c = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -384,6 +303,22 @@ var findEnvironmentId = function ( data, callback ) {
       console.log(result[0]);
       if ( typeof callback === 'function') {
         callback( null, result[0].id );
+      }
+    }
+  );
+
+};
+
+var findNewFenicsIp = function ( data, callback ) {
+
+  datas.select(
+    [data],
+    'kid',
+    function ( result ) {
+      var kid = Number(result[0].kid.slice(3)) + 1;
+      // console.log( 'KID' + kid );
+      if ( typeof callback === 'function') {
+        callback( null, 'KID' + kid );
       }
     }
   );
