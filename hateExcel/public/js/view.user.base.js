@@ -20,6 +20,10 @@
       'client_number' : '.client_number',
       'system_type'   : '.system_type',
       'version'       : '.version',
+      'number_pc'     : '.number_pc',
+      'number_id'     : '.number_id',
+      'range_id'      : '.range_id',
+      'network'       : '.network',
       'btnMinus'      : '.btn-minus-account',
       'btnPlus'       : '.btn-plus-account',
       'btnEdit'       : '.btn--edit',
@@ -185,6 +189,11 @@
     baseView.get('tel'          ).find('.item-value').val(data.tel);
     baseView.get('fax'          ).find('.item-value').val(data.fax);
 
+    baseView.get('number_pc'    ).find('.item-value').val(data.number_pc);
+    baseView.get('number_id'    ).find('.item-value').val(data.number_id);
+    baseView.get('range_id'     ).find('.item-value').val(data.start_id);
+
+
     if ( data.system_type === 'onpre' ) {
       baseView.get('system_type').find('.onpre').addClass('choice--on');
       baseView.get('system_type').find('.cloud').removeClass('choice--on');
@@ -202,6 +211,20 @@
       baseView.get('version').find('.ES').addClass('choice--on');
       baseView.get('version').find('.LM').removeClass('choice--on');
     }
+
+    if ( data.is_busiv === 1 ) {
+      baseView.get('network').find('.busiv').addClass('choice--on');
+      baseView.get('network').find('.univ').removeClass('choice--on');
+    }
+    else if ( data.is_busiv === 0 ) {
+      baseView.get('network').find('.busiv').removeClass('choice--on');
+      baseView.get('network').find('.univ').addClass('choice--on');
+    }
+    else {
+      baseView.get('network').find('.busiv').removeClass('choice--on');
+      baseView.get('network').find('.univ').removeClass('choice--on');
+    }
+
 
   };
 

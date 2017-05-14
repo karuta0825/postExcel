@@ -226,6 +226,11 @@
       customer.view.userService.setViewInfo
     );
 
+    // ネットワークタブ描画
+    customer.model.userNetwork.fetch(kid,
+      customer.view.userNetwork.redrawTable
+    );
+
     // パートナータブの描画
     customer.model.userPartner.fetch( kid,
       customer.view.userPartner.setInfo

@@ -1,0 +1,55 @@
+
+
+<% if ( !is_redraw ) { %>
+  <!-- アクション -->
+  <div class='user-edit-header__action'>
+    <button class='btn btn--download mdl-button mdl-js-button mdl-button--raised mdl-button--accent'>ダウンロード</button>
+  </div>
+
+  <!-- ダウンロード用ダイアログ -->
+  <dialog class="mdl-dialog" id="modal-network-download">
+      <h5 class="mdl-dialog__title">Title</h5>
+      <div class="mdl-dialog__content">
+
+        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-fenics-csv">
+          <input type="checkbox" id="checkbox-fenics-csv" class="mdl-checkbox__input">
+          <span class="mdl-checkbox__label">fenicsアカウント作成</span>
+          <a class='download--fenics is-hidden' href="">ダウンロード</a>
+        </label>
+
+      </div>
+      <div class="mdl-dialog__actions">
+          <button type="button" class="mdl-button btn--exec">実行</button>
+          <button type="button" class="mdl-button btn--close">閉じる</button>
+      </div>
+  </dialog>
+
+<% } %>
+
+<table class='fenics-table mdl-data-table mdl-js-data-table mdl-data-table--selectable'>
+
+  <thead>
+    <th class='mdl-data-table__cell--non-numeric'>Fenics ID</th>
+    <th class='mdl-data-table__cell--non-numeric'>パスワード</th>
+    <th class='mdl-data-table__cell--non-numeric'>ip</th>
+    <th class='mdl-data-table__cell--non-numeric'>開始日</th>
+    <th class='mdl-data-table__cell--non-numeric'>作成日</th>
+  </thead>
+  <tbody>
+
+    <% _.each( list, function ( item, num ) { %>
+      <tr>
+        <td class='mdl-data-table__cell--non-numeric'><%- item.fenics_id %></td>
+        <td class='mdl-data-table__cell--non-numeric'><%- item.password %></td>
+        <td class='mdl-data-table__cell--non-numeric'><%- item.fenics_ip %></td>
+        <td class='mdl-data-table__cell--non-numeric'><%- item.start_on %></td>
+        <td class='mdl-data-table__cell--non-numeric'><%- item.create_on %></td>
+      </tr>
+    <% }); %>
+
+  </tbody>
+
+</table>
+
+
+

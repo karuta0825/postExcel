@@ -10,7 +10,7 @@
     })
   ;
 
-  cms.model.network = {
+  cms.model.userNetwork = {
     fetch : $.proxy( _model.fetch, _model ),
     getCache : $.proxy( _model.getCache, _model)
   };
