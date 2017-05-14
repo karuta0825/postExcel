@@ -728,8 +728,18 @@
 }
 
 /* -------------------
+   setting common
+---------------------- */
+
+.btn .material-icons {
+  color : gray;
+}
+
+
+/* -------------------
    setting servers
 ---------------------- */
+
 
 /* -------------------
    setting services

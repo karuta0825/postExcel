@@ -20,7 +20,11 @@
       <td class='env'>  <input type='text' value=<%- item.version %> > </td>
       <td class='name'> <input type='text' value=<%- item.name        %> > </td>
       <td class='ip'>   <input type='text' value=<%- item.ip%> >           </td>
-      <td align='center' class='del'>  <button class='btn btn--del mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect'>-</button></td>
+      <td align='center' class='del'>
+        <button class='btn btn--del mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect'>
+          <i class="material-icons">delete_forever</i>
+        </button>
+      </td>
     </tr>
   <% });%>
 
