@@ -3,7 +3,7 @@
 
   var
     /*private member*/
-    _model = new Model({ table : 'all' })
+    _model = new Model({ table : 'kids' })
   , _headerMap = {}
   , _condition = {
       system_type : 'all',
@@ -29,7 +29,7 @@
    */
   sortByCol = function ( col, callbackFromView ) {
 
-    _data.sort( function ( item1, item2 ) {
+    _model.getCache().sort( function ( item1, item2 ) {
       item1 = _.isString( item1[col] ) && item1[col].toString().toLowerCase() || item1[col];
       item2 = _.isString( item2[col] ) && item2[col].toString().toLowerCase() || item2[col];
       if ( item1 < item2 ) {
@@ -45,7 +45,7 @@
 
     // モデルの変化時にviewを更新する処理
     if( callbackFromView ) {
-      callbackFromView( col, _data );
+      callbackFromView( col, _model.getCache() );
     }
 
   };
@@ -72,13 +72,13 @@
     _model.fetch();
     _headerMap = customer.db.selectAll('/tableHeader')[0];
   };
-
   /*public method*/
   cms.model.kids = {
     initModule   : initModule,
     fetch        : $.proxy( _model.fetch,    _model ),
     getData      : $.proxy( _model.getCache, _model ),
     find         : $.proxy( _model.find,     _model ),
+    remove       : $.proxy( _model.remove,   _model ),
     setCondition : setCondition,
     sortByCol    : sortByCol,
     getHeader    : getHeader

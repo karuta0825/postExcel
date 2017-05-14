@@ -210,8 +210,12 @@ app.post('/makeUser', function ( req, res ) {
 
   data.create_user_id = req.session.uid;
 
+  // urlからダイレクトにされたときのために入力チェックする
+
   datas.make_user( data, function ( result ) {
-    res.status(200).send('ok');
+    console.log('result');
+    console.log(result);
+    res.json(result);
   });
 
 });
@@ -222,10 +226,13 @@ app.post('/delete', function ( req, res ) {
   var
     data = req.body.data
   , table = req.body.table
+  , len = 0
   ;
+
 
   // dataがArrayであることが前提だね
   if ( Object.prototype.toString.call( data ) === '[object Array]' ) {
+
     for ( var i = 0; i < data.length; i+= 1 ) {
 
       datas.delete( data[i], table, function ( err ) {
@@ -235,12 +242,19 @@ app.post('/delete', function ( req, res ) {
           res.status( 500 ).send( err.message );
           return;
         }
+        else {
+          len += 1;
+          if ( len === data.length ) {
+            res.status(200).send('delete success');
+          }
+        }
 
       });
     }
+  } else {
+    res.status(500).send('argument is not Array.');
   }
 
-  res.status(200).send('delete success');
 
 });
 

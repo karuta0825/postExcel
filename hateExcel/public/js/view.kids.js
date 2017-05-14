@@ -414,11 +414,12 @@
   _getSelectItem = function () {
 
     var ids = _.map( $('.is-selected'), function (val,key){
-      return { 'id' : Number( $(val).attr('id').slice(2) ) } ;
+      return { 'kid' : $(val).attr('id') } ;
     });
 
     if ( ids.length === 0 ) {
       alert('選択されていません');
+      return;
     }
 
     return ids;
@@ -427,6 +428,11 @@
 
   _deleteUser = function () {
     // modelを使ったデリート
+    var list_delete = _getSelectItem();
+
+    if ( list_delete ) {
+      customer.model.kids.remove( list_delete );
+    }
     _closeDialog();
   };
 
@@ -436,7 +442,7 @@
     $('.main-contents--view-usr').append( customer.db.getHtml('list.users.html') );
 
     // ダイアログ作成
-    util.dialog({
+    util.confirm({
       selector : '.main-contents--view-usr',
       msg : '選択したユーザーを削除しますか?'
     });

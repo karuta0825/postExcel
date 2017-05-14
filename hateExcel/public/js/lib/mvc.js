@@ -410,6 +410,19 @@
 
   };
 
+  Model.fn.remove = function ( data, callback ) {
+
+    customer.db.remove('/delete', {
+      data : data,
+      table : this['config']['table']
+    });
+
+    if ( typeof callback === 'function' ) {
+      callback( this.fetch( this['_cache'][0]['kid']) );
+    }
+
+  };
+
 
 
 
