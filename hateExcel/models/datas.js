@@ -309,16 +309,15 @@ var findEnvironmentId = function ( data, callback ) {
 
 };
 
-var findNewFenicsIp = function ( data, callback ) {
+var getNewFenicsIp = function ( data, callback ) {
 
   datas.select(
-    [data],
-    'kid',
+    [],
+    'getNewFenicsIp',
     function ( result ) {
-      var kid = Number(result[0].kid.slice(3)) + 1;
-      // console.log( 'KID' + kid );
+      console.log( result[0].next_ip );
       if ( typeof callback === 'function') {
-        callback( null, 'KID' + kid );
+        callback( null );
       }
     }
   );
@@ -369,3 +368,4 @@ datas.make_user = function ( input_map, callback ) {
 // }
 
 // findNewFenicsKey('nfg');
+getNewFenicsIp();
