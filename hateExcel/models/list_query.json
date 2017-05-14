@@ -20,7 +20,8 @@
     "db_password"  : "SELECT db_password from kids WHERE db_password = ?;",
     "environments" : "SELECT * FROM environments;",
     "findEnvironmentId" : "select id from environments where system_type = ? and version = ?;",
-    "fenics"       : "SELECT kid, fenics_key, fenics_id, `password`, fenics_ip, DATE_FORMAT( create_on, '%Y/%m/%d') as create_on, DATE_FORMAT( start_on, '%Y/%m/%d') as start_on FROM customer.fenics WHERE kid = ?;"
+    "fenics"       : "SELECT kid, fenics_key, fenics_id, `password`, fenics_ip, DATE_FORMAT( create_on, '%Y/%m/%d') as create_on, DATE_FORMAT( start_on, '%Y/%m/%d') as start_on FROM customer.fenics WHERE kid = ?;",
+    "memos"        : "SELECT * FROM memos where kid = ?;"
 
   },
 
