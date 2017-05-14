@@ -319,7 +319,7 @@
         jqueryMap.btnES.addClass('btn--on');
         jqueryMap.btnLM.removeClass('btn--on');
         jqueryMap.btnESLM.removeClass('btn--on');
-        customer.model.kids.setCondition( {}, regenerateTable );
+        customer.model.kids.setCondition( {'version' : 'ES', 'server' : 'all' }, regenerateTable );
         // 選択サーバ変更
         _selectServer('ES');
         break;
