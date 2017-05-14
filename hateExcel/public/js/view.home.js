@@ -26,6 +26,7 @@
   // public
   , hideFooter
   , initModule
+  , refresh
   , drawNews
   ;
 
@@ -57,6 +58,10 @@
     homeView.get('notice__btnMore').addClass('is-hidden');
   };
 
+  refresh = function () {
+    drawNews(customer.model.historys.fetch() );
+  };
+
   initModule = function () {
 
     $('.main-contents--home').append( customer.db.getHtml('home.html') );
@@ -65,6 +70,8 @@
     homeView.initElement( elements );
 
     drawNews( customer.model.historys.getCache() );
+
+    homeView.updateElement({ 'notice__items' : '.article-notice__item--body'});
 
     homeView.addListener({
       'click notice__btnMore' : getMoreHistory
@@ -75,6 +82,8 @@
   cms.view.home = {
     initModule : initModule,
     hideFooter : hideFooter,
+    drawNews   : drawNews,
+    refresh    : refresh,
     get : function () { return homeView; }
   };
 

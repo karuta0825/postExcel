@@ -24,11 +24,13 @@
   , _selectServer
   , _selectMobileAvailable
   , _getSelectItem
+  , _deleteUser
   // public
   , initModule
   , drawTable
   , redrawTable
   , regenerateTable
+  , refresh
   ;
 
   /**
@@ -143,62 +145,6 @@
 
   _closeDialog = function () {
     jqueryMap.dialog.get(0).close();
-  };
-
-  drawTable = function () {
-    _drawHead( customer.model.kids.getHeader() );
-    _drawBody( customer.model.kids.getData()   );
-    _setJqueryMap();
-    _hideCol();
-  };
-
-  /**
-   * 並び替えによる再描画処理
-   * 行数が変わらないことがポイント
-   */
-  redrawTable = function ( col, data ) {
-
-    var headerMap = customer.model.kids.getHeader();
-
-    delete headerMap.uid;
-
-    jqueryMap.row.each( function ( key, val ) {
-      // idだけは個別処理
-        $(val).attr('id', data[key].kid );
-
-      // 各々の列の値をクリアしてソートした値をセット
-      _.each( headerMap, function ( v, k ) {
-        $(val).find('.' + k).empty().append( data[key][k] );
-      });
-
-    });
-
-  };
-
-  /**
-   * 行数変わるテーブル再描画処理
-   * TODO:カッコ悪い実装だな
-   */
-  regenerateTable = function ( data ) {
-
-    var body = "<table class='mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp'>";
-    body += "<thead></thead><tbody></tbody></table>"
-
-    jqueryMap.table.remove();
-    jqueryMap.tableWraper.append(body);
-
-    _setJqueryMap();
-    _drawHead( customer.model.kids.getHeader() );
-    _drawBody( data );
-    _setJqueryMap();
-    _hideCol();
-
-    // これが肝 チェックボックスを生成してくれる
-    componentHandler.upgradeElements( jqueryMap.table );
-
-    jqueryMap.body.kid.on( 'click', _onClickKid );
-    jqueryMap.header.on( 'click', _onClickColumn );
-
   };
 
   _onClickColumn = function () {
@@ -433,7 +379,72 @@
     if ( list_delete ) {
       customer.model.kids.remove( list_delete );
     }
+
+    cms.view.kids.refresh();
+    cms.view.home.refresh();
+
     _closeDialog();
+  };
+
+  drawTable = function () {
+    _drawHead( customer.model.kids.getHeader() );
+    _drawBody( customer.model.kids.getData()   );
+    _setJqueryMap();
+    _hideCol();
+  };
+
+  /**
+   * 並び替えによる再描画処理
+   * 行数が変わらないことがポイント
+   */
+  redrawTable = function ( col, data ) {
+
+    var headerMap = customer.model.kids.getHeader();
+
+    delete headerMap.uid;
+
+    jqueryMap.row.each( function ( key, val ) {
+      // idだけは個別処理
+        $(val).attr('id', data[key].kid );
+
+      // 各々の列の値をクリアしてソートした値をセット
+      _.each( headerMap, function ( v, k ) {
+        $(val).find('.' + k).empty().append( data[key][k] );
+      });
+
+    });
+
+  };
+
+  /**
+   * 行数変わるテーブル再描画処理
+   * TODO:カッコ悪い実装だな
+   */
+  regenerateTable = function ( data ) {
+
+    var body = "<table class='mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp'>";
+    body += "<thead></thead><tbody></tbody></table>"
+
+    jqueryMap.table.remove();
+    jqueryMap.tableWraper.append(body);
+
+    _setJqueryMap();
+    _drawHead( customer.model.kids.getHeader() );
+    _drawBody( data );
+    _setJqueryMap();
+    _hideCol();
+
+    // これが肝 チェックボックスを生成してくれる
+    componentHandler.upgradeElements( jqueryMap.table );
+
+    jqueryMap.body.kid.on( 'click', _onClickKid );
+    jqueryMap.header.on( 'click', _onClickColumn );
+
+  };
+
+  refresh = function () {
+    // regenerateTable( cms.model.kids.fetch() ) ;
+    cms.model.kids.fetch( null, regenerateTable );
   };
 
 
@@ -485,6 +496,7 @@
     initModule : initModule,
     redrawTable : redrawTable,
     regenerateTable : regenerateTable,
+    refresh : refresh,
     get : _getSelectItem
   };
 

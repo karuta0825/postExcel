@@ -92,7 +92,7 @@
   // to public
   cms.model.historys = {
     initModule : initModule,
-    fetch      : $.proxy( _model.fetch, _model ),
+    fetch      : function () { return makeNews( _model.fetch() ); },
     getMore    : getMore,
     getCache   : function () { return makeNews( _model.getCache() );},
     isEnd      : function () { return _is_end; },

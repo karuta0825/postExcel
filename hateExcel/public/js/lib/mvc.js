@@ -103,8 +103,18 @@
 
   Controller.fn.updateElement = function ( map_element ) {
     _.each( map_element, function ( val, key ) {
-      if ( this.get(key) ) {
+      var list_key = key.split('__');
+      var local = this['_el'];
+      var k = _.last( list_key );
+
+      if ( list_key.length === 1 ) {
         this['_el'][key] = this.$(val);
+      }
+      else {
+        for ( var i = 0; i< list_key.length-1; i+=1 ) {
+          local = local[list_key[i]];
+        }
+        local[k] = this.$(val);
       }
     },this);
   };

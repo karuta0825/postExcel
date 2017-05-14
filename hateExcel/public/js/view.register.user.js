@@ -13,14 +13,18 @@
         'upload' : '.btn--upload'
       }
     }
+  , uploadData
   , _onClickUpload
   , _selectFile
   , _dragOver
+  , _upload
   , initModule
   ;
 
   _onClickUpload = function () {
     console.log('upload');
+    // upload処理
+    // _upload( uploadData );
   };
 
   _selectFile = function ( evt )  {
@@ -66,6 +70,10 @@
 
       // 入力チェック
 
+
+      // 格納
+      uploadData = map_result;
+
       // ボタン状態制御
       registerView.get('btn__upload').prop('disabled', false);
 
@@ -77,6 +85,30 @@
     evt.stopPropagation();
     evt.preventDefault();
     evt.dataTransfer.dropEffect = 'copy';
+  };
+
+  _upload = function ( upload_data ) {
+
+    // 何をアップロードするのか？
+    // いつものuploadは履歴テーブルをinsertするのであかん
+
+    // 更新するKID情報をどこから取得するか？
+
+    // 基本情報
+    // customer.model.update( upload_data.base, false );
+
+    // サービス
+    // customer.model.update( upload_data.service, false );
+
+    // クライアント
+    // customer.model.update( upload_data.client, false );
+
+    // ネットワーク
+    // customer.model.update( upload_data.network, false );
+
+    // パートナー
+    // customer.model.update( upload_data.partner, false );
+
   };
 
 

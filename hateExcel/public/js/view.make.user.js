@@ -43,8 +43,15 @@
   };
 
   _openCompleteDialog = function ( data ) {
+
+    // 画面更新
+    cms.view.home.refresh();
+    cms.view.kids.refresh();
+
     _setInfoDialog(data);
+
     makeUserView.get('dialog__complete').get(0).showModal();
+
   };
 
   _closeConfirm = function () {
