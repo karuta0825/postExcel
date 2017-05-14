@@ -274,6 +274,21 @@ var makeUserKey = function ( length ) {
 
 };
 
+var makeFenicsKey = function ( length ) {
+  var c = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  var c = 'abcdefghijklmnopwrstrvwxyz';
+  var l = length;
+  var cl = c.length;
+  var r = '';
+
+  for(var i=0; i<l; i++){
+    r += c[Math.floor(Math.random()*cl)];
+  }
+
+  return r;
+
+};
+
 
 var findNewDbPass = function ( data, callback ) {
   var db_pass = 'U' + makeUserKey(6);
@@ -331,6 +346,28 @@ var findNewKid = function ( data, callback ) {
     }
   );
 
+};
+
+var findNewFenicsKey = function ( data, callback ) {
+
+  var fenics_key = data || makeFenicsKey(3);
+
+  datas.select(
+    fenics_key,
+    'isUniqueFenicsKey',
+    function ( result ) {
+      if ( result.length !== 0 ) {
+        console.log('not unique');
+        findNewFenicsKey( null, callback );
+      }
+      else {
+        console.log('fenics_key: ' + fenics_key);
+        if ( typeof callback === 'function') {
+          callback( null, fenics_key );
+        }
+      }
+    }
+  );
 };
 
 var findEnvironmentId = function ( data, callback ) {
@@ -395,3 +432,5 @@ datas.make_user = function ( input_map, callback ) {
 // for( var i = 0; i < 100; i += 1) {
   // make_user(4, 1);
 // }
+
+// findNewFenicsKey('nfg');
