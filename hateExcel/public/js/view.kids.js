@@ -164,7 +164,7 @@
 
     jqueryMap.row.each( function ( key, val ) {
       // idだけは個別処理
-        $(val).attr('id', 'id' + data[key].id );
+        $(val).attr('id', data[key].kid );
 
       // 各々の列の値をクリアしてソートした値をセット
       _.each( headerMap, function ( v, k ) {

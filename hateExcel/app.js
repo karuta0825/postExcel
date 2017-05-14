@@ -229,7 +229,6 @@ app.post('/delete', function ( req, res ) {
   , len = 0
   ;
 
-
   // dataがArrayであることが前提だね
   if ( Object.prototype.toString.call( data ) === '[object Array]' ) {
 
