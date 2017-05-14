@@ -67,8 +67,8 @@
       jqueryMap.btnVersion   = filter.find('.version .filter-item__body');
 
       jqueryMap.btnBusiv  = filter.find('.btn--busiv');
-      jqueryMap.btnFenics = filter.find('.btn--fenics');
-      jqueryMap.btnBusivFenics = filter.find('.btn--busiv-fenics')
+      jqueryMap.btnUniv = filter.find('.btn--univ');
+      jqueryMap.btnBusivUniv = filter.find('.btn--busiv-univ')
       jqueryMap.btnNetwork = filter.find('.network .filter-item__body');
 
       jqueryMap.btnMobileOn  = filter.find('.btn--mon');
@@ -134,6 +134,7 @@
     jqueryMap.col['system_type'].addClass('is-hidden');
     jqueryMap.col['version'].addClass('is-hidden');
     jqueryMap.col['has_mobile'].addClass('is-hidden');
+    jqueryMap.col['is_busiv'].addClass('is-hidden');
   }
 
   _openDialog = function () {
@@ -313,7 +314,7 @@
         jqueryMap.btnES.addClass('btn--on');
         jqueryMap.btnLM.removeClass('btn--on');
         jqueryMap.btnESLM.removeClass('btn--on');
-        customer.model.kids.setCondition( {'version' : 'ES', 'server' : 'all'}, regenerateTable );
+        customer.model.kids.setCondition( {}, regenerateTable );
         // 選択サーバ変更
         _selectServer('ES');
         break;
@@ -375,21 +376,21 @@
     switch ( list_class[1] ) {
       case 'btn--busiv' :
         jqueryMap.btnBusiv.addClass('btn--on');
-        jqueryMap.btnFenics.removeClass('btn--on');
-        jqueryMap.btnBusivFenics.removeClass('btn--on');
-        // customer.model.kids.setCondition( {'version' : 'ES', 'server' : 'all'}, regenerateTable );
+        jqueryMap.btnUniv.removeClass('btn--on');
+        jqueryMap.btnBusivUniv.removeClass('btn--on');
+        customer.model.kids.setCondition( { 'is_busiv' : 1 }, regenerateTable );
         break;
-      case 'btn--fenics' :
+      case 'btn--univ' :
         jqueryMap.btnBusiv.removeClass('btn--on');
-        jqueryMap.btnFenics.addClass('btn--on');
-        jqueryMap.btnBusivFenics.removeClass('btn--on');
-        // customer.model.kids.setCondition( { 'version' : 'LM', 'server' : 'all' }, regenerateTable );
+        jqueryMap.btnUniv.addClass('btn--on');
+        jqueryMap.btnBusivUniv.removeClass('btn--on');
+        customer.model.kids.setCondition( { 'is_busiv' : 0 }, regenerateTable );
         break;
-      case 'btn--busiv-fenics' :
+      case 'btn--busiv-univ' :
         jqueryMap.btnBusiv.removeClass('btn--on');
-        jqueryMap.btnFenics.removeClass('btn--on');
-        jqueryMap.btnBusivFenics.addClass('btn--on');
-        // customer.model.kids.setCondition( { 'version' : 'all', 'server' : 'all'}, regenerateTable );
+        jqueryMap.btnUniv.removeClass('btn--on');
+        jqueryMap.btnBusivUniv.addClass('btn--on');
+        customer.model.kids.setCondition( { 'is_busiv' : 'all'}, regenerateTable );
         break;
       default:
         break;

@@ -19,7 +19,8 @@
   // to public
   cms.model.environments = {
     initModule : initModule,
-    find  : $.proxy( _model.find, _model )
+    find  : $.proxy( _model.find, _model ),
+    getCache : $.proxy( _model.getCache, _model )
   };
 
 

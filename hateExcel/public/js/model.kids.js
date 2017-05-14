@@ -9,7 +9,8 @@
       system_type : 'all',
       version     : 'all',
       server      : 'all',
-      has_mobile  : 'all'
+      has_mobile  : 'all',
+      is_busiv    : 'all'
     }
     /*private method*/
   , _sortOrder = 1
