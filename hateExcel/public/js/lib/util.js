@@ -125,7 +125,7 @@
    * @param  {String}  map_option.title
    * @param  {String}  map_option.msg
    */
-  util.dialog = function ( map_option ) {
+  util.confirm = function ( map_option ) {
 
     // 入力チェック
     if ( !_.isObject( map_option ) ) {

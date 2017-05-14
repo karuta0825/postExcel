@@ -10,9 +10,10 @@
     makeUserView
   , elements = {
       btn : {
-        'ok' : '.btn--ok',
+        'ok'     : '.btn--ok',
         'cancel' : '.btn--cancel',
-        'exec' : '.btn--exec'
+        'exec'   : '.btn--exec',
+        'close'  : '.btn--close'
       },
       select : {
         system  : '.select-system',
@@ -20,21 +21,42 @@
         server  : '.select-server'
       },
       'server-title' : '.select-name.server',
-      'dialog' : '.mdl-dialog'
+      'dialog' : {
+        confirm  : '#make-usr-confirm',
+        complete : '#complete-make-user',
+        kid      : '#complete-make-user .kid'
+      },
     }
   , _openDialog
+  , _openCompleteDialog
+  , _closeConfirm
+  , _closeComplteDialog
+  , _setInfoDialog
   , _makeSelectServer
   , _selectSystem
   , _makeUser
   , initModule
   ;
 
-  _openDialog = function () {
-    makeUserView.get('dialog').get(0).showModal();
+  _openConfirm = function () {
+    makeUserView.get('dialog__confirm').get(0).showModal();
   };
 
-  _closeDialog = function () {
-    makeUserView.get('dialog').get(0).close();
+  _openCompleteDialog = function ( data ) {
+    _setInfoDialog(data);
+    makeUserView.get('dialog__complete').get(0).showModal();
+  };
+
+  _closeConfirm = function () {
+    makeUserView.get('dialog__confirm').get(0).close();
+  };
+
+  _closeComplteDialog = function () {
+    makeUserView.get('dialog__complete').get(0).close();
+  };
+
+  _setInfoDialog = function ( data ) {
+    makeUserView.get('dialog__kid').text( data.kid );
   };
 
   _selectSystem = function () {
@@ -80,19 +102,10 @@
       }
     };
 
-    // if ( param['data'].system_type !== 'onpre') {
-    //   _.each( param['data'], function ( val, key ) {
-    //      if ( !val ) {
-    //       alert('情報不足のため、ユーザー作成できません');
-    //       return;
-    //      }
-    //   });
-    // }
-
-    console.log( param );
-
     // KID, Userkey, DB Passwordを決める
-    customer.db.insert( '/makeUser', param );
+    customer.db.insert( '/makeUser', param,  _openCompleteDialog );
+
+    _closeConfirm();
 
   };
 
@@ -103,17 +116,19 @@
     makeUserView = new Controller('.main-contents--mk-usr');
 
     // ダイアログ作成
-    util.dialog({
+    util.confirm({
       selector : '.main-contents--mk-usr',
+      id       : 'make-usr-confirm',
       msg      : 'ユーザーを作成しますか？'
     });
 
     makeUserView.initElement( elements );
 
     makeUserView.addListener({
-      'click btn__ok'          : _openDialog,
-      'click btn__cancel'      : _closeDialog,
+      'click btn__ok'          : _openConfirm,
+      'click btn__cancel'      : _closeConfirm,
       'click btn__exec'        : _makeUser,
+      'click btn__close'       : _closeComplteDialog,
       'change select__system'  : _selectSystem,
       'change select__version' : _makeSelectServer
     });

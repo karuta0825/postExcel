@@ -187,7 +187,7 @@ datas.insert = function ( data, table, callback ) {
       }
       // 正常時
       else {
-        callback(null);
+        callback( err );
       }
     }
   );
@@ -385,7 +385,7 @@ datas.make_user = function ( input_map, callback ) {
           datas.make_user( input_map );
         }
         else {
-          callback(result);
+          callback(set);
         }
       });
       // callback(set);

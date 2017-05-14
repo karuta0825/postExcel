@@ -39,7 +39,7 @@ customer.db = ( function (){
   };
 
 
-  _ajaxPost = function ( url, data ) {
+  _ajaxPost = function ( url, data, callback ) {
     var result = $.ajax({
       dataType: 'json',
       type    : 'post',
@@ -47,6 +47,9 @@ customer.db = ( function (){
       async   : false,
       data    : data,
       success : function ( result ) {
+        if ( typeof callback === 'function' ) {
+          callback( result );
+        }
       }
     }).responseText;
     return result;
@@ -60,16 +63,16 @@ customer.db = ( function (){
     return JSON.parse( _ajaxPost( url, params ));
   };
 
-  insert    = function ( url, params ) {
-    _ajaxPost( url, params );
+  insert    = function ( url, params, callback ) {
+    _ajaxPost( url, params, callback );
   };
 
-  update    = function ( url, params ) {
-    _ajaxPost( url, params );
+  update    = function ( url, params, callback ) {
+    _ajaxPost( url, params, callback );
   };
 
-  remove    = function ( params ) {
-    _ajaxPost( '/delete', params );
+  remove    = function ( url, params, callback ) {
+    _ajaxPost( url, params, callback );
   };
 
   return {
