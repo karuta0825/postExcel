@@ -672,8 +672,11 @@
 }
 
 .user-list .client_number .item-value,
-.user-list .number_pc .item-value {
-  width : 50px;
+.user-list .number_pc .item-value,
+.user-list .number_id .item-value,
+.user-list .range_id .item-value {
+
+  width : 25px;
 }
 
 .user-base-list .account .item-value {
