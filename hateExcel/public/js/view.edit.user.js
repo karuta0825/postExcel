@@ -52,6 +52,18 @@
 
   backUserTable = function () {
 
+    // タブ位置を基本情報に戻す
+    _.each( jqueryMap.tab_bar, function ( val,key ) {
+      $(val).removeClass('is-active');
+    });
+
+    _.each( jqueryMap.tab_panel, function ( val, key ) {
+      $(val).removeClass('is-active');
+    });
+
+    jqueryMap.tab_bar['usr-base'].addClass('is-active');
+    jqueryMap.tab_panel['usr-base'].addClass('is-active');
+
     // 各タブの初期化
     customer.view.userPartner.clear();
     customer.view.userService.clear();
