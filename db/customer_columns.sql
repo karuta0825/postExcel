@@ -38,6 +38,7 @@ CREATE TABLE `columns` (
   `update_on` varchar(45) DEFAULT '1',
   `system_type` varchar(45) DEFAULT NULL,
   `version` varchar(45) DEFAULT NULL,
+  `is_busiv` varchar(45) DEFAULT NULL,
   `has_mobile` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`uid`),
   UNIQUE KEY `user_id_UNIQUE` (`uid`)
@@ -50,7 +51,7 @@ CREATE TABLE `columns` (
 
 LOCK TABLES `columns` WRITE;
 /*!40000 ALTER TABLE `columns` DISABLE KEYS */;
-INSERT INTO `columns` VALUES (0,'KID','顧客名','サーバ','ユーザキー','DBパスワード','fenicsキー','端末台数','クライアント数','端末id収容数','端末id','作成者','更新日','システム環境','バージョン','モバイル有無'),(1,'1','1','1','1','1','1','1','1','1',NULL,'1','1','0','0','0');
+INSERT INTO `columns` VALUES (0,'KID','顧客名','サーバ','ユーザキー','DBパスワード','fenicsキー','端末台数','クライアント数','端末id収容数','端末id','作成者','更新日','システム環境','バージョン','ビジVあり','モバイル有無'),(1,'1','1','1','1','1','1','1','1','1','1','1','1','0','0','0','0');
 /*!40000 ALTER TABLE `columns` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -63,4 +64,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-05-13 21:52:00
+-- Dump completed on 2017-05-14 11:49:02
