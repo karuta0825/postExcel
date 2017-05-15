@@ -6,39 +6,42 @@
 
   var
     elements = {
-      'kid'           : '.kid',
-      'user_name'     : '.user_name',
-      'userkey'       : '.userkey',
-      'server'        : '.server',
-      'db_pass'       : '.db_pass',
-      'postal_cd'     : '.postal_cd',
-      'address'       : '.address',
-      'affliation'    : '.affliation',
-      'owner'         : '.owner',
-      'tel'           : '.tel',
-      'fax'           : '.fax',
-      'client_number' : '.client_number',
-      'system_type'   : '.system_type',
-      'version'       : '.version',
-      'number_pc'     : '.number_pc',
-      'number_id'     : '.number_id',
-      'range_id'      : '.range_id',
-      'network'       : '.network',
-      'univ'          : '.univ',
-      'busiv'         : '.busiv',
-      'btnMinus'      : '.btn-minus-account',
-      'btnPlus'       : '.btn-plus-account',
-      'btnEdit'       : '.btn--edit',
-      'btnCancel'     : '.btn--cancel',
-      'btnSave'       : '.btn--save'
+      'kid'            : '.kid',
+      'user_name'      : '.user_name',
+      'userkey'        : '.userkey',
+      'server'         : '.server',
+      'db_pass'        : '.db_pass',
+      'postal_cd'      : '.postal_cd',
+      'address'        : '.address',
+      'affliation'     : '.affliation',
+      'owner'          : '.owner',
+      'tel'            : '.tel',
+      'fax'            : '.fax',
+      'client_number'  : '.client_number',
+      'system_type'    : '.system_type',
+      'version'        : '.version',
+      'number_pc'      : '.number_pc',
+      'number_id'      : '.number_id',
+      'range_id'       : '.range_id',
+      'network'        : '.network',
+      'univ'           : '.univ',
+      'busiv'          : '.busiv',
+      'btnMinusPC'     : '.btn-minus-pc',
+      'btnPlusPC'      : '.btn-plus-pc',
+      'btnMinusClient' : '.btn-minus-account',
+      'btnPlusClient'  : '.btn-plus-account',
+      'btnEdit'        : '.btn--edit',
+      'btnCancel'      : '.btn--cancel',
+      'btnSave'        : '.btn--save'
     }
   , baseView
   , _save
-  , _onClickCancel
-  , _onClickSave
-  , _onClickEdit
+  , _cancel
+  , _edit
   , _decreaseClient
   , _increaseClient
+  , _decreasePC
+  , _increasePC
   , _selectNetwork
   , getViewInfo
   , makeUserInfo
@@ -81,13 +84,15 @@
     baseView.get('btnEdit').removeClass('is-hidden');
     baseView.get('btnCancel').addClass('is-hidden');
     baseView.get('btnSave').addClass('is-hidden');
-    baseView.get('btnPlus').addClass('is-hidden');
-    baseView.get('btnMinus').addClass('is-hidden');
+    baseView.get('btnPlusClient').addClass('is-hidden');
+    baseView.get('btnMinusClient').addClass('is-hidden');
+    baseView.get('btnPlusPC').addClass('is-hidden');
+    baseView.get('btnMinusPC').addClass('is-hidden');
 
 
   };
 
-  _onClickCancel = function () {
+  _cancel = function () {
     // 編集不可
     // _toggleEditMode( 'kid'       , false );
     _toggleEditMode( 'user_name' , false );
@@ -106,15 +111,17 @@
     baseView.get('btnEdit').removeClass('is-hidden');
     baseView.get('btnCancel').addClass('is-hidden');
     baseView.get('btnSave').addClass('is-hidden');
-    baseView.get('btnPlus').addClass('is-hidden');
-    baseView.get('btnMinus').addClass('is-hidden');
+    baseView.get('btnPlusClient').addClass('is-hidden');
+    baseView.get('btnMinusClient').addClass('is-hidden');
+    baseView.get('btnPlusPC').addClass('is-hidden');
+    baseView.get('btnMinusPC').addClass('is-hidden');
 
     // データの初期化
     reset();
 
   };
 
-  _onClickEdit = function () {
+  _edit = function () {
     // 編集可
     // _toggleEditMode( 'kid'       , true );
     _toggleEditMode( 'user_name' , true );
@@ -135,8 +142,10 @@
     baseView.get('btnEdit').addClass('is-hidden');
     baseView.get('btnCancel').removeClass('is-hidden');
     baseView.get('btnSave').removeClass('is-hidden');
-    baseView.get('btnPlus').removeClass('is-hidden');
-    baseView.get('btnMinus').removeClass('is-hidden');
+    baseView.get('btnPlusClient').removeClass('is-hidden');
+    baseView.get('btnMinusClient').removeClass('is-hidden');
+    baseView.get('btnPlusPC').removeClass('is-hidden');
+    baseView.get('btnMinusPC').removeClass('is-hidden');
 
   };
 
@@ -149,6 +158,18 @@
     var now = Number(baseView.get('client_number').find('.item-value').val());
     if ( now > 0 ) {
       baseView.get('client_number').find('.item-value').val( now - 1 );
+    }
+  };
+
+  _increasePC = function () {
+    var now = Number(baseView.get('number_pc').find('.item-value').val());
+    baseView.get('number_pc').find('.item-value').val( now + 1 );
+  };
+
+  _decreasePC = function () {
+    var now = Number(baseView.get('number_pc').find('.item-value').val());
+    if ( now > 0 ) {
+      baseView.get('number_pc').find('.item-value').val( now - 1 );
     }
   };
 
@@ -195,6 +216,7 @@
       'server'        : baseView.get('server'       ).find('.item-value').val(),
       'db_password'   : baseView.get('db_pass'      ).find('.item-value').val(),
       'client_number' : Number(baseView.get('client_number').find('.item-value').val() ),
+      'number_pc'     : Number(baseView.get('number_pc').find('.item-value').val() )
     };
 
     // ネットワーク判定
@@ -282,6 +304,11 @@
   };
 
   makeBaseInfo = function ( data ) {
+
+    if ( _.isArray( data ) ) {
+      data = data[0];
+    }
+
     baseView.get('user_name'    ).find('.item-value').val(data.user_name);
     baseView.get('postal_cd'    ).find('.item-value').val(data.postal_cd);
     baseView.get('address'      ).find('.item-value').val(data.address);
@@ -289,6 +316,7 @@
     baseView.get('owner'        ).find('.item-value').val(data.owner);
     baseView.get('tel'          ).find('.item-value').val(data.tel);
     baseView.get('fax'          ).find('.item-value').val(data.fax);
+
   };
 
   makeUserInfo = function ( data ) {
@@ -300,6 +328,7 @@
 
   /**
    * TODO: getCacheのコールバックでしたほうが分離できていい
+   * データの初期化
    */
   reset = function () {
 
@@ -309,6 +338,7 @@
     baseView.get('server'       ).find('.item-value').val(data.server);
     baseView.get('db_pass'      ).find('.item-value').val(data.db_password);
     baseView.get('client_number').find('.item-value').val(data.client_number);
+    baseView.get('number_pc'    ).find('.item-value').val(data.number_pc);
 
     baseView.get('kid'          ).find('.item-value').val(data.kid);
     baseView.get('user_name'    ).find('.item-value').val(data.user_name);
@@ -336,7 +366,7 @@
 
   // ボタンの位置をもとに戻す
   clear = function () {
-    _onClickCancel();
+    _cancel();
   };
 
   initModule = function () {
@@ -347,12 +377,14 @@
     baseView.initElement(elements);
 
     baseView.addListener({
-     'click btnEdit'   : _onClickEdit,
-     'click btnCancel' : _onClickCancel,
-     'click btnPlus'   : _increaseClient,
-     'click btnMinus'  : _decreaseClient,
-     'click btnSave'   : _save,
-     'click network'   : _selectNetwork
+     'click btnEdit'         : _edit,
+     'click btnCancel'       : _cancel,
+     'click btnPlusClient'   : _increaseClient,
+     'click btnMinusClient'  : _decreaseClient,
+     'click btnPlusPC'       : _increasePC,
+     'click btnMinusPC'      : _decreasePC,
+     'click btnSave'         : _save,
+     'click network'         : _selectNetwork
     });
 
   };
