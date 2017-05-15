@@ -367,9 +367,9 @@
   };
 
 
-  Model.fn.update = function ( data, callback ) {
+  Model.fn.update = function ( view_data, callback ) {
 
-    var update_data = this._checkWhatsUpdated( data );
+    var update_data = this._checkWhatsUpdated( view_data );
 
     // updateする対象が存在する場合
     if ( _.keys(update_data).length > 0 ) {

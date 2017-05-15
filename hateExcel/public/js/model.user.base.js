@@ -7,39 +7,31 @@
   var
     _cache
   , config = {
+      table : 'customers',
+      tab_name : '基本情報',
       item_name_map : {
-        'kid'           : 'KID',
         'user_name'     : '顧客名',
-        'userkey'       : 'ユーザーキー',
-        'server'        : 'サーバ',
-        'db_pass'       : 'DBパスワード',
         'postal_cd'     : '郵便番号',
         'address'       : '住所',
         'affliation'    : '所属',
         'owner'         : '担当者',
         'tel'           : '電話番号',
-        'fax'           : 'FAX',
-        'client_number' : 'クライアント数',
-        'is_busiv'      : 'ネットワーク'
+        'fax'           : 'FAX'
       }
     }
-  , _updateHistory
+  , _customerModel = new Model( config )
   , fetch
   , getCache
-  , _checkWhatsUpdated
-  , update
   , addClient
   ;
 
   fetch = function ( kid, callback  ) {
 
+
     _cache = $.extend(
       {},
-      customer.model.kids.find( {'kid' : kid} )[0],
-      customer.db.select('/select', {
-        condition : {'kid' : kid},
-        table : 'customers'
-      })[0]
+      customer.model.kids.find( {'kid' : kid } )[0],
+      _customerModel.fetch(kid)[0]
     );
 
     if ( typeof callback === 'function' ) {
@@ -55,96 +47,10 @@
     return _cache;
   };
 
-  _checkWhatsUpdated = function ( view_data ) {
-
-    var result = {};
-
-    for ( var i in view_data ) {
-      if ( view_data[i] !== '' && view_data[i] !== _cache[i] ) {
-        result[i] = view_data[i];
-      }
-    }
-
-    return result;
-
-  };
-
   /**
-   * この関数は、customer.dbが持つか、Modelクラスに持たせるのがよい。
-   * @param  {[type]} update_data
-   * @return {Object}
+   * windowsユーザーを作成する
+   * @param {[type]} view_data
    */
-  _diffUpdated = function ( update_data ) {
-    var
-      before = {}
-    , after  = {}
-    , list_history = []
-    ;
-
-    for ( var i in update_data ) {
-
-      list_history.push({
-        kid          : _cache['kid'],
-        type         : '更新',
-        content_name : '基本情報',
-        item_name    : config.item_name_map[i],
-        before       : _cache[i],
-        after        : update_data[i]
-      });
-
-    }
-
-    return list_history;
-
-  };
-
-  /**
-   * customerテーブルをアップデート
-   * @param  {Object}   data
-   * @param  {String}   kid
-   * @param  {function} callback - 再描画用view関数
-   */
-  update = function ( data, callback ) {
-
-    var update_data = _checkWhatsUpdated( data );
-    var historyData = _.extend( {}, update_data );
-    delete update_data.client_number;
-
-    // updateする対象が存在する場合
-    if ( _.keys(update_data).length > 0 ) {
-
-      // データの更新
-      customer.db.update('/update', {
-        data      : update_data,
-        condition : { 'kid' : _cache['kid'] },
-        table     : 'customers'
-      });
-
-    }
-
-    // クライアント数に変更あった場合も更新する
-    if ( _.keys(historyData).length > 0 ) {
-
-      // 履歴の更新
-      _updateHistory( _diffUpdated( historyData ) );
-
-      // 再描画
-      if ( typeof callback === 'function' ) {
-        customer.model.kids.fetch(
-          customer.view.kids.regenerateTable
-        );
-        callback( fetch(_cache['kid']) );
-      }
-
-      // 履歴テーブルの再描画
-      customer.model.userHistory.fetch(_cache['kid'],
-        customer.view.userHistory.drawTable
-      );
-
-    }
-
-  };
-
   addClient = function ( view_data ) {
 
     var
@@ -177,21 +83,13 @@
 
   };
 
-  _updateHistory = function ( data ) {
-
-    customer.db.insert('/insert',{
-      data  : data,
-      table : 'historys'
-    });
-
-  };
-
   // To pubic
   cms.model.userBaseInfo = {
-    fetch : fetch,
-    getCache : getCache,
-    update : update,
-    addClient : addClient
+    fetch     : fetch,
+    getCache  : getCache,
+    addClient : addClient,
+    update    : $.proxy( _customerModel.update, _customerModel ),
+    checkCust : $.proxy( _customerModel._checkWhatsUpdated, _customerModel )
   };
 
 }( jQuery, customer ));

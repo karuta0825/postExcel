@@ -61,7 +61,8 @@
   _save = function () {
     // update
     customer.model.userBaseInfo.addClient( getViewInfo().client_number );
-    customer.model.userBaseInfo.update( getViewInfo(), makeUserInfo );
+    customer.model.userBaseInfo.update( getViewInfo('customer'), makeBaseInfo );
+    customer.model.kids.update( getViewInfo('system'), makeSystemInfo );
 
     // 編集不可
     _toggleEditMode( 'user_name' , false );
@@ -176,22 +177,39 @@
   };
 
   /**
-   * 画面から情報を取得
+   * [getViewInfo description]
+   * @param  {String} section - 画面のセクション名
+   * @return {Object} result  - セクションあるいは画面全体に入力されているデータ
    */
-  getViewInfo = function () {
+  getViewInfo = function ( section ) {
 
     var
-      resutl = {}
-    ,  select_network = baseView.get('network').find('.choice--on')
+      result = {}
+    , select_network = baseView.get('network').find('.choice--on')
     ;
 
-    result = {
+    result.system = {
       'kid'           : baseView.get('kid'          ).find('.item-value').val(),
       'user_name'     : baseView.get('user_name'    ).find('.item-value').val(),
       'userkey'       : baseView.get('userkey'      ).find('.item-value').val(),
       'server'        : baseView.get('server'       ).find('.item-value').val(),
       'db_password'   : baseView.get('db_pass'      ).find('.item-value').val(),
       'client_number' : Number(baseView.get('client_number').find('.item-value').val() ),
+    };
+
+    // ネットワーク判定
+    if ( select_network.length !== 0 ) {
+      if ( select_network.attr('class').split(' ')[1] === 'busiv' ) {
+        result['system']['is_busiv'] = 1;
+      }
+      else {
+        result['system']['is_busiv'] = 0;
+      }
+    }
+
+    result.customer = {
+      'kid'           : baseView.get('kid'          ).find('.item-value').val(),
+      'user_name'     : baseView.get('user_name'    ).find('.item-value').val(),
       'postal_cd'     : Number(baseView.get('postal_cd'    ).find('.item-value').val() ),
       'address'       : baseView.get('address'      ).find('.item-value').val(),
       'affliation'    : baseView.get('affliation'   ).find('.item-value').val(),
@@ -200,22 +218,19 @@
       'fax'           : baseView.get('fax'          ).find('.item-value').val(),
     };
 
-    // ネットワーク判定
-    if ( select_network.length !== 0 ) {
-      if ( select_network.attr('class').split(' ')[1] === 'busiv' ) {
-        result['is_busiv'] = 1;
-      }
-      else {
-        result['is_busiv'] = 0;
-      }
+    if ( section === 'system' ) {
+      return result.system;
     }
-
-    return result;
+    else if ( section === 'customer') {
+      return result.customer;
+    }
+    else {
+      return _.extend( {}, result.system, result.customer );
+    }
 
   };
 
-  makeUserInfo = function ( data ) {
-
+  makeSystemInfo = function ( data ) {
     // 該当サーバの検索
     var list_option = customer.model.servers.find({
       'version'     : data.version
@@ -224,24 +239,14 @@
     // 検索結果をoptionとして追加
     util.addOption( list_option, baseView.get('server').find('select'), true );
 
+    baseView.get('kid'          ).find('.item-value').val(data.kid);
     baseView.get('userkey'      ).find('.item-value').val(data.userkey);
     baseView.get('server'       ).find('.item-value').val(data.server);
     baseView.get('db_pass'      ).find('.item-value').val(data.db_password);
     baseView.get('client_number').find('.item-value').val(data.client_number);
-
-    baseView.get('kid'          ).find('.item-value').val(data.kid);
-    baseView.get('user_name'    ).find('.item-value').val(data.user_name);
-    baseView.get('postal_cd'    ).find('.item-value').val(data.postal_cd);
-    baseView.get('address'      ).find('.item-value').val(data.address);
-    baseView.get('affliation'   ).find('.item-value').val(data.affliation);
-    baseView.get('owner'        ).find('.item-value').val(data.owner);
-    baseView.get('tel'          ).find('.item-value').val(data.tel);
-    baseView.get('fax'          ).find('.item-value').val(data.fax);
-
     baseView.get('number_pc'    ).find('.item-value').val(data.number_pc);
     baseView.get('number_id'    ).find('.item-value').val(data.number_id);
     baseView.get('range_id'     ).find('.item-value').val(data.start_id);
-
 
     if ( data.system_type === 'onpre' ) {
       baseView.get('system_type').find('.onpre').addClass('choice--on');
@@ -274,6 +279,22 @@
       baseView.get('network').find('.univ').removeClass('choice--on');
     }
 
+  };
+
+  makeBaseInfo = function ( data ) {
+    baseView.get('user_name'    ).find('.item-value').val(data.user_name);
+    baseView.get('postal_cd'    ).find('.item-value').val(data.postal_cd);
+    baseView.get('address'      ).find('.item-value').val(data.address);
+    baseView.get('affliation'   ).find('.item-value').val(data.affliation);
+    baseView.get('owner'        ).find('.item-value').val(data.owner);
+    baseView.get('tel'          ).find('.item-value').val(data.tel);
+    baseView.get('fax'          ).find('.item-value').val(data.fax);
+  };
+
+  makeUserInfo = function ( data ) {
+
+    makeSystemInfo( data );
+    makeBaseInfo( data );
 
   };
 

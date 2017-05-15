@@ -3,7 +3,22 @@
 
   var
     /*private member*/
-    _model = new Model({ table : 'kids' })
+    config = {
+        table : 'kids',
+        tab_name : '基本情報',
+        item_name_map : {
+          'kid'           : 'KID',
+          'userkey'       : 'ユーザーキー',
+          'server'        : 'サーバ',
+          'db_password'   : 'DBパスワード',
+          'is_busiv'      : 'ネットワーク',
+          'client_number' : 'クライアント数',
+          'number_pc'     : '端末台数',
+          'number_id'     : '端末id収容数',
+          'start_id'      : '開始端末id'
+        }
+    }
+  , _model = new Model( config )
   , _headerMap = {}
   , _condition = {
       system_type : 'all',
@@ -72,6 +87,111 @@
     _model.fetch();
     _headerMap = customer.db.selectAll('/tableHeader')[0];
   };
+
+  /**
+   * 画面と現在の差分データを取得する
+   * @override
+   * @param  {Object} view_data - 画面オブジェクト
+   * @return {Object} result    - 差分オブジェクト
+   */
+  _model._checkWhatsUpdated = function ( view_data ) {
+
+    var
+     result = {},
+     before = this.find({ 'kid' : view_data['kid'] })[0]
+    ;
+
+    if ( !before ) {
+      return;
+    }
+
+    for ( var i in view_data ) {
+      if ( view_data[i] !== '' && view_data[i] !== before[i] ) {
+        result[i] = view_data[i];
+      }
+    }
+
+    return result;
+
+  };
+
+  /**
+   * [_diffUpdated description]
+   * @override
+   * @param  {[type]} update_data
+   * @return {[type]}
+   */
+  _model._diffUpdated = function ( kid, update_data ) {
+    var
+      before = _model.find({'kid' : kid})[0]
+    , after  = {}
+    , list_history = []
+    ;
+
+    for ( var i in update_data ) {
+
+      list_history.push({
+        kid          : kid,
+        type         : '更新',
+        content_name : this['config']['tab_name'],
+        item_name    : this['config']['item_name_map'][i],
+        before       : before[i],
+        after        : update_data[i]
+      });
+
+    }
+
+    return list_history;
+
+  };
+
+
+  /**
+   * 特定行(KID)の更新
+   * @override
+   * @param  {[type]}   view_data
+   * @param  {Function} callback
+   * @return {[type]}
+   */
+  _model.update = function ( view_data, callback ) {
+
+    var update_data = this._checkWhatsUpdated( view_data );
+    var historyData = _.extend( {}, update_data );
+    delete update_data.client_number;
+
+    // updateする対象が存在する場合
+    if ( _.keys(update_data).length > 0 ) {
+
+      // データの更新
+      customer.db.update('/update', {
+        data      : update_data,
+        condition : {'kid' : view_data['kid']},
+        table     : this['config']['table']
+      });
+
+    }
+
+    // クライアント数に変更あった場合も更新する
+    if ( _.keys(historyData).length > 0 ) {
+
+      // 履歴の更新
+      this._updateHistory( this._diffUpdated( view_data['kid'], historyData ) );
+
+      // 再描画
+      if ( typeof callback === 'function' ) {
+        cms.view.home.refresh();
+        cms.view.kids.refresh();
+        callback( this.find( { 'kid' : view_data['kid'] } )[0] );
+      }
+    }
+
+    // 履歴テーブルの再描画
+    customer.model.userHistory.fetch( view_data['kid'],
+      customer.view.userHistory.drawTable
+    );
+
+  };
+
   /*public method*/
   cms.model.kids = {
     initModule   : initModule,
@@ -81,7 +201,9 @@
     remove       : $.proxy( _model.remove,   _model ),
     setCondition : setCondition,
     sortByCol    : sortByCol,
-    getHeader    : getHeader
+    getHeader    : getHeader,
+    update       : $.proxy( _model.update, _model ),
+    check        : $.proxy( _model._checkWhatsUpdated, _model )
   };
 
 }( jQuery, customer ));
