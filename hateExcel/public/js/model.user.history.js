@@ -9,36 +9,15 @@
     _cache
   , fetch
   , getCache
-  ;
-
-  fetch = function ( kid, callback ) {
-
-    _cache = customer.db.select('/select', {
-      'condition' : { 'kid' : kid },
+  , _model = new Model({
       'table' : 'usrHistorys'
-    });
-
-    _.each( _cache, function ( val, key ) {
-      val['msg'] = val.before + 'から' + val.after + 'に変更';
-    });
-
-    if ( typeof callback === 'function' ) {
-      callback(_cache);
-    }
-    else {
-      return _cache;
-    }
-
-  };
-
-  getCache = function () {
-    return _cache;
-  };
+    })
+  ;
 
   // to public
   cms.model.userHistory = {
-    fetch : fetch,
-    getCache : getCache
+    fetch    : $.proxy( _model.fetch,    _model ),
+    getCache : $.proxy( _model.getCache, _model )
   };
 
 }( jQuery, customer ));

@@ -19,7 +19,8 @@
         'owner'         : '担当者',
         'tel'           : '電話番号',
         'fax'           : 'FAX',
-        'client_number' : 'クライアント数'
+        'client_number' : 'クライアント数',
+        'is_busiv'      : 'ネットワーク'
       }
     }
   , _updateHistory
@@ -63,7 +64,6 @@
         result[i] = view_data[i];
       }
     }
-
 
     return result;
 

@@ -93,24 +93,24 @@
 
   setInfo = function ( data ) {
 
-    partnerView.get('input__pid'          ).find('.item-value').val( data.pid  );
-    partnerView.get('input__name'         ).find('.item-value').val( data.name );
-    partnerView.get('input__postal_cd'    ).find('.item-value').val( data.postal_cd);
-    partnerView.get('input__address'      ).find('.item-value').val( data.address);
-    partnerView.get('input__se_affliation').find('.item-value').val( data.se_affliation);
-    partnerView.get('input__se_name'      ).find('.item-value').val( data.se_name );
-    partnerView.get('input__se_tel'       ).find('.item-value').val( data.se_tel );
-    partnerView.get('input__se_fax'       ).find('.item-value').val( data.se_fax);
-    partnerView.get('input__se_email'     ).find('.item-value').val( data.se_email);
-    partnerView.get('input__sa_affliation').find('.item-value').val( data.sa_affliation);
-    partnerView.get('input__sa_name'      ).find('.item-value').val( data.sa_name );
-    partnerView.get('input__sa_tel'       ).find('.item-value').val( data.sa_tel );
-    partnerView.get('input__sa_fax'       ).find('.item-value').val( data.sa_fax );
-    partnerView.get('input__sa_email'     ).find('.item-value').val( data.sa_email );
-    partnerView.get('input__em_company'   ).find('.item-value').val( data.em_company );
-    partnerView.get('input__em_name'      ).find('.item-value').val( data.em_name );
-    partnerView.get('input__em_tel'       ).find('.item-value').val( data.em_tel );
-    partnerView.get('input__em_email'     ).find('.item-value').val( data.em_email) ;
+    partnerView.get('input__pid'          ).find('.item-value').val( data[0].pid  );
+    partnerView.get('input__name'         ).find('.item-value').val( data[0].name );
+    partnerView.get('input__postal_cd'    ).find('.item-value').val( data[0].postal_cd);
+    partnerView.get('input__address'      ).find('.item-value').val( data[0].address);
+    partnerView.get('input__se_affliation').find('.item-value').val( data[0].se_affliation);
+    partnerView.get('input__se_name'      ).find('.item-value').val( data[0].se_name );
+    partnerView.get('input__se_tel'       ).find('.item-value').val( data[0].se_tel );
+    partnerView.get('input__se_fax'       ).find('.item-value').val( data[0].se_fax);
+    partnerView.get('input__se_email'     ).find('.item-value').val( data[0].se_email);
+    partnerView.get('input__sa_affliation').find('.item-value').val( data[0].sa_affliation);
+    partnerView.get('input__sa_name'      ).find('.item-value').val( data[0].sa_name );
+    partnerView.get('input__sa_tel'       ).find('.item-value').val( data[0].sa_tel );
+    partnerView.get('input__sa_fax'       ).find('.item-value').val( data[0].sa_fax );
+    partnerView.get('input__sa_email'     ).find('.item-value').val( data[0].sa_email );
+    partnerView.get('input__em_company'   ).find('.item-value').val( data[0].em_company );
+    partnerView.get('input__em_name'      ).find('.item-value').val( data[0].em_name );
+    partnerView.get('input__em_tel'       ).find('.item-value').val( data[0].em_tel );
+    partnerView.get('input__em_email'     ).find('.item-value').val( data[0].em_email) ;
 
   };
 
@@ -138,7 +138,7 @@
   };
 
   clear = function () {
-    setInfo({
+    setInfo([{
       'pid'           : '',
       'name'          : '',
       'postal_cd'     : '',
@@ -157,7 +157,7 @@
       'em_name'       : '',
       'em_tel'        : '',
       'em_email'      : ''
-    })
+    }])
   };
 
   initModule = function () {

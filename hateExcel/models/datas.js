@@ -242,7 +242,6 @@ var findNewUserkey = function ( data, callback ) {
         findNewUserkey( null, callback );
       }
       else {
-        // console.log('ok: ' +  userkey + ' kid: ' + data)
         if ( typeof callback === 'function') {
           callback( null, userkey );
         }
@@ -258,7 +257,6 @@ var findNewKid = function ( data, callback ) {
     'kid',
     function ( result ) {
       var kid = Number(result[0].kid.slice(3)) + 1;
-      // console.log( 'KID' + kid );
       if ( typeof callback === 'function') {
         callback( null, 'KID' + kid );
       }
@@ -368,4 +366,4 @@ datas.make_user = function ( input_map, callback ) {
 // }
 
 // findNewFenicsKey('nfg');
-getNewFenicsIp();
+// getNewFenicsIp();

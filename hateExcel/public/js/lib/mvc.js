@@ -160,15 +160,10 @@
 
     // example
     // this.config = {
-    //   tab       : '',
-    //   item_name : '',
+    //   tab_name  : '',
+    //   item_name : {
+    //   },
     //   table     : '',
-      // condition : {
-      //   select : '',
-      //   update : '',
-      //   insert : ''
-      // },
-      // filter : ''
     // };
 
     // validate
@@ -321,7 +316,7 @@
     }
 
     for ( var i in view_data ) {
-      if ( view_data[i] !== '' && view_data[i] !== this['_cache[i]'] ) {
+      if ( view_data[i] !== '' && view_data[i] != this['_cache'][0][i] ) {
         result[i] = view_data[i];
       }
     }
@@ -346,9 +341,9 @@
     for ( var i in update_data ) {
 
       list_history.push({
-        kid          : this['_cache']['kid'],
+        kid          : this['_cache'][0]['kid'],
         type         : '更新',
-        content_name : this['config']['tab'],
+        content_name : this['config']['tab_name'],
         item_name    : this['config']['item_name_map'][i],
         before       : this['_cache'][i],
         after        : update_data[i]
@@ -368,7 +363,7 @@
    */
   Model.fn._updateHistory = function ( data ) {
 
-    customer.db.insert({
+    customer.db.insert('/insert', {
       data  : data,
       table : 'historys'
     });
@@ -386,7 +381,7 @@
       // データの更新
       customer.db.update('/update', {
         data      : update_data,
-        condition : this['config']['condition'],
+        condition : {'kid' : this['_cache'][0]['kid']},
         table     : this['config']['table']
       });
 
@@ -395,11 +390,11 @@
 
       // 再描画
       if ( typeof callback === 'function' ) {
-        callback( this.fetch( this['_cache']['kid']) );
+        callback( this.fetch( this['_cache'][0]['kid']) );
       }
 
       // 履歴テーブルの再描画
-      customer.model.userHistory.fetch(_cache['kid'],
+      customer.model.userHistory.fetch( this['_cache'][0]['kid'],
         customer.view.userHistory.drawTable
       );
 
