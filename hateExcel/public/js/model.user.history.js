@@ -6,10 +6,7 @@
 ( function ( $, cms ) {
 
   var
-    _cache
-  , fetch
-  , getCache
-  , _model = new Model({
+  　 _model = new Model({
       'table' : 'usrHistorys'
     })
   ;
