@@ -24,6 +24,8 @@
       'number_id'     : '.number_id',
       'range_id'      : '.range_id',
       'network'       : '.network',
+      'univ'          : '.univ',
+      'busiv'         : '.busiv',
       'btnMinus'      : '.btn-minus-account',
       'btnPlus'       : '.btn-plus-account',
       'btnEdit'       : '.btn--edit',
@@ -37,7 +39,7 @@
   , _onClickEdit
   , _decreaseClient
   , _increaseClient
-  , _toggleEditMode
+  , _selectNetwork
   , getViewInfo
   , makeUserInfo
   , reset
@@ -62,7 +64,6 @@
     customer.model.userBaseInfo.update( getViewInfo(), makeUserInfo );
 
     // 編集不可
-    // _toggleEditMode( 'kid'       , false );
     _toggleEditMode( 'user_name' , false );
     _toggleEditMode( 'userkey'   , false );
     _toggleEditMode( 'server'    , false );
@@ -73,6 +74,7 @@
     _toggleEditMode( 'owner'     , false );
     _toggleEditMode( 'tel'       , false );
     _toggleEditMode( 'fax'       , false );
+    baseView.get('network').removeClass('is-edit');
 
     // ボタン状態制御
     baseView.get('btnEdit').removeClass('is-hidden');
@@ -97,6 +99,7 @@
     _toggleEditMode( 'owner'     , false );
     _toggleEditMode( 'tel'       , false );
     _toggleEditMode( 'fax'       , false );
+    baseView.get('network').removeClass('is-edit');
 
     // ボタン状態制御
     baseView.get('btnEdit').removeClass('is-hidden');
@@ -124,6 +127,9 @@
     _toggleEditMode( 'tel'       , true );
     _toggleEditMode( 'fax'       , true );
 
+    // セレクトボックス
+    baseView.get('network').addClass('is-edit');
+
     // ボタン状態制御
     baseView.get('btnEdit').addClass('is-hidden');
     baseView.get('btnCancel').removeClass('is-hidden');
@@ -145,11 +151,41 @@
     }
   };
 
+
+  _selectNetwork = function ( event ) {
+
+    if ( $(event.target).parent('li').hasClass('is-edit') ) {
+
+      var list_class = $( event.target ).attr('class').split(' ');
+
+      switch ( list_class[1] ) {
+        case 'busiv' :
+          baseView.get('busiv').addClass('choice--on');
+          baseView.get('univ').removeClass('choice--on');
+          break;
+        case 'univ' :
+          baseView.get('busiv').removeClass('choice--on');
+          baseView.get('univ').addClass('choice--on');
+          break;
+        default:
+          break;
+      }
+
+    }
+
+  };
+
   /**
    * 画面から情報を取得
    */
   getViewInfo = function () {
-    return {
+
+    var
+      resutl = {}
+    ,  select_network = baseView.get('network').find('.choice--on')
+    ;
+
+    result = {
       'kid'           : baseView.get('kid'          ).find('.item-value').val(),
       'user_name'     : baseView.get('user_name'    ).find('.item-value').val(),
       'userkey'       : baseView.get('userkey'      ).find('.item-value').val(),
@@ -161,8 +197,21 @@
       'affliation'    : baseView.get('affliation'   ).find('.item-value').val(),
       'owner'         : baseView.get('owner'        ).find('.item-value').val(),
       'tel'           : baseView.get('tel'          ).find('.item-value').val(),
-      'fax'           : baseView.get('fax'          ).find('.item-value').val()
+      'fax'           : baseView.get('fax'          ).find('.item-value').val(),
     };
+
+    // ネットワーク判定
+    if ( select_network.length !== 0 ) {
+      if ( select_network.attr('class').split(' ')[1] === 'busiv' ) {
+        result['is_busiv'] = 1;
+      }
+      else {
+        result['is_busiv'] = 0;
+      }
+    }
+
+    return result;
+
   };
 
   makeUserInfo = function ( data ) {
@@ -228,6 +277,9 @@
 
   };
 
+  /**
+   * TODO: getCacheのコールバックでしたほうが分離できていい
+   */
   reset = function () {
 
     var data = customer.model.userBaseInfo.getCache();
@@ -245,6 +297,19 @@
     baseView.get('owner'        ).find('.item-value').val(data.owner);
     baseView.get('tel'          ).find('.item-value').val(data.tel);
     baseView.get('fax'          ).find('.item-value').val(data.fax);
+
+    if ( data.is_busiv === 1 ) {
+      baseView.get('network').find('.busiv').addClass('choice--on');
+      baseView.get('network').find('.univ').removeClass('choice--on');
+    }
+    else if ( data.is_busiv === 0 ) {
+      baseView.get('network').find('.busiv').removeClass('choice--on');
+      baseView.get('network').find('.univ').addClass('choice--on');
+    }
+    else {
+      baseView.get('network').find('.busiv').removeClass('choice--on');
+      baseView.get('network').find('.univ').removeClass('choice--on');
+    }
 
   };
 
@@ -265,7 +330,8 @@
      'click btnCancel' : _onClickCancel,
      'click btnPlus'   : _increaseClient,
      'click btnMinus'  : _decreaseClient,
-     'click btnSave'   : _save
+     'click btnSave'   : _save,
+     'click network'   : _selectNetwork
     });
 
   };
