@@ -296,7 +296,7 @@ var findEnvironmentId = function ( data, callback ) {
 
   datas.select(
     params,
-    'findEnvironmentId',
+    'find_environment_id',
     function ( result ) {
       console.log(result[0]);
       if ( typeof callback === 'function') {
@@ -311,17 +311,96 @@ var getNewFenicsIp = function ( data, callback ) {
 
   datas.select(
     [],
-    'getNewFenicsIp',
+    'get_new_fenics_ip',
     function ( result ) {
       console.log( result[0].next_ip );
       if ( typeof callback === 'function') {
-        callback( null );
+        callback( null, result[0].next_ip );
       }
     }
   );
 
 };
 
+/**
+ * [findLastFenicsId description]
+ * @param  {Object}   data
+ * @param  {Object}   data.kid         - kid
+ * @param  {Object}   data.fenics_key  - fenics_key
+ * @param  {Function} callback
+ * @return {String}
+ */
+var findLastFenicsId = function ( data, callback ) {
+
+  datas.select(
+    [data.kid],
+    'find_last_fenics_id',
+    function ( result ) {
+      if ( result.length === 0 ) {
+        callback( null, data.fenics_key + '0001')
+      }
+      else {
+        callback( null, getNextZeroPadData( result[0].fenics_id ) );
+      }
+    }
+  );
+
+};
+
+var getNextZeroPadData = function ( value ) {
+    var
+      numOnly  = value.match(/(\d+)$/)[0],
+      notNum   = value.substr(0, value.length - numOnly.length),
+      fmtNum   = Number(numOnly),
+      nextNum  = fmtNum + 1,
+      zeroPad  = ( '000' + nextNum ).slice( -1 * numOnly.length ),
+      nextData = notNum + zeroPad
+      ;
+    return nextData;
+};
+
+/**
+ * 新たなfenicsアカウントを作成
+ * @param  {Object}   input_map
+ * @param  {Function} callback
+ * @return {[type]}
+ */
+datas.makeFenicsAccount = function ( input_map, callback ) {
+
+  var fenics_account = {};
+
+  async.series([
+    function ( callback ) {
+      findLastFenicsId( input_map, callback );
+    },
+    function ( callback ) {
+      getNewFenicsIp( null, callback );
+    }
+  ], function (err, results) {
+    if ( err ) { console.log( err ); }
+
+    fenics_account['fenics_id'] = results[0];
+    fenics_account['ip'] = results[1];
+    console.log( fenics_account );
+
+    datas.insert( fenics_account, 'ips', function ( result ) {
+      // 連続insertでKIDが重複していた場合、再作成
+      if ( result ){
+        datas.makeFenicsAccount( input_map );
+      }
+      else {
+        if ( typeof callback === 'function') {
+          callback(null);
+        }
+      }
+    });
+
+  });
+};
+
+for ( var i = 0; i < 4 ; i +=1 ) {
+  datas.makeFenicsAccount({ fenics_key : 'busiv', kid : 'KID77576' })
+}
 
 datas.make_user = function ( input_map, callback ) {
   var set = {};
@@ -367,3 +446,7 @@ datas.make_user = function ( input_map, callback ) {
 
 // findNewFenicsKey('nfg');
 // getNewFenicsIp();
+
+// findLastFenicsId({ fenics_key : 'busiv', kid : 'KID77576' }, function( err, result ) {
+//   console.log(result);
+// });

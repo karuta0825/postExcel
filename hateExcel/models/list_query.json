@@ -1,29 +1,30 @@
 {
 
   "select" : {
-    "kids"         : "SELECT U.id, U.kid, user_name AS user_name, U.server, U.userkey, U.db_password, U.fenics_key, U.number_pc, (SELECT COUNT(kid) FROM clients WHERE kid = U.kid AND is_admin = 0) AS client_number, U.number_id, U.start_id, name AS creater, IFNULL((SELECT DATE_FORMAT(create_on, '%Y/%m/%d') FROM historys H WHERE kid = U.kid ORDER BY create_on DESC LIMIT 1), DATE_FORMAT(U.create_on, '%Y/%m/%d')) AS update_on, ENV.system_type, ENV.version, U.is_busiv, U.has_mobile FROM kids AS U LEFT JOIN login_users AS L ON U.create_user_id = L.id LEFT JOIN customers AS cus ON U.kid = cus.kid LEFT JOIN environments AS ENV ON U.environment_id = ENV.id;",
-    "servers"      : "SELECT SV.id, SV.ip, SV.name, SV.type, ENV.version FROM servers AS SV INNER JOIN environments AS ENV ON SV.environment_id = ENV.id order by name, ip, version" ,
-    "clients"      : "SELECT kid, client_id, client_pass, create_user_id, DATE_FORMAT( create_on, '%Y-%m-%d') as create_on, is_admin FROM clients where kid = ? order by client_id;",
-    "users"        : "SELECT * FROM login_users where uid = ? and password = ?;",
-    "header"       : "SELECT * FROM columns where uid = 0;",
-    "show_columns" : "SELECT * FROM columns where uid = ?;",
-    "services"     : "SELECT * FROM services;",
-    "licenses"     : "SELECT * FROM licenses WHERE kid = ?;" ,
-    "base_info"    : "SELECT * FROM CUSTOMERS WHERE kid = ?;",
-    "usrHistorys"  : "SELECT H.type, H.content_name, H.item_name, H.before, H.after, DATE_FORMAT( create_on, '%Y-%m-%d %H:%i:%s') as create_on, L.name as creater FROM HISTORYS H LEFT JOIN login_users L ON H.create_user_id = L.id WHERE kid = ? order by create_on desc;",
-    "historys"     : "SELECT H.id, H.kid, H.type, H.content_name, H.item_name, H.`before`, H.`after`, DATE_FORMAT( H.create_on, '%Y/%m/%d') as create_on, L.name FROM historys H left join login_users L on H.create_user_id = L.id order by id desc limit 10;",
-    "moreHistorys" : "SELECT H.id, H.kid, H.type, H.content_name, H.item_name, H.`before`, H.`after`, DATE_FORMAT( H.create_on, '%Y/%m/%d') as create_on, L.name FROM historys H left join login_users L on H.create_user_id = L.id where H.id < ? order by id desc limit 11;",
-    "partners"     : "SELECT * FROM partners WHERE kid = ?;",
-    "customers"    : "SELECT * FROM CUSTOMERS WHERE kid = ?;",
-    "userkey"      : "SELECT userkey FROM kids WHERE userkey = ?;",
-    "kid"          : "SELECT kid FROM kids WHERE environment_id = ? order by kid desc;",
-    "db_password"  : "SELECT db_password from kids WHERE db_password = ?;",
-    "environments" : "SELECT * FROM environments;",
-    "findEnvironmentId" : "select id from environments where system_type = ? and version = ?;",
-    "fenics"       : "SELECT kid, fenics_key, fenics_id, `password`, fenics_ip, DATE_FORMAT( create_on, '%Y/%m/%d') as create_on, DATE_FORMAT( start_on, '%Y/%m/%d') as start_on FROM customer.fenics WHERE kid = ?;",
-    "memos"        : "SELECT * FROM memos where kid = ?;",
-    "isUniqueFenicsKey" : "SELECT fenics_key FROM fenics WHERE fenics_key = ?;",
-    "getNewFenicsIp" : "select case SUBSTRING_INDEX(INET_NTOA(ip), '.', -1) when 254 then INET_NTOA(ip+3) else INET_NTOA(ip+1) end as next_ip from ips order by ip desc limit 1;"
+    "kids"                : "SELECT U.id, U.kid, user_name AS user_name, U.server, U.userkey, U.db_password, U.fenics_key, U.number_pc, (SELECT COUNT(kid) FROM clients WHERE kid = U.kid AND is_admin = 0) AS client_number, U.number_id, U.start_id, name AS creater, IFNULL((SELECT DATE_FORMAT(create_on, '%Y/%m/%d') FROM historys H WHERE kid = U.kid ORDER BY create_on DESC LIMIT 1), DATE_FORMAT(U.create_on, '%Y/%m/%d')) AS update_on, ENV.system_type, ENV.version, U.is_busiv, U.has_mobile FROM kids AS U LEFT JOIN login_users AS L ON U.create_user_id = L.id LEFT JOIN customers AS cus ON U.kid = cus.kid LEFT JOIN environments AS ENV ON U.environment_id = ENV.id;",
+    "servers"             : "SELECT SV.id, SV.ip, SV.name, SV.type, ENV.version FROM servers AS SV INNER JOIN environments AS ENV ON SV.environment_id = ENV.id order by name, ip, version" ,
+    "clients"             : "SELECT kid, client_id, client_pass, create_user_id, DATE_FORMAT( create_on, '%Y-%m-%d') as create_on, is_admin FROM clients where kid = ? order by client_id;",
+    "users"               : "SELECT * FROM login_users where uid = ? and password = ?;",
+    "header"              : "SELECT * FROM columns where uid = 0;",
+    "show_columns"        : "SELECT * FROM columns where uid = ?;",
+    "services"            : "SELECT * FROM services;",
+    "licenses"            : "SELECT * FROM licenses WHERE kid = ?;" ,
+    "base_info"           : "SELECT * FROM CUSTOMERS WHERE kid = ?;",
+    "usrHistorys"         : "SELECT H.type, H.content_name, H.item_name, H.before, H.after, DATE_FORMAT( create_on, '%Y-%m-%d %H:%i:%s') as create_on, L.name as creater FROM HISTORYS H LEFT JOIN login_users L ON H.create_user_id = L.id WHERE kid = ? order by create_on desc;",
+    "historys"            : "SELECT H.id, H.kid, H.type, H.content_name, H.item_name, H.`before`, H.`after`, DATE_FORMAT( H.create_on, '%Y/%m/%d') as create_on, L.name FROM historys H left join login_users L on H.create_user_id = L.id order by id desc limit 10;",
+    "moreHistorys"        : "SELECT H.id, H.kid, H.type, H.content_name, H.item_name, H.`before`, H.`after`, DATE_FORMAT( H.create_on, '%Y/%m/%d') as create_on, L.name FROM historys H left join login_users L on H.create_user_id = L.id where H.id < ? order by id desc limit 11;",
+    "partners"            : "SELECT * FROM partners WHERE kid = ?;",
+    "customers"           : "SELECT * FROM CUSTOMERS WHERE kid = ?;",
+    "userkey"             : "SELECT userkey FROM kids WHERE userkey = ?;",
+    "kid"                 : "SELECT kid FROM kids WHERE environment_id = ? order by kid desc;",
+    "db_password"         : "SELECT db_password from kids WHERE db_password = ?;",
+    "environments"        : "SELECT * FROM environments;",
+    "find_environment_id" : "select id from environments where system_type = ? and version = ?;",
+    "fenics"              : "SELECT kid, fenics_key, fenics_id, `password`, fenics_ip, DATE_FORMAT( create_on, '%Y/%m/%d') as create_on, DATE_FORMAT( start_on, '%Y/%m/%d') as start_on FROM customer.fenics WHERE kid = ?;",
+    "memos"               : "SELECT * FROM memos where kid = ?;",
+    "isUniqueFenicsKey"   : "SELECT fenics_key FROM fenics WHERE fenics_key = ?;",
+    "get_new_fenics_ip"   : "select case SUBSTRING_INDEX(INET_NTOA(ip), '.', -1) when 254 then ip+3 else ip+1 end as next_ip from ips order by ip desc limit 1;",
+    "find_last_fenics_id" : "select fenics_id from fenics where kid = ? order by fenics_id desc limit 1;"
 
   },
 
@@ -40,7 +41,8 @@
   "insert" : {
     "historys"  : "INSERT INTO historys SET ?;",
     "make_user" : "INSERT INTO kids set ?;",
-    "clients"   : "INSERT INTO clients set ?;"
+    "clients"   : "INSERT INTO clients set ?;",
+    "ips"       : "INSERT INTO ips set ?"
   },
 
   "delete" : {
