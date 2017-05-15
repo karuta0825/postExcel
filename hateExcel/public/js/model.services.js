@@ -1,57 +1,34 @@
 /**
- * サービスマスタ
+ * サービスマスタ+ユーザライセンスモデル
  *
  */
-customer.model = customer.model || {};
-customer.model.services = ( function () {
+( function ( $, cms ) {
 
   /*member*/
   var
-    _cache = {}
-  , _updateHistory
-  , _checkWhatsUpdated
-  , _diffUpdated
-  , fetchServives
+    _serviceModel = new Model({ table : 'services' })
+  , _licenseModel = new Model({ table : 'licenses' })
   , fetchLicenses
   , getCache
-  , update
   , initModule
   ;
 
-  _checkWhatsUpdated = function ( view_data ) {
-
-    var result = {};
-
-    if ( !_cache['licenses'] ) {
-      return view_data;
-    }
-
-    for ( var i in view_data ) {
-      if ( view_data[i] !== '' && view_data[i] !== _cache['licenses'][i] ) {
-        result[i] = view_data[i];
-      }
-    }
-
-    return result;
-
-  };
-
   /**
-   * この関数は、customer.dbが持つか、Modelクラスに持たせるのがよい。
-   * @param  {[type]} update_data
-   * @return {Object}
+   * [_diffUpdated description]
+   * @override
    */
-  _diffUpdated = function ( update_data ) {
+  _licenseModel._diffUpdated = function ( update_data ) {
     var
       before = {}
     , after  = {}
     , list_history = []
     , msg = {}
+    , cache = this.getCache()[0]
     ;
 
     for ( var i in update_data ) {
 
-      if ( _cache['licenses'][i] === 1 && update_data[i] === 0 ) {
+      if ( cache[i] === 1 && update_data[i] === 0 ) {
         msg.type = '削除';
       }
       else {
@@ -59,11 +36,11 @@ customer.model.services = ( function () {
       }
 
       list_history.push({
-        kid          : _cache['kid'],
+        kid          : cache['kid'],
         type         : msg.type,
         content_name : 'サービス',
         item_name    : i,
-        before       : _cache['licenses'][i],
+        before       : cache[i],
         after        : update_data[i]
       });
 
@@ -73,92 +50,55 @@ customer.model.services = ( function () {
 
   };
 
-  _updateHistory = function ( data ) {
-
-    customer.db.insert('/insert', {
-      data  : data,
-      table : 'historys'
-    });
-
-  };
-
-  fetchServices = function () {
-    _cache.services = customer.db.select('/select', {
-      table : 'services'
-    });
-    return _cache.services;
-  };
-
   fetchLicenses = function ( kid, callback ) {
-    _cache.licenses = customer.db.select('/select', {
-      condition : { 'kid' : kid },
-      table     : 'licenses'
-    })[0];
 
-    _cache['kid'] = _cache.licenses.kid;
-    delete _cache.licenses.kid;
+    var result = _licenseModel.fetch( kid )[0];
+    // _cache['kid'] = kid;
+    // delete result.kid;
 
     if ( typeof callback === 'function' ) {
-      callback(_cache.licenses);
+      callback( result );
     }
     else {
-      return _cache.licenses
+      return result
     }
 
   };
 
   getCache = function ( content, callback ) {
 
-    if ( typeof callback === 'function') {
-      callback( _cache[content] );
+    var result;
+
+    if ( content === 'services' ) {
+      result = _serviceModel.getCache();
     }
     else {
-      return _cache[content];
+      result = _licenseModel.getCache()[0];
     }
+
+    if ( typeof callback === 'function') {
+      callback( result );
+    }
+    else {
+      return result;
+    }
+
 
   };
 
   initModule = function () {
-    fetchServices();
+    _serviceModel.fetch();
   };
 
-  update = function ( data, callback ) {
 
-    var update_data = _checkWhatsUpdated( data );
-
-    // updateする対象が存在する場合
-    if ( _.keys(update_data).length > 0 ) {
-
-      // データの更新
-      customer.db.update('/update', {
-        data      : update_data,
-        condition : { 'kid' : _cache['kid'] },
-        table     : 'licenses'
-      });
-
-      // 履歴の更新
-      _updateHistory( _diffUpdated( update_data ) );
-
-      // 再描画
-      if ( typeof callback === 'function' ) {
-        callback( fetchLicenses(_cache['kid']) );
-      }
-
-      // 履歴テーブルの再描画
-      customer.model.userHistory.fetch(_cache['kid'],
-        customer.view.userHistory.drawTable
-      );
-
-    }
-  };
-
-  return {
-    fetchServices : fetchServices,
+  // to public
+  cms.model.services =  {
+    initModule    : initModule,
+    fetchServices : $.proxy( _serviceModel.fetch, _serviceModel ),
     fetchLicenses : fetchLicenses,
     getCache      : getCache,
-    initModule    : initModule,
-    update : update,
-    check  : _checkWhatsUpdated
+    update        : $.proxy( _licenseModel.update, _licenseModel ),
+    check         : $.proxy( _licenseModel._checkWhatsUpdated, _licenseModel )
   };
 
-}());
+}( jQuery, customer ));

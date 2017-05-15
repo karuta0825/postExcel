@@ -153,7 +153,10 @@
 
   setViewInfo = function ( data ) {
 
-    _.each( data, function ( val, key ) {
+    var clone = _.extend( {}, data );
+    delete clone.kid;
+
+    _.each( clone, function ( val, key ) {
 
       if ( val === 0 ) {
         _unselected( licenseView.get('table').find('.' + key) );

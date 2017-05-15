@@ -180,10 +180,6 @@
       'table'     : this['config']['table']
     });
 
-    // if ( this['config'].hasOwnProperty('add_method_to_fetch') ) {
-    //   this['config']['add_method_to_fetch']( this.['_cache']);
-    // }
-
     if ( typeof callback === 'function' ) {
       callback( this['_cache'] );
     }
