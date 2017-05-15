@@ -16,34 +16,27 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `memos`
+-- Table structure for table `ips`
 --
 
-DROP TABLE IF EXISTS `memos`;
+DROP TABLE IF EXISTS `ips`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `memos` (
+CREATE TABLE `ips` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `kid` varchar(9) NOT NULL,
-  `title` varchar(45) NOT NULL,
-  `priority` int(1) NOT NULL,
-  `message` varchar(255) NOT NULL,
-  `create_on` datetime NOT NULL,
-  `create_user_id` int(1) NOT NULL,
-  `update_on` datetime DEFAULT NULL,
-  `update_user_id` int(1) DEFAULT NULL,
+  `ip` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `memos`
+-- Dumping data for table `ips`
 --
 
-LOCK TABLES `memos` WRITE;
-/*!40000 ALTER TABLE `memos` DISABLE KEYS */;
-INSERT INTO `memos` VALUES (1,'KID77891','タイトル',1,'KID77891のメッセージです。今日は非常に眠たい日です。エンジニアは細かいところに注意がいくものですが、僕は適当な人間です。','2017-05-12 00:00:00',1,NULL,NULL);
-/*!40000 ALTER TABLE `memos` ENABLE KEYS */;
+LOCK TABLES `ips` WRITE;
+/*!40000 ALTER TABLE `ips` DISABLE KEYS */;
+INSERT INTO `ips` VALUES (1,3232235521),(2,3232235523),(3,3232235522),(7,3232235774),(11,3232235776),(12,2886992382),(13,2887057150),(14,2887057406);
+/*!40000 ALTER TABLE `ips` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -55,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-05-15 21:53:10
+-- Dump completed on 2017-05-15 21:53:09
