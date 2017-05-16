@@ -99,13 +99,13 @@ datas.insert = function ( data, table, callback ) {
       db.end();
       // エラー時
       if ( err ) {
-        console.log(err);
+        // console.log(err);
         callback( err );
         return;
       }
       // 正常時
       else {
-        callback( err );
+        callback( null, results );
       }
     }
   );
@@ -347,6 +347,8 @@ var findLastFenicsId = function ( data, callback ) {
 
 };
 
+
+
 var getNextZeroPadData = function ( value ) {
     var
       numOnly  = value.match(/(\d+)$/)[0],
@@ -380,7 +382,8 @@ datas.makeFenicsAccount = function ( input_map, callback ) {
     if ( err ) { console.log( err ); }
 
     fenics_account['fenics_id'] = results[0];
-    fenics_account['ip'] = results[1];
+    fenics_account['fenics_ip'] = results[1];
+    fenics_account['kid'] = input_map.kid;
     console.log( fenics_account );
 
     datas.insert( fenics_account, 'ips', function ( result ) {
@@ -398,9 +401,9 @@ datas.makeFenicsAccount = function ( input_map, callback ) {
   });
 };
 
-for ( var i = 0; i < 4 ; i +=1 ) {
-  datas.makeFenicsAccount({ fenics_key : 'busiv', kid : 'KID77576' })
-}
+// for ( var i = 0; i < 10; i +=1 ) {
+//   datas.makeFenicsAccount({ fenics_key : 'busiv', kid : 'KID77160' });
+// }
 
 datas.make_user = function ( input_map, callback ) {
   var set = {};
@@ -429,7 +432,7 @@ datas.make_user = function ( input_map, callback ) {
 
       datas.insert( set, 'make_user', function ( result ) {
         // 連続insertでKIDが重複していた場合、再作成
-        if ( result ){
+        if ( result && result.errno === 1062 ){
           datas.make_user( input_map );
         }
         else {
