@@ -192,6 +192,37 @@
 
   };
 
+  /**
+   * 追加した数を取得
+   * @param {[type]} view_data
+   */
+  addFenicsAccount = function ( view_data ) {
+
+    if ( view_data.is_busiv === 1 ) {
+      return;
+    }
+
+    var before = customer.model.userBaseInfo.getCache();
+    var after  = view_data.number_pc;
+    var diff   = after - before.number_pc;
+
+    var post = {
+      kid             : before.kid,
+      fenics_key      : before.fenics_key,
+      number_pc_added : diff
+    }
+
+    customer.db.insert('/addFenicsAccounts',
+      { data  : post },
+       function () {
+        customer.model.userNetwork.fetch( before.kid,
+          customer.view.userNetwork.redrawTable
+        );
+       }
+    );
+
+  };
+
   /*public method*/
   cms.model.kids = {
     initModule   : initModule,
@@ -203,7 +234,8 @@
     sortByCol    : sortByCol,
     getHeader    : getHeader,
     update       : $.proxy( _model.update, _model ),
-    check        : $.proxy( _model._checkWhatsUpdated, _model )
+    check        : $.proxy( _model._checkWhatsUpdated, _model ),
+    addFenicsAccount : addFenicsAccount
   };
 
 }( jQuery, customer ));

@@ -64,6 +64,7 @@
   _save = function () {
     // update
     customer.model.userBaseInfo.addClient( getViewInfo().client_number );
+    customer.model.kids.addFenicsAccount( getViewInfo() );
     customer.model.userBaseInfo.update( getViewInfo('customer'), makeBaseInfo );
     customer.model.kids.update( getViewInfo('system'), makeSystemInfo );
 

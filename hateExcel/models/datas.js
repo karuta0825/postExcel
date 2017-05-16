@@ -388,7 +388,7 @@ datas.makeFenicsAccount = function ( input_map, callback ) {
     fenics_account['fenics_key'] = input_map.fenics_key;
     fenics_account['create_on'] = new Date();
     // check
-    // console.log( fenics_account );
+    console.log( fenics_account );
 
     datas.insert( fenics_account, 'make_fenics_account', function ( err, results ) {
       // 連続insertでKIDが重複していた場合、再作成
@@ -407,7 +407,7 @@ datas.makeFenicsAccount = function ( input_map, callback ) {
 };
 
 
-var makeList = function ( map, idx ) {
+datas.makeList = function ( map, idx, callback ) {
   new Promise(function(res, rej) {
     // ループ処理（再帰的に呼び出し）
     function loop(i) {
@@ -436,11 +436,12 @@ var makeList = function ( map, idx ) {
     loop(0);
   }).then(function() {
     // ループ処理が終わったらここにくる
+    callback()
     console.log('Finish');
   });
 }
 
-// makeList({ fenics_key : 'busiv', kid : 'KID77161' }, 30);
+// makeList({ fenics_key : 'busiv', kid : 'KID77160' }, 30);
 
 datas.make_user = function ( input_map, callback ) {
   var set = {};
