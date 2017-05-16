@@ -367,7 +367,7 @@ var getNextZeroPadData = function ( value ) {
  * @param  {Function} callback
  * @return {[type]}
  */
-datas.makeFenicsAccount = function ( input_map, callback ) {
+datas.makeFenicsAccount = function ( input_map, callback, idx ) {
 
   var fenics_account = {};
 
@@ -383,12 +383,15 @@ datas.makeFenicsAccount = function ( input_map, callback ) {
 
     fenics_account['fenics_id'] = results[0];
     fenics_account['fenics_ip'] = results[1];
-    fenics_account['kid'] = input_map.kid;
+    fenics_account['kid']       = input_map.kid;
     console.log( fenics_account );
+    console.log( idx );
+    return fenics_account
 
-    datas.insert( fenics_account, 'ips', function ( result ) {
+    datas.insert( fenics_account, 'make_fenics_account', function ( err, results ) {
       // 連続insertでKIDが重複していた場合、再作成
-      if ( result ){
+      if ( err ){
+        console.log(err);
         datas.makeFenicsAccount( input_map );
       }
       else {
@@ -401,8 +404,8 @@ datas.makeFenicsAccount = function ( input_map, callback ) {
   });
 };
 
-// for ( var i = 0; i < 10; i +=1 ) {
-//   datas.makeFenicsAccount({ fenics_key : 'busiv', kid : 'KID77160' });
+// for ( var i = 0; i < 4; i +=1 ) {
+//   datas.makeFenicsAccount({ fenics_key : 'busiv', kid : 'KID77150' });
 // }
 
 datas.make_user = function ( input_map, callback ) {
