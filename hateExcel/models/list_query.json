@@ -20,7 +20,7 @@
     "db_password"         : "SELECT db_password from kids WHERE db_password = ?;",
     "environments"        : "SELECT * FROM environments;",
     "find_environment_id" : "select id from environments where system_type = ? and version = ?;",
-    "fenics"              : "SELECT kid, fenics_key, fenics_id, `password`, fenics_ip, DATE_FORMAT( create_on, '%Y/%m/%d') as create_on, DATE_FORMAT( start_on, '%Y/%m/%d') as start_on FROM customer.fenics WHERE kid = ?;",
+    "fenics"              : "SELECT kid, fenics_key, fenics_id, `password`, inet_ntoa(fenics_ip) as fenics_ip, DATE_FORMAT( create_on, '%Y/%m/%d') as create_on, DATE_FORMAT( start_on, '%Y/%m/%d') as start_on FROM customer.fenics WHERE kid = ?;",
     "memos"               : "SELECT * FROM memos where kid = ?;",
     "isUniqueFenicsKey"   : "SELECT fenics_key FROM fenics WHERE fenics_key = ?;",
     "get_new_fenics_ip"   : "select case SUBSTRING_INDEX(INET_NTOA(fenics_ip), '.', -1) when 254 then fenics_ip+3 else fenics_ip+1 end as next_ip from fenics order by fenics_ip desc limit 1;",
