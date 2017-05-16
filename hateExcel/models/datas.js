@@ -367,7 +367,7 @@ var getNextZeroPadData = function ( value ) {
  * @param  {Function} callback
  * @return {[type]}
  */
-datas.makeFenicsAccount = function ( input_map, callback, idx ) {
+datas.makeFenicsAccount = function ( input_map, callback ) {
 
   var fenics_account = {};
 
@@ -381,12 +381,14 @@ datas.makeFenicsAccount = function ( input_map, callback, idx ) {
   ], function (err, results) {
     if ( err ) { console.log( err ); }
 
-    fenics_account['fenics_id'] = results[0];
-    fenics_account['fenics_ip'] = results[1];
     fenics_account['kid']       = input_map.kid;
-    console.log( fenics_account );
-    console.log( idx );
-    return fenics_account
+    fenics_account['fenics_id'] = results[0];
+    fenics_account['password'] = results[0];
+    fenics_account['fenics_ip'] = results[1];
+    fenics_account['fenics_key'] = input_map.fenics_key;
+    fenics_account['create_on'] = new Date();
+    // check
+    // console.log( fenics_account );
 
     datas.insert( fenics_account, 'make_fenics_account', function ( err, results ) {
       // 連続insertでKIDが重複していた場合、再作成
@@ -404,9 +406,41 @@ datas.makeFenicsAccount = function ( input_map, callback, idx ) {
   });
 };
 
-// for ( var i = 0; i < 4; i +=1 ) {
-//   datas.makeFenicsAccount({ fenics_key : 'busiv', kid : 'KID77150' });
-// }
+
+var makeList = function ( map, idx ) {
+  new Promise(function(res, rej) {
+    // ループ処理（再帰的に呼び出し）
+    function loop(i) {
+      // 非同期処理なのでPromiseを利用
+      return new Promise(function(resolve, reject) {
+        // 非同期処理部分
+        setTimeout(function() {
+          console.log(i);
+          // resolveを呼び出し
+          datas.makeFenicsAccount(map);
+          resolve(i+1);
+        }, 100);
+      })
+      .then(function(count) {
+        // ループを抜けるかどうかの判定
+        if (count > idx-1 ) {
+          // 抜ける（外側のPromiseのresolve判定を実行）
+          res();
+        } else {
+          // 再帰的に実行
+          loop(count);
+        }
+      });
+    }
+    // 初回実行
+    loop(0);
+  }).then(function() {
+    // ループ処理が終わったらここにくる
+    console.log('Finish');
+  });
+}
+
+// makeList({ fenics_key : 'busiv', kid : 'KID77161' }, 30);
 
 datas.make_user = function ( input_map, callback ) {
   var set = {};
@@ -426,7 +460,7 @@ datas.make_user = function ( input_map, callback ) {
         set['db_password']    = results[2];
       }
 
-      set['kid']           = results[0];
+      set['kid']            = results[0];
       set['server']         = input_map['server'];
       set['environment_id'] = input_map['environment_id'];
       set['create_user_id'] = input_map['create_user_id'];
