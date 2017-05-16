@@ -39,7 +39,7 @@
       ,'usr-service' : content.find('#usr-service-panel')
       ,'usr-client'  : content.find('#usr-client-panel')
       ,'usr-partner' : content.find('#usr-partner-panel')
-      ,'usr-network' : content.find('#usr-network-pel')
+      ,'usr-network' : content.find('#usr-network-panel')
       ,'usr-history' : content.find('#usr-history-panel')
     };
 
