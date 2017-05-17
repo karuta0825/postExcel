@@ -271,14 +271,13 @@ var findNewFenicsKey = function ( data, callback ) {
 
   datas.select(
     fenics_key,
-    'isUniqueFenicsKey',
+    'is_unique_fenicskey',
     function ( result ) {
       if ( result.length !== 0 ) {
         console.log('not unique');
         findNewFenicsKey( null, callback );
       }
       else {
-        console.log('fenics_key: ' + fenics_key);
         if ( typeof callback === 'function') {
           callback( null, fenics_key );
         }
@@ -454,11 +453,15 @@ datas.make_user = function ( input_map, callback ) {
       },
       function(callback) {
         findNewDbPass(null, callback );
+      },
+      function(callback) {
+        findNewFenicsKey(null, callback);
       }
   ], function(err, results) {
       if ( input_map.system_type === 'cloud' ) {
         set['userkey']        = results[1];
         set['db_password']    = results[2];
+        set['fenics_key']     = results[3];
       }
 
       set['kid']            = results[0];
