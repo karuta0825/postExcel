@@ -143,8 +143,8 @@
     , title   = $('<h6>', { 'class' : 'mdl-dialog__title', 'text' : '確認' })
     , content = $('<p>',  { 'class' : 'mdl-dialog__content', 'text' : map_option['msg']})
     , action  = $('<div>', { 'class' : 'mdl-dialog__actions'} )
-    , btnYes  = $('<button>', { 'type' : 'button', 'class' : 'btn btn--exec mdl-button', 'text' : 'OK' })
-    , btnNo   = $('<button>', { 'type' : 'button', 'class' : 'btn btn--cancel mdl-button', 'text' : 'キャンセル' })
+    , btnYes  = $('<button>', { 'type' : 'button', 'class' : 'btn modal-btn--yes mdl-button', 'text' : 'OK' })
+    , btnNo   = $('<button>', { 'type' : 'button', 'class' : 'btn modal-btn--no mdl-button', 'text' : 'キャンセル' })
     ;
 
     action
@@ -157,6 +157,20 @@
       .append( content )
       .append( action )
       ;
+
+    btnYes.on('click', function () {
+      if( typeof map_option.yes === 'function' ) {
+        map_option.yes(this);
+      }
+      dialog.get(0).close();
+    });
+
+    btnNo.on('click', function () {
+      if( typeof map_option.no === 'function' ) {
+        map_option.no(this);
+      }
+      dialog.get(0).close();
+    });
 
     $(map_option['selector']).append(dialog);
 

@@ -16,8 +16,6 @@
   , _onClickEdit
   , _onClickKid
   , _onClickDownload
-  , _openDialog
-  , _closeDialog
   , _selectSystem
   , _selectVertion
   , _selectNetwork
@@ -138,14 +136,6 @@
     jqueryMap.col['has_mobile'].addClass('is-hidden');
     jqueryMap.col['is_busiv'].addClass('is-hidden');
   }
-
-  _openDialog = function () {
-    jqueryMap.dialog.get(0).showModal();
-  };
-
-  _closeDialog = function () {
-    jqueryMap.dialog.get(0).close();
-  };
 
   _onClickColumn = function () {
 
@@ -383,7 +373,7 @@
     cms.view.kids.refresh();
     cms.view.home.refresh();
 
-    _closeDialog();
+    // _closeDialog();
   };
 
   drawTable = function () {
@@ -455,7 +445,8 @@
     // ダイアログ作成
     util.confirm({
       selector : '.main-contents--view-usr',
-      msg : '選択したユーザーを削除しますか?'
+      msg      : '選択したユーザーを削除しますか?',
+      yes      : _deleteUser
     });
 
     _setJqueryMap();
@@ -477,6 +468,7 @@
     jqueryMap.btnDel.on( 'click', function() {
       jqueryMap.dialog.get(0).showModal();
     } );
+
     jqueryMap.btnDownload.on( 'click', _onClickDownload );
     jqueryMap.body.kid.on( 'click', _onClickKid );
 
@@ -486,18 +478,15 @@
     jqueryMap.btnNetwork.on('click', _selectNetwork );
     jqueryMap.btnMobile.on( 'click', _selectMobileAvailable );
 
-    // ダイアログイベント登録
-    jqueryMap.btnDialogOk.on( 'click', _deleteUser );
-    jqueryMap.btnDialogCancel.on( 'click', _closeDialog );
-
   };
 
+  // to public
   cms.view.kids = {
-    initModule : initModule,
-    redrawTable : redrawTable,
+    initModule      : initModule,
+    redrawTable     : redrawTable,
     regenerateTable : regenerateTable,
-    refresh : refresh,
-    get : _getSelectItem
+    refresh         : refresh,
+    get             : _getSelectItem
   };
 
 

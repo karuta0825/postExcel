@@ -29,7 +29,6 @@
     }
   , _openDialog
   , _openCompleteDialog
-  , _closeConfirm
   , _closeComplteDialog
   , _setInfoDialog
   , _makeSelectServer
@@ -52,10 +51,6 @@
 
     makeUserView.get('dialog__complete').get(0).showModal();
 
-  };
-
-  _closeConfirm = function () {
-    makeUserView.get('dialog__confirm').get(0).close();
   };
 
   _closeComplteDialog = function () {
@@ -112,8 +107,6 @@
     // KID, Userkey, DB Passwordを決める
     customer.db.insert( '/makeUser', param,  _openCompleteDialog );
 
-    _closeConfirm();
-
   };
 
   initModule = function () {
@@ -126,15 +119,14 @@
     util.confirm({
       selector : '.main-contents--mk-usr',
       id       : 'make-usr-confirm',
-      msg      : 'ユーザーを作成しますか？'
+      msg      : 'ユーザーを作成しますか？',
+      yes      : _makeUser
     });
 
     makeUserView.initElement( elements );
 
     makeUserView.addListener({
       'click btn__ok'          : _openConfirm,
-      'click btn__cancel'      : _closeConfirm,
-      'click btn__exec'        : _makeUser,
       'click btn__close'       : _closeComplteDialog,
       'change select__system'  : _selectSystem,
       'change select__version' : _makeSelectServer

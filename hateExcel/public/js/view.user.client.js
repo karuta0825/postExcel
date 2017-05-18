@@ -11,7 +11,8 @@
       'btn' : {
         'download' : '.btn--download',
         'close'    : '.btn--close',
-        'exec'     : '.btn--exec'
+        'exec'     : '.btn--exec',
+        'delete'   : '.btn--del'
       },
       'checkbox' : '.mdl-checkbox',
       'download' : {
@@ -21,7 +22,10 @@
         'mail'        : '.download--mail',
       },
       'table'  : '.accout-table',
-      'dialog' : '.mdl-dialog',
+      'dialog' : {
+        'download' : '#modal-client-download',
+        'delete'   : '#delete-clients-confirm'
+      },
     }
   , _openDialog
   , _closeDialog
@@ -33,11 +37,15 @@
   ;
 
   _openDialog = function () {
-    clientView.get('dialog').get(0).showModal();
+    clientView.get('dialog__download').get(0).showModal();
+  };
+
+  _openDelDialog = function () {
+    clientView.get('dialog__delete').get(0).showModal();
   };
 
   _closeDialog = function () {
-    clientView.get('dialog').get(0).close();
+    clientView.get('dialog__download').get(0).close();
   };
 
   _execDowload = function () {
@@ -53,7 +61,7 @@
     clear();
 
     // 閉じる
-    clientView.get('dialog').get(0).close();
+    clientView.get('dialog__download').get(0).close();
   };
 
   _downloadFile = function ( content, file_type ) {
@@ -114,6 +122,12 @@
 
     drawTable();
 
+    util.confirm({
+      selector : '#usr-client-panel',
+      id       : 'delete-clients-confirm',
+      msg      : '選択したクライアントを削除しますか？'
+    });
+
     clientView = new Controller('#usr-client-panel');
     clientView.initElement( elements );
 
@@ -121,6 +135,7 @@
       'click btn__download'         : _openDialog,
       'click btn__close'            : _closeDialog,
       'click btn__exec'             : _execDowload,
+      'click btn__delete'           : _openDelDialog,
       'click download__client'      : $.proxy( function (e) { console.log(e); }, this),
       'click download__open_notice' : function () { alert('download download__o')},
       'click download__spla'        : function () { alert('download download__s')},
