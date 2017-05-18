@@ -104,12 +104,12 @@ app.post('/select', function ( req, res ) {
 
 });
 
-app.get('/servers', function ( req, res ) {
-  res.header("Content-Type", "application/json; charset=utf-8");
-  datas.getServers( function ( results ) {
-    res.json( results );
-  });
-});
+// app.get('/servers', function ( req, res ) {
+//   res.header("Content-Type", "application/json; charset=utf-8");
+//   datas.getServers( function ( results ) {
+//     res.json( results );
+//   });
+// });
 
 
 app.get('/tableHeader', function ( req, res ) {
@@ -142,38 +142,38 @@ app.post('/columns', function ( req, res ) {
 
 });
 
-app.post('/accounts', function ( req, res ) {
-  var kid = req.body.kid;
-  console.log()
-  res.header("Content-Type", "application/json; charset=utf-8");
-  datas.getAccounts( kid, function ( results ) {
-    res.json( results );
-  });
-});
+// app.post('/accounts', function ( req, res ) {
+//   var kid = req.body.kid;
+//   console.log()
+//   res.header("Content-Type", "application/json; charset=utf-8");
+//   datas.getAccounts( kid, function ( results ) {
+//     res.json( results );
+//   });
+// });
 
-app.get('/services', function ( req, res ) {
-  res.header("Content-Type", "application/json; charset=utf-8");
-  datas.getServices( function ( results ) {
-    res.json( results );
-  });
-});
+// app.get('/services', function ( req, res ) {
+//   res.header("Content-Type", "application/json; charset=utf-8");
+//   datas.getServices( function ( results ) {
+//     res.json( results );
+//   });
+// });
 
-app.post('/licenses', function ( req, res ) {
-  var kid = req.body.kid;
-  res.header("Content-Type", "application/json; charset=utf-8");
-  datas.getLicenses( kid, function ( results ) {
-    res.json( results );
-  });
-});
+// app.post('/licenses', function ( req, res ) {
+//   var kid = req.body.kid;
+//   res.header("Content-Type", "application/json; charset=utf-8");
+//   datas.getLicenses( kid, function ( results ) {
+//     res.json( results );
+//   });
+// });
 
-app.post('/baseInfo', function ( req, res ) {
-  var kid = req.body.kid;
-  console.log(kid);
-  res.header("Content-Type", "application/json; charset=utf-8");
-  datas.getBaseInfo( kid, function ( results ) {
-    res.json( results );
-  });
-});
+// app.post('/baseInfo', function ( req, res ) {
+//   var kid = req.body.kid;
+//   console.log(kid);
+//   res.header("Content-Type", "application/json; charset=utf-8");
+//   datas.getBaseInfo( kid, function ( results ) {
+//     res.json( results );
+//   });
+// });
 
 
 app.post('/insert', function ( req, res ) {
@@ -287,28 +287,28 @@ app.post('/update', function ( req, res ) {
 });
 
 
-app.post('/updateColumns', function ( req, res ) {
-  var data = req.body;
-  console.log(data);
-  console.log( req.session.uid );
-  datas.updateColumns( data, req.session.uid, function ( err ) {
-    if ( err ) {
-      res.status( 500 ).send( err.message );
-      return;
-    }
-    res.redirect('/');
-  });
-});
+// app.post('/updateColumns', function ( req, res ) {
+//   var data = req.body;
+//   console.log(data);
+//   console.log( req.session.uid );
+//   datas.updateColumns( data, req.session.uid, function ( err ) {
+//     if ( err ) {
+//       res.status( 500 ).send( err.message );
+//       return;
+//     }
+//     res.redirect('/');
+//   });
+// });
 
 // アップロード用パス
-app.post('/upload', index.upload );
+// app.post('/upload', index.upload );
 
-app.post('/fncadd', function ( req, res ){
-    var num = parseInt( req.body.num, 10 );
-    res.header("Content-Type", "application/json; charset=utf-8");
-    console.log( num );
-    res.json( JSON.stringify( { data :  num + 1 } )) ;
-});
+// app.post('/fncadd', function ( req, res ){
+//     var num = parseInt( req.body.num, 10 );
+//     res.header("Content-Type", "application/json; charset=utf-8");
+//     console.log( num );
+//     res.json( JSON.stringify( { data :  num + 1 } )) ;
+// });
 
 
 http.createServer(app).listen(app.get('port'), function(){
