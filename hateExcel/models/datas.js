@@ -1,11 +1,11 @@
 // メンバ変数の宣言
 var
+  async    = require('async')
   database = require('./database'),
-  // SQLクエリは別ファイルで管理する
   querys   = require('./list_query'),
+  flow     = require('./flow'),
   db = database.createClient(),
-  datas = exports,
-  async = require('async')
+  datas = exports
   ;
 
 datas.authenticate = function ( data, callback ) {
@@ -149,36 +149,6 @@ datas.update = function ( data, condition, table, callback ) {
 };
 
 
-datas.updateColumns = function ( data, uid, callback ) {
-  var params = [
-    data.kid,
-    data.company,
-    data.server,
-    data.userkey,
-    data.genics,
-    data.name,
-    data.account_number,
-    data.update_on,
-    uid
-  ];
-  console.log(params);
-  db.query(
-    querys.update.columns,
-    params,
-    function ( err ) {
-      db.end();
-      if ( err ) {
-        callback( err );
-        return;
-      }
-      callback( null );
-      return;
-    }
-  );
-};
-
-
-
 var makeUserKey = function ( length ) {
   var c = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   var l = length;
@@ -194,7 +164,6 @@ var makeUserKey = function ( length ) {
 };
 
 var makeFenicsKey = function ( length ) {
-  var c = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   var c = 'abcdefghijklmnopwrstrvwxyz';
   var l = length;
   var cl = c.length;
@@ -312,7 +281,6 @@ var getNewFenicsIp = function ( data, callback ) {
     [],
     'get_new_fenics_ip',
     function ( result ) {
-      console.log( result[0].next_ip );
       if ( typeof callback === 'function') {
         callback( null, result[0].next_ip );
       }
@@ -366,7 +334,7 @@ var getNextZeroPadData = function ( value ) {
  * @param  {Function} callback
  * @return {[type]}
  */
-datas.makeFenicsAccount = function ( input_map, callback ) {
+var makeFenicsAccount = function ( input_map, callback ) {
 
   var fenics_account = {};
 
@@ -380,14 +348,14 @@ datas.makeFenicsAccount = function ( input_map, callback ) {
   ], function (err, results) {
     if ( err ) { console.log( err ); }
 
-    fenics_account['kid']       = input_map.kid;
-    fenics_account['fenics_id'] = results[0];
-    fenics_account['password'] = results[0];
-    fenics_account['fenics_ip'] = results[1];
+    fenics_account['kid']        = input_map.kid;
+    fenics_account['fenics_id']  = results[0];
+    fenics_account['password']   = results[0];
+    fenics_account['fenics_ip']  = results[1];
     fenics_account['fenics_key'] = input_map.fenics_key;
-    fenics_account['create_on'] = new Date();
+    fenics_account['create_on']  = new Date();
     // check
-    console.log( fenics_account );
+    // console.log( fenics_account );
 
     datas.insert( fenics_account, 'make_fenics_account', function ( err, results ) {
       // 連続insertでKIDが重複していた場合、再作成
@@ -406,43 +374,19 @@ datas.makeFenicsAccount = function ( input_map, callback ) {
 };
 
 
-datas.makeList = function ( map, idx, callback ) {
-  new Promise(function(res, rej) {
-    // ループ処理（再帰的に呼び出し）
-    function loop(i) {
-      // 非同期処理なのでPromiseを利用
-      return new Promise(function(resolve, reject) {
-        // 非同期処理部分
-        setTimeout(function() {
-          console.log(i);
-          // resolveを呼び出し
-          datas.makeFenicsAccount(map);
-          resolve(i+1);
-        }, 100);
-      })
-      .then(function(count) {
-        // ループを抜けるかどうかの判定
-        if (count > idx-1 ) {
-          // 抜ける（外側のPromiseのresolve判定を実行）
-          res();
-        } else {
-          // 再帰的に実行
-          loop(count);
-        }
-      });
-    }
-    // 初回実行
-    loop(0);
-  }).then(function() {
-    // ループ処理が終わったらここにくる
-    callback()
-    console.log('Finish');
-  });
-}
+/**
+ * fenicsアカウント作成関数
+ */
+datas.makeList = flow.makeSyncLoop( makeFenicsAccount );
 
-// makeList({ fenics_key : 'busiv', kid : 'KID77160' }, 30);
 
-datas.make_user = function ( input_map, callback ) {
+/**
+ * 空ユーザー作成関数
+ * @param  {[type]}   input_map
+ * @param  {Function} callback
+ * @return {[type]}
+ */
+datas.makeUser = function ( input_map, callback ) {
   var set = {};
   async.series([
       function(callback) {

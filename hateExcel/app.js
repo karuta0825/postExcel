@@ -142,39 +142,6 @@ app.post('/columns', function ( req, res ) {
 
 });
 
-// app.post('/accounts', function ( req, res ) {
-//   var kid = req.body.kid;
-//   console.log()
-//   res.header("Content-Type", "application/json; charset=utf-8");
-//   datas.getAccounts( kid, function ( results ) {
-//     res.json( results );
-//   });
-// });
-
-// app.get('/services', function ( req, res ) {
-//   res.header("Content-Type", "application/json; charset=utf-8");
-//   datas.getServices( function ( results ) {
-//     res.json( results );
-//   });
-// });
-
-// app.post('/licenses', function ( req, res ) {
-//   var kid = req.body.kid;
-//   res.header("Content-Type", "application/json; charset=utf-8");
-//   datas.getLicenses( kid, function ( results ) {
-//     res.json( results );
-//   });
-// });
-
-// app.post('/baseInfo', function ( req, res ) {
-//   var kid = req.body.kid;
-//   console.log(kid);
-//   res.header("Content-Type", "application/json; charset=utf-8");
-//   datas.getBaseInfo( kid, function ( results ) {
-//     res.json( results );
-//   });
-// });
-
 
 app.post('/insert', function ( req, res ) {
   //post送信で渡ってきたデータ
@@ -223,7 +190,7 @@ app.post('/makeUser', function ( req, res ) {
 
   // urlからダイレクトにされたときのために入力チェックする
 
-  datas.make_user( data, function ( result ) {
+  datas.makeUser( data, function ( result ) {
     console.log('result');
     console.log(result);
     res.json(result);
@@ -255,7 +222,7 @@ app.post('/delete', function ( req, res ) {
         else {
           len += 1;
           if ( len === data.length ) {
-            res.status(200).send('delete success');
+            res.json({'result' : 'success', 'number' : len });
           }
         }
 
