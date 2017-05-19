@@ -56,7 +56,7 @@
   <tbody>
 
     <% _.each( list, function ( item, num ) { %>
-      <tr>
+      <tr id='<%- item.client_id %>'>
         <td class='mdl-data-table__cell--non-numeric'><%- item.client_id %></td>
         <td class='mdl-data-table__cell--non-numeric'><%- item.client_pass %></td>
         <td class='mdl-data-table__cell--non-numeric'><%- item.create_on %></td>

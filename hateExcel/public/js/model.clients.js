@@ -17,7 +17,9 @@
     fetch    : $.proxy( _model.fetch, _model ),
     getCache : $.proxy( _model.getCache, _model),
     find     : $.proxy( _model.find, _model ),
-    insert   : $.proxy( _model.insert, _model )
+    insert   : $.proxy( _model.insert, _model ),
+    // delete   : $.proxy( _model.delete, _model )
+    delete   : $.proxy( _model.delete, _model )
   };
 
 }( jQuery, customer ));

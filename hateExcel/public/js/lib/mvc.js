@@ -6,8 +6,9 @@
    */
 
   exports.Controller = function ( content ) {
-    this.wrap = $(content);
+    this['wrap'] = $(content);
     this['_el'] = {};
+    this['top'] = content;
   };
 
   Controller.fn = Controller.prototype;
@@ -411,12 +412,12 @@
 
   };
 
-  Model.fn.remove = function ( data, callback ) {
+  Model.fn.delete = function ( data, callback ) {
 
     customer.db.remove('/delete', {
       data : data,
       table : this['config']['table']
-    });
+    }, callback );
 
     if ( typeof callback === 'function' ) {
       callback( this.fetch( this['_cache'][0]['kid']) );

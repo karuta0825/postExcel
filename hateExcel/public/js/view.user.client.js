@@ -25,7 +25,7 @@
       'dialog' : {
         'download' : '#modal-client-download',
         'delete'   : '#delete-clients-confirm'
-      },
+      }
     }
   , _openDialog
   , _closeDialog
@@ -33,6 +33,7 @@
   , _downloadFile
   , clear
   , drawTable
+  , redrawTable
   , initModule
   ;
 
@@ -64,6 +65,7 @@
     clientView.get('dialog__download').get(0).close();
   };
 
+
   _downloadFile = function ( content, file_type ) {
 
     // filenameを決める
@@ -79,6 +81,40 @@
 
     // ダウンロード
     // util.downloadFile( this, Blob, filename );
+
+  };
+
+  _getSelectItem = function () {
+
+    var ids = _.map( $('.is-selected', clientView.top ), function (val,key){
+      return { 'client_id' : $(val).attr('id') } ;
+    });
+
+    if ( ids.length === 0 ) {
+      alert('選択されていません');
+      return;
+    }
+
+    return ids;
+
+  };
+
+
+  _deleteClients = function () {
+
+    var list_clients = _getSelectItem();
+
+    if ( list_clients && list_clients.length > 0 ) {
+      console.log(list_clients);
+      customer.model.clients.delete( list_clients, function () {
+        // 画面更新
+        cms.view.kids.refresh();
+        cms.view.home.refresh();
+        cms.view.userBaseInfo.refresh();
+        refresh();
+      } );
+    }
+
 
   };
 
@@ -118,6 +154,11 @@
 
   };
 
+  refresh = function () {
+    var kid = cms.model.clients.getCache()[0].kid;
+    cms.model.clients.fetch( kid , redrawTable );
+  };
+
   initModule = function () {
 
     drawTable();
@@ -125,7 +166,8 @@
     util.confirm({
       selector : '#usr-client-panel',
       id       : 'delete-clients-confirm',
-      msg      : '選択したクライアントを削除しますか？'
+      msg      : '選択したクライアントを削除しますか？',
+      yes      : _deleteClients
     });
 
     clientView = new Controller('#usr-client-panel');

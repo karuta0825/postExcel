@@ -349,6 +349,7 @@
 
   _getSelectItem = function () {
 
+    // まずい指定が弱い
     var ids = _.map( $('.is-selected'), function (val,key){
       return { 'kid' : $(val).attr('id') } ;
     });
@@ -367,7 +368,7 @@
     var list_delete = _getSelectItem();
 
     if ( list_delete ) {
-      customer.model.kids.remove( list_delete );
+      customer.model.kids.delete( list_delete );
     }
 
     cms.view.kids.refresh();

@@ -229,7 +229,7 @@
     fetch        : $.proxy( _model.fetch,    _model ),
     getData      : $.proxy( _model.getCache, _model ),
     find         : $.proxy( _model.find,     _model ),
-    remove       : $.proxy( _model.remove,   _model ),
+    delete       : $.proxy( _model.delete,   _model ),
     setCondition : setCondition,
     sortByCol    : sortByCol,
     getHeader    : getHeader,

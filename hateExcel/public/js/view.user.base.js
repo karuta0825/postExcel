@@ -47,6 +47,7 @@
   , makeUserInfo
   , reset
   , clear
+  , refresh
   , initModule
   ;
 
@@ -370,6 +371,11 @@
     _cancel();
   };
 
+  refresh = function () {
+    var kid = cms.model.userBaseInfo.getCache().kid;
+    cms.model.userBaseInfo.fetch(kid, makeUserInfo);
+  };
+
   initModule = function () {
     $('#usr-base-panel')
     .append( customer.db.getHtml('template/user.base.html'));
@@ -395,6 +401,7 @@
     makeUserInfo : makeUserInfo,
     reset        : reset,
     clear        : clear,
+    refresh      : refresh,
     getViewInfo  : getViewInfo,
     get          : function () { return baseView; }
   };
