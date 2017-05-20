@@ -54,9 +54,10 @@
 
   </div>
 
-  <div class='memo'>
-    <div class='memo__title'>メモ</div>
-    <div class='memo__body mdl-card mdl-shadow--2dp'>
+  <!-- メモ -->
+  <div class='memos'>
+    <div class='memos__title'>メモ</div>
+    <div class='memos__body mdl-card mdl-shadow--2dp'>
       <div class='header'>
 
         <button type="button" class="mdl-chip filter">
@@ -68,37 +69,42 @@
         </button>
       </div>
 
-      <div class='body'>
-        <ul class='memo-list'>
-<!--
-          <li class='memo-item'>
-            <span class='memo-item__status'></span>
-            <span class='memo-item__title'>タイトル</span>
-            <span class='memo-item__body'>
-              <span class='content'>メッセージですよ</span>
-              <span class='action'>
-                <button id="menu-lower-right"
-                        class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect">
-                  <i class="material-icons">more_horiz</i>
-                </button>
-                <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
-                    for="menu-lower-right">
-                  <li class="mdl-menu__item">編集</li>
-                  <li class="mdl-menu__item">削除</li>
-                </ul>
-              </span>
-            </span>
-            <span class='memo-item__footer'>
-              <span class='date'>2017/04/30</span>
-              <span class='creat-user'>山田　太郎</span>
-            </span>
-          </li>
- -->
-        </ul>
-      </div>
+      <div class='body'><ul class='memo-list'></ul></div>
       <div class='footer'></div>
     </div>
   </div>
+
+
+  <!-- メモダイアログ -->
+  <dialog class="mdl-dialog" id="modal-memo-item">
+      <h5 class="mdl-dialog__title">メモ作成</h5>
+      <div class="mdl-dialog__content">
+
+        <!-- タイトル -->
+        <div class='memo__title'>
+          <span class='name'>タイトル</span>
+          <input class='title-value' type='text' value=''></input>
+        </div>
+
+        <!-- 優先度 -->
+        <div class='memo__priority'>
+          <span class='name'>優先度</span>
+          <span class='choice emergency choice--on' data-priority='1'>緊急</span>
+          <span class='choice important' data-priority='2'>重要</span>
+          <span class='choice reminder' data-priority='3'>備忘</span>
+        </div>
+
+        <!-- 内容  -->
+        <div class='memo__content'>
+          <textarea class='content-value'></textarea>
+        </div>
+
+      </div>
+      <div class="mdl-dialog__actions">
+          <button type="button" class="mdl-button btn--save">保存</button>
+          <button type="button" class="mdl-button btn--cancel">キャンセル</button>
+      </div>
+  </dialog>
 
 </div>
 

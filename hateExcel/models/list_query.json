@@ -42,7 +42,8 @@
     "historys"            : "INSERT INTO historys SET ?;",
     "make_user"           : "INSERT INTO kids set ?;",
     "clients"             : "INSERT INTO clients set ?;",
-    "make_fenics_account" : "INSERT INTO fenics set ?"
+    "make_fenics_account" : "INSERT INTO fenics set ?",
+    "memos"               : "INSERT INTO memos set ?"
   },
 
   "delete" : {

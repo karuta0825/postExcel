@@ -9,8 +9,8 @@
     editView
   , elements = {
       'btn' : {
-        'back' : '.btn--backList',
-        'add-memo' : '.memo-add',
+        'back'        : '.btn--backList',
+        'add-memo'    : '.memo-add',
         'filter-memo' : '.mdl-chip.filter',
       },
       'tab_bar' : {
@@ -30,15 +30,15 @@
         'usr-history' : '#usr-history-panel',
       },
       'memo' : {
-        'list'  : '.memo-list',
-        'items' : '.memo-item'
+        'list'   : '.memo-list',
+        'items'  : '.memo-item',
+        'dialog' : '#modal-memo-item'
       }
     }
   , backUserTable
-  , makeMemo
+  , makeMemos
   , initModule
   ;
-
 
   backUserTable = function () {
 
@@ -66,7 +66,9 @@
     $(target).addClass('is-active');
   };
 
-  makeMemo = function ( data ) {
+
+
+  makeMemos = function ( data ) {
     var
       data     = { list : data }
     , tmpl     = customer.db.getHtml('template/user.memo.html')
@@ -94,7 +96,7 @@
     // イベント登録
     editView.addListener({
       'click btn__back' : backUserTable,
-      'click btn__add-memo' : function () { console.log('add memo'); }
+      'click btn__add-memo' : function () { editView.get('memo__dialog').get(0).showModal(); }
     });
 
 
@@ -102,7 +104,7 @@
 
   cms_view.editUsrs = {
     initModule : initModule,
-    makeMemo : makeMemo,
+    makeMemos  : makeMemos,
     tmp : function () {return editView;}
 
   };
