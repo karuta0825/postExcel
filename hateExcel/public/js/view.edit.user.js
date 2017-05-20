@@ -8,6 +8,11 @@
   // member
     editView
   , elements = {
+      'btn' : {
+        'back' : '.btn--backList',
+        'add-memo' : '.memo-add',
+        'filter-memo' : '.mdl-chip.filter',
+      },
       'tab_bar' : {
         'usr-base'    : 'a[href="#usr-base-panel"]',
         'usr-service' : 'a[href="#usr-service-panel"]',
@@ -23,9 +28,14 @@
         'usr-partner' : '#usr-partner-panel',
         'usr-network' : '#usr-network-panel',
         'usr-history' : '#usr-history-panel',
+      },
+      'memo' : {
+        'list'  : '.memo-list',
+        'items' : '.memo-item'
       }
     }
   , backUserTable
+  , makeMemo
   , initModule
   ;
 
@@ -56,26 +66,45 @@
     $(target).addClass('is-active');
   };
 
+  makeMemo = function ( data ) {
+    var
+      data     = { list : data }
+    , tmpl     = customer.db.getHtml('template/user.memo.html')
+    , complied = _.template( tmpl )
+    ;
+
+    editView.get('memo__items').remove();
+    editView.get('memo__list').append( complied(data) );
+
+    editView.updateElement({ memo__items : '.memo-item'});
+
+    componentHandler.upgradeElements( editView.get('memo__list') );
+
+  };
 
   initModule = function () {
 
     // コンテンツの挿入
     $('.main-contents--edit-usr').append( customer.db.getHtml('edit.user.html'));
 
-    // DOMキャッシュ作成
-    // _setJqueryMap();
-
+    // ビュー管理インスタンス
     editView = new Controller('.main-contents--edit-usr');
     editView.initElement( elements );
 
     // イベント登録
-    $('.btn--backList').on( 'click', backUserTable );
+    editView.addListener({
+      'click btn__back' : backUserTable,
+      'click btn__add-memo' : function () { console.log('add memo'); }
+    });
 
 
   };
 
   cms_view.editUsrs = {
-    initModule : initModule
+    initModule : initModule,
+    makeMemo : makeMemo,
+    tmp : function () {return editView;}
+
   };
 
 }( jQuery, customer.view ));
