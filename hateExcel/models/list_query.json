@@ -48,6 +48,6 @@
   "delete" : {
     "kids"    : "DELETE FROM kids where ?;",
     "clients" : "DELETE FROM clients where ?;",
-    "fenics"  : "DELETE FROM fenics where kid = ? and fenics_id = ?"
+    "fenics"  : "DELETE FROM fenics where ?"
   }
 }

@@ -3,6 +3,7 @@
 <% if ( !is_redraw ) { %>
   <!-- アクション -->
   <div class='user-edit-header__action'>
+    <button class='btn--del mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect' href='#edit-usr'>削除</button>
     <button class='btn btn--download mdl-button mdl-js-button mdl-button--raised mdl-button--accent'>ダウンロード</button>
   </div>
 
@@ -38,7 +39,7 @@
   <tbody>
 
     <% _.each( list, function ( item, num ) { %>
-      <tr>
+      <tr id='<%- item.fenics_id %>'>
         <td class='mdl-data-table__cell--non-numeric'><%- item.fenics_id %></td>
         <td class='mdl-data-table__cell--non-numeric'><%- item.password %></td>
         <td class='mdl-data-table__cell--non-numeric'><%- item.fenics_ip %></td>

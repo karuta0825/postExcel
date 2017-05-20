@@ -90,9 +90,10 @@
   };
 
   cms.model.userNetwork = {
-    fetch : $.proxy( _model.fetch, _model ),
-    getCache : $.proxy( _model.getCache, _model),
-    makeUserList : makeUserList
+    fetch        : $.proxy( _model.fetch, _model ),
+    getCache     : $.proxy( _model.getCache, _model),
+    makeUserList : makeUserList,
+    delete       : $.proxy( _model.delete, _model )
   };
 
 }( jQuery, customer ));
