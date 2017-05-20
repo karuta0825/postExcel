@@ -6,63 +6,43 @@
 
   var
   // member
-    jqueryMap = {}
-  , _setJqueryMap
-  , _onClickCSVImport
-  , _makeInput
+    editView
+  , elements = {
+      'tab_bar' : {
+        'usr-base'    : 'a[href="#usr-base-panel"]',
+        'usr-service' : 'a[href="#usr-service-panel"]',
+        'usr-client'  : 'a[href="#usr-client-panel"]',
+        'usr-partner' : 'a[href="#usr-partner-panel"]',
+        'usr-network' : 'a[href="#usr-network-panel"]',
+        'usr-history' : 'a[href="#usr-history-panel"]'
+      },
+      'tab_panel' : {
+        'usr-base'    : '#usr-base-panel',
+        'usr-service' : '#usr-service-panel',
+        'usr-client'  : '#usr-client-panel',
+        'usr-partner' : '#usr-partner-panel',
+        'usr-network' : '#usr-network-panel',
+        'usr-history' : '#usr-history-panel',
+      }
+    }
   , backUserTable
-  , makeAccountTable
-  , makeServiceTable
   , initModule
   ;
-
-  /**
-   * DOMキャッシュ設定
-   * TODO: 更新部分だけ設定する方法も考えよう
-   */
-  _setJqueryMap = function () {
-    var
-      content = $('#user-edit')
-    ;
-
-    jqueryMap.tab_bar   = {
-       'usr-base'    : content.find('a[href="#usr-base-panel"]')
-      ,'usr-service' : content.find('a[href="#usr-service-panel"]')
-      ,'usr-client'  : content.find('a[href="#usr-client-panel"]')
-      ,'usr-partner' : content.find('a[href="#usr-partner-panel"]')
-      ,'usr-network' : content.find('a[href="#usr-network-panel"]')
-      ,'usr-history' : content.find('a[href="#usr-history-panel"]')
-    };
-
-    jqueryMap.tab_panel = {
-       'usr-base'    : content.find('#usr-base-panel')
-      ,'usr-service' : content.find('#usr-service-panel')
-      ,'usr-client'  : content.find('#usr-client-panel')
-      ,'usr-partner' : content.find('#usr-partner-panel')
-      ,'usr-network' : content.find('#usr-network-panel')
-      ,'usr-history' : content.find('#usr-history-panel')
-    };
-
-    jqueryMap.serviceTable = jqueryMap.tab_panel['usr-service'].find('table');
-    jqueryMap.accountTable = jqueryMap.tab_panel['usr-client'].find('table');
-    jqueryMap.historyTable = jqueryMap.tab_panel['usr-history'].find('table');
-
-  };
 
 
   backUserTable = function () {
 
     // タブ位置を基本情報に戻す
-    _.each( jqueryMap.tab_bar, function ( val,key ) {
+    _.each( editView.get('tab_bar'), function ( val,key ) {
       $(val).removeClass('is-active');
     });
 
-    _.each( jqueryMap.tab_panel, function ( val, key ) {
+    _.each( editView.get('tab_panel'), function ( val, key ) {
       $(val).removeClass('is-active');
     });
 
-    jqueryMap.tab_bar['usr-base'].addClass('is-active');
-    jqueryMap.tab_panel['usr-base'].addClass('is-active');
+    editView.get('tab_bar__usr-base').addClass('is-active');
+    editView.get('tab_panel__usr-base').addClass('is-active');
 
     // 各タブの初期化
     customer.view.userBaseInfo.clear();
@@ -76,26 +56,6 @@
     $(target).addClass('is-active');
   };
 
-  /**
-   * クライント一覧の生成
-   */
-  makeAccountTable = function ( data ) {
-
-    var
-      data     = { list : data }
-    , tmpl     = customer.db.getHtml('template/user.client.html')
-    , complied = _.template( tmpl )
-    ;
-
-    jqueryMap.accountTable.remove();
-
-    jqueryMap.tab_panel['usr-client'].append( complied(data) );
-
-    componentHandler.upgradeElements( jqueryMap.tab_panel['usr-client'] );
-    _setJqueryMap();
-
-  };
-
 
   initModule = function () {
 
@@ -103,7 +63,10 @@
     $('.main-contents--edit-usr').append( customer.db.getHtml('edit.user.html'));
 
     // DOMキャッシュ作成
-    _setJqueryMap();
+    // _setJqueryMap();
+
+    editView = new Controller('.main-contents--edit-usr');
+    editView.initElement( elements );
 
     // イベント登録
     $('.btn--backList').on( 'click', backUserTable );
@@ -112,8 +75,7 @@
   };
 
   cms_view.editUsrs = {
-    initModule : initModule,
-    makeAccountTable : makeAccountTable,
+    initModule : initModule
   };
 
 }( jQuery, customer.view ));
