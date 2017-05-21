@@ -21,7 +21,7 @@
     "environments"        : "SELECT * FROM environments;",
     "find_environment_id" : "select id from environments where system_type = ? and version = ?;",
     "fenics"              : "SELECT kid, fenics_key, fenics_id, `password`, inet_ntoa(fenics_ip) as fenics_ip, DATE_FORMAT( create_on, '%Y/%m/%d') as create_on, DATE_FORMAT( start_on, '%Y/%m/%d') as start_on FROM customer.fenics WHERE kid = ?;",
-    "memos"               : "SELECT M.id, kid, title, priority_id, CASE priority_id WHEN 1 THEN 'emergency' WHEN 2 THEN 'important' WHEN 3 THEN 'reminder' ELSE '' END AS priority, message, case when CHAR_LENGTH(message) > 20 then CONCAT( LEFT(message, 20), '...') else message end as short_msg, date_format( ifnull( update_on, create_on ), '%Y-%m-%d') as create_on, L.name FROM memos M left join login_users L on ifnull( M.update_user_id, M.create_user_id ) = L.id where kid = ?;",
+    "memos"               : "SELECT M.id, kid, title, priority_id, CASE priority_id WHEN 1 THEN 'emergency' WHEN 2 THEN 'important' WHEN 3 THEN 'reminder' ELSE '' END AS priority, message, case when CHAR_LENGTH(message) > 10 then CONCAT( LEFT(message, 10), '...') else message end as short_msg, date_format( ifnull( update_on, create_on ), '%Y-%m-%d') as create_on, L.name FROM memos M left join login_users L on ifnull( M.update_user_id, M.create_user_id ) = L.id where kid = ?;",
     "is_unique_fenicskey" : "SELECT fenics_key FROM fenics WHERE fenics_key = ?;",
     "get_new_fenics_ip"   : "select case SUBSTRING_INDEX(INET_NTOA(fenics_ip), '.', -1) when 254 then fenics_ip+3 else fenics_ip+1 end as next_ip from fenics order by fenics_ip desc limit 1;",
     "find_last_fenics_id" : "select fenics_id from fenics where kid = ? order by fenics_id desc limit 1;"
