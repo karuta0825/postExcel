@@ -275,7 +275,7 @@ var findEnvironmentId = function ( data, callback ) {
 
 };
 
-var getNewFenicsIp = function ( data, callback ) {
+var makeNewFenicsIp = function ( data, callback ) {
 
   datas.select(
     [],
@@ -290,14 +290,14 @@ var getNewFenicsIp = function ( data, callback ) {
 };
 
 /**
- * [findLastFenicsId description]
+ * [makeNewFenicsId description]
  * @param  {Object}   data
  * @param  {Object}   data.kid         - kid
  * @param  {Object}   data.fenics_key  - fenics_key
  * @param  {Function} callback
  * @return {String}
  */
-var findLastFenicsId = function ( data, callback ) {
+var makeNewFenicsId = function ( data, callback ) {
 
   datas.select(
     [data.kid],
@@ -314,6 +314,30 @@ var findLastFenicsId = function ( data, callback ) {
 
 };
 
+/**
+ * [makeNewClient description]
+ * @param  {Object}   data
+ * @param  {String}   data.kid
+ * @param  {String}   data.user_key
+ * @param  {Function} callback
+ */
+var makeNewClientId = function ( data, callback ) {
+
+  datas.select(
+    [data.kid],
+    'find_last_client_id',
+    function ( result ) {
+      console.log(result);
+      if ( result.length === 0 ) {
+        callback( null, data.userkey + '0001')
+      }
+      else {
+        callback( null, getNextZeroPadData( result[0].client_id ) );
+      }
+    }
+  );
+
+};
 
 
 var getNextZeroPadData = function ( value ) {
@@ -340,10 +364,10 @@ var makeFenicsAccount = function ( input_map, callback ) {
 
   async.series([
     function ( callback ) {
-      findLastFenicsId( input_map, callback );
+      makeNewFenicsId( input_map, callback );
     },
     function ( callback ) {
-      getNewFenicsIp( null, callback );
+      makeNewFenicsIp( null, callback );
     }
   ], function (err, results) {
     if ( err ) { console.log( err ); }
@@ -373,11 +397,55 @@ var makeFenicsAccount = function ( input_map, callback ) {
   });
 };
 
+/**
+ * windows接続クライアントを作成
+ * @param  {[type]}   input_map
+ * @param  {Function} callback
+ * @return {[type]}
+ */
+var makeClient = function ( input_map, callback ) {
+
+  var client = {};
+
+  async.series([
+    function ( callback ) {
+      makeNewClientId( input_map, callback );
+    }
+  ], function ( err, results ) {
+    if ( err ) { console.log(err); }
+
+    client['kid']            = input_map.kid
+    client['client_id']      = results[0];
+    client['client_pass']    = results[0];
+    client['create_on']      = new Date();
+    client['create_user_id'] = input_map.create_user_id;
+    client['is_admin']       = 0;
+
+    console.log(client);
+    datas.insert( client, 'make_client', function ( err, result ) {
+      if ( err ) {
+        console.log(err);
+        datas.makeClient( input_map );
+      }
+      else {
+        if ( typeof callback === 'function' ) {
+          callback(null);
+        }
+      }
+    });
+
+  });
+
+};
+
+
 
 /**
  * fenicsアカウント作成関数
  */
-datas.makeList = flow.makeSyncLoop( makeFenicsAccount );
+datas.makeFenicsList = flow.makeSyncLoop( makeFenicsAccount );
+
+datas.makeClientList = flow.makeSyncLoop( makeClient );
 
 
 /**
@@ -424,7 +492,6 @@ datas.makeUser = function ( input_map, callback ) {
           callback(set);
         }
       });
-      // callback(set);
   });
 };
 
@@ -441,13 +508,20 @@ datas.makeMemo = function ( input_map, callback ) {
 
 };
 
+///////////////
+// unit test //
+///////////////
+
 // for( var i = 0; i < 100; i += 1) {
   // make_user(4, 1);
 // }
 
 // findNewFenicsKey('nfg');
-// getNewFenicsIp();
+// makeNewFenicsIp();
 
-// findLastFenicsId({ fenics_key : 'busiv', kid : 'KID77576' }, function( err, result ) {
+// makeNewFenicsId({ fenics_key : 'busiv', kid : 'KID77576' }, function( err, result ) {
 //   console.log(result);
 // });
+
+// makeNewClient({kid : 'KID77160'});
+

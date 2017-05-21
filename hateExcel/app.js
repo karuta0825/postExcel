@@ -176,7 +176,18 @@ app.post('/addFenicsAccounts', function ( req, res ) {
   var data = req.body.data;
   data.create_user_id = req.session.uid;
 
-  datas.makeList( data, data.number_pc_added, function () {
+  datas.makeFenicsList( data, data.number_pc_added, function () {
+    res.json({'result' : 'ok'});
+  });
+
+});
+
+app.post('/addClient', function ( req, res ) {
+
+  var data = req.body.data;
+  data.create_user_id = req.session.uid;
+
+  datas.makeClientList( data, data.number_client_added, function () {
     res.json({'result' : 'ok'});
   });
 

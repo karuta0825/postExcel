@@ -51,35 +51,25 @@
    * windowsユーザーを作成する
    * @param {[type]} view_data
    */
-  addClient = function ( view_data ) {
+  addClient = function ( view_client_number ) {
 
-    var
-      _model        = customer.model.clients
-    , list_client   = _model.find.call( _model.fetch( _cache['kid'] ), {'is_admin' : 0 } )
-    , list_add_user = []
-    , length        = list_client.length
-    , diff          =  view_data - length
-    , clients
-    ;
+    var diff = view_client_number - _cache['client_number'];
 
     if ( diff < 1 ) {
       return ;
     }
 
-    nextClient = util.getNextZeroPadData( list_client[ length - 1 ].client_id );
-    list_add_user.push( nextClient );
+    var params = {
+      data : {
+        kid                 : _cache['kid'],
+        userkey             : _cache['userkey'],
+        number_client_added : diff
+      }
+    };
 
-    for ( var i = 1; i < diff; i += 1 ) {
-      nextClient = util.getNextZeroPadData( nextClient );
-      list_add_user.push( nextClient );
-    }
-
-
-    clients = _.map( list_add_user, function ( val, key ) {
-      return { 'kid' : _cache['kid'], client_id : val, client_pass :val, is_admin : 0 }
+    cms.db.insert('/addClient', params, function () {
+      cms.model.clients.fetch( _cache['kid'], cms.view.userClient.redrawTable );
     });
-
-    customer.model.clients.insert( clients, customer.view.userClient.redrawTable );
 
   };
 
