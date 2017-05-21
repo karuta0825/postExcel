@@ -262,11 +262,10 @@ app.post('/update', function ( req, res ) {
 
   datas.update( data, condition, table, function ( err ) {
     if  ( err ) {
-      res.status( 500 ).send( err.message );
+      res.json({ err : err })
       return;
     }
-    res.status(200).send('ok');
-    // res.redirect('/');
+    res.json({ result : 'ok'});
   });
 
 });

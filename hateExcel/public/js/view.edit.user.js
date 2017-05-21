@@ -36,6 +36,7 @@
       }
     }
   , _openMemoDialog
+  , _selectMemo
   , backUserTable
   , makeMemos
   , initModule
@@ -45,6 +46,28 @@
 
     editView.get('memo__dialog').get(0).showModal();
     cms.view.userMemo.reset();
+
+  };
+
+  _selectMemo = function ( e ) {
+
+    var memo_id, memo;
+
+    if ( $(e.target).data('memo_id') ) {
+      memo_id = $(e.target).data('memo_id');
+    }
+    else {
+      memo_id = $(e.target).parents('li').data('memo_id');
+    }
+
+    memo = cms.model.userMemo.find({ id : memo_id })[0];
+
+    cms.view.userMemo.makeViewInfo( memo );
+
+    // 更新モードに変更する
+    cms.view.userMemo.changeEditMode(true);
+
+    editView.get('memo__dialog').get(0).showModal();
 
   };
 
@@ -111,7 +134,8 @@
     // イベント登録
     editView.addListener({
       'click btn__back' : backUserTable,
-      'click btn__add-memo' : _openMemoDialog
+      'click btn__add-memo' : _openMemoDialog,
+      'click memo__items' : _selectMemo
     });
 
 

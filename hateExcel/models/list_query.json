@@ -35,7 +35,8 @@
     "customers"     : "UPDATE customers SET ? WHERE ?",
     "partners"      : "UPDATE partners SET ? WHERE ?",
     "licenses"      : "UPDATE licenses SET ? WHERE ?",
-    "kids"          : "UPDATE kids SET ? WHERE ?"
+    "kids"          : "UPDATE kids SET ? WHERE ?",
+    "memos"         : "UPDATE memos SET ? WHERE ?"
   },
 
   "insert" : {

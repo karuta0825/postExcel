@@ -1,6 +1,6 @@
 
 <% _.each( list, function (item, num) { %>
-  <li class='memo-item' id='<%- item.id %>'>
+  <li class='memo-item' data-memo_id='<%- item.id %>'>
     <span class='memo-item__status <%- item.priority %>'></span>
     <span class='memo-item__title'><%- item.title %></span>
     <span class='memo-item__body'>

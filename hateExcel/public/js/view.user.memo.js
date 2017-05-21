@@ -10,20 +10,23 @@
       'btn' : {
         'save' : '.btn--save',
         'cancel' : '.btn--cancel',
+        'update' : '.btn--update'
       },
-      'memo-priority' : '.memo__priority',
       'choice' : {
         'emergency' : '.emergency',
         'important' : '.important',
         'reminder'  : '.reminder'
       },
       'title'   : '.memo__title .title-value',
+      'memo-priority' : '.memo__priority',
       'content' : '.memo__content .content-value'
     }
   , _selectPriority
   , _getViewInfo
   , _clear
   , _save
+  , _update
+  , changeEditMode
   , reset
   , makeViewInfo
   , initModule
@@ -63,6 +66,11 @@
       message     : memoView.get('content').val()
     };
 
+    if ( memoView.wrap.attr('data-memo-id') ) {
+        result.id = Number( memoView.wrap.attr('data-memo-id') );
+        result.kid = cms.model.userBaseInfo.getCache().kid;
+    };
+
     return result;
 
   };
@@ -76,19 +84,9 @@
     memoView.get('choice__important').removeClass('choice--on');
     memoView.get('choice__reminder').removeClass('choice--on');
 
-  };
-
-  reset = function () {
-
-    memoView.get('title').val('');
-    memoView.get('content').val('');
-
-    memoView.get('choice__emergency').addClass('choice--on');
-    memoView.get('choice__important').removeClass('choice--on');
-    memoView.get('choice__reminder').removeClass('choice--on');
+    changeEditMode(false);
 
   };
-
 
   /**
    * [_save description]
@@ -111,10 +109,34 @@
 
   };
 
+  _update  = function () {
+
+    var data = _getViewInfo();
+
+    cms.model.userMemo.update( data );
+
+    memoView.wrap.get(0).close();
+
+  };
+
+  reset = function () {
+
+    memoView.get('title').val('');
+    memoView.get('content').val('');
+
+    memoView.get('choice__emergency').addClass('choice--on');
+    memoView.get('choice__important').removeClass('choice--on');
+    memoView.get('choice__reminder').removeClass('choice--on');
+
+    changeEditMode(false);
+
+  };
+
   makeViewInfo = function( data ) {
 
     _clear();
 
+    data.id      && memoView.wrap.attr('data-memo-id', data.id );
     data.title   && memoView.get('title').val( data.title );
     data.message && memoView.get('content').val( data.message );
 
@@ -123,6 +145,17 @@
       .find('[data-priority=' + data.priority_id + ']')
       .addClass('choice--on');
 
+  };
+
+  changeEditMode = function ( is_edit ) {
+    if ( is_edit ) {
+      memoView.get('btn__update').removeClass('is-hidden');
+      memoView.get('btn__save').addClass('is-hidden');
+    }
+    else {
+      memoView.get('btn__update').addClass('is-hidden');
+      memoView.get('btn__save').removeClass('is-hidden');
+    }
   };
 
 
@@ -134,6 +167,7 @@
     memoView.addListener({
       'click btn__save' : _save,
       'click btn__cancel' : function () { memoView.wrap.get(0).close(); },
+      'click btn__update' : _update,
       'click memo-priority' : _selectPriority
     });
 
@@ -143,7 +177,9 @@
   cms.view.userMemo = {
     initModule : initModule,
     makeViewInfo : makeViewInfo,
-    reset        : reset
+    changeEditMode : changeEditMode,
+    reset        : reset,
+    tmp : _getViewInfo
   };
 
 }( jQuery, customer));
