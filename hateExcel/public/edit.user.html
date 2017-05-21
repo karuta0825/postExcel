@@ -60,9 +60,13 @@
     <div class='memos__body mdl-card mdl-shadow--2dp'>
       <div class='header'>
 
-        <button type="button" class="mdl-chip filter">
-            <span class="mdl-chip__text">全て</span>
-        </button>
+        <!-- 優先度による絞込 -->
+        <select type="button" class="mdl-chip filter">
+          <option value='all'>全て</option>
+          <option value='emergency'>緊急</option>
+          <option value='important'>重要</option>
+          <option value='remider'>備忘録</option>
+        </select>
         <!-- 追加 -->
         <button class="memo-add mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored">
           <i class="material-icons">add</i>
