@@ -17,7 +17,8 @@
 
   <% _.each( list, function ( item, num ) { %>
     <tr data-id=<%- item.id %> >
-      <td class='env'>  <input type='text' value=<%- item.version %> > </td>
+      <!-- TODO: バージョンは選択式にする -->
+      <td class='version'>  <input type='text' value=<%- item.version %> > </td>
       <td class='name'> <input type='text' value=<%- item.name        %> > </td>
       <td class='ip'>   <input type='text' value=<%- item.ip%> >           </td>
       <td align='center' class='del'>

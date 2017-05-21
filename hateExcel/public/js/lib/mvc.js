@@ -425,6 +425,10 @@
 
   };
 
+  Model.fn.push = function ( data ) {
+    this['_cache'].push( data );
+  };
+
 
 
 

@@ -2,16 +2,18 @@
  * viewController
  * サーバー情報
  */
-(function ($, cms_view) {
+(function ($, cms) {
 
   var
   // member
     jqueryMap = {}
   // private method
   , _setJqueryMap
+  , _onClickAdd
   , _onClickEdit
   , _onClickCancel
   , _onClickSave
+  , _onClickDel
   , _drawTable
   , _redrawTable
   , _makeRow
@@ -57,13 +59,14 @@
     , td_ip   = $('<td>',     { class : 'ip' } )
     , td_del  = $('<td>',     { align : 'center', class : 'del' } )
     , input   = $('<input>',  { type  : 'text' } )
-    , button  = $('<button>', { class : 'btn btn--del', text : '-' } )
+    , button  = $('<button>', { class : 'btn btn--del mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect'} )
+    , icon    = $('<i>'     , { class : 'material-icons', text : 'delete_forever'})
     ;
 
     td_env.append(  $(input).clone(true) );
     td_name.append( $(input).clone(true) );
     td_ip.append(   $(input).clone(true) );
-    td_del.append( button );
+    td_del.append( button.append(icon) );
 
     tr.append(td_env)
       .append(td_name)
@@ -127,7 +130,7 @@
   _onClickDel = function () {
     var id_del = $(this).parents('tr').find('.id').text().trim();
     $(this).parents('tr').remove();
-    customer.model.servers.delStock( id_del );
+    // customer.model.servers.delStock( id_del );
   };
 
   _validate = function () {
@@ -148,21 +151,43 @@
     jqueryMap.$cancel.on( 'click', _onClickCancel );
     jqueryMap.$del.on(    'click', _onClickDel    );
 
+    jqueryMap.$body.on( 'change', function (e) {
+
+      var el  = $(e.target);
+      var id  = el.parents('tr').data('id');
+      var key = el.parents('td').attr('class');
+
+      var data = {
+        id  : el.parents('tr').data('id'),
+        key : el.parents('td').attr('class')
+      };
+
+      cms.model.servers.change( data );
+
+      // 以下の作業は、モデルが行う仕事
+      // ビューは必要な更新情報をモデルに送るだけ
+
+      // update
+      // idで検索して, keyでsetして修正したものを、セレクションに追加
+      // 検索はセレクションを先に、なければキャッシュを確認する
+
+      // insert
+      // キャッシュでidの検索がない場合、insertとしてセレクションに追加
+
+      // delete
+      // 削除ボタンが押されたときなので、別イベント
+
+      console.log(el);
+    });
+
   };
 
-  show = function () {
-    jqueryMap.$main.show();
-  };
-
-  hide = function () {
-    jqueryMap.$main.hide();
-  }
+  //
 
   // to public
-  cms_view.servers = {
+  cms.model.servers = {
     initModule : initModule,
-    show       : show,
-    hide       : hide
+    tmp        : function () { return jqueryMap;}
   };
 
-}(jQuery, customer.view ));
+}(jQuery, customer ));
