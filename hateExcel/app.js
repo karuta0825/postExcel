@@ -198,6 +198,24 @@ app.post('/makeUser', function ( req, res ) {
 
 });
 
+app.post('/makeMemo', function ( req, res ) {
+
+  var data = req.body.data;
+
+  data.create_user_id = req.session.uid;
+  data.create_on = new Date();
+
+  datas.makeMemo( data, function ( err ) {
+    if ( err ) {
+      res.json({ result : 'fail', err : err });
+    }
+    else {
+      res.json({ result : 'ok'});
+    }
+  });
+
+});
+
 
 app.post('/delete', function ( req, res ) {
 

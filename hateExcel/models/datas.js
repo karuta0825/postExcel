@@ -99,7 +99,7 @@ datas.insert = function ( data, table, callback ) {
       db.end();
       // エラー時
       if ( err ) {
-        // console.log(err);
+        console.log(err);
         callback( err );
         return;
       }
@@ -426,6 +426,19 @@ datas.makeUser = function ( input_map, callback ) {
       });
       // callback(set);
   });
+};
+
+datas.makeMemo = function ( input_map, callback ) {
+
+  datas.insert( input_map, 'make_memo', function ( err, result ) {
+    if ( err ){
+      callback(err);
+    }
+    else {
+      callback(null);
+    }
+  });
+
 };
 
 // for( var i = 0; i < 100; i += 1) {

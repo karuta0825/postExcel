@@ -569,7 +569,7 @@
 #modal-memo-item .memo__content .content-value {
   width: 100%;
   height: 300px;
-  resize: horizontal;
+  resize: none;
   line-height: 25px;
   border: 1px solid #dfdfdf;
 }

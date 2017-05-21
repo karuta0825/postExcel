@@ -177,6 +177,11 @@
       customer.view.userHistory.drawTable
     );
 
+    // メモ一覧作成
+    customer.model.userMemo.fetch( kid,
+      customer.view.editUsrs.makeMemos
+    );
+
     $('.main-contents').removeClass('is-active');
 
     // クリックされたコンテンツにis-activeを付与

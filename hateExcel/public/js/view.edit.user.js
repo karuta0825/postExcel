@@ -2,7 +2,7 @@
  * viewController
  * 新規ユーザー追加
  */
-( function ( $, cms_view ) {
+( function ( $, cms ) {
 
   var
   // member
@@ -35,10 +35,18 @@
         'dialog' : '#modal-memo-item'
       }
     }
+  , _openMemoDialog
   , backUserTable
   , makeMemos
   , initModule
   ;
+
+  _openMemoDialog = function () {
+
+    editView.get('memo__dialog').get(0).showModal();
+    cms.view.userMemo.reset();
+
+  };
 
   backUserTable = function () {
 
@@ -69,6 +77,13 @@
 
 
   makeMemos = function ( data ) {
+
+    if ( data.length === 0 ) {
+      editView.get('memo__items').remove();
+      editView.updateElement({ memo__items : '.memo-item'});
+      return;
+    };
+
     var
       data     = { list : data }
     , tmpl     = customer.db.getHtml('template/user.memo.html')
@@ -96,17 +111,16 @@
     // イベント登録
     editView.addListener({
       'click btn__back' : backUserTable,
-      'click btn__add-memo' : function () { editView.get('memo__dialog').get(0).showModal(); }
+      'click btn__add-memo' : _openMemoDialog
     });
 
 
   };
 
-  cms_view.editUsrs = {
+  cms.view.editUsrs = {
     initModule : initModule,
     makeMemos  : makeMemos,
     tmp : function () {return editView;}
-
   };
 
-}( jQuery, customer.view ));
+}( jQuery, customer ));
