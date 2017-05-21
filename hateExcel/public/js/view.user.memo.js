@@ -8,9 +8,10 @@
     memoView
   , elements = {
       'btn' : {
-        'save' : '.btn--save',
+        'save'   : '.btn--save',
         'cancel' : '.btn--cancel',
-        'update' : '.btn--update'
+        'update' : '.btn--update',
+        'delete' : '.btn--del'
       },
       'choice' : {
         'emergency' : '.emergency',
@@ -19,13 +20,15 @@
       },
       'title'   : '.memo__title .title-value',
       'memo-priority' : '.memo__priority',
-      'content' : '.memo__content .content-value'
+      'content' : '.memo__content .content-value',
+      'dialog'  : '#modal-delete-memo'
     }
   , _selectPriority
   , _getViewInfo
   , _clear
   , _save
   , _update
+  , _delete
   , changeEditMode
   , reset
   , makeViewInfo
@@ -119,6 +122,16 @@
 
   };
 
+  _delete = function () {
+
+    var data = _getViewInfo();
+
+    cms.model.userMemo.remove( data );
+
+    memoView.wrap.get(0).close();
+
+  };
+
   reset = function () {
 
     memoView.get('title').val('');
@@ -150,10 +163,12 @@
   changeEditMode = function ( is_edit ) {
     if ( is_edit ) {
       memoView.get('btn__update').removeClass('is-hidden');
+      memoView.get('btn__delete').removeClass('is-hidden');
       memoView.get('btn__save').addClass('is-hidden');
     }
     else {
       memoView.get('btn__update').addClass('is-hidden');
+      memoView.get('btn__delete').addClass('is-hidden');
       memoView.get('btn__save').removeClass('is-hidden');
       memoView.wrap.removeAttr('data-memo-id');
     }
@@ -163,12 +178,21 @@
   initModule = function () {
 
     memoView = new Controller('#modal-memo-item');
+
+    util.confirm({
+      selector : memoView.top,
+      id       : 'modal-delete-memo',
+      msg      : 'メモを削除しますか？',
+      yes      : _delete
+    });
+
     memoView.initElement( elements );
 
     memoView.addListener({
       'click btn__save' : _save,
       'click btn__cancel' : function () { memoView.wrap.get(0).close(); },
       'click btn__update' : _update,
+      'click btn__delete' : function () { memoView.get('dialog').get(0).showModal(); },
       'click memo-priority' : _selectPriority
     });
 

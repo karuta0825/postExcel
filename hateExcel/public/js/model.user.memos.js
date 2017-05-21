@@ -40,11 +40,25 @@
 
   };
 
+  remove = function ( data ) {
+
+    var param = {
+      data : [{ id : data.id}],
+      table : 'memos'
+    };
+
+    cms.db.remove('/delete', param, function () {
+      _model.fetch( data.kid, cms.view.editUsrs.makeMemos );
+    });
+
+  };
+
   // to public
   cms.model.userMemo = {
     fetch    : $.proxy( _model.fetch, _model ),
     find     : $.proxy( _model.find, _model ),
     update   : update,
+    remove   : remove,
     makeMemo : makeMemo
   };
 

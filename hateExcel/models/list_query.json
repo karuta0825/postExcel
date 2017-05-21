@@ -50,6 +50,7 @@
   "delete" : {
     "kids"    : "DELETE FROM kids where ?;",
     "clients" : "DELETE FROM clients where ?;",
-    "fenics"  : "DELETE FROM fenics where ?"
+    "fenics"  : "DELETE FROM fenics where ?",
+    "memos"   : "DELETE FROM memos where ?"
   }
 }

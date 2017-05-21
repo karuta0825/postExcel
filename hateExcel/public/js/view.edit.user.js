@@ -143,8 +143,7 @@
 
   cms.view.editUsrs = {
     initModule : initModule,
-    makeMemos  : makeMemos,
-    tmp : function () {return editView;}
+    makeMemos  : makeMemos
   };
 
 }( jQuery, customer ));

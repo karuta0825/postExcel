@@ -260,6 +260,12 @@ app.post('/update', function ( req, res ) {
   , table     = req.body.table
   ;
 
+  // TODO: table内容で分岐させるクラスをつくる
+  if ( table === 'memos' ) {
+    data['update_on'] = new Date();
+    data['update_user_id'] = req.session.uid;
+  }
+
   datas.update( data, condition, table, function ( err ) {
     if  ( err ) {
       res.json({ err : err })
@@ -267,6 +273,7 @@ app.post('/update', function ( req, res ) {
     }
     res.json({ result : 'ok'});
   });
+
 
 });
 
