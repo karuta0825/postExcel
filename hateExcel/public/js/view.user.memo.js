@@ -58,9 +58,9 @@
   _getViewInfo = function () {
 
     var result =  {
-      title    : memoView.get('title').val(),
-      priority : memoView.get('memo-priority').find('.choice--on').data('priority'),
-      message  : memoView.get('content').val()
+      title       : memoView.get('title').val(),
+      priority_id : memoView.get('memo-priority').find('.choice--on').data('priority'),
+      message     : memoView.get('content').val()
     };
 
     return result;
@@ -119,8 +119,8 @@
     data.message && memoView.get('content').val( data.message );
 
     // 優先度の設定
-    data.priority && memoView.get('memo-priority')
-      .find('[data-priority=' + data.priority + ']')
+    data.priority_id && memoView.get('memo-priority')
+      .find('[data-priority=' + data.priority_id + ']')
       .addClass('choice--on');
 
   };

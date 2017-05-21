@@ -504,9 +504,22 @@
   width : 5px;
   height: 100%;
   margin-right: 10px;
-  background: #ff5b94;
+  /*background: #ff5b94;*/
   float: left;
 }
+
+.memo-item__status.emergency {
+  background: #ff5b94;
+}
+
+.memo-item__status.important {
+  background: #ffb600;
+}
+
+.memo-item__status.reminder {
+  /*background: #7575ff;*/
+}
+
 
 .memo-item__title {
   display: block;

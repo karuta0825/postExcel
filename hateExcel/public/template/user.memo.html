@@ -1,7 +1,7 @@
 
 <% _.each( list, function (item, num) { %>
   <li class='memo-item' id='<%- item.id %>'>
-    <span class='memo-item__status'></span>
+    <span class='memo-item__status <%- item.priority %>'></span>
     <span class='memo-item__title'><%- item.title %></span>
     <span class='memo-item__body'>
       <span class='content'><%- item.short_msg %></span>
@@ -19,7 +19,7 @@
     </span>
     <span class='memo-item__footer'>
       <span class='date'><%- item.create_on %></span>
-      <span class='creat-user'><%- item.create_user %></span>
+      <span class='creat-user'><%- item.name %></span>
     </span>
   </li>
 <% }); %>
