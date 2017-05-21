@@ -155,6 +155,7 @@
     else {
       memoView.get('btn__update').addClass('is-hidden');
       memoView.get('btn__save').removeClass('is-hidden');
+      memoView.wrap.removeAttr('data-memo-id');
     }
   };
 
