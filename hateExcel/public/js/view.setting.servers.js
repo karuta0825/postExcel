@@ -157,10 +157,9 @@
       var id  = el.parents('tr').data('id');
       var key = el.parents('td').attr('class');
 
-      var data = {
-        id  : el.parents('tr').data('id'),
-        key : el.parents('td').attr('class')
-      };
+      var data = {};
+      data['id'] = el.parents('tr').data('id');
+      data[key] = el.val();
 
       cms.model.servers.change( data );
 
@@ -185,7 +184,7 @@
   //
 
   // to public
-  cms.model.servers = {
+  cms.view.servers = {
     initModule : initModule,
     tmp        : function () { return jqueryMap;}
   };
