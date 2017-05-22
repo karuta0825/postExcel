@@ -18,7 +18,21 @@
   <% _.each( list, function ( item, num ) { %>
     <tr data-id=<%- item.id %> >
       <!-- TODO: バージョンは選択式にする -->
-      <td class='version'>  <input type='text' value=<%- item.version %> > </td>
+      <td class='version'>
+        <!-- <input type='text' value=<%- item.version %> >  -->
+        <select>
+          <option
+          <% if ( item.version === 'ES' ) { %>
+            selected
+          <% } %>
+          >ES</option>
+          <option
+          <% if ( item.version === 'LM' ) { %>
+            selected
+          <% } %>
+          >LM</option>
+        </select>
+      </td>
       <td class='name'> <input type='text' value=<%- item.name        %> > </td>
       <td class='ip'>   <input type='text' value=<%- item.ip%> >           </td>
       <td align='center' class='del'>

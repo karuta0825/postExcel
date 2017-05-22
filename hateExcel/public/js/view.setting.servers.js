@@ -7,6 +7,7 @@
   var
   // member
     jqueryMap = {}
+  , idx = 0
   // private method
   , _setJqueryMap
   , _onClickAdd
@@ -53,7 +54,7 @@
 
     // DOM要素生成
     var
-      tr      = $('<tr>')
+      tr      = $('<tr>',     { 'data-id' : 'c' + idx })
     , td_env  = $('<td>',     { class : 'env'} )
     , td_name = $('<td>',     { class : 'name' } )
     , td_ip   = $('<td>',     { class : 'ip' } )
@@ -62,6 +63,8 @@
     , button  = $('<button>', { class : 'btn btn--del mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect'} )
     , icon    = $('<i>'     , { class : 'material-icons', text : 'delete_forever'})
     ;
+
+    idx += 1;
 
     td_env.append(  $(input).clone(true) );
     td_name.append( $(input).clone(true) );
@@ -176,7 +179,7 @@
       // delete
       // 削除ボタンが押されたときなので、別イベント
 
-      console.log(el);
+      // console.log(el);
     });
 
   };

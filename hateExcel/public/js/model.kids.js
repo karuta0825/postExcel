@@ -199,13 +199,17 @@
    */
   addFenicsAccount = function ( view_data ) {
 
-    if ( view_data.is_busiv === 1 ) {
+    if ( view_data.is_busiv !== 0 ) {
       return;
     }
 
     var before = customer.model.userBaseInfo.getCache();
     var after  = view_data.number_pc;
     var diff   = after - before.number_pc;
+
+    if ( diff < 1 ) {
+      return;
+    }
 
     var post = {
       kid             : before.kid,

@@ -426,7 +426,18 @@
   };
 
   Model.fn.push = function ( data ) {
-    this['_cache'].push( data );
+    var item = this.find({id : data.id});
+
+    // 保持していないとき
+    if ( item.length !== 0 ) {
+      _.each( data, function ( val, key ) {
+        item[0][key] = val;
+      });
+    }
+    else {
+      this.add(data);
+    }
+
   };
 
 
