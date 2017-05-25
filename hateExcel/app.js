@@ -104,13 +104,6 @@ app.post('/select', function ( req, res ) {
 
 });
 
-// app.get('/servers', function ( req, res ) {
-//   res.header("Content-Type", "application/json; charset=utf-8");
-//   datas.getServers( function ( results ) {
-//     res.json( results );
-//   });
-// });
-
 
 app.get('/tableHeader', function ( req, res ) {
   res.header("Content-Type", "application/json; charset=utf-8");
@@ -287,6 +280,50 @@ app.post('/update', function ( req, res ) {
 
 
 });
+
+app.post('/m_update', function ( req, res ) {
+
+  var
+    data = req.body.data
+  , query = req.body.query
+  , item
+  , condition
+  , len = 0
+  ;
+
+  // クラス作成
+  // 引数に何かを渡すと、それに応じて特定の処理をしてくれる
+  if ( Object.prototype.toString.call( data ) === '[object Array]' ) {
+
+    for ( var i = 0; i < data.length; i+= 1 ) {
+
+      item = data[i];
+      condition = data[i].id;
+      delete item.id;
+      delete item.version;
+
+      datas.update( item, condition, query, function ( err ) {
+        // insert時のエラー処理
+        if (err) {
+          console.log(err);
+          res.json({ result : 'fail', err : err });
+        }
+        else {
+          len += 1;
+          if ( len === data.length ) {
+            res.json({'result' : 'success', 'number' : len });
+          }
+        }
+
+      });
+    }
+  } else {
+    res.status(500).send('argument is not Array.');
+  }
+
+});
+
+
 
 
 // app.post('/updateColumns', function ( req, res ) {

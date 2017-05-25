@@ -36,7 +36,8 @@
     "partners"      : "UPDATE partners SET ? WHERE ?",
     "licenses"      : "UPDATE licenses SET ? WHERE ?",
     "kids"          : "UPDATE kids SET ? WHERE ?",
-    "memos"         : "UPDATE memos SET ? WHERE ?"
+    "memos"         : "UPDATE memos SET ? WHERE ?",
+    "servers"       : "UPDATE servers SET ? WHERE id = ?;"
   },
 
   "insert" : {

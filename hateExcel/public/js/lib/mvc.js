@@ -211,7 +211,7 @@
   };
 
   Model.fn.freeCache = function () {
-    this['_cache'] = null;
+    this['_cache'] = [];
   };
 
 
@@ -420,7 +420,8 @@
     }, callback );
 
     if ( typeof callback === 'function' ) {
-      callback( this.fetch( this['_cache'][0]['kid']) );
+      // callback( this.fetch( this['_cache'][0]['kid']) );
+      callback( this.fetch() ) ;
     }
 
   };
@@ -438,6 +439,14 @@
       this.add(data);
     }
 
+  };
+
+  Model.fn.remove = function ( id ) {
+    this['_cache'].some( function (v,i) {
+      if ( v.id === id ) {
+        this['_cache'].splice(i,1);
+      }
+    },this);
   };
 
 

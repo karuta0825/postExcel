@@ -16,7 +16,7 @@
   , _onClickSave
   , _onClickDel
   , _drawTable
-  , _redrawTable
+  , redrawTable
   , _makeRow
   , _validate
   // public method
@@ -55,23 +55,27 @@
     // DOM要素生成
     var
       tr      = $('<tr>',     { 'data-id' : 'c' + idx })
-    , td_env  = $('<td>',     { class : 'env'} )
+    , td_ver  = $('<td>',     { class : 'version'} )
     , td_name = $('<td>',     { class : 'name' } )
     , td_ip   = $('<td>',     { class : 'ip' } )
     , td_del  = $('<td>',     { align : 'center', class : 'del' } )
     , input   = $('<input>',  { type  : 'text' } )
+    , select  = $('<select>')
+    , opt_es  = $('<option>', { value : 'ES', text : 'ES'} )
+    , opt_lm  = $('<option>', { value : 'LM', text : 'LM'} )
     , button  = $('<button>', { class : 'btn btn--del mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect'} )
     , icon    = $('<i>'     , { class : 'material-icons', text : 'delete_forever'})
     ;
 
     idx += 1;
+    select.append( opt_es ).append( opt_lm );
 
-    td_env.append(  $(input).clone(true) );
+    td_ver.append(select);
     td_name.append( $(input).clone(true) );
     td_ip.append(   $(input).clone(true) );
     td_del.append( button.append(icon) );
 
-    tr.append(td_env)
+    tr.append(td_ver)
       .append(td_name)
       .append(td_ip)
       .append(td_del)
@@ -100,7 +104,7 @@
 
   };
 
-  _redrawTable = function () {
+  redrawTable = function () {
 
     jqueryMap.$row.remove();
     // ボディのみ再描画
@@ -113,11 +117,15 @@
   _onClickSave = function () {
     // customer.model.servers.update();
     // updateが終了したときに、再描画が走るようにしないと
-    // _redrawTable();
+    // redrawTable();
+    console.log( cms.model.servers.getI() );
+    console.log( cms.model.servers.getU() );
+    console.log( cms.model.servers.getD() );
   };
 
   _onClickCancel = function () {
-    _redrawTable();
+    redrawTable();
+    cms.model.servers.reset();
   };
 
   _onClickAdd = function () {
@@ -131,9 +139,9 @@
   };
 
   _onClickDel = function () {
-    var id_del = $(this).parents('tr').find('.id').text().trim();
+    var id_del = $(this).parents('tr').data('id');
     $(this).parents('tr').remove();
-    // customer.model.servers.delStock( id_del );
+    cms.model.servers.remove(id_del);
   };
 
   _validate = function () {
@@ -189,6 +197,7 @@
   // to public
   cms.view.servers = {
     initModule : initModule,
+    redrawTable : redrawTable,
     tmp        : function () { return jqueryMap;}
   };
 

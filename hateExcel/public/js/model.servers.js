@@ -8,44 +8,78 @@
     _model = new Model({
       table : 'servers'
     })
-  , selectModel = new Model()
+  , updateModel = new Model()
   , insertModel = new Model()
+  , deleteModel = new Model()
   , initModule
   , change
+  , remove
+  , reset
   ;
+
+  updateModel.update = function () {
+    var params = {
+      data  : updateModel.getCache(),
+      query : 'servers'
+    };
+    customer.db.update('/m_update', params, function ( result ) {
+      var data = _model.fetch();
+      cms.view.servers.redrawTable( data );
+    });
+  };
 
   initModule = function () {
     _model.fetch();
   };
 
+  reset = function () {
+    updateModel.freeCache();
+    insertModel.freeCache();
+    deleteModel.freeCache();
+  };
+
+  remove = function ( id ) {
+
+    updateModel.remove( id );
+    insertModel.remove( id );
+
+    // クライアントで作成したデータの削除は含まない
+    if ( _.isNumber(id) ) {
+      deleteModel.add(id);
+    }
+
+  };
 
   change = function ( view_data ) {
 
-    var item = selectModel.find({ id : view_data.id});
+    // 新規データかどうか
+    if ( _.isNumber(view_data.id) ) {
 
-    if ( item.length !== 0 ) {
-      // item[view_data.key] = view_data.key;
-      for ( var i in view_data ) {
-        item[0][i] = view_data[i];
+      var item   = _.extend({}, _model.find({ id : view_data.id })[0] );
+      var update = updateModel.find({ id : view_data.id });
+
+      // 更新対象としてすでに登録されているかどうか
+      if ( update.length ) {
+        updateModel.push( view_data );
       }
+      else {
+        _.each( view_data, function ( val, key ) {
+          item[key] = val;
+        });
+        updateModel.add( item );
+      }
+
     }
     else {
-
-      // insert対象
-      if ( _model.find({id : view_data.id}).length === 0 ) {
-        // pushメソッドに既存確認をつける
-        insertModel.push(view_data);
-      }
-      // update対象
-      else {
-        selectModel.push(view_data);
-      }
+      insertModel.push( view_data );
     }
 
   };
 
   // 新規かどうか
+  // view_data[sid]があるかどうか？
   // 新規ならば
+  //   cidを付与
   //   insertModel.push();
   // 新規でないならば
   //   updateModel.push();
@@ -56,8 +90,13 @@
     initModule : initModule,
     getServers : $.proxy( _model.getCache, _model ),
     find       : $.proxy( _model.find, _model ),
-    tmp        : function () { return selectModel; },
-    change     : change
+    getU       : function () { return updateModel; },
+    getI       : function () { return insertModel; },
+    getD       : function () { return deleteModel; },
+    change     : change,
+    remove     : remove,
+    reset      : reset,
+    update     : updateModel.update
   };
 
 
