@@ -420,7 +420,6 @@
     }, callback );
 
     if ( typeof callback === 'function' ) {
-      // callback( this.fetch( this['_cache'][0]['kid']) );
       callback( this.fetch() ) ;
     }
 
@@ -449,6 +448,36 @@
     },this);
   };
 
+  Model.fn.initUpdate = function ( obj, callback ) {
+
+    var kid = obj.kid;
+    delete obj.kid;
+
+    customer.db.update('/update', {
+      data  : obj,
+      condition : { 'kid' : kid },
+      table : this['config']['table']
+    }, callback );
+
+  };
+
+// モデルとコレクションをわけるのだ
+// 今までModelに書いてきたメソッドのほとんどは、コレクションが持つ機能である
+
+  exports.Collection = function () {
+
+  };
+
+  // 履歴管理クラス
+  // exports.History = function ( config ) {
+  //   this['config'] = config;
+  // };
+
+  // History.fn = History.prototype;
+
+  // History.fn.makeDate = function () {};
+
+  // History.fn.update = function () {};
 
 
 

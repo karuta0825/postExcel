@@ -37,7 +37,8 @@
     fetch     : function( kid, callback ) { _model.fetch( kid, callback ) },
     getCache  : function() { return _model.getCache()[0] },
     update    : $.proxy( _model.update, _model),
-    check     : $.proxy( _model._checkWhatsUpdated, _model )
+    check     : $.proxy( _model._checkWhatsUpdated, _model ),
+    register  : $.proxy( _model.initUpdate, _model )
   };
 
 
