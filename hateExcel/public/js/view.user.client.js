@@ -155,8 +155,12 @@
   };
 
   refresh = function () {
-    var kid = cms.model.clients.getCache()[0].kid;
-    cms.model.clients.fetch( kid , redrawTable );
+
+    if ( cms.model.clients.getCache().length > 0 ) {
+      var kid = cms.model.clients.getCache()[0].kid;
+      cms.model.clients.fetch( kid , redrawTable );
+    }
+
   };
 
   initModule = function () {

@@ -168,8 +168,12 @@
   };
 
   refresh = function () {
-    var kid = cms.model.userNetwork.getCache()[0].kid;
-    cms.model.userNetwork.fetch( kid, redrawTable );
+
+    if ( cms.model.userNetwork.getCache().length > 0 ) {
+      var kid = cms.model.userNetwork.getCache()[0].kid;
+      cms.model.userNetwork.fetch( kid, redrawTable );
+    }
+
   };
 
   initModule = function () {
