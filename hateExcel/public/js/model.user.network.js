@@ -93,7 +93,8 @@
     fetch        : $.proxy( _model.fetch, _model ),
     getCache     : $.proxy( _model.getCache, _model),
     makeUserList : makeUserList,
-    delete       : $.proxy( _model.delete, _model )
+    delete       : $.proxy( _model.delete, _model ),
+    find         : $.proxy( _model.find, _model )
   };
 
 }( jQuery, customer ));

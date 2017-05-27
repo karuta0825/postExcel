@@ -79,7 +79,8 @@
     getCache  : getCache,
     addClient : addClient,
     update    : $.proxy( _customerModel.update, _customerModel ),
-    checkCust : $.proxy( _customerModel._checkWhatsUpdated, _customerModel )
+    checkCust : $.proxy( _customerModel._checkWhatsUpdated, _customerModel ),
+    register  : $.proxy( _customerModel.initUpdate, _customerModel )
   };
 
 }( jQuery, customer ));

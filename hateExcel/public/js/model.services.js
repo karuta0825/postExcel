@@ -98,7 +98,8 @@
     fetchLicenses : fetchLicenses,
     getCache      : getCache,
     update        : $.proxy( _licenseModel.update, _licenseModel ),
-    check         : $.proxy( _licenseModel._checkWhatsUpdated, _licenseModel )
+    check         : $.proxy( _licenseModel._checkWhatsUpdated, _licenseModel ),
+    register      : $.proxy( _licenseModel.initUpdate, _licenseModel )
   };
 
 }( jQuery, customer ));

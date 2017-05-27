@@ -2,7 +2,7 @@
  * viewController
  * 新規ユーザー追加
  */
-( function ( $, cms_view ) {
+( function ( $, cms ) {
 
   var
   // member
@@ -24,7 +24,7 @@
   _onClickUpload = function () {
     console.log('upload');
     // upload処理
-    // _upload( uploadData );
+    _upload( uploadData );
   };
 
   _selectFile = function ( evt )  {
@@ -49,7 +49,7 @@
 
       // 該当の行のみ抽出
       list_oneline = _.select( list_oneline, function (val, key) {
-        if ( val !== '' ) {
+        if ( val !== '' && val.indexOf('#') !== 0 ) {
           return val;
         }
       });
@@ -62,7 +62,16 @@
         key = v.slice(0,delimiter_position);
         val = v.slice(delimiter_position+1);
 
-        map_result[key] = val;
+        var table = key.split('__')[0];
+        var field = key.split('__')[1];
+
+        if ( !map_result.hasOwnProperty(table) ){
+          map_result[table] = {};
+          map_result[table].kid = 'KID98370';
+        }
+
+        map_result[table][field] = val;
+
 
       });
 
@@ -89,25 +98,32 @@
 
   _upload = function ( upload_data ) {
 
-    // 何をアップロードするのか？
-    // いつものuploadは履歴テーブルをinsertするのであかん
-
     // 更新するKID情報をどこから取得するか？
+    // 選択させよう！
 
     // 基本情報
-    // customer.model.update( upload_data.base, false );
+    cms.model.userBaseInfo.register( upload_data.customers, function (o) {
+      console.log('customer');
+      console.log(o);
+    });
 
     // サービス
-    // customer.model.update( upload_data.service, false );
+    customer.model.services.register( upload_data.licenses, function (o) {
+      console.log('license');
+      console.log(o);
+    } );
 
     // クライアント
-    // customer.model.update( upload_data.client, false );
+    // customer.model.initUpdate( upload_data.client );
 
     // ネットワーク
-    // customer.model.update( upload_data.network, false );
+    // customer.model.initUpdate( upload_data.network );
 
     // パートナー
-    // customer.model.update( upload_data.partner, false );
+    cms.model.userPartner.register( uploadData.partners, function (o) {
+      console.log('partner');
+      console.log(o);
+    } );
 
   };
 
@@ -131,8 +147,8 @@
 
   };
 
-  cms_view.regUsrs = {
+  cms.view.regUsrs = {
     initModule : initModule
   };
 
-}( jQuery, customer.view ));
+}( jQuery, customer ));
