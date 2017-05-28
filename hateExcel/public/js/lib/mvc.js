@@ -183,8 +183,10 @@
 
     if ( typeof callback === 'function' ) {
       callback( this['_cache'] );
+      this['_filterList'] = this['_cache'];
     }
     else {
+      this['_filterList'] = this['_cache'];
       return  this['_cache'] ;
     }
 
