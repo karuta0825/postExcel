@@ -513,27 +513,56 @@ datas.makeMemo = function ( input_map, callback ) {
 
 };
 
-// ライセンス文字列からオブジェクトに変換
-datas.selectAll('services', function (o) {
-  var obj = {};
 
-  for ( var i = 0; i < o.length ; i += 1 ) {
-    obj[o[i].service_id] = 0;
-  }
+/**
+ * KIDから使用ライセンスを取得
+ * @param  {[type]}   kid
+ * @param  {Function} callback
+ * @return {Object}
+ */
+datas.getLicense = function ( kid, callback ) {
+  datas.select(
+    [kid],
+    'get_version_by_kid',
+    function ( result ) {
+      // ライセンス文字列からオブジェクトに変換
+      datas.select( result[0].version,'get_services_by_version', function ( services ) {
 
-  console.log(obj);
+        // サービス一覧オブジェクト生成
+        var obj = {};
+        for ( var i = 0; i < services.length ; i += 1 ) {
+          obj[ services[i].service_id ] = 0;
+        }
 
-  datas.select('KID02907', 'licenses_tmp',function (o) {
-    var str = o[0].services;
-    for ( var i = 0 ; i < str.length ; i+=2 ) {
-      var cd = str.substr(i,2);
-      obj[cd] = 1;
+        // 使用ライセンスのフラグ立て
+        datas.select(kid, 'licenses_tmp',function ( result ) {
+          var
+            str_licenses = result[0].services || ''
+          , list_licenses = []
+          ;
+
+          if ( str_licenses.indexOf(':') > 0 ) {
+             list_licenses = str_licenses.split(':');
+          }
+
+          for ( var i = 0 ; i < list_licenses.length ; i+=1 ) {
+            obj[list_licenses[i]] = 1;
+          }
+
+          obj.kid = result[0].kid;
+
+          if ( typeof callback === 'function' ){
+            callback([obj]);
+          }
+
+        });
+
+      });
     }
-    obj.kid = o[0].kid;
-    console.log(obj);
-  })
+  );
 
-});
+};
+
 
 
 ///////////////
@@ -553,3 +582,5 @@ datas.selectAll('services', function (o) {
 
 // makeNewClient({kid : 'KID77160'});
 
+// datas.getLicense('KID92468');
+// datas.getLicense('KID02907');

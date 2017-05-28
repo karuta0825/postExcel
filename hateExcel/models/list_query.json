@@ -26,7 +26,9 @@
     "get_new_fenics_ip"   : "select case SUBSTRING_INDEX(INET_NTOA(fenics_ip), '.', -1) when 254 then fenics_ip+3 else fenics_ip+1 end as next_ip from fenics order by fenics_ip desc limit 1;",
     "find_last_fenics_id" : "select fenics_id from fenics where kid = ? order by fenics_id desc limit 1;",
     "find_last_client_id" : "SELECT client_id FROM clients where kid = ? and is_admin = 0 order by client_id desc limit 1;",
-    "licenses_tmp"        : "select * from licenses_tmp where kid = ?;"
+    "licenses_tmp"        : "select * from licenses_tmp where kid = ?;",
+    "get_version_by_kid"  : "SELECT version FROM kids K left join environments E on K.environment_id = E.id where kid = ?",
+    "get_services_by_version" : "select * from services where version = ?;"
   },
 
   "update" : {

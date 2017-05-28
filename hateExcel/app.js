@@ -91,6 +91,13 @@ app.post('/select', function ( req, res ) {
 
   res.header("Content-Type", "application/json; charset=utf-8");
 
+  if ( table === 'licenses' ) {
+    datas.getLicense( condition, function ( result ) {
+      res.json( result );
+    })
+    return;
+  }
+
   if ( condition ) {
     datas.select( condition, table, function ( results ) {
       res.json( results );
