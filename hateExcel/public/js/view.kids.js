@@ -135,6 +135,7 @@
     jqueryMap.col['version'].addClass('is-hidden');
     jqueryMap.col['has_mobile'].addClass('is-hidden');
     jqueryMap.col['is_busiv'].addClass('is-hidden');
+    jqueryMap.col['is_registered'].addClass('is-hidden');
   }
 
   _onClickColumn = function () {
