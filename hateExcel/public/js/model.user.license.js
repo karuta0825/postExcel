@@ -10,6 +10,37 @@
   ;
 
 
+  _model.update = function ( view_data, callback ) {
+
+    var update_data = this._checkWhatsUpdated( view_data );
+
+    // updateする対象が存在する場合
+    if ( _.keys(update_data).length > 0 ) {
+
+      // データの更新
+      customer.db.update('/update', {
+        data      : view_data,
+        condition : {'kid' : this['_cache'][0]['kid']},
+        table     : this['config']['table']
+      });
+
+      // 履歴の更新
+      this._updateHistory( this._diffUpdated( update_data ) );
+
+      // 再描画
+      if ( typeof callback === 'function' ) {
+        callback( this.fetch( this['_cache'][0]['kid']) );
+      }
+
+      // 履歴テーブルの再描画
+      customer.model.userHistory.fetch( this['_cache'][0]['kid'],
+        customer.view.userHistory.drawTable
+      );
+
+    }
+
+  };
+
   /**
    * [_diffUpdated description]
    * @override
