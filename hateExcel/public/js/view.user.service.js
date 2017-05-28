@@ -126,7 +126,7 @@
 
     var
       result = {}
-    , obj = licenseView.get('table').find('tbody').find('tr')
+    , obj = licenseView.get('select-table').find('tbody').find('tr')
     ;
 
     _.each( obj, function ( val, key ) {
@@ -156,7 +156,7 @@
 
   save = function () {
 
-    customer.model.services.update( getViewInfo(), setViewInfo );
+    customer.model.userLicense.update( getViewInfo(), setViewInfo );
 
     cancel();
 
@@ -186,7 +186,7 @@
    */
   setViewInfo = function ( data ) {
 
-    var 
+    var
       clone = _.extend( {}, data[0] )
     , version = cms.model.userBaseInfo.getCache().version
     ;

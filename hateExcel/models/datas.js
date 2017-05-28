@@ -535,7 +535,7 @@ datas.getLicense = function ( kid, callback ) {
         }
 
         // 使用ライセンスのフラグ立て
-        datas.select(kid, 'licenses_tmp',function ( result ) {
+        datas.select(kid, 'licenses',function ( result ) {
           var
             str_licenses = result[0].services || ''
           , list_licenses = []
@@ -563,7 +563,9 @@ datas.getLicense = function ( kid, callback ) {
 
 };
 
-
+datas.updateLicense = function ( data, kid, callback ) {
+  data
+};
 
 ///////////////
 // unit test //

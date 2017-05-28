@@ -10,6 +10,7 @@ var index = require('./routes/index');
 var http = require('http');
 var path = require('path');
 var datas = require('./models/datas');
+var _ = require('./public/js/lib/underscore');
 
 var app = express();
 
@@ -275,6 +276,25 @@ app.post('/update', function ( req, res ) {
   if ( table === 'memos' ) {
     data['update_on'] = new Date();
     data['update_user_id'] = req.session.uid;
+  }
+
+  if ( table === 'licenses' ) {
+    var ary = [];
+    _.each( data, function ( v, k ) {
+      if ( v === '1' ) {
+        ary.push(k);
+      }
+    });
+    console.log( ary );
+    var license = { services: ary.join(':')};
+    datas.update( license, condition, table, function ( err ) {
+      if  ( err ) {
+        res.json({ err : err })
+        return;
+      }
+      res.json({ result : 'ok'});
+    });
+    return;
   }
 
   datas.update( data, condition, table, function ( err ) {

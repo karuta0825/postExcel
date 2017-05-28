@@ -51,7 +51,8 @@
   cms.model.userLicense = {
     fetch    : $.proxy( _model.fetch, _model ),
     find     : $.proxy( _model.find, _model ),
-    getCache : $.proxy( _model.getCache, _model )
+    getCache : $.proxy( _model.getCache, _model ),
+    update   : $.proxy( _model.update, _model )
   };
 
-}( jQuery, customer )) 
+}( jQuery, customer ))
