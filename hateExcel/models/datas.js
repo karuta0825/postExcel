@@ -543,7 +543,12 @@ datas.getLicense = function ( kid, callback ) {
 
           if ( str_licenses.indexOf(':') > 0 ) {
              list_licenses = str_licenses.split(':');
+          } else {
+            if ( str_licenses ) {
+              list_licenses = [ str_licenses ];
+            }
           }
+
 
           for ( var i = 0 ; i < list_licenses.length ; i+=1 ) {
             obj[list_licenses[i]] = 1;

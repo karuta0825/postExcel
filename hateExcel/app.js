@@ -285,8 +285,13 @@ app.post('/update', function ( req, res ) {
         ary.push(k);
       }
     });
-    console.log( ary );
-    var license = { services: ary.join(':')};
+    var license;
+    if ( ary.length > 1 ) {
+      license = { services: ary.join(':')};
+    } else {
+      license = { services : ary[0] };
+    }
+    console.log( license );
     datas.update( license, condition, table, function ( err ) {
       if  ( err ) {
         res.json({ err : err })
