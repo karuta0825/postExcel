@@ -12,7 +12,16 @@
 <%     if ( typeof item[keys[i]] === 'number') { %>
          <td class='<%- keys[i] %>'> <%- item[keys[i]] %> </td>
 <%     } else { %>
+<!-- ビジVユーザーのとき不要な値は表示しない -->
+  <%     if ( item['is_busiv'] === 1 &&
+              keys[i] === 'fenics_key'  ||
+              keys[i] === 'db_password' ||
+              keys[i] === 'userkey'
+            ) { %>
+         <td class='mdl-data-table__cell--non-numeric <%- keys[i] %>'></td>
+  <%     } else { %>
          <td class='mdl-data-table__cell--non-numeric <%- keys[i] %>'> <%- item[keys[i]]  %>   </td>
+  <%     } %>
 <%     } %>
 <%   } %>
   </tr>

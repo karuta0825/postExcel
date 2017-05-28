@@ -470,13 +470,18 @@ datas.makeUser = function ( input_map, callback ) {
         findNewFenicsKey(null, callback);
       }
   ], function(err, results) {
+
       if ( input_map.system_type === 'cloud' ) {
-        set['userkey']        = results[1];
-        set['db_password']    = results[2];
-        set['fenics_key']     = results[3];
+        set['is_busiv'] = 0;
+      }
+      else {
+        set['is_busiv'] = 1;
       }
 
       set['kid']            = results[0];
+      set['userkey']        = results[1];
+      set['db_password']    = results[2];
+      set['fenics_key']     = results[3];
       set['server']         = input_map['server'];
       set['environment_id'] = input_map['environment_id'];
       set['create_user_id'] = input_map['create_user_id'];
@@ -507,6 +512,29 @@ datas.makeMemo = function ( input_map, callback ) {
   });
 
 };
+
+// ライセンス文字列からオブジェクトに変換
+datas.selectAll('services', function (o) {
+  var obj = {};
+
+  for ( var i = 0; i < o.length ; i += 1 ) {
+    obj[o[i].service_id] = 0;
+  }
+
+  console.log(obj);
+
+  datas.select('KID02907', 'licenses_tmp',function (o) {
+    var str = o[0].services;
+    for ( var i = 0 ; i < str.length ; i+=2 ) {
+      var cd = str.substr(i,2);
+      obj[cd] = 1;
+    }
+    obj.kid = o[0].kid;
+    console.log(obj);
+  })
+
+});
+
 
 ///////////////
 // unit test //

@@ -43,6 +43,7 @@
   , _decreasePC
   , _increasePC
   , _selectNetwork
+  , _hiddenItem
   , getViewInfo
   , makeUserInfo
   , reset
@@ -59,6 +60,14 @@
     else {
       baseView.get(view_property).find('.item-value').removeClass('is-edit');
       baseView.get(view_property).find('.item-value').prop('disabled', true);
+    }
+  };
+
+  _hiddenItem = function ( is_busiv ) {
+    if ( is_busiv === 1 ) {
+      baseView.get('userkey').addClass('is-hidden');
+      baseView.get('server').addClass('is-hidden');
+      baseView.get('db_pass').addClass('is-hidden');
     }
   };
 
@@ -326,6 +335,8 @@
     makeSystemInfo( data );
     makeBaseInfo( data );
 
+    _hiddenItem( data.is_busiv );
+
   };
 
   /**
@@ -369,6 +380,10 @@
   // ボタンの位置をもとに戻す
   clear = function () {
     _cancel();
+    baseView.get('userkey').removeClass('is-hidden');
+    baseView.get('server').removeClass('is-hidden');
+    baseView.get('db_pass').removeClass('is-hidden');
+
   };
 
   refresh = function () {
