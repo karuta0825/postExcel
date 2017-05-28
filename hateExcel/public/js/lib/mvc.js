@@ -210,6 +210,10 @@
 
   };
 
+  Model.fn.getFiltered = function () {
+    return this['_filterList'];
+  };
+
   Model.fn.freeCache = function () {
     this['_cache'] = [];
   };
@@ -231,6 +235,7 @@
     }
 
     if ( typeof callback === 'function' ) {
+      this['_filterList'] = result;
       callback( result );
     }
     else {

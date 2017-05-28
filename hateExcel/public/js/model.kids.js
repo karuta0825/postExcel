@@ -44,7 +44,7 @@
    */
   sortByCol = function ( col, callbackFromView ) {
 
-    _model.getCache().sort( function ( item1, item2 ) {
+    _model.getFiltered().sort( function ( item1, item2 ) {
       item1 = _.isString( item1[col] ) && item1[col].toString().toLowerCase() || item1[col];
       item2 = _.isString( item2[col] ) && item2[col].toString().toLowerCase() || item2[col];
       if ( item1 < item2 ) {
@@ -60,7 +60,7 @@
 
     // モデルの変化時にviewを更新する処理
     if( callbackFromView ) {
-      callbackFromView( col, _model.getCache() );
+      callbackFromView( col, _model.getFiltered() );
     }
 
   };
