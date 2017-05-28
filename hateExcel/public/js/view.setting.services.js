@@ -138,7 +138,7 @@
 
     _setJqueryMap();
 
-    _drawTable( customer.model.services.fetchServices() );
+    _drawTable( customer.model.services.getCache() );
 
     jqueryMap.add.on(    'click', _onClickAdd    );
     jqueryMap.save.on(   'click', _onClickSave   );

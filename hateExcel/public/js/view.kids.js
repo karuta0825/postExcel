@@ -159,7 +159,7 @@
     );
 
     // サービステーブル描画
-    customer.model.services.fetchLicenses( kid,
+    customer.model.userLicense.fetch( kid,
       customer.view.userService.setViewInfo
     );
 

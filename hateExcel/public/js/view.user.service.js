@@ -12,7 +12,11 @@
         'cancel' : '.btn--cancel',
         'save'   : '.btn--save',
       },
-      'table' : '.service-table',
+      'table' : {
+        'es' : '.es-service-table',
+        'lm' : '.lm-service-table'
+      },
+      'select_table' : '',
       'th_checkbox' : 'th .mdl-checkbox',
       'td_checkbox' : 'td .mdl-checkbox',
       'checkbox' : '.mdl-checkbox'
@@ -21,6 +25,7 @@
   , _unchecked
   , _selected
   , _unselected
+  , _selectVersion
   , setViewInfo
   , setChecked
   , makeServiceTable
@@ -29,6 +34,7 @@
   , save
   , edit
   , clear
+  , reset
   , initModule
   ;
 
@@ -62,26 +68,46 @@
 
   _setChecked = function ( data ) {
 
+    var data = _.extend( {}, data[0]);
+
+    delete data.kid;
+
     _.each( data, function ( val, key ) {
 
       if ( val === 1 ) {
-        _checked( licenseView.get('table').find('.' + key) );
+        _checked( licenseView.get('select-table').find('.' + key) );
       }
       else {
-        _unchecked( licenseView.get('table').find('.' + key) );
+        _unchecked( licenseView.get('select-table').find('.' + key) );
       }
 
     });
 
   };
 
-  makeServiceTable = function ( data ) {
+  _selectVersion = function ( version ) {
+    if ( version === 'LM') {
+      licenseView.get('table__es').addClass('is-hidden');
+    }
+    else {
+      licenseView.get('table__lm').addClass('is-hidden');
+    }
+  };
 
-    var
-      data     = { list : data }
-    , tmpl     = customer.db.getHtml('template/user.service.html')
-    , complied = _.template( tmpl )
-    ;
+  makeServiceTable = function ( data, version ) {
+
+    var data, tmpl, complied;
+
+    data     = { list : data };
+
+    if ( version === 'lm' ) {
+      tmpl   = customer.db.getHtml('template/user.service.lm.html');
+    }
+    else {
+      tmpl   = customer.db.getHtml('template/user.service.es.html');
+    }
+
+    complied = _.template( tmpl );
 
     $('#usr-service-panel').append( complied(data) );
 
@@ -90,6 +116,7 @@
     );
 
   };
+
 
   /**
    * 画面からチェックの付いたサービスを取得
@@ -123,7 +150,7 @@
     clear();
 
     // 登録ライセンスのみ表示
-    setViewInfo( customer.model.services.getCache('licenses') );
+    setViewInfo( customer.model.userLicense.getCache() );
 
   };
 
@@ -138,10 +165,11 @@
   edit = function () {
 
     // モデルから現在サービスにチェックをつける
-    _setChecked( customer.model.services.getCache('licenses') );
+    _setChecked( customer.model.userLicense.getCache() );
 
     // チェックボックス表示
-    licenseView.get('table').find('tr').removeClass('is-hidden');
+    licenseView.get('table__lm').find('tr').removeClass('is-hidden');
+    licenseView.get('table__es').find('tr').removeClass('is-hidden');
     licenseView.get('checkbox').removeClass('is-hidden');
 
     // ボタン制御
@@ -151,15 +179,35 @@
 
   };
 
+  /**
+   * [setViewInfo description]
+   * @param {[type]} data
+   * TODO: 引数をObjectにする　CollectionとModelを切り分けるとできる
+   */
   setViewInfo = function ( data ) {
 
-    var clone = _.extend( {}, data );
+    var 
+      clone = _.extend( {}, data[0] )
+    , version = cms.model.userBaseInfo.getCache().version
+    ;
+
+    if ( version === 'LM' ) {
+      licenseView.updateElement({ 'select-table' : licenseView.get('table__lm')} );
+    }
+    else {
+      licenseView.updateElement({ 'select-table' : licenseView.get('table__es')} );
+    }
+
     delete clone.kid;
 
+    // 表示テーブルの選択
+    _selectVersion( version );
+
+    // 利用サービスのみ表示
     _.each( clone, function ( val, key ) {
 
       if ( val === 0 ) {
-        _unselected( licenseView.get('table').find('.' + key) );
+        _unselected( licenseView.get('select-table').find('.' + key) );
       }
 
     });
@@ -168,12 +216,16 @@
 
   clear = function () {
 
-    var data = customer.model.services.getCache('licenses');
+    var data = customer.model.userLicense.getCache();
 
-    _.each( data, function ( val, key ) {
+    // LMES両方テーブル表示
+    licenseView.get('table__es').removeClass('is-hidden');
+    licenseView.get('table__lm').removeClass('is-hidden');
+
+    _.each( data[0], function ( val, key ) {
       // 再表示
-      _selected( licenseView.get('table').find('.' + key));
-      _unchecked( licenseView.get('table').find('.' + key));
+      _selected( licenseView.get('select-table').find('.' + key));
+      _unchecked( licenseView.get('select-table').find('.' + key));
     });
 
     // チェックボックスの非表示
@@ -188,8 +240,9 @@
 
   initModule = function () {
 
-    // makeServiceTable( customer.model.services.getCache('services') );
-    customer.model.services.getCache('services', makeServiceTable );
+    // テーブル生成
+    makeServiceTable( cms.model.services.find({ 'version' : 'LM' }), 'lm' );
+    makeServiceTable( cms.model.services.find({ 'version' : 'ES' }), 'es' );
 
     licenseView = new Controller('#usr-service-panel');
     licenseView.initElement( elements );
