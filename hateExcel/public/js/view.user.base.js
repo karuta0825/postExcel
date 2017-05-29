@@ -63,8 +63,8 @@
     }
   };
 
-  _hiddenItem = function ( is_busiv ) {
-    if ( is_busiv === 1 ) {
+  _hiddenItem = function ( is_onpre ) {
+    if ( is_onpre === 'onpre' ) {
       baseView.get('userkey').addClass('is-hidden');
       baseView.get('server').addClass('is-hidden');
       baseView.get('db_pass').addClass('is-hidden');
@@ -335,7 +335,7 @@
     makeSystemInfo( data );
     makeBaseInfo( data );
 
-    _hiddenItem( data.is_busiv );
+    _hiddenItem( data.system_type );
 
   };
 
