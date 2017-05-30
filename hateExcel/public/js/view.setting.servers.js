@@ -56,6 +56,7 @@
     var
       tr      = $('<tr>',     { 'data-id' : 'c' + idx })
     , td_ver  = $('<td>',     { class : 'version'} )
+    , td_type = $('<td>',     { class : 'type'} )
     , td_name = $('<td>',     { class : 'name' } )
     , td_ip   = $('<td>',     { class : 'ip' } )
     , td_del  = $('<td>',     { align : 'center', class : 'del' } )
@@ -67,6 +68,7 @@
     , icon    = $('<i>'     , { class : 'material-icons', text : 'delete_forever'})
     ;
 
+    // cidの管理もモデルにやってほしいものだ
     idx += 1;
     select.append( opt_es ).append( opt_lm );
 

@@ -5,6 +5,7 @@
   <thead>
     <tr>
       <th class='env mdl-data-table__cell--non-numeric'>バージョン</th>
+      <th class='env mdl-data-table__cell--non-numeric'>サーバタイプ</th>
       <th class='name mdl-data-table__cell--non-numeric'>サーバ名</th>
       <th class='ip mdl-data-table__cell--non-numeric'>IPアドレス</th>
       <th class='del-flg'>削除</th>
@@ -31,6 +32,25 @@
             selected
           <% } %>
           >LM</option>
+        </select>
+      </td>
+      <td class='type'>
+        <select>
+          <option
+          <% if ( item.type === 'AP' ) { %>
+            selected
+          <% } %>
+          >AP</option>
+          <option
+          <% if ( item.type === 'DB' ) { %>
+            selected
+          <% } %>
+          >DB</option>
+          <option
+          <% if ( item.type === 'WEB' ) { %>
+            selected
+          <% } %>
+          >WEB</option>
         </select>
       </td>
       <td class='name'> <input type='text' value=<%- item.name        %> > </td>

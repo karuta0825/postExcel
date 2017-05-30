@@ -10,7 +10,7 @@
     "services"            : "SELECT * FROM services;",
     "licenses"            : "SELECT * FROM licenses WHERE kid = ?;" ,
     "base_info"           : "SELECT * FROM CUSTOMERS WHERE kid = ?;",
-    "usrHistorys"         : "SELECT H.type, H.content_name, H.item_name, H.before, H.after, DATE_FORMAT( create_on, '%Y-%m-%d %H:%i:%s') as create_on, L.name as creater FROM HISTORYS H LEFT JOIN login_users L ON H.create_user_id = L.id WHERE kid = ? order by create_on desc;",
+    "usrHistorys"         : "SELECT type, content_name, item_name, `before`, `after`, CASE WHEN type = '更新' THEN CASE WHEN `before` = '' or `before` is null THEN CONCAT(`after`, 'に設定されました') ELSE CONCAT(`before`, 'から', `after`, 'に更新されました') END WHEN type = '削除' THEN CONCAT(`item_name`, 'が削除されました') WHEN type = '追加' then concat(item_name, 'が追加されました') ELSE NULL END AS msg, DATE_FORMAT(create_on, '%Y-%m-%d %H:%i:%s') AS create_on, L.name AS creater FROM HISTORYS H LEFT JOIN login_users L ON H.create_user_id = L.id WHERE kid = ? ORDER BY create_on DESC;",
     "historys"            : "SELECT H.id, H.kid, H.type, H.content_name, H.item_name, H.`before`, H.`after`, DATE_FORMAT( H.create_on, '%Y/%m/%d') as create_on, L.name FROM historys H left join login_users L on H.create_user_id = L.id order by id desc limit 10;",
     "moreHistorys"        : "SELECT H.id, H.kid, H.type, H.content_name, H.item_name, H.`before`, H.`after`, DATE_FORMAT( H.create_on, '%Y/%m/%d') as create_on, L.name FROM historys H left join login_users L on H.create_user_id = L.id where H.id < ? order by id desc limit 11;",
     "partners"            : "SELECT * FROM partners WHERE kid = ?;",

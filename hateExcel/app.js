@@ -278,6 +278,7 @@ app.post('/update', function ( req, res ) {
     data['update_user_id'] = req.session.uid;
   }
 
+  // ライセンス更新のとき分岐
   if ( table === 'licenses' ) {
     var ary = [];
     _.each( data, function ( v, k ) {
@@ -291,7 +292,7 @@ app.post('/update', function ( req, res ) {
     } else {
       license = { services : ary[0] };
     }
-    console.log( license );
+
     datas.update( license, condition, table, function ( err ) {
       if  ( err ) {
         res.json({ err : err })
@@ -302,6 +303,7 @@ app.post('/update', function ( req, res ) {
     return;
   }
 
+  // ライセンステーブル以外の更新処理
   datas.update( data, condition, table, function ( err ) {
     if  ( err ) {
       res.json({ err : err })
@@ -313,6 +315,13 @@ app.post('/update', function ( req, res ) {
 
 });
 
+
+/**
+ * マスタデータの更新
+ * @param  {[type]} req
+ * @param  {[type]} res ) {  var    data
+ * @return {[type]}
+ */
 app.post('/m_update', function ( req, res ) {
 
   var
@@ -355,6 +364,34 @@ app.post('/m_update', function ( req, res ) {
 
 });
 
+
+app.post('/m_server_add', function (req, res) {
+
+  var
+    data = req.body.data
+  , table = req.body.table
+  ;
+
+  // dataがArrayであることが前提だね
+  if ( Object.prototype.toString.call( data ) === '[object Array]' ) {
+    for ( var i = 0; i < data.length; i+= 1 ) {
+
+      // data[i].environment_id = ?して追加させる。
+
+      datas.insert( data[i], table, function ( err ) {
+        // insert時のエラー処理
+        if (err) {
+          console.log(err);
+          res.status( 500 ).send( err.message );
+          return;
+        }
+
+      });
+    }
+  }
+  res.status(200).send('ok');
+
+});
 
 
 

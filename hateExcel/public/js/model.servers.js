@@ -15,6 +15,7 @@
   , change
   , remove
   , reset
+  , save
   ;
 
   updateModel.update = function () {
@@ -25,6 +26,31 @@
     customer.db.update('/m_update', params, function ( result ) {
       var data = _model.fetch();
       cms.view.servers.redrawTable( data );
+    });
+  };
+
+  insertModel.insert = function () {
+
+    var params = {
+      data  : insertModel.getCache(),
+      query : 'servers'
+    };
+
+    cms.db.insert('/m_server_add', params, function ( result ) {
+      console.log(result);
+    });
+
+  };
+
+  deleteModel.delete = function () {
+
+    var params = {
+      data  : deleteModel.getCache(),
+      query : 'servers'
+    };
+
+    cms.db.delete('/delete', params, function ( result ) {
+      console.log(result);
     });
   };
 
@@ -73,6 +99,16 @@
     else {
       insertModel.push( view_data );
     }
+
+  };
+
+  save = function () {
+
+    // model.insert();
+    // model.update();
+    // model.delete();
+    // これらすべて終了後に再取得する
+    // この順序処理が大変
 
   };
 
