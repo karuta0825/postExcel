@@ -739,11 +739,16 @@
 .user-list .btn-minus-account {
 }
 
-.user-list .btn-plus-account {
-  margin-left: 5px;
-  margin-right :2px;
-  background: #ff4081;
-  color: white;
+.user-list .btn-plus-account,
+.user-list .btn-plus-pc {
+  margin-left: 8px;
+  /*margin-right :2px;*/
+  /*background: #ff4081;*/
+  /*color: white;*/
+}
+
+.item-action .btn {
+  min-width: 20px;
 }
 
 /* -------------------
