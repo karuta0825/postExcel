@@ -30,7 +30,9 @@
   , _openDialog
   , _closeDialog
   , _execDowload
-  , _downloadFile
+  , _downloadOpenNotice
+  , _downloadBat
+  , _downloadSpla
   , clear
   , drawTable
   , redrawTable
@@ -54,7 +56,7 @@
     // ダウンロード
     _.each( clientView.get('checkbox'), function ( val, key ) {
       if( $(val).hasClass('is-checked') ) {
-        $(val).find('a').trigger('click');
+        $(val).find('a').click();
       }
     });
 
@@ -66,7 +68,7 @@
   };
 
 
-  _downloadFile = function ( content, file_type ) {
+  _downloadOpenNotice = function () {
 
     // filenameを決める
     // @example yyyy-mm-dd_KIDXXXXX_content.file_type
@@ -84,6 +86,14 @@
 
   };
 
+  _downloadBat = function () {
+
+  };
+
+  _downloadSpla = function () {
+
+  };
+
   _getSelectItem = function () {
 
     var ids = _.map( $('.is-selected', clientView.top ), function (val,key){
@@ -92,7 +102,7 @@
 
     if ( ids.length === 0 ) {
       alert('選択されていません');
-      return;
+      return [];
     }
 
     return ids;
@@ -196,7 +206,7 @@
     drawTable  : drawTable,
     redrawTable : redrawTable,
     clear : clear,
-    get : function() { return clientView; }
+    get : _getSelectItem
   };
 
 }( jQuery, customer ));
