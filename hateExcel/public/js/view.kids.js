@@ -210,7 +210,7 @@
     // 対象を取得
     var ids = _getSelectItem();
 
-    var filename = 'a';
+    var filename = new moment().format('YYYYMMDD') + '_KID_List.csv';
     var header = 'id,';
     var data = customer.model.kids.find( ids );
     header += _.values( customer.model.kids.getHeader() ).join(',');

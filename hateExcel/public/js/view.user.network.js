@@ -29,6 +29,7 @@
   , _downloadFile
   , _getSelectItem
   , _deleteFenicsAccounts
+  , selectNetwork
   , clear
   , refresh
   , drawTable
@@ -64,7 +65,7 @@
     var
       csv_header   = '"※update_flag[A:Add,M:modify,D:Delete] ",※Prefix,※user_label,init_password,id_group,access_control_group,start_date[ex.20091201],end_date[ex.20091231],comment1,comment2,comment3,"regist_terminal_flag[1:Pre-Reg,2:Auto-Reg,3:Approval]",card_line_no01[ex.09012345678],card_line_no02[ex.09012345678],card_line_no03[ex.09012345678],card_line_no04[ex.09012345678],card_line_no05[ex.09012345678],card_line_no06[ex.09012345678],card_line_no07[ex.09012345678],card_line_no08[ex.09012345678],card_line_no09[ex.09012345678],card_line_no10[ex.09012345678]'
     , kid          =  cms.model.userBaseInfo.getCache().kid
-    , file_name    = new moment().format('YYYYMMDD') + '_' + kid + '_fenicsAccount'
+    , file_name    = new moment().format('YYYYMMDD') + '_' + kid + '_fenicsAccount.csv'
     , list_checked = _getSelectItem()
     , downloadMap
     , blob
@@ -82,7 +83,7 @@
     blob = util.convertMap2Blob( downloadMap, csv_header );
 
     // ダウンロード
-    util.downloadCsvFile( this, blob, file_name );
+    util.downloadFile( this, blob, file_name );
 
   };
 
@@ -139,6 +140,12 @@
 
   };
 
+  /**
+   * ビジVユーザーかどうかで表示内容を分岐する
+   */
+  selectNetwork = function () {
+
+  };
 
   redrawTable = function ( data ) {
 

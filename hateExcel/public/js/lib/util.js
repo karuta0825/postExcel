@@ -73,12 +73,27 @@
       })
     ;
 
-    output.unshift( str_header + '\r\n');
+    // CSVのとき
+    if ( str_header ) {
+      output.unshift( str_header + '\r\n');
+    }
+
     output.unshift( bom );
 
     return new Blob( output, { 'type' : 'text/plain' } );
 
   };
+
+  util.makeMapList2Txt = function ( mapList ) {
+
+    var output = _.map( mapList, function ( v, k ) {
+      return k + '' + v + '\r\n';
+    });
+
+    return new Blob( outpu, {'type' : 'text/plain'} );
+
+  };
+
 
   /**
    * TODO: CSV,json,txtなど一元管理する
@@ -86,19 +101,9 @@
    * @param  {Blob}   Blob
    * @param  {String} filename
    */
-  var _downloadCsvFile = function ( element, Blob, filename ) {
-    $(element).attr('download', filename + '.csv');
+  var _downloadFile = function ( element, Blob, filename ) {
+    $(element).attr('download', filename );
     $(element).attr('href', window.URL.createObjectURL(Blob) );
-  };
-
-  // 日付関連
-  // formatをこちらから指定できる
-  var dateFormat = function () {
-
-  };
-
-  var getToday = function () {
-    var d = new Date();
   };
 
 
@@ -180,7 +185,7 @@
   util.makeSelect       = _makeSelect;
   // util.makeSelectBox = makeSelectBox;
   util.convertMap2Blob  = _makeBlobFromMapList;
-  util.downloadCsvFile     = _downloadCsvFile;
+  util.downloadFile     = _downloadFile;
 
 
   // 公開

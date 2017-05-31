@@ -74,11 +74,15 @@
 
   };
 
+  /**
+   * [makeOrgFileMap description]
+   * TODO:どうやってDBの値を取得するか？
+   */
   makeOrgFileMap = function () {
     return {
-      'db_server'   : '',
-      'userkey'     : _model.getCache().userkey,
-      'db_password' : _model.getCache().db_password
+      'db_server='   : '',
+      'userkey='     : _model.getCache().userkey,
+      'db_password=' : _model.getCache().db_password
     };
   };
 
@@ -90,7 +94,8 @@
     makeOrgFileMap : makeOrgFileMap,
     update         : $.proxy( _customerModel.update, _customerModel ),
     checkCust      : $.proxy( _customerModel._checkWhatsUpdated, _customerModel ),
-    register       : $.proxy( _customerModel.initUpdate, _customerModel )
+    register       : $.proxy( _customerModel.initUpdate, _customerModel ),
+    makeOrgFileMap : makeOrgFileMap
   };
 
 }( jQuery, customer ));
