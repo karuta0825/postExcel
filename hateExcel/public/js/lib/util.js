@@ -86,7 +86,7 @@
    * @param  {Blob}   Blob
    * @param  {String} filename
    */
-  var _downloadFile = function ( element, Blob, filename ) {
+  var _downloadCsvFile = function ( element, Blob, filename ) {
     $(element).attr('download', filename + '.csv');
     $(element).attr('href', window.URL.createObjectURL(Blob) );
   };
@@ -180,7 +180,7 @@
   util.makeSelect       = _makeSelect;
   // util.makeSelectBox = makeSelectBox;
   util.convertMap2Blob  = _makeBlobFromMapList;
-  util.downloadFile     = _downloadFile;
+  util.downloadFile     = _downloadCsvFile;
 
 
   // 公開
