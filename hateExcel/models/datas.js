@@ -377,7 +377,9 @@ var makeFenicsAccount = function ( input_map, callback ) {
     fenics_account['password']   = results[0];
     fenics_account['fenics_ip']  = results[1];
     fenics_account['fenics_key'] = input_map.fenics_key;
+    fenics_account['start_on']   = new Date();
     fenics_account['create_on']  = new Date();
+
     // check
     // console.log( fenics_account );
 
