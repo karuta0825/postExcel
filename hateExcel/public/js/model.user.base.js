@@ -23,6 +23,7 @@
   , fetch
   , getCache
   , addClient
+  , makeOrgFileMap
   ;
 
   fetch = function ( kid, callback  ) {
@@ -73,14 +74,23 @@
 
   };
 
+  makeOrgFileMap = function () {
+    return {
+      'db_server'   : '',
+      'userkey'     : _model.getCache().userkey,
+      'db_password' : _model.getCache().db_password
+    };
+  };
+
   // To pubic
   cms.model.userBaseInfo = {
-    fetch     : fetch,
-    getCache  : getCache,
-    addClient : addClient,
-    update    : $.proxy( _customerModel.update, _customerModel ),
-    checkCust : $.proxy( _customerModel._checkWhatsUpdated, _customerModel ),
-    register  : $.proxy( _customerModel.initUpdate, _customerModel )
+    fetch          : fetch,
+    getCache       : getCache,
+    addClient      : addClient,
+    makeOrgFileMap : makeOrgFileMap,
+    update         : $.proxy( _customerModel.update, _customerModel ),
+    checkCust      : $.proxy( _customerModel._checkWhatsUpdated, _customerModel ),
+    register       : $.proxy( _customerModel.initUpdate, _customerModel )
   };
 
 }( jQuery, customer ));
