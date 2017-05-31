@@ -19,11 +19,12 @@
     cms.db.insert('/makeMemo', {
       'data'     : data,
     }, callback );
+
   };
 
   update = function ( data ) {
 
-    var clone = _.extend( {}, data );
+    var clone = _.clone( data );
 
     delete clone.id;
     delete clone.kid;
