@@ -48,7 +48,7 @@
     // ダウンロード
     _.each( networkView.get('checkbox'), function ( val, key ) {
       if( $(val).hasClass('is-checked') ) {
-        $(val).find('a').trigger('click');
+        $(val).find('a')[0].click();
       }
     });
 
@@ -56,24 +56,33 @@
     clear();
 
     // // 閉じる
-    // networkView.get('dialog_download').get(0).close();
+    networkView.get('dialog__download').get(0).close();
   };
 
-  _downloadFile = function ( content, file_type ) {
+  _downloadFile = function () {
+
+    var csv_header = '"※update_flag[A:Add,M:modify,D:Delete] ",※Prefix,※user_label,init_password,id_group,access_control_group,start_date[ex.20091201],end_date[ex.20091231],comment1,comment2,comment3,"regist_terminal_flag[1:Pre-Reg,2:Auto-Reg,3:Approval]",card_line_no01[ex.09012345678],card_line_no02[ex.09012345678],card_line_no03[ex.09012345678],card_line_no04[ex.09012345678],card_line_no05[ex.09012345678],card_line_no06[ex.09012345678],card_line_no07[ex.09012345678],card_line_no08[ex.09012345678],card_line_no09[ex.09012345678],card_line_no10[ex.09012345678]';
 
     // filenameを決める
     // @example yyyy-mm-dd_KIDXXXXX_content.file_type
 
     // チェックの付いたクライアントを取得
-
-    // 取得データからモデルにデータ検索
+    var list_checked = _getSelectItem();
 
     // 検索データがゼロのとき、処理終了
+    if ( list_checked.length < 1 ) {
+      alert('該当ユーザーにチェックをつけてください');
+      return;
+    }
+
+    // 取得データからモデルにデータ検索
+    var downloadMap = cms.model.userNetwork.makeList( list_checked );
 
     // データ作成
+    var blob = util.convertMap2Blob( downloadMap, csv_header );
 
     // ダウンロード
-    // util.downloadFile( this, Blob, filename );
+    util.downloadFile( this, blob, 'test' );
 
   };
 
@@ -195,7 +204,7 @@
       'click btn__close'        : _closeDialog,
       'click btn__exec'         : _execDowload,
       'click btn__delete'       : function () { networkView.get('dialog__delete').get(0).showModal(); },
-      'click download__fenics'  : $.proxy( function (e) { console.log(e); }, this),
+      'click download__fenics'  : _downloadFile
     });
 
   };
@@ -204,7 +213,8 @@
   // to public
   cms.view.userNetwork = {
     initModule : initModule,
-    redrawTable : redrawTable
+    redrawTable : redrawTable,
+    get : _getSelectItem
   };
 
 } ( jQuery, customer ));
