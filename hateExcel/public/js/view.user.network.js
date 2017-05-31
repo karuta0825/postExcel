@@ -76,7 +76,7 @@
     }
 
     // 取得データからモデルにデータ検索
-    downloadMap = cms.model.userNetwork.makeList( list_checked );
+    downloadMap = cms.model.userNetwork.makeAccountMapList( list_checked );
 
     // データ作成
     blob = util.convertMap2Blob( downloadMap, csv_header );

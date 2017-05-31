@@ -180,7 +180,7 @@
   util.makeSelect       = _makeSelect;
   // util.makeSelectBox = makeSelectBox;
   util.convertMap2Blob  = _makeBlobFromMapList;
-  util.downloadFile     = _downloadCsvFile;
+  util.downloadCsvFile     = _downloadCsvFile;
 
 
   // 公開
