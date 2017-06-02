@@ -31,7 +31,7 @@
         'user_label'           : val.fenics_id,
         'init_password'        : val.password,
         'id_group'             : 'お客様　システム１',
-        'access_control_group' : '',
+        'access_control_group' : 'お客様用　システム１',
         'start_date'           : val.start_on,
         'end_date'             : '',
         'comment1'             : user_name,
