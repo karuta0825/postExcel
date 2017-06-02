@@ -150,7 +150,11 @@
   redrawTable = function ( data ) {
 
     var
-      data     = { list : data, is_redraw : true }
+      data     = {
+        list      : data,
+        is_redraw : true,
+        clients   : cms.model.clients.find({ is_admin : 0 })
+      }
     , tmpl     = customer.db.getHtml('template/user.network.html')
     , complied = _.template( tmpl )
     ;
@@ -164,7 +168,11 @@
   drawTable = function ( data ) {
 
     var
-      data     = { list : data, is_redraw : false }
+      data     = {
+        list      : data,
+        is_redraw : false,
+        clients   : cms.model.clients.find({ is_admin : 0 })
+      }
     , tmpl     = customer.db.getHtml('template/user.network.html')
     , complied = _.template( tmpl )
     ;
