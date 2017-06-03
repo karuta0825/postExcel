@@ -8,11 +8,15 @@
     networkView
   , elements = {
       'btn' : {
+        'cancel'    : '.btn--cancel',
+        'delete'   : '.btn--del',
+        'save'     : '.btn--save',
+        'edit'     : '.btn--edit',
         'download' : '.btn--download',
         'close'    : '.btn--close',
         'exec'     : '.btn--exec',
-        'delete'   : '.btn--del'
       },
+      'select-clients' : '.select-clients',
       'checkbox' : '.mdl-checkbox',
       'download' : {
         'fenics'      : '.download--fenics',
@@ -28,13 +32,46 @@
   , _execDowload
   , _downloadFile
   , _getSelectItem
+  , _goEditMode
   , _deleteFenicsAccounts
+  , _save
   , selectNetwork
   , clear
   , refresh
   , drawTable
   , initModule
   ;
+
+  /**
+   * 編集モード
+   * TODO:セレクトボックス指定のためのPropertyを作る
+   */
+  _goEditMode = function () {
+    networkView.get('btn__edit').addClass('is-hidden');
+    networkView.get('btn__download').addClass('is-hidden');
+    networkView.get('btn__cancel').removeClass('is-hidden');
+    networkView.get('btn__delete').removeClass('is-hidden');
+    networkView.get('btn__save').removeClass('is-hidden');
+
+    // wrapではなく、propertyをしていさせる
+    networkView.wrap.find('.select-clients').prop('disabled', false);
+
+  };
+
+  /**
+   * 通常モードに戻る
+   */
+  _backMode = function () {
+    networkView.get('btn__edit').removeClass('is-hidden');
+    networkView.get('btn__download').removeClass('is-hidden');
+    networkView.get('btn__cancel').addClass('is-hidden');
+    networkView.get('btn__delete').addClass('is-hidden');
+    networkView.get('btn__save').addClass('is-hidden');
+
+    networkView.wrap.find('.select-clients').prop('disabled', true);
+
+  };
+
 
   _openDialog = function () {
     networkView.get('dialog__download').get(0).showModal();
@@ -140,6 +177,10 @@
 
   };
 
+  _save = function () {
+
+  };
+
   /**
    * ビジVユーザーかどうかで表示内容を分岐する
    */
@@ -219,6 +260,8 @@
       'click btn__close'        : _closeDialog,
       'click btn__exec'         : _execDowload,
       'click btn__delete'       : function () { networkView.get('dialog__delete').get(0).showModal(); },
+      'click btn__edit'         : _goEditMode,
+      'click btn__cancel'       : _backMode,
       'click download__fenics'  : _downloadFile
     });
 
