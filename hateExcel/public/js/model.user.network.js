@@ -8,9 +8,30 @@
     _model = new Model({
       'table' : 'fenics'
     })
+  , _updateInfo = []
   , makeFenicsDownloadMap
+  , changeUpdateInfo
+  , update
   ;
 
+  changeUpdateInfo = function ( id ) {
+    _updateInfo.push({ fenics_id : id });
+  };
+
+  update = function () {
+
+    var
+      params = {
+        data : _model.find( _updateInfo )
+      }
+    , kid = _model.getCache()[0].kid
+    ;
+
+    cms.db.update('/updateFenics', params, function () {
+      _model.fetch( kid, cms.view.userNetwork.redrawTable );
+    });
+
+  };
 
   /**
    * fenicsアカウント作成CSV用のオブジェクト配列の生成
@@ -48,7 +69,9 @@
     getCache            : $.proxy( _model.getCache, _model),
     delete              : $.proxy( _model.delete, _model ),
     find                : $.proxy( _model.find, _model ),
-    makeAccountMapList  : makeAccountMapList
+    makeAccountMapList  : makeAccountMapList,
+    changeUpdateInfo    : changeUpdateInfo,
+    update              : update
   };
 
 }( jQuery, customer ));

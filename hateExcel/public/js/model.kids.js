@@ -34,6 +34,7 @@
   , setCondition
   , getHeader
   , initModule
+  , addFenicsAccount
   ;
 
   /**

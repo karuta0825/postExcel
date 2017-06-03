@@ -315,6 +315,40 @@ app.post('/update', function ( req, res ) {
 
 });
 
+app.post('/updateFenics', function (req, res) {
+  var
+    data = req.body.data
+  , item = {}
+  , condition
+  , len = 0
+  ;
+
+  for ( var i = 0; i < data.length; i++ ) {
+
+
+    item.client_id = data[i].client_id || '';
+    item.start_on  = data[i].start_on || '';
+
+    condition = data[i].fenics_id;
+
+    datas.update( item, condition, 'fenics', function ( err ) {
+      // insert時のエラー処理
+      if (err) {
+        console.log(err);
+        res.json({ result : 'fail', err : err });
+      }
+      else {
+        len += 1;
+        if ( len === data.length ) {
+          res.json({'result' : 'success', 'number' : len });
+        }
+      }
+
+    });
+
+  }
+
+});
 
 /**
  * マスタデータの更新

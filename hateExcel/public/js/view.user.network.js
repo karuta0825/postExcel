@@ -35,6 +35,8 @@
   , _goEditMode
   , _deleteFenicsAccounts
   , _save
+  , _setClientsSelectValue
+  , makeClientSelectBox
   , selectNetwork
   , clear
   , refresh
@@ -62,6 +64,7 @@
    * 通常モードに戻る
    */
   _backMode = function () {
+
     networkView.get('btn__edit').removeClass('is-hidden');
     networkView.get('btn__download').removeClass('is-hidden');
     networkView.get('btn__cancel').addClass('is-hidden');
@@ -178,15 +181,57 @@
   };
 
   _save = function () {
+    cms.model.userNetwork.update();
+    _backMode();
+  };
+
+  _changeClientId = function ( evt ) {
+    var
+      el        = $(evt.target)
+    , fenics_id = el.parents('tr').attr('id')
+    , value     = el.val()
+    ;
+
+    // コレクションの値を書き換えるわけだ
+    cms.model.userNetwork.find({ 'fenics_id' : fenics_id })[0].client_id = value;
+    cms.model.userNetwork.changeUpdateInfo( fenics_id  );
 
   };
 
-  /**
-   * ビジVユーザーかどうかで表示内容を分岐する
-   */
-  selectNetwork = function () {
+  _setClientsSelectValue = function () {
+    var
+      tr = networkView.get('table').find('tbody tr')
+    , value
+    ;
+
+    _.each( tr, function ( el, idx ) {
+      value = cms.model.userNetwork.find( { fenics_id :$(el).attr('id') })[0].client_id;
+      $(el).find('.select-clients').val( value );
+    });
 
   };
+
+  makeClientSelectBox = function () {
+
+    var
+      data = cms.model.clients.find({ is_admin : 0 })
+    , option
+    ;
+
+    networkView.get('select-clients').empty();
+
+    // 空オプション作成
+    networkView.get('select-clients').append( $('<option>') );
+
+    _.each( data, function ( v, k ) {
+      option = $('<option>', { 'value' : v['fenics_id'], 'text' : v['client_id'] } );
+      networkView.get('select-clients').append(option);
+    });
+
+    _setClientsSelectValue();
+
+  };
+
 
   redrawTable = function ( data ) {
 
@@ -203,6 +248,11 @@
     networkView.wrap.find('table').remove();
     networkView.wrap.append( complied(data) );
     componentHandler.upgradeElements( networkView.wrap );
+
+    networkView.updateElement({'table'           : '.fenics-table'});
+    networkView.updateElement({'select-clients'  : '.select-clients'});
+
+    makeClientSelectBox();
 
   };
 
@@ -229,6 +279,8 @@
         $(val).trigger('click');
       }
     });
+
+    _backMode();
 
   };
 
@@ -262,7 +314,9 @@
       'click btn__delete'       : function () { networkView.get('dialog__delete').get(0).showModal(); },
       'click btn__edit'         : _goEditMode,
       'click btn__cancel'       : _backMode,
-      'click download__fenics'  : _downloadFile
+      'click btn__save'         : _save,
+      'click download__fenics'  : _downloadFile,
+      'change select-clients'   : _changeClientId
     });
 
   };
@@ -270,8 +324,10 @@
 
   // to public
   cms.view.userNetwork = {
-    initModule : initModule,
+    initModule  : initModule,
     redrawTable : redrawTable,
+    clear       : clear,
+    makeClientSelectBox : makeClientSelectBox
   };
 
 } ( jQuery, customer ));

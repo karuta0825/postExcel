@@ -44,21 +44,16 @@
 
     <% _.each( list, function ( item, num ) { %>
       <tr id='<%- item.fenics_id %>'>
-        <td class='mdl-data-table__cell--non-numeric'><%- item.fenics_id %></td>
-        <td class='mdl-data-table__cell--non-numeric'><%- item.password %></td>
-        <td class='mdl-data-table__cell--non-numeric'><%- item.fenics_ip %></td>
-        <td class='mdl-data-table__cell--non-numeric'><%- item.start_on %></td>
-        <td class='mdl-data-table__cell--non-numeric'>
-          <select class='select-clients' disabled='disabled'>
-            <option value=""></option>
-            <% _.each( clients, function ( client, num ) { %>
-              <option val=<%- client.client_id %>>
-                <%- client.client_id %>
-              </option>
-            <% }); %>            
-          </select>
+        <td class='mdl-data-table__cell--non-numeric fenics_id'><%- item.fenics_id %></td>
+        <td class='mdl-data-table__cell--non-numeric password'><%- item.password %></td>
+        <td class='mdl-data-table__cell--non-numeric fenics_ip'><%- item.fenics_ip %></td>
+        <td class='mdl-data-table__cell--non-numeric start_on'>
+          <%- item.start_on %>
         </td>
-        <td class='mdl-data-table__cell--non-numeric'><%- item.create_on %></td>
+        <td class='mdl-data-table__cell--non-numeric client_id'>
+          <select class='select-clients' disabled='disabled'></select>
+        </td>
+        <td class='mdl-data-table__cell--non-numeric create_on'><%- item.create_on %></td>
       </tr>
     <% }); %>
 
