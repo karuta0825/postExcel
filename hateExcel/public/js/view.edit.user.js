@@ -89,6 +89,7 @@
     customer.view.userBaseInfo.clear();
     customer.view.userPartner.clear();
     customer.view.userService.clear();
+    cms.view.userClient.clear();
     cms.view.userNetwork.clear();
 
     $('.main-contents').removeClass('is-active');

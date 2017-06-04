@@ -8,7 +8,7 @@
     networkView
   , elements = {
       'btn' : {
-        'cancel'    : '.btn--cancel',
+        'cancel'   : '.btn--cancel',
         'delete'   : '.btn--del',
         'save'     : '.btn--save',
         'edit'     : '.btn--edit',
@@ -16,7 +16,7 @@
         'close'    : '.btn--close',
         'exec'     : '.btn--exec',
       },
-      'select-clients' : '.select-clients',
+      'input-date'     : '.input-date',
       'checkbox' : '.mdl-checkbox',
       'download' : {
         'fenics'      : '.download--fenics',
@@ -56,7 +56,7 @@
     networkView.get('btn__save').removeClass('is-hidden');
 
     // wrapではなく、propertyをしていさせる
-    networkView.wrap.find('.select-clients').prop('disabled', false);
+    networkView.wrap.find('.input-date').prop('disabled', false);
 
   };
 
@@ -71,7 +71,7 @@
     networkView.get('btn__delete').addClass('is-hidden');
     networkView.get('btn__save').addClass('is-hidden');
 
-    networkView.wrap.find('.select-clients').prop('disabled', true);
+    networkView.wrap.find('.input-date').prop('disabled', true);
 
   };
 
@@ -193,7 +193,8 @@
     ;
 
     // コレクションの値を書き換えるわけだ
-    cms.model.userNetwork.find({ 'fenics_id' : fenics_id })[0].client_id = value;
+    cms.model.userNetwork.find({ 'fenics_id' : fenics_id })[0].start_on = value;
+
     cms.model.userNetwork.changeUpdateInfo( fenics_id  );
 
   };
@@ -280,6 +281,7 @@
       }
     });
 
+    cms.model.userNetwork.clearUpdateInfo();
     _backMode();
 
   };
@@ -316,7 +318,7 @@
       'click btn__cancel'       : _backMode,
       'click btn__save'         : _save,
       'click download__fenics'  : _downloadFile,
-      'change select-clients'   : _changeClientId
+      'change input-date'       : _changeClientId
     });
 
   };

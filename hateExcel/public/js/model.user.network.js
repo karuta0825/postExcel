@@ -11,6 +11,7 @@
   , _updateInfo = []
   , makeFenicsDownloadMap
   , changeUpdateInfo
+  , clearUpdateInfo
   , update
   ;
 
@@ -18,7 +19,15 @@
     _updateInfo.push({ fenics_id : id });
   };
 
+  clearUpdateInfo = function () {
+    _updateInfo = [];
+  };
+
   update = function () {
+
+    if ( _updateInfo.length === 0 ) {
+      return;
+    }
 
     var
       params = {
@@ -71,6 +80,7 @@
     find                : $.proxy( _model.find, _model ),
     makeAccountMapList  : makeAccountMapList,
     changeUpdateInfo    : changeUpdateInfo,
+    clearUpdateInfo     : clearUpdateInfo,
     update              : update
   };
 

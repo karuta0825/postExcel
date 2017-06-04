@@ -37,7 +37,6 @@
     <th class='mdl-data-table__cell--non-numeric'>パスワード</th>
     <th class='mdl-data-table__cell--non-numeric'>ip</th>
     <th class='mdl-data-table__cell--non-numeric'>開始日</th>
-    <th class='mdl-data-table__cell--non-numeric'>対応クライアント</th>
     <th class='mdl-data-table__cell--non-numeric'>作成日</th>
   </thead>
   <tbody>
@@ -48,10 +47,7 @@
         <td class='mdl-data-table__cell--non-numeric password'><%- item.password %></td>
         <td class='mdl-data-table__cell--non-numeric fenics_ip'><%- item.fenics_ip %></td>
         <td class='mdl-data-table__cell--non-numeric start_on'>
-          <%- item.start_on %>
-        </td>
-        <td class='mdl-data-table__cell--non-numeric client_id'>
-          <select class='select-clients' disabled='disabled'></select>
+          <input class='input-date' type='date' value='<%- moment(item.start_on).format("YYYY-MM-DD") %>' disabled='disabled'></input>
         </td>
         <td class='mdl-data-table__cell--non-numeric create_on'><%- item.create_on %></td>
       </tr>

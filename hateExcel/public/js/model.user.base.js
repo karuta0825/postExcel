@@ -57,6 +57,7 @@
     var diff = view_client_number - _cache['client_number'];
 
     if ( diff < 1 ) {
+      cms.model.clients.fetch( _cache['kid'], cms.view.userClient.redrawTable );
       return ;
     }
 

@@ -10,11 +10,41 @@
     _model = new Model({
       'table' : 'clients'
     })
+  , _updateInfo = []
   , _makeOpenNoticeHeader
   , _makeOpenNoticeMapList
+  , changeUpdateInfo
+  , clearUpdateInfo
+  , update
   , makeOpenNotice
   ;
 
+  changeUpdateInfo = function ( id ) {
+    _updateInfo.push({ client_id : id });
+  };
+
+  clearUpdateInfo = function () {
+    _updateInfo = [];
+  };
+
+  update = function () {
+
+    if ( _updateInfo.length === 0 ) {
+      return;
+    }
+
+    var
+      params = {
+        data : _model.find( _updateInfo )
+      }
+    , kid = _model.getCache()[0].kid
+    ;
+
+    cms.db.update('/updateClient', params, function () {
+      _model.fetch( kid, cms.view.userClient.redrawTable );
+    });
+
+  };
 
   /**
    * 開通通知書の基本情報
@@ -48,26 +78,18 @@
    */
   _makeOpenNoticeMapList = function ( list_checked ) {
 
-    var
-      list_clients = _model.find( list_checked )
-    , fenics
-    ;
+    var list_clients = _model.find( list_checked );
 
-    return _.map( list_clients, function ( val, key ) {
-
-      // ビジVユーザーのときどうなるの？
-      // keyはダメだ　対応する番号拾わないと
-      fenics = cms.model.userNetwork.getCache()[key];
+    return  _.map( list_clients, function ( val, key ) {
 
       return {
-        'hostname'        : fenics.fenics_id.toUpperCase(),
-        'fenics_id'       : 'hopecl-' + fenics.fenics_id,
-        'password'        : fenics.password,
+        'hostname'        : val.fenics_id && val.fenics_id.toUpperCase() || '',
+        'fenics_id'       : val.fenics_id && 'hopecl-' + val.fenics_id || '',
+        'password'        : val.fenics_id || '',
         'client_id'       : val.client_id,
         'client_password' : val.client_pass
       };
     });
-
 
   };
 
@@ -80,12 +102,15 @@
 
   // to public
   cms.model.clients = {
-    fetch    : $.proxy( _model.fetch, _model ),
-    getCache : $.proxy( _model.getCache, _model),
-    find     : $.proxy( _model.find, _model ),
-    insert   : $.proxy( _model.insert, _model ),
-    delete   : $.proxy( _model.delete, _model ),
-    tmp      : _makeOpenNoticeMapList
+    fetch               : $.proxy( _model.fetch, _model ),
+    getCache            : $.proxy( _model.getCache, _model),
+    find                : $.proxy( _model.find, _model ),
+    insert              : $.proxy( _model.insert, _model ),
+    delete              : $.proxy( _model.delete, _model ),
+    tmp                 : _makeOpenNoticeMapList,
+    changeUpdateInfo    : changeUpdateInfo,
+    clearUpdateInfo     : clearUpdateInfo,
+    update              : update
   };
 
 }( jQuery, customer ));

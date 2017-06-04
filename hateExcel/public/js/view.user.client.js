@@ -9,35 +9,75 @@
     clientView
   , elements = {
       'btn' : {
+        'cancel'   : '.btn--cancel',
+        'delete'   : '.btn--del',
+        'save'     : '.btn--save',
+        'edit'     : '.btn--edit',
         'download' : '.btn--download',
         'close'    : '.btn--close',
         'exec'     : '.btn--exec',
-        'delete'   : '.btn--del'
       },
       'checkbox' : '.mdl-checkbox',
+      'select-clients' : '.select-clients',
       'download' : {
         'client'      : '.download--client',
         'open_notice' : '.download--open-notice',
         'spla'        : '.download--spla',
         'mail'        : '.download--mail',
       },
-      'table'  : '.accout-table',
+      'table'  : '.account-table',
       'dialog' : {
         'download' : '#modal-client-download',
         'delete'   : '#delete-clients-confirm'
       }
     }
+  , _goEditMode
+  , _backMode
   , _openDialog
   , _closeDialog
   , _execDowload
   , _downloadOpenNotice
   , _downloadBat
   , _downloadSpla
+  , _changeFenicsId
+  , _save
+  , makeFenicsSelectBox
   , clear
   , drawTable
   , redrawTable
   , initModule
   ;
+
+  /**
+   * 編集モード
+   * TODO:セレクトボックス指定のためのPropertyを作る
+   */
+  _goEditMode = function () {
+    clientView.get('btn__edit').addClass('is-hidden');
+    clientView.get('btn__download').addClass('is-hidden');
+    clientView.get('btn__cancel').removeClass('is-hidden');
+    clientView.get('btn__delete').removeClass('is-hidden');
+    clientView.get('btn__save').removeClass('is-hidden');
+
+    // wrapではなく、propertyをしていさせる
+    clientView.wrap.find('.select-clients').prop('disabled', false);
+
+  };
+
+  /**
+   * 通常モードに戻る
+   */
+  _backMode = function () {
+
+    clientView.get('btn__edit').removeClass('is-hidden');
+    clientView.get('btn__download').removeClass('is-hidden');
+    clientView.get('btn__cancel').addClass('is-hidden');
+    clientView.get('btn__delete').addClass('is-hidden');
+    clientView.get('btn__save').addClass('is-hidden');
+
+    clientView.wrap.find('.select-clients').prop('disabled', true);
+
+  };
 
   _openDialog = function () {
     clientView.get('dialog__download').get(0).showModal();
@@ -109,6 +149,41 @@
 
   };
 
+  _setFenicsSelectValue = function () {
+    var
+      tr = clientView.get('table').find('tbody tr')
+    , value
+    ;
+
+    _.each( tr, function ( el, idx ) {
+      value = cms.model.clients.find( { client_id :$(el).attr('id') })[0].fenics_id;
+      $(el).find('.select-clients').val( value );
+    });
+
+  };
+
+
+  makeFenicsSelectBox = function () {
+
+    var
+      data = cms.model.userNetwork.getCache()
+    , option
+    ;
+
+    clientView.get('select-clients').empty();
+
+    // 空オプション作成
+    clientView.get('select-clients').append( $('<option>') );
+
+    _.each( data, function ( v, k ) {
+      option = $('<option>', { 'value' : v['fenics_id'], 'text' : v['fenics_id'] } );
+      clientView.get('select-clients').append(option);
+    });
+
+    _setFenicsSelectValue();
+
+  };
+
 
   _deleteClients = function () {
 
@@ -128,6 +203,26 @@
 
   };
 
+  _changeFenicsId = function ( evt ) {
+    var
+      el        = $(evt.target)
+    , client_id = el.parents('tr').attr('id')
+    , value     = el.val()
+    ;
+
+    // コレクションの値を書き換える
+    cms.model.clients.find({ 'client_id' : client_id })[0].fenics_id = value;
+
+    cms.model.clients.changeUpdateInfo( client_id );
+
+  };
+
+
+  _save = function () {
+    cms.model.clients.update();
+    _backMode();
+  };
+
   redrawTable = function ( data ) {
 
     var
@@ -139,6 +234,11 @@
     clientView.wrap.find('table').remove();
     clientView.wrap.append( complied(data) );
     componentHandler.upgradeElements( clientView.wrap );
+
+    clientView.updateElement({'table'           : '.account-table'});
+    clientView.updateElement({'select-clients'  : '.select-clients'});
+
+    makeFenicsSelectBox();
 
   };
 
@@ -161,6 +261,8 @@
         $(val).trigger('click');
       }
     });
+
+    _backMode();
 
   };
 
@@ -192,10 +294,14 @@
       'click btn__close'            : _closeDialog,
       'click btn__exec'             : _execDowload,
       'click btn__delete'           : _openDelDialog,
+      'click btn__edit'             : _goEditMode,
+      'click btn__cancel'           : _backMode,
+      'click btn__save'             : _save,
       'click download__client'      : $.proxy( function (e) { console.log(e); }, this),
       'click download__open_notice' : function () { alert('download download__o')},
       'click download__spla'        : function () { alert('download download__s')},
-      'click download__mail'        : function () { alert('download download__m')}
+      'click download__mail'        : function () { alert('download download__m')},
+      'change select-clients'       : _changeFenicsId
     });
 
   };
@@ -206,7 +312,8 @@
     drawTable  : drawTable,
     redrawTable : redrawTable,
     clear : clear,
-    get : _getSelectItem
+    get : _getSelectItem,
+    makeFenicsSelectBox : makeFenicsSelectBox
   };
 
 }( jQuery, customer ));

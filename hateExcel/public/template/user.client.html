@@ -2,7 +2,10 @@
 <% if ( !is_redraw ) { %>
   <!-- アクション -->
   <div class='user-edit-header__action'>
-    <button class='btn--del mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect' href='#edit-usr'>削除</button>
+    <button class='btn--cancel mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect is-hidden' href='#edit-usr'>キャンセル</button>
+    <button class='btn--del mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect is-hidden' href='#edit-usr'>削除</button>
+    <button class='btn--save mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect is-hidden' href='#edit-usr'>保存</button>
+    <button class='btn--edit mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect' href='#edit-usr'>編集</button>
     <button class='btn btn--download mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-js-ripple-effect'>ダウンロード</button>
   </div>
 
@@ -51,6 +54,7 @@
   <thead>
     <th class='mdl-data-table__cell--non-numeric'>ユーザー名</th>
     <th class='mdl-data-table__cell--non-numeric'>パスワード</th>
+    <th class='mdl-data-table__cell--non-numeric'>対応FenicsID</th>
     <th class='mdl-data-table__cell--non-numeric'>作成日</th>
   </thead>
   <tbody>
@@ -59,6 +63,9 @@
       <tr id='<%- item.client_id %>'>
         <td class='mdl-data-table__cell--non-numeric'><%- item.client_id %></td>
         <td class='mdl-data-table__cell--non-numeric'><%- item.client_pass %></td>
+        <td class='mdl-data-table__cell--non-numeric'>
+          <select class='select-clients' disabled='disabled'></select>
+        </td>
         <td class='mdl-data-table__cell--non-numeric'><%- item.create_on %></td>
       </tr>
     <% }); %>

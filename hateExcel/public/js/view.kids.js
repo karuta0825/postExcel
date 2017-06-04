@@ -153,6 +153,12 @@
       customer.view.userBaseInfo.makeUserInfo
     );
 
+    // ネットワークタブ描画
+    customer.model.userNetwork.fetch(kid,
+      customer.view.userNetwork.redrawTable
+    );
+
+
     // クライアントテーブル描画
     customer.model.clients.fetch(kid,
       customer.view.userClient.redrawTable
@@ -163,10 +169,6 @@
       customer.view.userService.setViewInfo
     );
 
-    // ネットワークタブ描画
-    customer.model.userNetwork.fetch(kid,
-      customer.view.userNetwork.redrawTable
-    );
 
     // パートナータブの描画
     customer.model.userPartner.fetch( kid,

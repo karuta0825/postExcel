@@ -203,8 +203,6 @@ app.post('/makeUser', function ( req, res ) {
   // urlからダイレクトにされたときのために入力チェックする
 
   datas.makeUser( data, function ( result ) {
-    console.log('result');
-    console.log(result);
     res.json(result);
   });
 
@@ -327,7 +325,10 @@ app.post('/updateFenics', function (req, res) {
 
 
     item.client_id = data[i].client_id || '';
-    item.start_on  = data[i].start_on || '';
+
+    if ( data[i].start_on ) {
+      item.start_on  = data[i].start_on
+    }
 
     condition = data[i].fenics_id;
 
@@ -349,6 +350,42 @@ app.post('/updateFenics', function (req, res) {
   }
 
 });
+
+
+app.post('/updateClient', function (req, res) {
+  var
+    data = req.body.data
+  , item = {}
+  , condition
+  , len = 0
+  ;
+
+  for ( var i = 0; i < data.length; i++ ) {
+
+
+    item.fenics_id = data[i].fenics_id || '';
+
+    condition = data[i].client_id;
+
+    datas.update( item, condition, 'clients', function ( err ) {
+      // insert時のエラー処理
+      if (err) {
+        console.log(err);
+        res.json({ result : 'fail', err : err });
+      }
+      else {
+        len += 1;
+        if ( len === data.length ) {
+          res.json({'result' : 'success', 'number' : len });
+        }
+      }
+
+    });
+
+  }
+
+});
+
 
 /**
  * マスタデータの更新
