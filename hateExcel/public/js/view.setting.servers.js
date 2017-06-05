@@ -8,8 +8,6 @@
   // member
     idx = 0
   , view = {}
-  , esView
-  , lmView
   , elements = {
       'select' : {
         'version' : '.select-version',
@@ -33,7 +31,7 @@
   , _changeVersion
   , _changeConnetDBVisibilty
   , _makeSelectBox
-  , _setSelectValue
+  , _setConnectDBValue
   , _onClickAdd
   , _onClickCancel
   , _onClickSave
@@ -93,16 +91,29 @@
 
   };
 
-  _setSelectValue = function ( version ) {
 
-    var tr, value;
+  /**
+   * [_setConnectDBValue description]
+   * @param {[type]} version
+   */
+  _setConnectDBValue = function ( version ) {
+
+    var tr, item;
 
     tr = view[version].get('table').find('tbody tr');
 
     _.each( tr, function ( el, idx ) {
-      value = cms.model.servers.find( { id :$(el).data('id') })[0].connect_db;
-      $(el).find('.select-db').val( value );
+
+      item = cms.model.servers.find( { id :$(el).data('id') })[0];
+
+      $(el).find('.select-db').val( item.connect_db );
+
+      if ( item.type !== 'AP' ) {
+        $(el).find('.select-db').addClass('is-hidden');
+      }
+
     });
+
 
   };
 
@@ -118,12 +129,12 @@
       view[version].get('select_db').append(option);
     });
 
-    _setSelectValue( version );
+    _setConnectDBValue( version );
 
   };
 
 
-  _makeRow = function () {
+  _makeRow = function ( version ) {
 
     // DOM要素生成
     var
@@ -141,6 +152,7 @@
     , opt_web     = $('<option>', { value : 'WEB', text : 'WEB'} )
     , button      = $('<button>', { class : 'btn btn--del mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect'} )
     , icon        = $('<i>'     , { class : 'material-icons', text : 'delete_forever'})
+    , list_db     = cms.model.servers.find({'version' : version, 'type' : 'DB'})
     ;
 
     // cidの管理もモデルにやってほしいものだ
@@ -150,6 +162,11 @@
       .append( opt_db  )
       .append( opt_web )
       ;
+
+    select_db.append( $('<option>') );
+    _.each( list_db, function ( v, k ) {
+      select_db.append( $('<option>', { 'value' : v.name, 'text' : v.name }));
+    });
 
     td_type.append(select_type);
     td_name.append( $(input).clone(true) );
@@ -189,6 +206,9 @@
     view[version].get('body').empty();
     _drawTable( customer.model.servers.find( {'version' : version } ) );
 
+    _makeSelectBox('LM');
+    _makeSelectBox('ES');
+
   };
 
 
@@ -202,6 +222,7 @@
   _onClickCancel = function ( evt ) {
     var version = $(evt.target).parents('.setting').data('version')
     _redrawTable( version );
+    _setConnectDBValue( version );
     cms.model.servers.resetItems();
   };
 
@@ -209,7 +230,7 @@
 
     var
       version = $(evt.target).parents('.setting').data('version')
-    , row = _makeRow();
+    , row = _makeRow( version );
 
     view[version].get('body').find('table').append(row);
     cms.model.servers.insertItem({
