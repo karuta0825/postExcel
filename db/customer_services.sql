@@ -23,11 +23,12 @@ DROP TABLE IF EXISTS `services`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `services` (
-  `order` int(3) NOT NULL AUTO_INCREMENT,
+  `id` int(3) NOT NULL AUTO_INCREMENT,
   `service_id` varchar(2) NOT NULL,
   `service_name` varchar(45) NOT NULL,
   `version` varchar(4) NOT NULL,
-  PRIMARY KEY (`order`,`service_id`)
+  PRIMARY KEY (`id`,`service_id`),
+  UNIQUE KEY `order_UNIQUE` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -50,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-06-04 13:48:45
+-- Dump completed on 2017-06-05 10:22:30
