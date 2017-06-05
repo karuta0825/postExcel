@@ -1,0 +1,34 @@
+
+.login__body {
+  width : 30%;
+  height: 200px;
+  /*background: red;*/
+  margin : 15% auto 0 auto;
+}
+
+.login-form {
+  /*margin-top: 50px;*/
+}
+
+.input-item {
+  width: 60%;
+  margin : 50px auto;
+}
+
+.input-item input {
+  margin-left: 20px;
+  width: 200px;
+}
+
+.btn--login {
+  float: right;
+  margin-right: 50px;
+}
+
+.login__footer {
+  position: absolute;
+  bottom : 0;
+  width: 100%;
+  height: 50px;
+  background: #424242;
+}
