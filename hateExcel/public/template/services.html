@@ -8,11 +8,10 @@
 
   <tbody>
     <% _.each( list, function ( item, num ) { %>
-      <!-- <tr data-id=<%- item.id %> > -->
-      <tr>
+      <tr data-id='<%- item.id %>'>
 
         <td class='service_id'>
-          <input type='text' value=<%- item.service_id %> >
+          <input type='text' maxlength='2' value=<%- item.service_id %> >
         </td>
 
         <td class='service_name'>

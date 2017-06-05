@@ -2,53 +2,68 @@
  * viewController
  * サーバー情報
  */
-(function ($, cms_view) {
+(function ($, cms) {
 
   var
   // member
-    jqueryMap = {}
+    idx = 0
+  , view
+  , esView
+  , lmView
+  , elements = {
+      'select' : {
+        'version' : '.select-version',
+      },
+      'common' : {
+        'btn' : {
+          'add'    : '.btn--add',
+          'cancel' : '.btn--cancel',
+          'save'   : '.btn--save',
+          'del'    : '.btn--del',
+        },
+        'body'  : '.setting__body',
+        'table' : 'table',
+      }
+    }
   // private method
-  , _setJqueryMap
-  , _onClickEdit
+  , _changeValue
+  , _changeVersion
   , _onClickCancel
   , _onClickSave
   , _drawTable
   , _redrawTable
   , _makeRow
-  , _validate
   // public method
   , initModule
-  , show
-  , hide
   ;
 
-  _setJqueryMap = function () {
+  _changeValue = function ( evt ) {
 
     var
-      content = $('.setting--services')
-    , action  = content.find('.setting__action')
-    , body    = content.find('.setting__body')
-
-    , table   = content.find('table')
-    , thead   = table.find('thead')
-    , tbody   = table.find('tbody')
+      map_update = {
+        id      : $(evt.target).parents('tr').data('id'),
+        key     : $(evt.target).parents('td').attr('class'),
+        value   : $(evt.target).val(),
+        version : $(evt.target).parents('.setting').data('version')
+      }
     ;
 
-    jqueryMap.content = content;
-    jqueryMap.action  = content.find('.setting__action');
-    jqueryMap.body    = content.find('.setting__body');
+    cms.model.services.updateItem( map_update );
 
-    // table
-    jqueryMap.table  = table;
-    jqueryMap.thead  = thead;
-    jqueryMap.tbody  = tbody;
-    jqueryMap.row    = tbody.find('tr');
+  };
 
-    // buttons
-    jqueryMap.add    = action.find('.btn--add');
-    jqueryMap.save   = action.find('.btn--save');
-    jqueryMap.cancel = action.find('.btn--cancel');
-    jqueryMap.del    = action.find('.btn--del');
+  _changeVersion = function ( evt ) {
+
+    var version = $(this).val();
+
+    if ( version === 'LM' ) {
+      lmView.wrap.removeClass('is-hidden');
+      esView.wrap.addClass('is-hidden');
+    }
+    else {
+      lmView.wrap.addClass('is-hidden');
+      esView.wrap.removeClass('is-hidden');
+    }
 
   };
 
@@ -56,20 +71,24 @@
 
     // DOM要素生成
     var
-      tr              = $('<tr>')
+      tr              = $('<tr>',     { 'data-id' : 'c' + idx })
     , td_service_id   = $('<td>',     { class : 'service_id'} )
     , td_service_name = $('<td>',     { class : 'service_name' } )
     , td_del          = $('<td>',     { align : 'center', class : 'del' } )
-    , input           = $('<input>',  { type  : 'text' } )
-    , button          = $('<button>', { class : 'btn btn--del', text : '-' } )
+    , input_id        = $('<input>',  { type  : 'text', maxlength : 2 } )
+    , input_name      = $('<input>',  { type  : 'text', maxlength : 20 } )
+    , button          = $('<button>', { class : 'btn btn--del mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect'} )
+    , icon            = $('<i>'     , { class : 'material-icons', text : 'delete_forever'})
     ;
 
-    td_env.append(  $(input).clone(true) );
-    td_service_name.append( $(input).clone(true) );
-    td_del.append( button );
+    idx += 1;
 
-    tr.append(td_env)
-      .append(td_name)
+    td_service_id.append(   input_id  );
+    td_service_name.append( input_name );
+    td_del.append( button.append(icon) );
+
+    tr.append(td_service_id)
+      .append(td_service_name)
       .append(td_del)
       ;
 
@@ -80,86 +99,133 @@
   _drawTable = function ( data ) {
 
     var
-      data     =  { list : data }
+      version  = data[0].version
+    , data     =  { list : data }
     , tmpl     = customer.db.getHtml('template/services.html')
     , complied = _.template( tmpl )
     ;
 
-    jqueryMap.body.append( complied( data ) );
-
-    _setJqueryMap();
+    if ( version === 'LM' ) {
+      lmView.get('body').append( complied(data) );
+    }
+    else {
+      esView.get('body').append( complied(data) );
+    }
 
   };
 
-  _redrawTable = function () {
+  _redrawTable = function ( version ) {
 
-    jqueryMap.table.remove();
-    // ボディのみ再描画
-    _drawTable( customer.model.servers.fetchServices() );
-    jqueryMap.del.on( 'click', _onClickDel );
+    if ( version === 'LM' ) {
+      lmView.get('body').empty();
+      _drawTable( customer.model.services.find( {'version' : 'LM'} ) );
+    }
+    else {
+      esView.get('body').empty();
+      _drawTable( customer.model.services.find( {'version' : 'ES'} ) );
+    }
 
   };
 
   // Listeners
-  _onClickSave = function () {
-    // customer.model.servers.update();
-    // updateが終了したときに、再描画が走るようにしないと
-    // _redrawTable();
-  };
+  _onClickSave = function ( evt ) {
 
-  _onClickCancel = function () {
-    _redrawTable();
-  };
-
-  _onClickAdd = function () {
-
-    var row = _makeRow();
-    jqueryMap.body.append( row );
-    _setJqueryMap();
-    jqueryMap.del.off( 'click', _onClickDel );
-    jqueryMap.del.on( 'click', _onClickDel );
+    var version = $(evt.target).parents('.setting').data('version')
+    cms.model.services.sendServer(version);
 
   };
 
-  _onClickDel = function () {
-    var id_del = $(this).parents('tr').find('.id').text().trim();
-    $(this).parents('tr').remove();
-    customer.model.servers.delStock( id_del );
+  _onClickCancel = function ( evt ) {
+    var version = $(evt.target).parents('.setting').data('version')
+    _redrawTable( version );
+    cms.model.services.resetItems();
   };
 
-  _validate = function () {
+  _onClickAdd = function ( evt ) {
+
+    var
+      version = $(evt.target).parents('.setting').data('version')
+    , row = _makeRow();
+
+    if ( version === 'LM' ) {
+      lmView.get('body').find('table').append(row);
+      cms.model.services.insertItem({
+        'id'           : row.data('id'),
+        'service_id'   : '',
+        'service_name' : '',
+        'version'      : 'LM'
+      });
+    }
+    else {
+      esView.get('body').find('table').append(row);
+      cms.model.services.insertItem({
+        'id'           : row.data('id'),
+        'service_id'   : '',
+        'service_name' : '',
+        'version'      : 'ES'
+      });
+    }
 
   };
 
-  // initialize module
+  _onClickDel = function ( evt ) {
+
+    var
+      tr = $(evt.target).parents('tr')
+    , map = {
+        id      : tr.data('id'),
+        version : $(evt.target).parents('.setting').data('version')
+      }
+    ;
+
+    tr.remove();
+
+    // モデルに通知
+    cms.model.services.removeItem( map );
+
+  };
+
+
   initModule = function () {
     // 同期処理させる
     $('.main-contents--settings-services').append( customer.db.getHtml('setting.services.html') );
 
-    _setJqueryMap();
+    view   = new Controller('.main-contents--settings-services');
+    lmView = new Controller('.setting--lm-services');
+    esView = new Controller('.setting--es-services');
 
-    _drawTable( customer.model.services.getCache() );
+    view.initElement(   elements.select );
+    lmView.initElement( elements.common );
+    esView.initElement( elements.common );
 
-    jqueryMap.add.on(    'click', _onClickAdd    );
-    jqueryMap.save.on(   'click', _onClickSave   );
-    jqueryMap.cancel.on( 'click', _onClickCancel );
-    jqueryMap.del.on(    'click', _onClickDel    );
+    _drawTable( customer.model.services.find( {'version' : 'LM'} ) );
+    _drawTable( customer.model.services.find( {'version' : 'ES'} ) );
+
+    view.addListener({
+      'change version' : _changeVersion
+    });
+
+    lmView.addListener({
+      'click btn__add'    : _onClickAdd,
+      'click btn__save'   : _onClickSave,
+      'click btn__cancel' : _onClickCancel,
+      'click btn__del'    : _onClickDel,
+      'change body'       : _changeValue
+    });
+
+    esView.addListener({
+      'click btn__add'    : _onClickAdd,
+      'click btn__save'   : _onClickSave,
+      'click btn__cancel' : _onClickCancel,
+      'click btn__del'    : _onClickDel,
+      'change body'       : _changeValue
+    });
 
   };
-
-  show = function () {
-    jqueryMap.main.show();
-  };
-
-  hide = function () {
-    jqueryMap.main.hide();
-  }
 
   // to public
-  cms_view.services = {
-    initModule : initModule,
-    show       : show,
-    hide       : hide
+  cms.view.services = {
+    initModule : initModule
   };
 
-}(jQuery, customer.view ));
+}(jQuery, customer));

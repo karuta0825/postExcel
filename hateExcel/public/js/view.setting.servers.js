@@ -6,49 +6,119 @@
 
   var
   // member
-    jqueryMap = {}
-  , idx = 0
+    idx = 0
+  , view
+  , esView
+  , lmView
+  , elements = {
+      'select' : {
+        'version' : '.select-version',
+      },
+      'common' : {
+        'btn' : {
+          'add'    : '.btn--add',
+          'cancel' : '.btn--cancel',
+          'save'   : '.btn--save',
+          'del'    : '.btn--del',
+        },
+        'body'      : '.setting__body',
+        'table'     : 'table',
+        'select_db' : '.select-db'
+      }
+    }
+
   // private method
-  , _setJqueryMap
+  , _changeValue
+  , _changeVersion
+  , _makeSelectBox
+  , _setSelectValue
   , _onClickAdd
-  , _onClickEdit
   , _onClickCancel
   , _onClickSave
   , _onClickDel
   , _drawTable
-  , redrawTable
+  , _redrawTable
   , _makeRow
   , _validate
   // public method
   , initModule
-  , show
-  , hide
   ;
 
-  _setJqueryMap = function () {
+  _changeValue = function ( evt ) {
 
     var
-      $content = $('.setting--servers')
-    , $table   = $content.find('table')
-    , $header  = $table.find('thead')
-    , $body    = $table.find('tbody')
+      map_update = {
+        id      : $(evt.target).parents('tr').data('id'),
+        key     : $(evt.target).parents('td').attr('class'),
+        value   : $(evt.target).val(),
+        version : $(evt.target).parents('.setting').data('version')
+      }
     ;
 
-    jqueryMap.$main   = $content;
-
-    // table
-    jqueryMap.$table  = $table;
-    jqueryMap.$header = $header;
-    jqueryMap.$body   = $body;
-    jqueryMap.$row    = $body.find('tr');
-
-    // buttons
-    jqueryMap.$add    = $content.find('.btn--add');
-    jqueryMap.$save   = $content.find('.btn--save');
-    jqueryMap.$cancel = $content.find('.btn--cancel');
-    jqueryMap.$del    = $content.find('.btn--del');
+    cms.model.servers.updateItem( map_update );
 
   };
+
+
+  _changeVersion = function ( evt ) {
+
+    var version = $(this).val();
+
+    if ( version === 'LM' ) {
+      lmView.wrap.removeClass('is-hidden');
+      esView.wrap.addClass('is-hidden');
+    }
+    else {
+      lmView.wrap.addClass('is-hidden');
+      esView.wrap.removeClass('is-hidden');
+    }
+
+  };
+
+  _setSelectValue = function ( version ) {
+
+    var tr, value;
+
+    if ( version === 'LM' ) {
+      tr = lmView.get('table').find('tbody tr');
+    }
+    else {
+      tr = esView.get('table').find('tbody tr');
+    }
+
+    _.each( tr, function ( el, idx ) {
+      value = cms.model.servers.find( { id :$(el).data('id') })[0].connect_db;
+      $(el).find('.select-db').val( value );
+    });
+
+  };
+
+  _makeSelectBox = function ( version ) {
+
+    var  data = cms.model.servers.find({'version' : version, 'type' : 'DB'});
+
+    if ( version === 'LM') {
+      lmView.get('select_db').empty();
+      lmView.get('select_db').append( $('<option>'));
+      _.each( data, function ( v, k ) {
+        option = $('<option>', { 'value' : v['name'], 'text' : v['name'] } );
+        lmView.get('select_db').append(option);
+      });
+
+    }
+    else {
+      esView.get('select_db').empty();
+      esView.get('select_db').append( $('<option>'));
+      _.each( data, function ( v, k ) {
+        option = $('<option>', { 'value' : v['name'], 'text' : v['name'] } );
+        esView.get('select_db').append(option);
+      });
+    }
+
+    _setSelectValue( version );
+
+  };
+
 
   _makeRow = function () {
 
@@ -87,63 +157,101 @@
 
   };
 
-  _drawTable = function ( data, is_redraw ) {
+  _drawTable = function ( data ) {
 
     var
-      data     =  { list : data, is_redraw : is_redraw  }
+      version  = data[0].version
+    , data     =  { list : data }
     , tmpl     = customer.db.getHtml('template/servers.html')
     , complied = _.template( tmpl )
     ;
 
-    if ( !is_redraw ) {
-      jqueryMap.$table.append( complied( data ) );
+    if ( version === 'LM' ) {
+      lmView.get('body').append( complied(data) );
+      lmView.updateElement({'select_db' : '.select-db'});
+      lmView.updateElement({'table' : 'table'});
     }
     else {
-      jqueryMap.$body.append( complied( data ) );
+      esView.get('body').append( complied(data) );
+      esView.updateElement({'select_db' : '.select-db'});
+      esView.updateElement({'table' : 'table'});
     }
 
-    _setJqueryMap();
+  };
+
+  _redrawTable = function ( version ) {
+
+    if ( version === 'LM' ) {
+      lmView.get('body').empty();
+      _drawTable( customer.model.servers.find( {'version' : 'LM'} ) );
+    }
+    else {
+      esView.get('body').empty();
+      _drawTable( customer.model.servers.find( {'version' : 'ES'} ) );
+    }
 
   };
 
-  redrawTable = function () {
 
-    jqueryMap.$row.remove();
-    // ボディのみ再描画
-    _drawTable( customer.model.servers.getServers(), true );
-    jqueryMap.$del.on( 'click', _onClickDel );
+  _onClickSave = function ( evt ) {
 
-  };
-
-  // Listeners
-  _onClickSave = function () {
-    // customer.model.servers.update();
-    // updateが終了したときに、再描画が走るようにしないと
-    // redrawTable();
-    console.log( cms.model.servers.getI() );
-    console.log( cms.model.servers.getU() );
-    console.log( cms.model.servers.getD() );
-  };
-
-  _onClickCancel = function () {
-    redrawTable();
-    cms.model.servers.reset();
-  };
-
-  _onClickAdd = function () {
-
-    var row = _makeRow();
-    jqueryMap.$body.append( row );
-    _setJqueryMap();
-    jqueryMap.$del.off( 'click', _onClickDel );
-    jqueryMap.$del.on( 'click', _onClickDel );
+    var version = $(evt.target).parents('.setting').data('version')
+    cms.model.servers.sendServer(version);
 
   };
 
-  _onClickDel = function () {
-    var id_del = $(this).parents('tr').data('id');
-    $(this).parents('tr').remove();
-    cms.model.servers.remove(id_del);
+  _onClickCancel = function ( evt ) {
+    var version = $(evt.target).parents('.setting').data('version')
+    _redrawTable( version );
+    cms.model.servers.resetItems();
+  };
+
+  _onClickAdd = function ( evt ) {
+
+    var
+      version = $(evt.target).parents('.setting').data('version')
+    , row = _makeRow();
+
+    if ( version === 'LM' ) {
+      lmView.get('body').find('table').append(row);
+      cms.model.servers.insertItem({
+        'id'           : row.data('id'),
+        'type'         : '',
+        'name'         : '',
+        'ip'           : '',
+        'connect_db'   : '',
+        'version'      : 'LM'
+      });
+    }
+    else {
+      esView.get('body').find('table').append(row);
+      cms.model.servers.insertItem({
+        'id'           : row.data('id'),
+        'type'         : '',
+        'name'         : '',
+        'ip'           : '',
+        'connect_db'   : '',
+        'version'      : 'ES'
+      });
+    }
+
+  };
+
+  _onClickDel = function ( evt ) {
+
+    var
+      tr = $(evt.target).parents('tr')
+    , map = {
+        id      : tr.data('id'),
+        version : $(evt.target).parents('.setting').data('version')
+      }
+    ;
+
+    tr.remove();
+
+    // モデルに通知
+    cms.model.servers.removeItem( map );
+
   };
 
   _validate = function () {
@@ -155,52 +263,45 @@
     // 同期処理させる
     $('.main-contents--settings-servers').append( customer.db.getHtml('setting.servers.html') );
 
-    _setJqueryMap();
+    view   = new Controller('.main-contents--settings-servers');
+    lmView = new Controller('.setting--lm-servers');
+    esView = new Controller('.setting--es-servers');
 
-    _drawTable( customer.model.servers.getServers(), false );
+    view.initElement(   elements.select );
+    lmView.initElement( elements.common );
+    esView.initElement( elements.common );
 
-    jqueryMap.$add.on(    'click', _onClickAdd    );
-    jqueryMap.$save.on(   'click', _onClickSave   );
-    jqueryMap.$cancel.on( 'click', _onClickCancel );
-    jqueryMap.$del.on(    'click', _onClickDel    );
+    _drawTable( customer.model.servers.find( {'version' : 'LM'} ) );
+    _drawTable( customer.model.servers.find( {'version' : 'ES'} ) );
 
-    jqueryMap.$body.on( 'change', function (e) {
+    _makeSelectBox('LM');
 
-      var el  = $(e.target);
-      var id  = el.parents('tr').data('id');
-      var key = el.parents('td').attr('class');
+    view.addListener({
+      'change version' : _changeVersion
+    });
 
-      var data = {};
-      data['id'] = el.parents('tr').data('id');
-      data[key] = el.val();
+    lmView.addListener({
+      'click btn__add'    : _onClickAdd,
+      'click btn__save'   : _onClickSave,
+      'click btn__cancel' : _onClickCancel,
+      'click btn__del'    : _onClickDel,
+      'change body'       : _changeValue
+    });
 
-      cms.model.servers.change( data );
-
-      // 以下の作業は、モデルが行う仕事
-      // ビューは必要な更新情報をモデルに送るだけ
-
-      // update
-      // idで検索して, keyでsetして修正したものを、セレクションに追加
-      // 検索はセレクションを先に、なければキャッシュを確認する
-
-      // insert
-      // キャッシュでidの検索がない場合、insertとしてセレクションに追加
-
-      // delete
-      // 削除ボタンが押されたときなので、別イベント
-
-      // console.log(el);
+    esView.addListener({
+      'click btn__add'    : _onClickAdd,
+      'click btn__save'   : _onClickSave,
+      'click btn__cancel' : _onClickCancel,
+      'click btn__del'    : _onClickDel,
+      'change body'       : _changeValue
     });
 
   };
-
-  //
 
   // to public
   cms.view.servers = {
     initModule : initModule,
     redrawTable : redrawTable,
-    tmp        : function () { return jqueryMap;}
   };
 
 }(jQuery, customer ));

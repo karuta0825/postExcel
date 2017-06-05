@@ -1,5 +1,12 @@
+
+<select class='select-version'>
+  <option value='LM'>LM</option>
+  <option value='ES'>ES</option>
+</select>
+
+
 <!-- サーバ設定 -->
-<div class='setting setting--servers'>
+<div data-version='LM' class='setting setting--lm-servers'>
   <div class='setting__title'></div>
   <div class='setting__action'>
     <button class='btn btn--add'>+</button>
@@ -7,8 +14,18 @@
     <button class='btn btn--save'>Save</button>
   </div>
   <div class='setting__body'>
-    <table class='mdl-data-table mdl-js-data-table mdl-shadow--2dp'>
-        <!-- template -->
-    </table>
+    <!-- template -->
+  </div>
+</div>
+
+<div data-version='ES' class='setting setting--es-servers is-hidden'>
+  <div class='setting__title'></div>
+  <div class='setting__action'>
+    <button class='btn btn--add'>+</button>
+    <button class='btn btn--cancel'>Cancel</button>
+    <button class='btn btn--save'>Save</button>
+  </div>
+  <div class='setting__body'>
+    <!-- template -->
   </div>
 </div>

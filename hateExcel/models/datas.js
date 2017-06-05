@@ -358,7 +358,7 @@ var getNextZeroPadData = function ( value ) {
  * @param  {Function} callback
  * @return {[type]}
  */
-var makeFenicsAccount = function ( input_map, callback ) {
+var makeFenicsAccount = function ( input_map, idx, callback ) {
 
   var fenics_account = {};
 
@@ -405,7 +405,7 @@ var makeFenicsAccount = function ( input_map, callback ) {
  * @param  {Function} callback
  * @return {[type]}
  */
-var makeClient = function ( input_map, callback ) {
+var makeClient = function ( input_map, idx, callback ) {
 
   var client = {};
 
@@ -440,6 +440,28 @@ var makeClient = function ( input_map, callback ) {
 
 };
 
+var makeService = function ( list_item, idx, callback ) {
+
+  var data = list_item[idx];
+  console.log(idx);
+  console.log(data);
+
+  datas.insert( data, 'services', function ( err, results ) {
+    // 連続insertでKIDが重複していた場合、再作成
+    if ( err ){
+      console.log(err);
+      callback( err );
+      return;
+    }
+
+    if ( typeof callback === 'function') {
+      callback({ result : 'OK'});
+    }
+
+  });
+
+};
+
 
 
 /**
@@ -448,6 +470,9 @@ var makeClient = function ( input_map, callback ) {
 datas.makeFenicsList = flow.makeSyncLoop( makeFenicsAccount );
 
 datas.makeClientList = flow.makeSyncLoop( makeClient );
+
+datas.makeServiceList = flow.makeSyncLoop( makeService );
+
 
 
 /**
@@ -570,9 +595,6 @@ datas.getLicense = function ( kid, callback ) {
 
 };
 
-datas.updateLicense = function ( data, kid, callback ) {
-  data
-};
 
 ///////////////
 // unit test //
@@ -593,3 +615,34 @@ datas.updateLicense = function ( data, kid, callback ) {
 
 // datas.getLicense('KID92468');
 // datas.getLicense('KID02907');
+
+
+// 複数インサートテスト
+// var lists = [
+//   {          service_id : 'B1', service_name : 'B1', version : 'LM' },
+//   {          service_id : 'B3', service_name : 'B2', version : 'LM' },
+//   {          service_id : 'B4', service_name : 'B2', version : 'LM' },
+//   {          service_id : 'B5', service_name : 'B2', version : 'LM' },
+//   {          service_id : 'B6', service_name : 'B2', version : 'LM' },
+//   {          service_id : 'B7', service_name : 'B2', version : 'LM' },
+//   { id : 70, service_id : 'A1', service_name : 'A1', version : 'LM' },
+//   { id : 73, service_id : 'A4', service_name : 'A4', version : 'LM' },
+//   {          service_id : 'B2', service_name : 'B2', version : 'LM' },
+//   {          service_id : 'B8', service_name : 'B2', version : 'LM' },
+//   {          service_id : 'B9', service_name : 'B2', version : 'LM' },
+//   {          service_id : 'M2', service_name : 'B2', version : 'LM' },
+//   {          service_id : 'M3', service_name : 'B2', version : 'LM' },
+//   {          service_id : 'M4', service_name : 'B2', version : 'LM' },
+//   {          service_id : 'M5', service_name : 'B2', version : 'LM' },
+//   {          service_id : 'M6', service_name : 'B2', version : 'LM' },
+//   {          service_id : 'M7', service_name : 'B2', version : 'LM' },
+//   {          service_id : 'M8', service_name : 'B2', version : 'LM' },
+//   {          service_id : 'M9', service_name : 'B2', version : 'LM' },
+//   { id : 71, service_id : 'A2', service_name : 'A2', version : 'LM' },
+//   { id : 72, service_id : 'A3', service_name : 'A3', version : 'LM' }
+// ];
+// datas.makeServiceList( lists, lists.length, function (result) {
+//   console.log( result );
+// });
+
+

@@ -386,6 +386,42 @@ app.post('/updateClient', function (req, res) {
 
 });
 
+app.post('/master', function ( req, res ) {
+
+  var
+    list    = req.body.items
+  , table   = req.body.table
+  , version = list[0].version
+  ;
+
+  // delete
+  datas.delete( version, table, function ( err ) {
+    // delete時のエラー処理
+    if (err) {
+      console.log(err);
+      res.json({ 'result' : 'fail', 'error' : err });
+      return;
+    }
+    else {
+      // insert
+      // 何もデータがないとき
+      if ( list.length === 0 ) {
+        res.json({'result' : 'OK'});
+        return;
+      }
+
+      if ( table === 'services' ) {
+        datas.makeServiceList( list, list.length, function (result) {
+          res.json({'result' : 'OK'});
+        });
+      }
+
+    }
+
+  });
+
+});
+
 
 /**
  * マスタデータの更新

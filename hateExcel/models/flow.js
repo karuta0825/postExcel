@@ -15,7 +15,7 @@ flow.makeSyncLoop = function ( inner_work ) {
         // 非同期処理なのでPromiseを利用
         return new Promise(function(resolve, reject) {
           // 非同期処理部分
-          inner_work(map, function () {
+          inner_work(map, i, function () {
             // ループ内処理が終了後,
             // Promiseのステータスを完了に変更し、
             // 順次処理を成す
