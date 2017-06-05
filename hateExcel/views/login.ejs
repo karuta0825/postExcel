@@ -1,45 +1,45 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= title %></title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="css/material.min.css"/>
-    <link rel="stylesheet" href="css/mdl-selectfield.css"/>
-</head>
+    <link rel="stylesheet" href="css/login.css"/>
+    <link rel="stylesheet" href="css/base.css"/>
+  </head>
   <body>
-    <div class='login'>
-
       <!-- ヘッダー -->
+    <!-- <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header"> -->
+    <div>
       <header class="mdl-layout__header">
         <div class="mdl-layout__header-row">
           <div class="mdl-layout-spacer"></div>
           <nav class="mdl-navigation mdl-layout--large-screen-only"></nav>
-          <i class="material-icons">arrow_drop_up</i>
-          <i class="material-icons">arrow_drop_down</i>
+          <span>アカウント作成</span>
         </div>
       </header>
-
-      <div class='login__body'>
-
-        <h1 class=''><%= title %></h1>
-        <p>Welcome to <%= title %></p>
-
-        <form method='post' action='/login'>
-          <input type='text' name='user'>
-          <br>
-          <input type='text' name='pass'>
-          <button type='submit'></button>
-        </form>
-
-      </div>
-
-      <div class='login__footer'>
+    </div>
 
 
-      </div>
+    <div class='login__body'>
 
+      <form class='login-form' method='post' action='/login'>
+        <div class='input-item'>
+          <span>ログイン名</span>
+          <input class='id' type='text' name='user'>
+        </div>
+        <div class='input-item'>
+          <span>パスワード</span>
+          <input class='pass' type='text' name='pass'>
+        </div>
+        <div>
+          <button class='btn--login mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect' type='submit'>ログイン</button>
+        </div>
+      </form>
 
     </div>
+
+    <div class='login__footer'></div>
     <script src="js/lib/material.js"></script>
   </body>
+
 </html>
