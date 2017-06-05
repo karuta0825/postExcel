@@ -96,7 +96,7 @@
     // ダウンロード
     _.each( clientView.get('checkbox'), function ( val, key ) {
       if( $(val).hasClass('is-checked') ) {
-        $(val).find('a').click();
+        $(val).find('a')[0].click();
       }
     });
 
@@ -110,23 +110,52 @@
 
   _downloadOpenNotice = function () {
 
-    // filenameを決める
-    // @example yyyy-mm-dd_KIDXXXXX_content.file_type
-
-    // チェックの付いたクライアントを取得
-
-    // 取得データからモデルにデータ検索
+    var
+      kid          =  cms.model.userBaseInfo.getCache().kid
+    , file_name    = new moment().format('YYYYMMDD') + '_' + kid + '_OpenNotice.csv'
+    , list_checked = _getSelectItem()
+    , downloadMap
+    , csv_header
+    , blob
+    ;
 
     // 検索データがゼロのとき、処理終了
+    if ( list_checked.length < 1 ) {
+      return;
+    }
+
+    // 取得データからモデルにデータ検索
+    downloadMap = cms.model.clients.makeOpenNotice( list_checked );
+
+    csv_header = _.values(downloadMap.header).join(',');
 
     // データ作成
+    blob = util.convertMap2Blob( downloadMap.body, csv_header );
 
     // ダウンロード
-    // util.downloadFile( this, Blob, filename );
+    util.downloadFile( this, blob, file_name );
 
   };
 
   _downloadBat = function () {
+
+    var
+      kid          =  cms.model.userBaseInfo.getCache().kid
+    , file_name    = new moment().format('YYYYMMDD') + '_' + kid + '_makeUserData.bat'
+    , downloadMap
+    , csv_header
+    , blob
+    ;
+
+    downloadMap = cms.model.clients.makeBatInfo();
+
+    // データ作成
+    blob = util.makeMapList2Txt( downloadMap );
+
+    // ダウンロード
+    util.downloadFile( this, blob, file_name );
+
+
 
   };
 
@@ -297,8 +326,8 @@
       'click btn__edit'             : _goEditMode,
       'click btn__cancel'           : _backMode,
       'click btn__save'             : _save,
-      'click download__client'      : $.proxy( function (e) { console.log(e); }, this),
-      'click download__open_notice' : function () { alert('download download__o')},
+      'click download__client'      : _downloadBat,
+      'click download__open_notice' : _downloadOpenNotice,
       'click download__spla'        : function () { alert('download download__s')},
       'click download__mail'        : function () { alert('download download__m')},
       'change select-clients'       : _changeFenicsId

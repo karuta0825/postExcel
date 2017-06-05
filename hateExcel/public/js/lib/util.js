@@ -90,7 +90,7 @@
       return k + '' + v + '\r\n';
     });
 
-    return new Blob( outpu, {'type' : 'text/plain'} );
+    return new Blob( output, {'type' : 'text/plain'} );
 
   };
 

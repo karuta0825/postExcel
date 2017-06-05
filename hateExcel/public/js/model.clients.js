@@ -17,6 +17,7 @@
   , clearUpdateInfo
   , update
   , makeOpenNotice
+  , makeBatInfo
   ;
 
   changeUpdateInfo = function ( id ) {
@@ -27,6 +28,9 @@
     _updateInfo = [];
   };
 
+  /**
+   * 対応FenicsIDを更新
+   */
   update = function () {
 
     if ( _updateInfo.length === 0 ) {
@@ -59,7 +63,7 @@
 
     return {
       'downloadSite' : 'https://',
-      'downloadUrl'  : 'http;',
+      'downloadUrl'  : 'http:',
       'password'     : 'pass',
       'userkey'      : base.userkey,
       'db_password'  : base.db_password,
@@ -71,7 +75,7 @@
   };
 
   /**
-   * [makeOpenNoticeMapList description]
+   * 選択したクライアントの開通通知用の行情報取得
    * @param  {Array} list_checked
    * @return {Array}
    * TODO:
@@ -100,6 +104,24 @@
     }
   };
 
+  /**
+   * iniファイル作成用のデータ取得
+   */
+  makeBatInfo = function ( list_checked ) {
+
+    var
+      base = cms.model.userBaseInfo.getCache()
+    , ap = base.server
+    , db = cms.model.servers.find({ name : ap })[0].connect_db
+    ;
+
+    return {
+      'DBName='  : db || '',
+      'User='    : base.userkey || '',
+      'Password=' : base.db_password || ''
+    };
+  }
+
   // to public
   cms.model.clients = {
     fetch               : $.proxy( _model.fetch, _model ),
@@ -110,7 +132,9 @@
     tmp                 : _makeOpenNoticeMapList,
     changeUpdateInfo    : changeUpdateInfo,
     clearUpdateInfo     : clearUpdateInfo,
-    update              : update
+    update              : update,
+    makeBatInfo         : makeBatInfo,
+    makeOpenNotice      : makeOpenNotice
   };
 
 }( jQuery, customer ));
