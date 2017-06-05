@@ -17,7 +17,7 @@
     <tr data-id=<%- item.id %> >
       <!-- TODO: バージョンは選択式にする -->
       <td class='type'>
-        <select>
+        <select class='select-type'>
           <option
           <% if ( item.type === 'AP' ) { %>
             selected
@@ -38,10 +38,7 @@
       <td class='name'> <input type='text' value=<%- item.name        %> > </td>
       <td class='ip'>   <input type='text' value=<%- item.ip%> >           </td>
       <td class='connect_db'>
-          <% if ( item.type === 'AP' ) { %>
             <select class='select-db'></select>
-          <% } %>
-
       </td>
       <td align='center' class='del'>
         <button class='btn btn--del mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect'>

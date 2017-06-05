@@ -7,7 +7,7 @@
   var
   // member
     idx = 0
-  , view
+  , view = {}
   , esView
   , lmView
   , elements = {
@@ -21,15 +21,17 @@
           'save'   : '.btn--save',
           'del'    : '.btn--del',
         },
-        'body'      : '.setting__body',
-        'table'     : 'table',
-        'select_db' : '.select-db'
+        'body'        : '.setting__body',
+        'table'       : 'table',
+        'select_db'   : '.select-db',
+        'select_type' : '.select-type'
       }
     }
 
   // private method
   , _changeValue
   , _changeVersion
+  , _changeConnetDBVisibilty
   , _makeSelectBox
   , _setSelectValue
   , _onClickAdd
@@ -65,12 +67,28 @@
     var version = $(this).val();
 
     if ( version === 'LM' ) {
-      lmView.wrap.removeClass('is-hidden');
-      esView.wrap.addClass('is-hidden');
+      view['LM'].wrap.removeClass('is-hidden');
+      view['ES'].wrap.addClass('is-hidden');
     }
     else {
-      lmView.wrap.addClass('is-hidden');
-      esView.wrap.removeClass('is-hidden');
+      view['ES'].wrap.removeClass('is-hidden');
+      view['LM'].wrap.addClass('is-hidden');
+    }
+
+  };
+
+  _changeConnetDBVisibilty = function ( evt ) {
+
+    var
+      type = $(evt.target).val()
+    , tr   = $(evt.target).parents('tr')
+    ;
+
+    if ( type === 'AP' ) {
+      tr.find('.select-db').removeClass('is-hidden');
+    }
+    else {
+      tr.find('.select-db').addClass('is-hidden');
     }
 
   };
@@ -79,12 +97,7 @@
 
     var tr, value;
 
-    if ( version === 'LM' ) {
-      tr = lmView.get('table').find('tbody tr');
-    }
-    else {
-      tr = esView.get('table').find('tbody tr');
-    }
+    tr = view[version].get('table').find('tbody tr');
 
     _.each( tr, function ( el, idx ) {
       value = cms.model.servers.find( { id :$(el).data('id') })[0].connect_db;
@@ -95,25 +108,15 @@
 
   _makeSelectBox = function ( version ) {
 
-    var  data = cms.model.servers.find({'version' : version, 'type' : 'DB'});
+    var data = cms.model.servers.find({'version' : version, 'type' : 'DB'});
 
-    if ( version === 'LM') {
-      lmView.get('select_db').empty();
-      lmView.get('select_db').append( $('<option>'));
-      _.each( data, function ( v, k ) {
-        option = $('<option>', { 'value' : v['name'], 'text' : v['name'] } );
-        lmView.get('select_db').append(option);
-      });
+    view[version].get('select_db').empty();
+    view[version].get('select_db').append( $('<option>'));
 
-    }
-    else {
-      esView.get('select_db').empty();
-      esView.get('select_db').append( $('<option>'));
-      _.each( data, function ( v, k ) {
-        option = $('<option>', { 'value' : v['name'], 'text' : v['name'] } );
-        esView.get('select_db').append(option);
-      });
-    }
+    _.each( data, function ( v, k ) {
+      option = $('<option>', { 'value' : v['name'], 'text' : v['name'] } );
+      view[version].get('select_db').append(option);
+    });
 
     _setSelectValue( version );
 
@@ -124,32 +127,40 @@
 
     // DOM要素生成
     var
-      tr      = $('<tr>',     { 'data-id' : 'c' + idx })
-    , td_ver  = $('<td>',     { class : 'version'} )
-    , td_type = $('<td>',     { class : 'type'} )
-    , td_name = $('<td>',     { class : 'name' } )
-    , td_ip   = $('<td>',     { class : 'ip' } )
-    , td_del  = $('<td>',     { align : 'center', class : 'del' } )
-    , input   = $('<input>',  { type  : 'text' } )
-    , select  = $('<select>')
-    , opt_es  = $('<option>', { value : 'ES', text : 'ES'} )
-    , opt_lm  = $('<option>', { value : 'LM', text : 'LM'} )
-    , button  = $('<button>', { class : 'btn btn--del mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect'} )
-    , icon    = $('<i>'     , { class : 'material-icons', text : 'delete_forever'})
+      tr          = $('<tr>',     { 'data-id' : 'c' + idx })
+    , td_type     = $('<td>',     { class : 'type'} )
+    , td_name     = $('<td>',     { class : 'name' } )
+    , td_ip       = $('<td>',     { class : 'ip' } )
+    , td_con_db   = $('<td>',     { class : 'connect_db' } )
+    , td_del      = $('<td>',     { align : 'center', class : 'del' } )
+    , input       = $('<input>',  { type  : 'text' } )
+    , select_type = $('<select>', { class : 'select-type'})
+    , select_db   = $('<select>', { class : 'select-db'})
+    , opt_ap      = $('<option>', { value : 'AP', text : 'AP'} )
+    , opt_db      = $('<option>', { value : 'DB', text : 'DB'} )
+    , opt_web     = $('<option>', { value : 'WEB', text : 'WEB'} )
+    , button      = $('<button>', { class : 'btn btn--del mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect'} )
+    , icon        = $('<i>'     , { class : 'material-icons', text : 'delete_forever'})
     ;
 
     // cidの管理もモデルにやってほしいものだ
     idx += 1;
-    select.append( opt_es ).append( opt_lm );
+    select_type
+      .append( opt_ap  )
+      .append( opt_db  )
+      .append( opt_web )
+      ;
 
-    td_ver.append(select);
+    td_type.append(select_type);
     td_name.append( $(input).clone(true) );
     td_ip.append(   $(input).clone(true) );
+    td_con_db.append( select_db );
     td_del.append( button.append(icon) );
 
-    tr.append(td_ver)
+    tr.append(td_type)
       .append(td_name)
       .append(td_ip)
+      .append(td_con_db)
       .append(td_del)
       ;
 
@@ -166,29 +177,17 @@
     , complied = _.template( tmpl )
     ;
 
-    if ( version === 'LM' ) {
-      lmView.get('body').append( complied(data) );
-      lmView.updateElement({'select_db' : '.select-db'});
-      lmView.updateElement({'table' : 'table'});
-    }
-    else {
-      esView.get('body').append( complied(data) );
-      esView.updateElement({'select_db' : '.select-db'});
-      esView.updateElement({'table' : 'table'});
-    }
+    view[version].get('body').append( complied(data) );
+    view[version].updateElement({'select_db'   : '.select-db'});
+    view[version].updateElement({'select_type' : '.select-type'});
+    view[version].updateElement({'table'       : 'table'});
 
   };
 
   _redrawTable = function ( version ) {
 
-    if ( version === 'LM' ) {
-      lmView.get('body').empty();
-      _drawTable( customer.model.servers.find( {'version' : 'LM'} ) );
-    }
-    else {
-      esView.get('body').empty();
-      _drawTable( customer.model.servers.find( {'version' : 'ES'} ) );
-    }
+    view[version].get('body').empty();
+    _drawTable( customer.model.servers.find( {'version' : version } ) );
 
   };
 
@@ -212,28 +211,15 @@
       version = $(evt.target).parents('.setting').data('version')
     , row = _makeRow();
 
-    if ( version === 'LM' ) {
-      lmView.get('body').find('table').append(row);
-      cms.model.servers.insertItem({
-        'id'           : row.data('id'),
-        'type'         : '',
-        'name'         : '',
-        'ip'           : '',
-        'connect_db'   : '',
-        'version'      : 'LM'
-      });
-    }
-    else {
-      esView.get('body').find('table').append(row);
-      cms.model.servers.insertItem({
-        'id'           : row.data('id'),
-        'type'         : '',
-        'name'         : '',
-        'ip'           : '',
-        'connect_db'   : '',
-        'version'      : 'ES'
-      });
-    }
+    view[version].get('body').find('table').append(row);
+    cms.model.servers.insertItem({
+      'id'           : row.data('id'),
+      'type'         : '',
+      'name'         : '',
+      'ip'           : '',
+      'connect_db'   : '',
+      'version'      : version
+    });
 
   };
 
@@ -263,32 +249,36 @@
     // 同期処理させる
     $('.main-contents--settings-servers').append( customer.db.getHtml('setting.servers.html') );
 
-    view   = new Controller('.main-contents--settings-servers');
-    lmView = new Controller('.setting--lm-servers');
-    esView = new Controller('.setting--es-servers');
+    view   = {
+      'BASE' : new Controller('.main-contents--settings-servers'),
+      'LM'   : new Controller('.setting--lm-servers'),
+      'ES'   : new Controller('.setting--es-servers')
+    };
 
-    view.initElement(   elements.select );
-    lmView.initElement( elements.common );
-    esView.initElement( elements.common );
+    view['BASE'].initElement( elements.select );
+    view['LM'].initElement( elements.common );
+    view['ES'].initElement( elements.common );
 
     _drawTable( customer.model.servers.find( {'version' : 'LM'} ) );
     _drawTable( customer.model.servers.find( {'version' : 'ES'} ) );
 
     _makeSelectBox('LM');
+    _makeSelectBox('ES');
 
-    view.addListener({
+    view['BASE'].addListener({
       'change version' : _changeVersion
     });
 
-    lmView.addListener({
-      'click btn__add'    : _onClickAdd,
-      'click btn__save'   : _onClickSave,
-      'click btn__cancel' : _onClickCancel,
-      'click btn__del'    : _onClickDel,
-      'change body'       : _changeValue
+    view['LM'].addListener({
+      'click btn__add'     : _onClickAdd,
+      'click btn__save'    : _onClickSave,
+      'click btn__cancel'  : _onClickCancel,
+      'click btn__del'     : _onClickDel,
+      'change body'        : _changeValue,
+      'change select_type' : _changeConnetDBVisibilty
     });
 
-    esView.addListener({
+    view['ES'].addListener({
       'click btn__add'    : _onClickAdd,
       'click btn__save'   : _onClickSave,
       'click btn__cancel' : _onClickCancel,

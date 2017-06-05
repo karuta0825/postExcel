@@ -413,6 +413,14 @@ app.post('/master', function ( req, res ) {
       if ( table === 'services' ) {
         datas.makeServiceList( list, list.length, function (result) {
           res.json({'result' : 'OK'});
+          return
+        });
+      }
+
+      if ( table === 'servers' ) {
+        datas.makeServerList( list, list.length, function (result) {
+          res.json({'result' : 'OK'});
+          return
         });
       }
 

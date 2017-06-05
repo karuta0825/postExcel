@@ -92,9 +92,9 @@
 
     console.log(params);
 
-    // cms.db.insert('/master', params, function ( result ) {
-    //   console.log(result);
-    // });
+    cms.db.insert('/master', params, function ( result ) {
+      console.log(result);
+    });
 
   };
 

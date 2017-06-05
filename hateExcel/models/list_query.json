@@ -53,14 +53,16 @@
     "make_fenics_account" : "INSERT INTO fenics set ?",
     "make_memo"           : "INSERT INTO memos set ?",
     "make_client"         : "INSERT INTO clients set ?;",
-    "services"            : "INSERT INTO services set ?"
+    "services"            : "INSERT INTO services set ?",
+    "servers"             : "INSERT INTO servers set ?"
   },
 
   "delete" : {
-    "kids"    : "DELETE FROM kids where ?;",
-    "clients" : "DELETE FROM clients where ?;",
-    "fenics"  : "DELETE FROM fenics where ?;",
-    "memos"   : "DELETE FROM memos where ?;",
-    "services" : "DELETE FROM services where version = ?;"
+    "kids"     : "DELETE FROM kids where ?;",
+    "clients"  : "DELETE FROM clients where ?;",
+    "fenics"   : "DELETE FROM fenics where ?;",
+    "memos"    : "DELETE FROM memos where ?;",
+    "services" : "DELETE FROM services where version = ?;",
+    "servers"  : "DELETE FROM servers where version = ?;"
   }
 }

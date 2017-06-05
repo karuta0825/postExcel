@@ -443,8 +443,6 @@ var makeClient = function ( input_map, idx, callback ) {
 var makeService = function ( list_item, idx, callback ) {
 
   var data = list_item[idx];
-  console.log(idx);
-  console.log(data);
 
   datas.insert( data, 'services', function ( err, results ) {
     // 連続insertでKIDが重複していた場合、再作成
@@ -462,6 +460,27 @@ var makeService = function ( list_item, idx, callback ) {
 
 };
 
+var makeServer = function ( list_item, idx, callback ) {
+
+  var data = list_item[idx];
+  console.log(idx);
+  console.log(data);
+
+  datas.insert( data, 'servers', function ( err, results ) {
+    // 連続insertでKIDが重複していた場合、再作成
+    if ( err ){
+      console.log(err);
+      callback( err );
+      return;
+    }
+
+    if ( typeof callback === 'function') {
+      callback({ result : 'OK'});
+    }
+
+  });
+
+};
 
 
 /**
@@ -472,6 +491,8 @@ datas.makeFenicsList = flow.makeSyncLoop( makeFenicsAccount );
 datas.makeClientList = flow.makeSyncLoop( makeClient );
 
 datas.makeServiceList = flow.makeSyncLoop( makeService );
+
+datas.makeServerList = flow.makeSyncLoop( makeServer );
 
 
 
