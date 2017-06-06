@@ -54,7 +54,8 @@
     "make_memo"           : "INSERT INTO memos set ?",
     "make_client"         : "INSERT INTO clients set ?;",
     "services"            : "INSERT INTO services set ?",
-    "servers"             : "INSERT INTO servers set ?"
+    "servers"             : "INSERT INTO servers set ?",
+    "make_login_account"  : "INSERT INTO login_users set ?"
   },
 
   "delete" : {

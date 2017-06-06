@@ -38,7 +38,7 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/login', function ( req, res ) {
-  res.render('login', { title : 'login'} );
+  res.render('login', { message : ''} );
 });
 
 app.post('/login', function ( req, res ) {
@@ -63,6 +63,21 @@ app.post('/login', function ( req, res ) {
 app.get('/logout', function ( req, res ) {
   req.session.pass = null;
   res.redirect('/');
+});
+
+app.post('/makeLoginAccount', function (req, res) {
+
+  var data = {
+    uid      : req.body.id  ,
+    name     : req.body.name,
+    password : req.body.pass,
+    newadd   : 1
+  };
+
+  datas.makeLoginAccount(data, function (err) {
+    res.render('login', { message : 'アカウント作成完了'} );
+  })
+
 });
 
 app.get('/', function ( req, res ) {

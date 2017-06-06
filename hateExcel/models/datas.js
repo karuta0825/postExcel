@@ -40,7 +40,23 @@ datas.authenticate = function ( data, callback ) {
   );
 };
 
+datas.makeLoginAccount = function ( data, callback ) {
 
+  db.query(
+    querys.insert.make_login_account,
+    [ data ],
+    function ( err, results, fileld ) {
+      if ( err ) {
+        console.log(err);
+        callback(err);
+        return
+      }
+      callback(null);
+      return;
+    }
+  );
+
+};
 
 datas.selectAll = function ( table, callback ) {
   db.query(

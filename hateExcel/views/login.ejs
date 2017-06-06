@@ -7,39 +7,74 @@
     <link rel="stylesheet" href="css/base.css"/>
   </head>
   <body>
+
+    <div class='login'>
+
       <!-- ヘッダー -->
-    <!-- <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header"> -->
-    <div>
-      <header class="mdl-layout__header">
-        <div class="mdl-layout__header-row">
-          <div class="mdl-layout-spacer"></div>
-          <nav class="mdl-navigation mdl-layout--large-screen-only"></nav>
-          <span>アカウント作成</span>
-        </div>
-      </header>
+      <!-- <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header"> -->
+      <div class='login__header'>
+        <header class="mdl-layout__header">
+          <div class="mdl-layout__header-row">
+            <div class="mdl-layout-spacer"></div>
+            <nav class="mdl-navigation mdl-layout--large-screen-only"></nav>
+            <span class='btn--make-login-account'>アカウント作成</span>
+          </div>
+        </header>
+      </div>
+
+      <div class='login__body'>
+        <p><%= message %></p>
+
+        <form class='login-form' method='post' action='/login'>
+          <div class='input-item'>
+            <span>ログイン名</span>
+            <input class='id' type='text' name='user'>
+          </div>
+          <div class='input-item'>
+            <span>パスワード</span>
+            <input class='pass' type='text' name='pass'>
+          </div>
+          <div>
+            <button class='btn--login mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect' type='submit'>ログイン</button>
+          </div>
+        </form>
+
+      </div>
+
+      <div class='login__footer'></div>
+
+      <div class='make-account is-hidden'>
+
+        <p>アカウント作成</p>
+        <form class='login-form' method='post' action='/makeLoginAccount'>
+          <div class='input-item'>
+            <span>ID</span>
+            <input class='id' type='text' name='id'>
+          </div>
+          <div class='input-item'>
+            <span>ログイン名</span>
+            <input class='name' type='text' name='name'>
+          </div>
+          <div class='input-item'>
+            <span>パスワード</span>
+            <input class='pass' type='text' name='pass'>
+          </div>
+          <div>
+            <button class='btn--login mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect' type='submit'>作成</button>
+          </div>
+        </form>
+
+      </div>
+
+
+
     </div>
 
-
-    <div class='login__body'>
-
-      <form class='login-form' method='post' action='/login'>
-        <div class='input-item'>
-          <span>ログイン名</span>
-          <input class='id' type='text' name='user'>
-        </div>
-        <div class='input-item'>
-          <span>パスワード</span>
-          <input class='pass' type='text' name='pass'>
-        </div>
-        <div>
-          <button class='btn--login mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect' type='submit'>ログイン</button>
-        </div>
-      </form>
-
-    </div>
-
-    <div class='login__footer'></div>
+    <script src='./js/lib/jquery-2.1.4.min.js'></script>
+    <script src='./js/lib/underscore.js'></script>
     <script src="js/lib/material.js"></script>
+    <script src="js/lib/mvc.js"></script>
+    <script src="js/login.js"></script>
   </body>
 
 </html>

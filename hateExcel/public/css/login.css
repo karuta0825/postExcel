@@ -1,5 +1,6 @@
 
-.login__body {
+.login__body,
+.make-account {
   width : 30%;
   height: 200px;
   /*background: red;*/
