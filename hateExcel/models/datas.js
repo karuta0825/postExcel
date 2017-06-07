@@ -27,7 +27,7 @@ datas.authenticate = function ( data, callback ) {
         return;
       }
       // 検索ヒットしたとき
-      if ( results && results.length > 0 ) {
+      if ( results && results.length > 0 && results[0].newadd === 0) {
         delete results[0].password;
         callback( null, results[0] );
         return;

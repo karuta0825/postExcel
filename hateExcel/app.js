@@ -75,7 +75,7 @@ app.post('/makeLoginAccount', function (req, res) {
   };
 
   datas.makeLoginAccount(data, function (err) {
-    res.render('login', { message : 'アカウント作成完了'} );
+    res.render('complete');
   })
 
 });
