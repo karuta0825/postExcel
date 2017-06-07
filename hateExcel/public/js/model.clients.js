@@ -82,12 +82,16 @@
    */
   _makeOpenNoticeMapList = function ( list_checked ) {
 
-    var list_clients = _model.find( list_checked );
+    var
+      list_clients  = _model.find( list_checked )
+    , fenicskey     = cms.model.userNetwork.getCache()[0].fenics_key
+    , honame_prefix = fenicskey && fenicskey.toUpperCase()
+    ;
 
     return  _.map( list_clients, function ( val, key ) {
 
       return {
-        'hostname'        : val.fenics_id && val.fenics_id.toUpperCase() || '',
+        'hostname'        : honame_prefix + val.client_id.match(/\d+/)[0],
         'fenics_id'       : val.fenics_id && 'hopecl-' + val.fenics_id || '',
         'password'        : val.fenics_id || '',
         'client_id'       : val.client_id,
