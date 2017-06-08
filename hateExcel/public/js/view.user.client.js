@@ -84,10 +84,6 @@
     clientView.get('dialog__download').get(0).showModal();
   };
 
-  _openDelDialog = function () {
-    clientView.get('dialog__delete').get(0).showModal();
-  };
-
   _closeDialog = function () {
     clientView.get('dialog__download').get(0).close();
   };
@@ -101,11 +97,10 @@
       }
     });
 
-    // 初期化
     clear();
 
-    // 閉じる
     clientView.get('dialog__download').get(0).close();
+
   };
 
 
@@ -156,8 +151,6 @@
     // ダウンロード
     util.downloadFile( this, blob, file_name );
 
-
-
   };
 
   _downloadSpla = function () {
@@ -191,7 +184,6 @@
     });
 
   };
-
 
   makeFenicsSelectBox = function () {
 
@@ -229,7 +221,6 @@
         refresh();
       } );
     }
-
 
   };
 
@@ -332,7 +323,7 @@
       'click btn__download'         : _openDialog,
       'click btn__close'            : _closeDialog,
       'click btn__exec'             : _execDowload,
-      'click btn__delete'           : _openDelDialog,
+      'click btn__delete'           : function (){ clientView.get('dialog__delete').get(0).showModal(); },
       'click btn__edit'             : _goEditMode,
       'click btn__cancel'           : _cancel,
       'click btn__save'             : _save,
