@@ -41,6 +41,7 @@
   , _downloadSpla
   , _changeFenicsId
   , _save
+  , _cancel
   , makeFenicsSelectBox
   , clear
   , drawTable
@@ -240,6 +241,7 @@
     ;
 
     // コレクションの値を書き換える
+    // これはモデルのしごとだ
     cms.model.clients.find({ 'client_id' : client_id })[0].fenics_id = value;
 
     cms.model.clients.changeUpdateInfo( client_id );
@@ -250,6 +252,14 @@
   _save = function () {
     cms.model.clients.update();
     _backMode();
+  };
+
+  _cancel = function () {
+
+    _backMode();
+
+    refresh();
+
   };
 
   redrawTable = function ( data ) {
@@ -324,7 +334,7 @@
       'click btn__exec'             : _execDowload,
       'click btn__delete'           : _openDelDialog,
       'click btn__edit'             : _goEditMode,
-      'click btn__cancel'           : _backMode,
+      'click btn__cancel'           : _cancel,
       'click btn__save'             : _save,
       'click download__client'      : _downloadBat,
       'click download__open_notice' : _downloadOpenNotice,
