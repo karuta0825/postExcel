@@ -26,7 +26,7 @@
   Controller.fn.initElement = function ( map_element, key ) {
 
     this['selector'] = map_element;
-    this.deep( map_element, key );
+    this['_el'] = this.deep( map_element, key );
 
     // _.each( map_element, function ( val, key ) {
     //   this['_el'][key] = this.$(val);
@@ -36,20 +36,31 @@
 
   Controller.fn.deep = function ( obj, key ) {
 
-    for ( var i in obj ) {
-      if ( ! (typeof obj[i] === 'object')) {
-        if ( !key ) {
-          this['_el'][i] = this.$(obj[i]);
-        }
-        else {
-          this['_el'][key][i] = this.$(obj[i]);
-        }
-      }
-      else {
-        this['_el'][i] = {}
-        this.deep(obj[i], i );
-      }
+    // for ( var i in obj ) {
+    //   if ( ! (typeof obj[i] === 'object')) {
+    //     if ( !key ) {
+    //       this['_el'][i] = this.$(obj[i]);
+    //     }
+    //     else {
+    //       this['_el'][key][i] = this.$(obj[i]);
+    //     }
+    //   }
+    //   else {
+    //     this['_el'][i] = {}
+    //     this.deep(obj[i], i );
+    //   }
+    // }
+    if ( _.isObject(obj) ) {
+      return _.mapObject( obj, function (v,k) {
+        console.log(v);
+        return this.deep(v);
+      },this);
     }
+    else {
+      return this.$(obj);
+    }
+
+
   };
 
   Controller.fn.propertys = function () {
