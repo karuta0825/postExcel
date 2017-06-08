@@ -53,7 +53,6 @@
     partnerView.get('btn__cancel').addClass('is-hidden');
     partnerView.get('btn__save').addClass('is-hidden');
 
-
   };
 
   save = function () {
@@ -116,9 +115,9 @@
 
   getViewInfo = function () {
     return {
-      'pid'           : Number(partnerView.get('input__pid'       ).find('.item-value').val()),
+      'pid'           : partnerView.get('input__pid'              ).find('.item-value').val(),
       'name'          : partnerView.get('input__name'             ).find('.item-value').val(),
-      'postal_cd'     : Number(partnerView.get('input__postal_cd' ).find('.item-value').val()),
+      'postal_cd'     : partnerView.get('input__postal_cd'        ).find('.item-value').val(),
       'address'       : partnerView.get('input__address'          ).find('.item-value').val(),
       'se_affliation' : partnerView.get('input__se_affliation'    ).find('.item-value').val(),
       'se_name'       : partnerView.get('input__se_name'          ).find('.item-value').val(),

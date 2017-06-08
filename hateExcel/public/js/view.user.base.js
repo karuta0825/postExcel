@@ -1,4 +1,4 @@
-/**
+  /**
  * ユーザー基本情報
  */
 
@@ -243,7 +243,7 @@
     result.customer = {
       'kid'           : baseView.get('kid'          ).find('.item-value').val(),
       'user_name'     : baseView.get('user_name'    ).find('.item-value').val(),
-      'postal_cd'     : Number(baseView.get('postal_cd'    ).find('.item-value').val() ),
+      'postal_cd'     : baseView.get('postal_cd'    ).find('.item-value').val(),
       'address'       : baseView.get('address'      ).find('.item-value').val(),
       'affliation'    : baseView.get('affliation'   ).find('.item-value').val(),
       'owner'         : baseView.get('owner'        ).find('.item-value').val(),
