@@ -424,13 +424,19 @@
 .users-table__action {
   margin-top :  20px;
   margin-left: 30px;
+  margin-bottom: 15px;
   text-align: right;
   width: 96%;
 }
 
+.users-table__body {
+  height: 900px;
+  overflow-y: scroll;
+}
+
 .users-table {
   width : 100%;
-  overflow-x: auto;
+  overflow-x: scroll;
 }
 
 
