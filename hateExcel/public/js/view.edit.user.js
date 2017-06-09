@@ -37,6 +37,7 @@
     }
   , _openMemoDialog
   , _selectMemo
+  , _filterMemo
   , backUserTable
   , makeMemos
   , initModule
@@ -68,6 +69,13 @@
     cms.view.userMemo.changeEditMode(true);
 
     editView.get('memo__dialog').get(0).showModal();
+
+  };
+
+  _filterMemo = function ( e ) {
+    var priority = $(e.target).val();
+
+    cms.model.userMemo.find({'priority' : priority}, makeMemos );
 
   };
 
@@ -120,9 +128,11 @@
 
     editView.updateElement({ memo__items : '.memo-item'});
 
-    componentHandler.upgradeElements( editView.get('memo__list') );
+    componentHandler.upgradeElement( editView.get('memo__list').get(0) );
 
   };
+
+
 
   initModule = function () {
 
@@ -135,9 +145,10 @@
 
     // イベント登録
     editView.addListener({
-      'click btn__back' : backUserTable,
-      'click btn__add-memo' : _openMemoDialog,
-      'click memo__items' : _selectMemo
+      'click btn__back'         : backUserTable,
+      'click btn__add-memo'     : _openMemoDialog,
+      'click memo__items'       : _selectMemo,
+      'change btn__filter-memo' : _filterMemo
     });
 
 
