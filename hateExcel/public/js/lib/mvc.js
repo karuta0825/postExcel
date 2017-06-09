@@ -52,7 +52,6 @@
     // }
     if ( _.isObject(obj) ) {
       return _.mapObject( obj, function (v,k) {
-        console.log(v);
         return this.deep(v);
       },this);
     }
