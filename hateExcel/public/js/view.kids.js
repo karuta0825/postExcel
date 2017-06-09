@@ -434,7 +434,7 @@
     _hideCol();
 
     // これが肝 チェックボックスを生成してくれる
-    componentHandler.upgradeElements( jqueryMap.table );
+    componentHandler.upgradeElement( jqueryMap.table.get(0) );
 
     jqueryMap.body.kid.on( 'click', _onClickKid );
     jqueryMap.header.on( 'click', _onClickColumn );
