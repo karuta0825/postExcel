@@ -31,8 +31,10 @@
         'em_name'       : '.em_name',
         'em_tel'        : '.em_tel',
         'em_email'      : '.em_email'
-      }
+      },
+      'alert' : '#save-alert'
     }
+  , _validate
   , cancel
   , save
   , edit
@@ -43,7 +45,32 @@
   , initModule
   ;
 
+  _validate = function ( list_key ) {
+
+    _.each( partnerView.get('input'), function (val, key){
+      val.find('.item-value').removeClass('is-error');
+    });
+
+    if ( list_key.length !== 0 ) {
+
+      _.each( list_key, function ( v,k ) {
+        partnerView.get('input__' + v )
+          .find('.item-value')
+          .addClass('is-error');
+      });
+
+      partnerView.get('alert').get(0).showModal();
+
+      return true;
+
+    }
+
+    return false;
+
+  };
+
   cancel = function () {
+
     _.each( partnerView.get('input'), function (val, key){
       val.find('.item-value').removeClass('is-edit');
       val.find('.item-value').prop('disabled', true);
@@ -53,9 +80,16 @@
     partnerView.get('btn__cancel').addClass('is-hidden');
     partnerView.get('btn__save').addClass('is-hidden');
 
+    reset();
+
   };
 
   save = function () {
+
+    var error = cms.model.userPartner.check( getViewInfo() );
+    if ( _validate(error) ) {
+      return;
+    };
 
     // update
     customer.model.userPartner.update( getViewInfo(), setInfo );
@@ -75,6 +109,7 @@
   };
 
   edit = function () {
+
     _.each( partnerView.get('input'), function (val, key){
       val.find('.item-value').addClass('is-edit');
       val.find('.item-value').prop('disabled', false);
@@ -87,29 +122,36 @@
   };
 
   reset = function () {
+
+    _.each( partnerView.get('input'), function (val, key){
+      val.find('.item-value').removeClass('is-error');
+    });
+
     customer.model.userPartner.getCache( setInfo );
   };
 
   setInfo = function ( data ) {
 
-    partnerView.get('input__pid'          ).find('.item-value').val( data[0].pid  );
-    partnerView.get('input__name'         ).find('.item-value').val( data[0].name );
-    partnerView.get('input__postal_cd'    ).find('.item-value').val( data[0].postal_cd);
-    partnerView.get('input__address'      ).find('.item-value').val( data[0].address);
-    partnerView.get('input__se_affliation').find('.item-value').val( data[0].se_affliation);
-    partnerView.get('input__se_name'      ).find('.item-value').val( data[0].se_name );
-    partnerView.get('input__se_tel'       ).find('.item-value').val( data[0].se_tel );
-    partnerView.get('input__se_fax'       ).find('.item-value').val( data[0].se_fax);
-    partnerView.get('input__se_email'     ).find('.item-value').val( data[0].se_email);
-    partnerView.get('input__sa_affliation').find('.item-value').val( data[0].sa_affliation);
-    partnerView.get('input__sa_name'      ).find('.item-value').val( data[0].sa_name );
-    partnerView.get('input__sa_tel'       ).find('.item-value').val( data[0].sa_tel );
-    partnerView.get('input__sa_fax'       ).find('.item-value').val( data[0].sa_fax );
-    partnerView.get('input__sa_email'     ).find('.item-value').val( data[0].sa_email );
-    partnerView.get('input__em_company'   ).find('.item-value').val( data[0].em_company );
-    partnerView.get('input__em_name'      ).find('.item-value').val( data[0].em_name );
-    partnerView.get('input__em_tel'       ).find('.item-value').val( data[0].em_tel );
-    partnerView.get('input__em_email'     ).find('.item-value').val( data[0].em_email) ;
+    var data = _.isArray( data) ? data[0] : data;
+
+    partnerView.get('input__pid'          ).find('.item-value').val( data.pid  );
+    partnerView.get('input__name'         ).find('.item-value').val( data.name );
+    partnerView.get('input__postal_cd'    ).find('.item-value').val( data.postal_cd);
+    partnerView.get('input__address'      ).find('.item-value').val( data.address);
+    partnerView.get('input__se_affliation').find('.item-value').val( data.se_affliation);
+    partnerView.get('input__se_name'      ).find('.item-value').val( data.se_name );
+    partnerView.get('input__se_tel'       ).find('.item-value').val( data.se_tel );
+    partnerView.get('input__se_fax'       ).find('.item-value').val( data.se_fax);
+    partnerView.get('input__se_email'     ).find('.item-value').val( data.se_email);
+    partnerView.get('input__sa_affliation').find('.item-value').val( data.sa_affliation);
+    partnerView.get('input__sa_name'      ).find('.item-value').val( data.sa_name );
+    partnerView.get('input__sa_tel'       ).find('.item-value').val( data.sa_tel );
+    partnerView.get('input__sa_fax'       ).find('.item-value').val( data.sa_fax );
+    partnerView.get('input__sa_email'     ).find('.item-value').val( data.sa_email );
+    partnerView.get('input__em_company'   ).find('.item-value').val( data.em_company );
+    partnerView.get('input__em_name'      ).find('.item-value').val( data.em_name );
+    partnerView.get('input__em_tel'       ).find('.item-value').val( data.em_tel );
+    partnerView.get('input__em_email'     ).find('.item-value').val( data.em_email) ;
 
   };
 
@@ -163,6 +205,12 @@
     // View挿入
     $('#usr-partner-panel')
     .append( customer.db.getHtml('template/user.partner.html'));
+
+    util.alert({
+      selector : '#usr-partner-panel',
+      id       : 'save-alert',
+      msg      : '入力に誤りがあります'
+    });
 
     // View管理定義
     partnerView = new Controller('#usr-partner-panel');

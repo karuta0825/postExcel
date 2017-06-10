@@ -81,3 +81,7 @@ tbody, input {
   display: none !important;
 }
 
+.is-error {
+  border: 1px solid #ff4081 !important;
+  background: #ffeaf1 !important;
+}

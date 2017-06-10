@@ -50,16 +50,24 @@
       'em_email'      : 'isMailAddress'
     })
   , _model = new Model( config )
+  , validate
   ;
+
+  validate = function ( data ) {
+    var 
+      diff   = _model._checkWhatsUpdated(data)
+    , result = vl.validate( diff )
+    ;
+    return result;
+  };
 
   // to public
   cms.model.userPartner = {
-    fetch     : function( kid, callback ) { _model.fetch( kid, callback ) },
-    getCache  : function() { return _model.getCache()[0] },
+    fetch     : function ( kid, callback ) { _model.fetch( kid, callback ) },
+    getCache  : function ( callback ) { return _model.getCache(callback) },
     update    : $.proxy( _model.update, _model),
-    check     : $.proxy( _model._checkWhatsUpdated, _model ),
+    check     : validate,
     register  : $.proxy( _model.initUpdate, _model ),
-    validate  : function ( obj ) { return vl.validate(obj); }
   };
 
 
