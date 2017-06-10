@@ -235,7 +235,7 @@
     view[version].get('body').find('table').append(row);
     cms.model.servers.insertItem({
       'id'           : row.data('id'),
-      'type'         : '',
+      'type'         : 'AP',
       'name'         : '',
       'ip'           : '',
       'connect_db'   : '',
