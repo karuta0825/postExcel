@@ -111,6 +111,16 @@
   font-size: 1.1em;
 }
 
+.icon-name-super {
+  margin-left: 3px;
+  vertical-align: super;
+}
+
+.icon-name-middle {
+  margin-left: 10px;
+  vertical-align: middle;
+}
+
 
 /* -------------------
    common contents
@@ -147,6 +157,17 @@
 /* -------------------
    home
 ---------------------- */
+
+.header-icon {
+  margin-right: 10px;
+}
+
+.header-icon-name {
+  position: absolute;
+  top: 42px;
+  font-size: 5px;
+  margin-left: 6px;
+}
 
 .small-font {
   font-size: 0.6em;
@@ -458,7 +479,7 @@
 }
 
 .memos__title {
-  margin-bottom: 14px;
+  margin-bottom: 5px;
 }
 
 .memos__body .header {
