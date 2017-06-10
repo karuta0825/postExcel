@@ -172,7 +172,135 @@
 
   };
 
+  /**
+   * [Validate description]
+   * input check Class
+   * @param {Object} config
+   */
+  util.Validate = function ( config ) {
 
+    if ( ! (this instanceof util.Validate) ) {
+      return new util.Validate ( config );
+    }
+    this.config = config;
+    this.messages = [];
+
+  };
+
+  var ValidateProto = util.Validate.prototype;
+
+  // 入力チェック項目の設定
+  // validateエラー時に、falseを返す
+  ValidateProto.types = {
+    isEmpty : {
+      validate : function ( value ) {
+        return !_.isEmpty(value);
+      },
+      instructions : '空文字はあかんで'
+    },
+    isNumber : {
+      validate : function ( value ) {
+        return _.isNumber(value);
+      },
+      instructions : '数値しかあかんで'
+    },
+    isId : {
+      validate : function ( value ) {
+        return (value.match(/^[0-9]+$/)) ? true : false;
+      },
+      instructions : 'idのみや'
+    },
+    isNatural : {
+      validate : function ( value ) {
+        if ( ! value ) { return false; }
+        var v = Number(value);
+        return v > 0;
+      },
+      instructions : '自然数だけやで'
+    },
+    isAlpha : {
+      validate : function ( value ) {
+        return (value.match(/^[a-zA-Z]+$/)) ? true : false;
+      },
+      instructions : 'アルファベットだけや'
+    },
+    isAlphaNum : {
+      validate : function ( value ) {
+        // return value && value.match(/[^0-9a-zA-Z]*/)[0].length > 1 || false;
+        return (value.match(/^[0-9a-zA-Z]+$/)) ? true : false;
+      },
+      instructions : 'アルファベットと数値だけでんがな'
+    },
+    isMailAddress : {
+      validate : function ( value ) {
+        return ( value.match(/^[0-9a-zA-Z-_@\.]+$/) ) ? true : false;
+      },
+      instructions : 'メールアドレスの入力やで'
+    },
+    isBoolean : {
+      validate : function ( value ) {
+        return _.isBoolean(value);
+      },
+      instructions : '論理値だけやで'
+    },
+    isIp      : {
+      validate : function ( value ) {
+        return value.match(/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/);
+      },
+      instructions : 'IPアドレスをいれるんやで'
+    },
+    isTEL      : {
+      validate : function ( value ) {
+        return (value.match(/^[0-9-]+$/)) ? true : false;
+      },
+      instructions : 'IPアドレスをいれるんやで'
+    }
+  };
+
+  ValidateProto.validate = function ( data ) {
+    var
+      i,
+      type,
+      checker,
+      result_ok,
+      msg
+      ;
+
+    ESC:
+    for ( i in data ) {
+      if( data.hasOwnProperty(i) ){
+        type = this.config[i];
+        checker = ValidateProto.types[type];
+
+        // 入力チェック対象外の時
+        if( !type ){
+          continue ESC;
+        }
+        // 入力チェック関数が存在しないとき
+        if( !checker ){
+          throw {
+            name : 'ValidationError',
+            message : '以下の入力チェックメソッドがありません' + type
+          };
+        }
+        // 入力チェック
+        result_ok = checker.validate(data[i]);
+
+        // 入力エラーが見つかった場合
+        if( !result_ok ){
+          this.messages.push(i);
+        }
+      }
+    }
+    return this.getErrors();
+  };
+
+  // エラー時true
+  ValidateProto.getErrors = function(){
+    var result = this.messages;
+    this.messages = [];
+    return result;
+  };
 
   // 公開
   this.util = util;

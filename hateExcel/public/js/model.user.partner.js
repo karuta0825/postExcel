@@ -29,6 +29,26 @@
       'em_email'      : '緊急Email'
     }
   }
+  , vl = new util.Validate({
+      'pid'           : 'isId',
+      'name'          : 'isEmpty',
+      'postal_cd'     : 'isTEL',
+      'address'       : 'isEmpty',
+      'se_affliation' : 'isEmpty',
+      'se_name'       : 'isEmpty',
+      'se_tel'        : 'isTEL',
+      'se_fax'        : 'isTEL',
+      'se_email'      : 'isMailAddress',
+      'sa_affliation' : 'isEmpty',
+      'sa_name'       : 'isEmpty',
+      'sa_tel'        : 'isTEL',
+      'sa_fax'        : 'isTEL',
+      'sa_email'      : 'isMailAddress',
+      'em_company'    : 'isEmpty',
+      'em_name'       : 'isEmpty',
+      'em_tel'        : 'isTEL',
+      'em_email'      : 'isMailAddress'
+    })
   , _model = new Model( config )
   ;
 
@@ -38,7 +58,8 @@
     getCache  : function() { return _model.getCache()[0] },
     update    : $.proxy( _model.update, _model),
     check     : $.proxy( _model._checkWhatsUpdated, _model ),
-    register  : $.proxy( _model.initUpdate, _model )
+    register  : $.proxy( _model.initUpdate, _model ),
+    validate  : function ( obj ) { return vl.validate(obj); }
   };
 
 
