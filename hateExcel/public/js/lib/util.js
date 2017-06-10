@@ -23,6 +23,40 @@
   };
 
   /**
+   * 文字列をUnicode配列に変換
+   * @param  {String} str  - 文字列
+   * @return {Array}  list - 文字配列
+   */
+  var convertStr2UnicodeList = function ( str ) {
+    var list = [];
+    for( var i = 0; i < str.length; i ++ ) {
+      list.push( str.charCodeAt( i ) );
+    }
+    return list;
+  };
+
+  /**
+   * [convertUnicode2Sjis description]
+   * @param  {String} str - 文字列
+   * @return {Array}      - SJIS変換した文字配列
+   */
+  var convertUnicode2Sjis = function ( str ) {
+
+    var list_unicode, list_sjis;
+
+    list_unicode = convertStr2UnicodeList(str);
+
+    list_sjis = Encoding.convert(
+      list_unicode, // 文字列を直接渡すのではない点に注意
+      'SJIS',   // to
+      'UNICODE' // from
+    );
+
+    return [ new Uint8Array( list_sjis ) ];
+
+  };  
+
+  /**
    * jsonを受け取って、csvファイル用のblobオブジェクトを返す
    * @param  {String} mapList    - オブジェクト配列
    * @param  {String} str_header - csvのヘッダー要素となる文字列（カンマ区切り）
@@ -44,7 +78,10 @@
       output.unshift( str_header + '\r\n');
     }
 
-    output.unshift( bom );
+    // output.unshift( bom );
+
+    // Uunicode -> SJIS変換
+    output = convertUnicode2Sjis( output.join('') );
 
     return new Blob( output, { 'type' : 'text/plain' } );
 
@@ -56,10 +93,11 @@
       return k + '' + v + '\r\n';
     });
 
+    output = convertUnicode2Sjis( output.join('') );
+
     return new Blob( output, {'type' : 'text/plain'} );
 
   };
-
 
   /**
    * TODO: CSV,json,txtなど一元管理する
