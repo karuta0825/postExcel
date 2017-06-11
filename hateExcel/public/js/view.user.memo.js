@@ -31,6 +31,7 @@
   , _getViewInfo
   , _clear
   , _save
+  , _cancel
   , _update
   , _delete
   , changeEditMode
@@ -132,6 +133,17 @@
 
   };
 
+  _cancel = function () {
+
+    // エラー表示解除
+    _.each( memoView.get('input'), function (val, key){
+      val.removeClass('is-error');
+    });
+
+    memoView.wrap.get(0).close();
+
+  };
+
   _update  = function () {
 
     var data = _getViewInfo();
@@ -215,8 +227,8 @@
     memoView.initElement( elements );
 
     memoView.addListener({
-      'click btn__save' : _save,
-      'click btn__cancel' : function () { memoView.wrap.get(0).close(); },
+      'click btn__save'   : _save,
+      'click btn__cancel' : _cancel,
       'click btn__update' : _update,
       'click btn__delete' : function () { memoView.get('dialog').get(0).showModal(); },
       'click input__memo-priority' : _selectPriority
