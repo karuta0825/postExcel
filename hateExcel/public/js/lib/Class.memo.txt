@@ -112,6 +112,7 @@ var inherit = function ( C, P ) {
   F.prototype = P.prototype;
   C.prototype = new F();
   C.prototype.super = P.prototype;
+  C.prototype.constructor = C;
 };
 
 var Child = function () {};
@@ -123,6 +124,32 @@ Child.fn.method = function () {
   console.log("this's called by child");
 };
 
+/**
+ * pattern3
+ */
+
+var Parent = function () {};
+Parent.fn = Parent.prototype;
+Parent.fn.method = function () { 
+  console.log("this's callaed by parents")
+};
+
+var inherit = function ( C, P ) {
+  var F = function () {};
+  F.prototype = P.prototype;
+  C.prototype = new F();
+  C.superClass = P.prototype;
+  C.prototype.constructor = C;
+};
+
+var Child = function () {};
+inherit(Child,Parent);
+
+Child.fn = Child.prototype;
+Child.fn.method = function () { 
+  Child.superClass.method();
+  console.log("this's called by child");
+};
 
 
 Historys
