@@ -148,6 +148,10 @@
   _onClickKid = function () {
     var kid = $(this).text().trim();
 
+    // 編集画面の初期化
+    cms.view.editUsrs.clearView();
+
+
     // 基本情報タブ描画
     customer.model.userBaseInfo.fetch( kid,
       customer.view.userBaseInfo.makeUserInfo
@@ -169,7 +173,6 @@
       customer.view.userService.setViewInfo
     );
 
-
     // パートナータブの描画
     customer.model.userPartner.fetch( kid,
       customer.view.userPartner.setInfo
@@ -190,6 +193,7 @@
     // クリックされたコンテンツにis-activeを付与
     var target = '.main-contents--edit-usr'
     $(target).addClass('is-active');
+
 
   };
 

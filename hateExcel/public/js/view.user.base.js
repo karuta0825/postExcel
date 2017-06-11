@@ -44,6 +44,7 @@
   , _increasePC
   , _selectNetwork
   , _hiddenItem
+  , _goViewMode
   , getViewInfo
   , makeUserInfo
   , reset
@@ -69,6 +70,31 @@
       baseView.get('server').addClass('is-hidden');
       baseView.get('db_pass').addClass('is-hidden');
     }
+  };
+
+  _goViewMode = function () {
+    // 編集不可
+    // _toggleEditMode( 'kid'       , false );
+    _toggleEditMode( 'user_name' , false );
+    _toggleEditMode( 'userkey'   , false );
+    _toggleEditMode( 'server'    , false );
+    _toggleEditMode( 'db_pass'   , false );
+    _toggleEditMode( 'postal_cd' , false );
+    _toggleEditMode( 'address'   , false );
+    _toggleEditMode( 'affliation', false );
+    _toggleEditMode( 'owner'     , false );
+    _toggleEditMode( 'tel'       , false );
+    _toggleEditMode( 'fax'       , false );
+    baseView.get('network').removeClass('is-edit');
+
+    // ボタン状態制御
+    baseView.get('btnEdit').removeClass('is-hidden');
+    baseView.get('btnCancel').addClass('is-hidden');
+    baseView.get('btnSave').addClass('is-hidden');
+    baseView.get('btnPlusClient').addClass('is-hidden');
+    baseView.get('btnMinusClient').addClass('is-hidden');
+    baseView.get('btnPlusPC').addClass('is-hidden');
+    baseView.get('btnMinusPC').addClass('is-hidden');
   };
 
   _save = function () {
@@ -104,28 +130,8 @@
   };
 
   _cancel = function () {
-    // 編集不可
-    // _toggleEditMode( 'kid'       , false );
-    _toggleEditMode( 'user_name' , false );
-    _toggleEditMode( 'userkey'   , false );
-    _toggleEditMode( 'server'    , false );
-    _toggleEditMode( 'db_pass'   , false );
-    _toggleEditMode( 'postal_cd' , false );
-    _toggleEditMode( 'address'   , false );
-    _toggleEditMode( 'affliation', false );
-    _toggleEditMode( 'owner'     , false );
-    _toggleEditMode( 'tel'       , false );
-    _toggleEditMode( 'fax'       , false );
-    baseView.get('network').removeClass('is-edit');
 
-    // ボタン状態制御
-    baseView.get('btnEdit').removeClass('is-hidden');
-    baseView.get('btnCancel').addClass('is-hidden');
-    baseView.get('btnSave').addClass('is-hidden');
-    baseView.get('btnPlusClient').addClass('is-hidden');
-    baseView.get('btnMinusClient').addClass('is-hidden');
-    baseView.get('btnPlusPC').addClass('is-hidden');
-    baseView.get('btnMinusPC').addClass('is-hidden');
+    _goViewMode();
 
     // データの初期化
     reset();
@@ -379,10 +385,28 @@
 
   // ボタンの位置をもとに戻す
   clear = function () {
-    _cancel();
+
+    // 参照モードに
+    _goViewMode();
+
     baseView.get('userkey').removeClass('is-hidden');
     baseView.get('server').removeClass('is-hidden');
     baseView.get('db_pass').removeClass('is-hidden');
+
+    baseView.get('userkey'      ).find('.item-value').val('');
+    baseView.get('server'       ).find('.item-value').val('');
+    baseView.get('db_pass'      ).find('.item-value').val('');
+    baseView.get('client_number').find('.item-value').val('');
+    baseView.get('number_pc'    ).find('.item-value').val('');
+
+    baseView.get('kid'          ).find('.item-value').val('');
+    baseView.get('user_name'    ).find('.item-value').val('');
+    baseView.get('postal_cd'    ).find('.item-value').val('');
+    baseView.get('address'      ).find('.item-value').val('');
+    baseView.get('affliation'   ).find('.item-value').val('');
+    baseView.get('owner'        ).find('.item-value').val('');
+    baseView.get('tel'          ).find('.item-value').val('');
+    baseView.get('fax'          ).find('.item-value').val('');
 
   };
 

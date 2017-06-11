@@ -41,7 +41,8 @@
   , _filterMemo
   , backUserTable
   , makeMemos
-  , clearFilter
+  , clearView
+  , clearMemoFilter
   , initModule
   ;
 
@@ -75,6 +76,7 @@
   };
 
   _filterMemo = function ( e ) {
+
     var priority = $(e.target).val();
 
     cms.model.userMemo.find({'priority' : priority}, makeMemos );
@@ -83,6 +85,19 @@
 
   backUserTable = function () {
 
+    // 初期化
+    clearView();
+
+    // 現在画面を非表示
+    $('.main-contents').removeClass('is-active');
+
+    // クリックされたコンテンツにis-activeを付与
+    var target = '.main-contents--' + $(this).attr('href').slice(1);
+    $(target).addClass('is-active');
+
+  };
+
+  clearView = function () {
     // タブ位置を基本情報に戻す
     _.each( editView.get('tab_bar'), function ( val,key ) {
       $(val).removeClass('is-active');
@@ -96,20 +111,15 @@
     editView.get('tab_panel__usr-base').addClass('is-active');
 
     // 各タブの初期化
-    customer.view.userBaseInfo.clear();
-    customer.view.userPartner.clear();
-    customer.view.userService.clear();
+    cms.view.userBaseInfo.clear();
+    cms.view.userPartner.clear();
+    cms.view.userService.clear();
     cms.view.userClient.clear();
     cms.view.userNetwork.clear();
 
-    $('.main-contents').removeClass('is-active');
-
-    // クリックされたコンテンツにis-activeを付与
-    var target = '.main-contents--' + $(this).attr('href').slice(1);
-    $(target).addClass('is-active');
   };
 
-  clearFilter = function () {
+  clearMemoFilter = function () {
     editView.get('memo__select').val('all');
   };
 
@@ -136,8 +146,6 @@
 
   };
 
-
-
   initModule = function () {
 
     // コンテンツの挿入
@@ -155,13 +163,13 @@
       'change btn__filter-memo' : _filterMemo
     });
 
-
   };
 
   cms.view.editUsrs = {
-    initModule : initModule,
-    makeMemos  : makeMemos,
-    clearFilter : clearFilter
+    initModule      : initModule,
+    makeMemos       : makeMemos,
+    clearView       : clearView,
+    clearMemoFilter : clearMemoFilter
   };
 
 }( jQuery, customer ));
