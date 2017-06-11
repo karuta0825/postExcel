@@ -83,7 +83,8 @@
     fetch    : $.proxy( _model.fetch, _model ),
     find     : $.proxy( _model.find, _model ),
     getCache : $.proxy( _model.getCache, _model ),
-    update   : $.proxy( _model.update, _model )
+    update   : $.proxy( _model.update, _model ),
+    register : $.proxy( _model.initUpdate, _model)
   };
 
 }( jQuery, customer ))

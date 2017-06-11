@@ -7,6 +7,7 @@
   var
   // member
     registerView
+  , kid
   , elements = {
       'upload' : '.upload',
       'btn' : {
@@ -46,9 +47,7 @@
         line_code = r.result.indexOf('\r') === -1 ? '\n' : '\r\n'
       , list_oneline = r.result.split(line_code)
       , map_result = {}
-      , kid
       , version
-      , error
       ;
 
       // 該当の行のみ抽出
@@ -87,7 +86,7 @@
         field = key.split('__')[1];
 
         if ( !map_result.hasOwnProperty(table) ){
-          map_result[table] = {};
+          map_result[table] = { 'kid' : kid };
         }
 
         if ( table === 'licenses') {
@@ -98,8 +97,7 @@
 
       });
 
-
-
+      // check
       console.log(map_result);
 
       // 格納
@@ -130,7 +128,7 @@
     });
 
     // サービス
-    customer.model.services.register( upload_data.licenses, function (o) {
+    customer.model.userLicense.register( upload_data.licenses, function (o) {
       console.log('license');
       console.log(o);
     } );
