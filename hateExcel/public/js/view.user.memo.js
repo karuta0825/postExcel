@@ -18,11 +18,15 @@
         'important' : '.important',
         'reminder'  : '.reminder'
       },
-      'title'   : '.memo__title .title-value',
-      'memo-priority' : '.memo__priority',
-      'content' : '.memo__content .content-value',
-      'dialog'  : '#modal-delete-memo'
+      'input' : {
+        'title'         : '.memo__title .title-value',
+        'memo-priority' : '.memo__priority',
+        'message'       : '.memo__content .content-value'
+      },
+      'dialog'  : '#modal-delete-memo',
+      'alert'   : '#modal-alert-memo'
     }
+  , _inputError
   , _selectPriority
   , _getViewInfo
   , _clear
@@ -64,9 +68,9 @@
   _getViewInfo = function () {
 
     var result =  {
-      title       : memoView.get('title').val(),
-      priority_id : memoView.get('memo-priority').find('.choice--on').data('priority'),
-      message     : memoView.get('content').val()
+      title       : memoView.get('input__title').val(),
+      priority_id : memoView.get('input__memo-priority').find('.choice--on').data('priority'),
+      message     : memoView.get('input__message').val()
     };
 
     if ( memoView.wrap.attr('data-memo-id') ) {
@@ -80,8 +84,8 @@
 
   _clear = function () {
 
-    memoView.get('title').val('');
-    memoView.get('content').val('');
+    memoView.get('input__title').val('');
+    memoView.get('input__message').val('');
 
     memoView.get('choice__emergency').removeClass('choice--on');
     memoView.get('choice__important').removeClass('choice--on');
@@ -97,9 +101,24 @@
    * TODO: validate
    */
   _save = function () {
-    var data = _getViewInfo();
+    var
+      data = _getViewInfo()
+    , errors
+    ;
 
-    // validate
+    errors = cms.model.userMemo.validate(data);
+
+    _.each( memoView.get('input'), function (val, key){
+      val.removeClass('is-error');
+    });
+
+    if ( errors.length !== 0 ) {
+      _.each( errors, function ( v, k ) {
+        memoView.get('input__' + v).addClass('is-error');
+      });
+      memoView.get('alert').get(0).showModal();
+      return;
+    };
 
     cms.model.userMemo.makeMemo( data, function () {
       var kid = cms.model.userBaseInfo.getCache().kid
@@ -135,8 +154,8 @@
 
   reset = function () {
 
-    memoView.get('title').val('');
-    memoView.get('content').val('');
+    memoView.get('input__title').val('');
+    memoView.get('input__message').val('');
 
     memoView.get('choice__emergency').addClass('choice--on');
     memoView.get('choice__important').removeClass('choice--on');
@@ -151,11 +170,11 @@
     _clear();
 
     data.id      && memoView.wrap.attr('data-memo-id', data.id );
-    data.title   && memoView.get('title').val( data.title );
-    data.message && memoView.get('content').val( data.message );
+    data.title   && memoView.get('input__title').val( data.title );
+    data.message && memoView.get('input__message').val( data.message );
 
     // 優先度の設定
-    data.priority_id && memoView.get('memo-priority')
+    data.priority_id && memoView.get('input__memo-priority')
       .find('[data-priority=' + data.priority_id + ']')
       .addClass('choice--on');
 
@@ -187,6 +206,12 @@
       yes      : _delete
     });
 
+    util.alert({
+      selector : memoView.top,
+      id       : 'modal-alert-memo',
+      msg      : '入力に誤りがあります'
+    });
+
     memoView.initElement( elements );
 
     memoView.addListener({
@@ -194,7 +219,7 @@
       'click btn__cancel' : function () { memoView.wrap.get(0).close(); },
       'click btn__update' : _update,
       'click btn__delete' : function () { memoView.get('dialog').get(0).showModal(); },
-      'click memo-priority' : _selectPriority
+      'click input__memo-priority' : _selectPriority
     });
 
   };

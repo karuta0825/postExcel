@@ -8,9 +8,24 @@
     _model = new Model({
       'table' : 'memos'
     })
+  , vl = new util.Validate({
+      'title'   : 'isEmpty',
+      'message' : 'isEmpty'
+    })
+  , validate
   , makeMemo
+  , update
+  , remove
   ;
 
+  /**
+   * 入力チェック
+   * @param  {Object} view_data - 画面の入力データ
+   * @return {Array}            - 入力エラーのkey
+   */
+  validate = function ( view_data ) {
+    return vl.validate( view_data );
+  };
 
   makeMemo = function ( data, callback ) {
 
@@ -58,6 +73,7 @@
   cms.model.userMemo = {
     fetch    : $.proxy( _model.fetch, _model ),
     find     : $.proxy( _model.find, _model ),
+    validate : validate,
     update   : update,
     remove   : remove,
     makeMemo : makeMemo
