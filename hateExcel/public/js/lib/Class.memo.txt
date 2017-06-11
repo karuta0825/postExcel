@@ -1,0 +1,187 @@
+Model
+======================
+- _cache : Object
++ config : Object
+----------------------
+- _checkWhatsUpdated
+- _diffUpdated
+- _updateHistory
++ fetch
++ getCache
++ freeCache
++ update
++ insert
++ delete
++ initUpdate
+----------------------
+
+new Model idea1
+=======================================
+- _cache   : Object
++ config   : Object
+- historys : Historys
+---------------------------------------
+- _checkWhatsUpdated( view )
+- _validate( data, fail_cb )
++ fetch( kid, cb )
++ getCache()
++ freeCache()
++ update( view, success_cb, fail_cb )
++ initUpdate( data, cb )
++ insert( data, cb )
++ delete( data, cb )
+---------------------------------------
+
+new Model idea2
+=======================================
+- _cache : Object
++ config : Object
+---------------------------------------
+- _checkWhatsUpdated( view )
+- _validate( data, fail_cb )
++ fetch( kid, cb )
++ getCache()
++ freeCache()
++ update( view, success_cb, fail_cb )
++ initUpdate( data, success_cb, fail_cb )
++ insert( data, cb )
++ delete( data, cb )
+---------------------------------------
+
+new Model idea2 extend Model above
+======================
+- historys : History
+----------------------
++ update() - *1
+----------------------
+
+*1 親クラスのメソッドを使う手法がほしいな。
+   同じ名前だけど回避するには、必要だから
+   またこのなかでHistorysのメソッドを利用するわけだ
+
+/**
+ * クラス図を描いてみる
+ */
+
+Parent
+====================
+--------------------
++ method
+--------------------
+
+Child extend Parent
+====================
++ super  : Object 
+--------------------
++ method
+--------------------
+
+
+/**
+ * sourceを書いてみる pattern1
+ */
+
+var Parent = function () {};
+Parent.fn = Parent.prototype;
+Parent.fn.method = function () { 
+  console.log("this's callaed by parents")
+};
+
+var Child = function () {};
+Child.fn = Child.prototype;
+Child.fn.super = Parent.prototype;
+Child.fn.method = function () { 
+  Child.fn.super.method();
+  console.log("this's called by child");
+};
+
+var Son = function () {};
+Son.fn = Son.prototype;
+Son.fn.super = Child.prototype;
+Son.fn.method = function () {
+  Son.fn.super.method();
+  console.log("this's called by son");
+}
+
+/**
+ * pattern2
+ */
+
+var inherit = function ( C, P ) {
+  var F = function () {};
+  F.prototype = P.prototype;
+  C.prototype = new F();
+  C.prototype.super = P.prototype;
+};
+
+var Child = function () {};
+inherit(Child,Parent);
+
+Child.fn = Child.prototype;
+Child.fn.method = function () { 
+  Child.fn.super.method();
+  console.log("this's called by child");
+};
+
+
+
+Historys
+======================
+----------------------
++ insert
++ diffUpdated
+----------------------
+
+
+Collection
+課題:メソッドが多く、Modelと一緒になってる
+======================
+- _cache
++ config
+----------------------
++ fetch
++ getCache
++ freeCache
++ add
++ union
++ getFilterd
++ sortByKey
++ find
++ findOneCondition
++ findUnion
++ setCondition
++ push
++ remove
+- _checkWhatsUpdated
+- _diffUpdated
+- _updateHistory
++ update
++ insert
++ delete
++ initUpdate
+----------------------
+
+New Collection
+======================
+- _cache
++ config
+----------------------
+- _findOneCondition
+- _findUnion
++ fetch
++ getCache
++ freeCache
++ add
++ union
++ remove
++ getFilterd
++ sortByKey
++ setCondition
++ find
+----------------------
+
+Collectionはinsert, update, deleteすることは
+ないのでだろうか？
+あるいは、各データのModelの型を知る必要があるのではないか？
+
+
