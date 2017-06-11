@@ -1,3 +1,7 @@
+#kid
+KID9837022
+
+#partners table
 partners__pid:11111
 partners__name:パートナーA
 partners__postal_cd:1234567
@@ -27,40 +31,40 @@ customers__tel:090-333-3333
 customers__fax:080-333-3333
 
 #licenses table
-licenses__K1:1
-licenses__U1:1
-licenses__U2:1
-licenses__U3:0
-licenses__U4:1
-licenses__U5:0
-licenses__U6:0
-licenses__U7:0
-licenses__U8:1
-licenses__U9:0
-licenses__UA:0
-licenses__UB:0
-licenses__UC:0
-licenses__UD:0
-licenses__UE:0
-licenses__UF:0
-licenses__UG:0
-licenses__UH:0
-licenses__UI:0
-licenses__C1:0
-licenses__C2:0
-licenses__C3:0
-licenses__C4:0
-licenses__S2:0
-licenses__S3:0
-licenses__S9:0
-licenses__SC:0
-licenses__SE:0
-licenses__SH:0
-licenses__SI:0
-licenses__SJ:0
-licenses__SL:0
-licenses__SM:0
-licenses__SO:0
+licenses__AK1:1
+licenses__AU1:1
+licenses__AU2:1
+licenses__AU3:0
+licenses__AU4:1
+licenses__AU5:0
+licenses__AU6:0
+licenses__AU7:0
+licenses__AU8:1
+licenses__AU9:0
+licenses__AUA:0
+licenses__AUB:0
+licenses__AUC:0
+licenses__AUD:0
+licenses__AUE:0
+licenses__AUF:0
+licenses__AUG:0
+licenses__AUH:0
+licenses__AUI:0
+licenses__AC1:0
+licenses__AC2:0
+licenses__AC3:0
+licenses__AC4:0
+licenses__AS2:0
+licenses__AS3:0
+licenses__AS9:0
+licenses__ASC:0
+licenses__ASE:0
+licenses__ASH:0
+licenses__ASI:0
+licenses__ASJ:0
+licenses__ASL:0
+licenses__ASM:0
+licenses__ASO:0
 
 
 

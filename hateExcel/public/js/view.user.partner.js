@@ -206,14 +206,15 @@
     $('#usr-partner-panel')
     .append( customer.db.getHtml('template/user.partner.html'));
 
+    partnerView = new Controller('#usr-partner-panel');
+
     util.alert({
-      selector : '#usr-partner-panel',
+      selector : partnerView.top,
       id       : 'save-alert',
       msg      : '入力に誤りがあります'
     });
 
     // View管理定義
-    partnerView = new Controller('#usr-partner-panel');
     partnerView.initElement( elements );
 
     // Event定義

@@ -11,7 +11,8 @@
       'upload' : '.upload',
       'btn' : {
         'upload' : '.btn--upload'
-      }
+      },
+      'alert' : '#modal-alert-register'
     }
   , uploadData
   , _onClickUpload
@@ -45,6 +46,9 @@
         line_code = r.result.indexOf('\r') === -1 ? '\n' : '\r\n'
       , list_oneline = r.result.split(line_code)
       , map_result = {}
+      , kid
+      , version
+      , error
       ;
 
       // 該当の行のみ抽出
@@ -54,31 +58,49 @@
         }
       });
 
+      kid = list_oneline.shift();
+
+      // 入力チェック
+      if ( cms.model.kids.find({'kid' : kid}).length === 0 )  {
+        // 入力エラー
+        registerView.get('alert').get(0).showModal();
+        return false;
+      }
+
+      version = cms.model.kids.find({'kid':kid})[0].version;
+
       // 連想配列作成
       _.each( list_oneline, function (v,k) {
-        var delimiter_position, key, val;
+        var
+          delimiter_position
+        , key
+        , val
+        , table
+        , field
+        ;
 
         delimiter_position = v.indexOf(':');
         key = v.slice(0,delimiter_position);
         val = v.slice(delimiter_position+1);
 
-        var table = key.split('__')[0];
-        var field = key.split('__')[1];
+        table = key.split('__')[0];
+        field = key.split('__')[1];
 
         if ( !map_result.hasOwnProperty(table) ){
           map_result[table] = {};
-          map_result[table].kid = 'KID98370';
+        }
+
+        if ( table === 'licenses') {
+          field = cms.model.services.find({ 'version' : version, 'sales_id' : field })[0].service_id;
         }
 
         map_result[table][field] = val;
 
-
       });
 
+
+
       console.log(map_result);
-
-      // 入力チェック
-
 
       // 格納
       uploadData = map_result;
@@ -137,6 +159,13 @@
     $('.main-contents--reg-usr').append( customer.db.getHtml('register.user.html'));
 
     registerView = new Controller('.main-contents--reg-usr');
+
+    util.alert({
+      selector : registerView.top,
+      id       : 'modal-alert-register',
+      msg      : 'KIDが存在しないため登録できません'
+    });
+
     registerView.initElement( elements );
 
     registerView.addListener({
