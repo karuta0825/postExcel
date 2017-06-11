@@ -106,6 +106,7 @@
       cms.model.userMemo.fetch( kid,
         cms.view.editUsrs.makeMemos
       );
+      cms.view.editUsrs.clearFilter();
     });
 
     memoView.wrap.get(0).close();

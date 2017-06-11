@@ -30,6 +30,7 @@
         'usr-history' : '#usr-history-panel',
       },
       'memo' : {
+        'select' : '.filter',
         'list'   : '.memo-list',
         'items'  : '.memo-item',
         'dialog' : '#modal-memo-item'
@@ -40,6 +41,7 @@
   , _filterMemo
   , backUserTable
   , makeMemos
+  , clearFilter
   , initModule
   ;
 
@@ -107,7 +109,9 @@
     $(target).addClass('is-active');
   };
 
-
+  clearFilter = function () {
+    editView.get('memo__select').val('all');
+  };
 
   makeMemos = function ( data ) {
 
@@ -156,7 +160,8 @@
 
   cms.view.editUsrs = {
     initModule : initModule,
-    makeMemos  : makeMemos
+    makeMemos  : makeMemos,
+    clearFilter : clearFilter
   };
 
 }( jQuery, customer ));
