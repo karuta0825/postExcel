@@ -9,7 +9,8 @@
     homeView
   , elements = {
       'article' : {
-        'notice' : '.article-notice'
+        'notice' : '.article-notice',
+        'table'  : '.article-servers-table'
       },
       'notice' : {
         'title' : '.article-notice .article__title',
@@ -18,10 +19,15 @@
         'items' : '.article-notice__item--body',
         'header' : '.article-notice__item--header',
         'btnMore' : '.article__footer'
+      },
+      'table' : {
+        'title' : '.article-servers-table .article__title',
+        'body'  : '.article-servers-table .article__body'
       }
     }
   // private
   , _addNews
+  , _drawTable
   , getMoreHistory
   // public
   , hideFooter
@@ -29,6 +35,18 @@
   , refresh
   , drawNews
   ;
+
+  _drawTable = function ( data ) {
+
+    var
+      data     = { list : data }
+    , tmpl     = customer.db.getHtml('template/home.serverTable.html')
+    , complied = _.template( tmpl )
+    ;
+
+    homeView.get('table__body').append( complied(data) );
+
+  };
 
   drawNews = function ( data ) {
 
@@ -70,6 +88,10 @@
     homeView.initElement( elements );
 
     drawNews( customer.model.historys.getCache() );
+
+    _drawTable(
+      cms.db.select('/select', {'table' : 'available_number_in_each_server'})
+    );
 
     homeView.updateElement({ 'notice__items' : '.article-notice__item--body'});
 

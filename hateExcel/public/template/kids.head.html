@@ -1,5 +1,8 @@
 <!-- サーバテンプレート thead用-->
 
 <% _.each( headerMap, function ( val, key ){ %>
-  <th class='mdl-data-table__cell--non-numeric <%- key %>' > <%- val  %> </th>
+  <th class='mdl-data-table__cell--non-numeric <%- key %>' >
+    <%- val  %>
+    <!-- <i class="material-icons">arrow_drop_up</i> -->
+  </th>
 <% }); %>
