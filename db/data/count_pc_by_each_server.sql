@@ -14,3 +14,4 @@ WHERE
     server != ''
 GROUP BY server) GRP
 left join servers S on GRP.server = S.name
+order by server;
