@@ -158,6 +158,11 @@
    home
 ---------------------- */
 
+.mdl-layout__content .main-contents--home {
+  display: flex;
+  display: -webkit-flex;
+}
+
 .header-icon {
   margin-right: 10px;
 }
@@ -173,10 +178,12 @@
   font-size: 0.6em;
 }
 
-.article-notice, .article-graph, .article-servers-table {
-  margin: 30px auto 30px auto;
-  width: 75%;
-  min-width: 750px;
+.article-notice {
+  /*margin: 30px auto 30px auto;*/
+  margin-top: 20px;
+  margin-left: 20px;
+  width: 20%;
+  /*min-width: 750px;*/
 }
 
 .article__title {
@@ -249,9 +256,20 @@
   width: 100px;
 }
 
+.article-servers-table {
+  flex : 1;
+  margin: 20px;
+  height: 45%;
+}
+
 .article-servers-table .servers-table {
-  width : 410px;
+  /*width : 90%;*/
   margin : 20px auto;
+}
+
+.article-servers-table .article__body {
+  height: 100%;
+  overflow-y: scroll;
 }
 
 .article__footer {
