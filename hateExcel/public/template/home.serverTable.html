@@ -1,17 +1,18 @@
 
-<table class='servers-table mdl-data-table mdl-js-data-table'>
+<!-- <table class='servers-table mdl-data-table mdl-js-data-table'> -->
+<table class='servers-table'>
 
   <thead>
-    <th class='mdl-data-table__cell--non-numeric'>サーバー</th>
-    <th class='mdl-data-table__cell--non-numeric'>ユーザー数</th>
-    <th class='mdl-data-table__cell--non-numeric'>収容可能数</th>
-    <th class='mdl-data-table__cell--non-numeric'>バージョン</th>
+    <th class=''>サーバー</th>
+    <th class=''>ユーザー数</th>
+    <th class=''>収容可能数</th>
+    <th class=''>バージョン</th>
   </thead>
   <tbody>
 
     <% _.each( list, function ( item, num ) { %>
       <tr id=''>
-        <td class='mdl-data-table__cell--non-numeric'>
+        <td class=''>
           <%- item.server %>
         </td>
         <td class=''>
@@ -20,7 +21,7 @@
         <td class=''>
           <%- item.available_number %>
         </td>
-        <td class='mdl-data-table__cell--non-numeric'>
+        <td class=''>
           <%- item.version %>
         </td>
       </tr>

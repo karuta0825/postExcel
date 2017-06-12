@@ -158,9 +158,21 @@
    home
 ---------------------- */
 
-.mdl-layout__content .main-contents--home {
+.home-wrapper {
   display: flex;
   display: -webkit-flex;
+  height: 100%;
+}
+
+.home-wrapper__left {
+  width: 20%;
+  margin-top: 20px;
+  margin-left: 30px;
+}
+
+.home-wrapper__right {
+  flex : 1;
+  margin: 20px 30px;
 }
 
 .header-icon {
@@ -179,28 +191,29 @@
 }
 
 .article-notice {
-  /*margin: 30px auto 30px auto;*/
-  margin-top: 20px;
-  margin-left: 20px;
-  width: 20%;
-  /*min-width: 750px;*/
+  min-width: 200px;
+  height: 100%;
 }
 
 .article__title {
   margin : 0 0 10px 0;
   padding-left: 7px;
   color : #595959;
+
 }
 
 .article__body {
   width: 100%;
+  height: 92%;
   border-radius: 5px;
 }
 
 .article-notice__list {
+  height: 94%;
   list-style: none;
   padding:0;
   margin: 0;
+  overflow-y: scroll;
 }
 
 .article-notice__item--header {
@@ -257,9 +270,7 @@
 }
 
 .article-servers-table {
-  flex : 1;
-  margin: 20px;
-  height: 45%;
+  height: 40%;
 }
 
 .article-servers-table .servers-table {
@@ -270,6 +281,11 @@
 .article-servers-table .article__body {
   height: 100%;
   overflow-y: scroll;
+}
+
+.article-graph {
+  margin-top:60px;
+  height: 51%;
 }
 
 .article__footer {
