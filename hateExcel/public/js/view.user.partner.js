@@ -136,7 +136,7 @@
 
   setInfo = function ( data ) {
 
-    var data = _.isArray( data) ? data[0] : data;
+    var data = _.isArray( data ) ? data[0] : data;
 
     _.each( partnerView.get('input'), function (v,k) {
       v.find('.item-value').val( data[k]);
@@ -157,26 +157,11 @@
   };
 
   clear = function () {
-    setInfo([{
-      'pid'           : '',
-      'name'          : '',
-      'postal_cd'     : '',
-      'address'       : '',
-      'se_affliation' : '',
-      'se_name'       : '',
-      'se_tel'        : '',
-      'se_fax'        : '',
-      'se_email'      : '',
-      'sa_affliation' : '',
-      'sa_name'       : '',
-      'sa_tel'        : '',
-      'sa_fax'        : '',
-      'sa_email'      : '',
-      'em_company'    : '',
-      'em_name'       : '',
-      'em_tel'        : '',
-      'em_email'      : ''
-    }])
+
+    _.each( partnerView.get('input'), function (v,k) {
+      v.find('.item-value').val('');
+    });
+
   };
 
   initModule = function () {
