@@ -22,7 +22,7 @@
       'version'        : '.version',
       'number_pc'      : '.number_pc',
       'number_id'      : '.number_id',
-      'range_id'       : '.range_id',
+      'start_id'       : '.start_id',
       'network'        : '.network',
       'univ'           : '.univ',
       'busiv'          : '.busiv',
@@ -115,6 +115,9 @@
     _toggleEditMode( 'owner'     , false );
     _toggleEditMode( 'tel'       , false );
     _toggleEditMode( 'fax'       , false );
+    _toggleEditMode( 'number_id' , false );
+    _toggleEditMode( 'start_id'  , false );
+
     baseView.get('network').removeClass('is-edit');
 
     // ボタン状態制御
@@ -151,6 +154,8 @@
     _toggleEditMode( 'owner'     , true );
     _toggleEditMode( 'tel'       , true );
     _toggleEditMode( 'fax'       , true );
+    _toggleEditMode( 'number_id' , true );
+    _toggleEditMode( 'start_id'  , true );
 
     // セレクトボックス
     baseView.get('network').addClass('is-edit');
@@ -233,7 +238,9 @@
       'server'        : baseView.get('server'       ).find('.item-value').val(),
       'db_password'   : baseView.get('db_pass'      ).find('.item-value').val(),
       'client_number' : Number(baseView.get('client_number').find('.item-value').val() ),
-      'number_pc'     : Number(baseView.get('number_pc').find('.item-value').val() )
+      'number_pc'     : Number(baseView.get('number_pc').find('.item-value').val() ),
+      'number_id'     : Number(baseView.get('number_id').find('.item-value').val() ),
+      'start_id'      : Number(baseView.get('start_id').find('.item-value').val() )
     };
 
     // ネットワーク判定
@@ -285,7 +292,7 @@
     baseView.get('client_number').find('.item-value').val(data.client_number);
     baseView.get('number_pc'    ).find('.item-value').val(data.number_pc);
     baseView.get('number_id'    ).find('.item-value').val(data.number_id);
-    baseView.get('range_id'     ).find('.item-value').val(data.start_id);
+    baseView.get('start_id'     ).find('.item-value').val(data.start_id);
 
     if ( data.system_type === 'onpre' ) {
       baseView.get('system_type').find('.onpre').addClass('choice--on');
