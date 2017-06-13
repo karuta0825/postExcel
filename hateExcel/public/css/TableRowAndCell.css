@@ -82,6 +82,10 @@
   margin-left: auto;
 }
 
+.material-icons {
+  font-size: 1.3em;
+}
+
 /* --------------
    common button
 ----------------- */
