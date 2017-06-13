@@ -114,6 +114,7 @@
 .icon-name-super {
   margin-left: 3px;
   vertical-align: super;
+  font-size: 0.9em;
 }
 
 .icon-name-middle {
@@ -166,13 +167,13 @@
 
 .home-wrapper__left {
   width: 20%;
-  margin-top: 20px;
+  margin-top: 12px;
   margin-left: 30px;
 }
 
 .home-wrapper__right {
   flex : 1;
-  margin: 20px 30px;
+  margin: 12px 30px;
 }
 
 .header-icon {
@@ -196,7 +197,7 @@
 }
 
 .article__title {
-  margin : 0 0 10px 0;
+  margin : 0 0 3px 0;
   padding-left: 7px;
   color : #595959;
 
@@ -284,7 +285,7 @@
 }
 
 .article-graph {
-  margin-top:60px;
+  margin-top:45px;
   height: 51%;
 }
 
@@ -348,7 +349,7 @@
 
 .upload {
   width : 85%;
-  height: 85%;
+  height: 80%;
   margin: 20px auto;
   border: 5px dashed rgb(103,58,183);
   border-radius: 25px;
@@ -725,7 +726,7 @@
 
 
 .user-list__item {
-  margin : 25px 0 0 20px;
+  margin : 15px 0 0 15px;
   width: 100%;
 }
 
