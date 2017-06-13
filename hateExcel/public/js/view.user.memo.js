@@ -146,7 +146,24 @@
 
   _update  = function () {
 
-    var data = _getViewInfo();
+    var
+      data = _getViewInfo()
+    , errors
+    ;
+
+    errors = cms.model.userMemo.validate(data);
+
+    _.each( memoView.get('input'), function (val, key){
+      val.removeClass('is-error');
+    });
+
+    if ( errors.length !== 0 ) {
+      _.each( errors, function ( v, k ) {
+        memoView.get('input__' + v).addClass('is-error');
+      });
+      memoView.get('alert').get(0).showModal();
+      return;
+    };
 
     cms.model.userMemo.update( data );
 
