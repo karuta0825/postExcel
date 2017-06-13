@@ -166,14 +166,20 @@
 }
 
 .home-wrapper__left {
-  width: 20%;
-  margin-top: 12px;
+  flex: 0.7;
+  margin-top: 15px;
   margin-left: 30px;
+  margin-right: 30px;
+}
+
+.home-wrapper__center {
+  flex : 1;
+  margin-top: 15px;
 }
 
 .home-wrapper__right {
-  flex : 1;
-  margin: 12px 30px;
+  flex : 2;
+  margin: 15px 30px;
 }
 
 .header-icon {
@@ -271,7 +277,7 @@
 }
 
 .article-servers-table {
-  height: 40%;
+  height: 92%;
 }
 
 .article-servers-table .servers-table {
@@ -285,8 +291,13 @@
 }
 
 .article-graph {
-  margin-top:45px;
-  height: 51%;
+  /*margin-top:45px;*/
+  height: 47%;
+}
+
+.article-calendar {
+  margin-top: 20px;
+  height: 48%;
 }
 
 .article__footer {
