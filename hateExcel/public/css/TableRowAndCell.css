@@ -285,14 +285,36 @@
 }
 
 .article-servers-table .servers-table {
-  /*width : 90%;*/
+  width : 100%;
   margin : 20px auto;
+  border-collapse: collapse;
+  font-size: 10px;
 }
 
 .article-servers-table .article__body {
   height: 100%;
   overflow-y: scroll;
 }
+
+.article-servers-table tr {
+}
+
+.article-servers-table td {
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  padding: 5px 0 5px 10px;
+}
+
+.article-servers-table .server {
+  width: 20%;
+}
+
+.article-servers-table .pc_number,
+.article-servers-table .available_number {
+  text-align: right;
+  padding-right: 15px;
+}
+
 
 .article-graph {
   /*margin-top:45px;*/
