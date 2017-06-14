@@ -456,12 +456,13 @@
 }
 
 .users-table__body {
-  height: 900px;
+  height: 90%;
   overflow-y: scroll;
 }
 
 .users-table {
   width : 100%;
+  height: 100%;
   overflow-x: scroll;
 }
 
