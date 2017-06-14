@@ -682,13 +682,12 @@
 }
 
 .user-list__section {
-  /*border-left: 6px solid #673ab7;*/
-  /*padding-left: 14px;*/
   width: 145px;
   border-radius: 5px;
   background: #bdbdbd;
   color : white;
   text-align: center;
+  font-size: 0.9em;
 }
 
 
@@ -707,6 +706,7 @@
   margin-right: 10px;
   text-align: center;
   color : #dedcdc;
+  font-size: 0.6em;
 }
 
 /*.user-list__item .choice--on {*/
@@ -720,12 +720,12 @@
 .user-edit__body .item-value
  {
   display: inline-block;
-  font-size: 14px;
+  font-size: 12px;
   height: 27px;
 }
 
 .user-edit__body .item-key {
-  width : 150px;
+  width : 170px;
 }
 
 .user-edit__body .item-value {
