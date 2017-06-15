@@ -71,8 +71,8 @@
 
   // to public
   cms.model.userPartner = {
-    fetch     : function ( kid, callback ) { _model.fetch( kid, callback ) },
-    getCache  : function ( callback ) { return _model.getCache(callback) },
+    fetch     : $.proxy( _model.fetch, _model ),
+    getCache  : $.proxy( _model.getCache, _model ),
     update    : $.proxy( _model.update, _model),
     check     : validate,
     register  : $.proxy( _model.initUpdate, _model ),

@@ -18,6 +18,7 @@
         'sa_postal_cd'  : '.sa_postal_cd',
         'sa_address'    : '.sa_address',
         'sa_affliation' : '.sa_affliation',
+        'sa_kana'       : '.sa_kana',
         'sa_name'       : '.sa_name',
         'sa_tel'        : '.sa_tel',
         'sa_fax'        : '.sa_fax',
@@ -27,6 +28,7 @@
         'se_postal_cd'  : '.se_postal_cd',
         'se_address'    : '.se_address',
         'se_affliation' : '.se_affliation',
+        'se_kana'       : '.se_kana',
         'se_name'       : '.se_name',
         'se_tel'        : '.se_tel',
         'se_fax'        : '.se_fax',
@@ -93,7 +95,7 @@
     var error = cms.model.userPartner.check( getViewInfo() );
     if ( _validate(error) ) {
       return;
-    };
+    }
 
     // update
     customer.model.userPartner.update( getViewInfo(), setInfo );
@@ -137,6 +139,10 @@
   setInfo = function ( data ) {
 
     var data = _.isArray( data ) ? data[0] : data;
+
+    if ( !data ) {
+      return;
+    }
 
     _.each( partnerView.get('input'), function (v,k) {
       v.find('.item-value').val( data[k]);
