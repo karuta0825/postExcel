@@ -43,25 +43,41 @@ FROM
     
     
     
-# part2 lm esでわける必要がある
+# part2 
+# - [X] lm esでわける必要がある 
+# - [ ] diffの値を + or - で分ける必要あり
+#   - [X] +のときは対応-も一緒に表示させるかどうかで迷ってる。
 select 
 	DATE_FORMAT(create_on, '%Y/%m') as month,
     ifnull(sum(case item_name when 'ユーザー作成' THEN val else null end ),0) as user,
     ifnull(sum(case item_name when 'クライアント数' THEN val else null end ),0) as client,
-    ifnull(sum(case item_name when '端末台数' THEN val else null end ),0) as pc
+    ifnull(sum(case item_name when '端末台数' THEN val else null end ),0) as pc,
+    version
 from ((
     SELECT 
         'ユーザー作成' AS item_name,
 		1 as val,
-        create_on
+        create_on,
+        E.version
     FROM
-        kids
+        kids K 
+	left join environments E
+    on K.environment_id	 = E.id
 	) UNION ALL (
 	SELECT 
-        item_name, `after` - `before` AS diff, create_on
-    FROM
-        historys
-    WHERE
-        item_name = 'クライアント数' OR item_name = '端末台数'
+		item_name,
+		`after` - `before` AS diff,
+		H.create_on,
+		E.version
+	FROM
+		historys H
+			LEFT JOIN
+		kids K ON H.kid = K.kid
+			LEFT JOIN
+		environments E ON K.environment_id = E.id
+	WHERE
+		item_name = 'クライアント数'
+			OR item_name = '端末台数'
+            and `after` - `before` > 0
 	)) AS T
-    GROUP BY DATE_FORMAT(create_on, '%Y/%m');
+    GROUP BY DATE_FORMAT(create_on, '%Y/%m'), version;
