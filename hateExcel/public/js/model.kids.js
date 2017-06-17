@@ -4,19 +4,19 @@
   var
     /*private member*/
     config = {
-        table : 'kids',
-        tab_name : '基本情報',
-        item_name_map : {
-          'kid'           : 'KID',
-          'userkey'       : 'ユーザーキー',
-          'server'        : 'サーバ',
-          'db_password'   : 'DBパスワード',
-          'is_busiv'      : 'ネットワーク',
-          'client_number' : 'クライアント数',
-          'number_pc'     : '端末台数',
-          'number_id'     : '端末id収容数',
-          'start_id'      : '開始端末id'
-        }
+      table : 'kids',
+      tab_name : '基本情報',
+      item_name_map : {
+        'kid'           : 'KID',
+        'userkey'       : 'ユーザーキー',
+        'server'        : 'サーバ',
+        'db_password'   : 'DBパスワード',
+        'is_busiv'      : 'ネットワーク',
+        'client_number' : 'クライアント数',
+        'number_pc'     : '端末台数',
+        'number_id'     : '端末id収容数',
+        'start_id'      : '開始端末id'
+      }
     }
   , _model = new Model( config )
   , _headerMap = {}
