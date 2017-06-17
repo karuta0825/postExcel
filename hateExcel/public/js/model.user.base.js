@@ -56,24 +56,11 @@
 
   };
 
-  /**
-   * [makeOrgFileMap description]
-   * TODO:どうやってDBの値を取得するか？
-   */
-  makeOrgFileMap = function () {
-    return {
-      'db_server='   : '',
-      'userkey='     : _model.getCache().userkey,
-      'db_password=' : _model.getCache().db_password
-    };
-  };
-
   // To pubic
   cms.model.userBaseInfo = {
     fetch          : fetch,
     getCache       : getCache,
-    addClient      : addClient,
-    makeOrgFileMap : makeOrgFileMap
+    addClient      : addClient
   };
 
 }( jQuery, customer ));
