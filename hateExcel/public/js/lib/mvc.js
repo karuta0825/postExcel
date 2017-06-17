@@ -436,10 +436,6 @@
       table : this['config']['table']
     }, callback );
 
-    if ( typeof callback === 'function' ) {
-      callback( this.fetch() ) ;
-    }
-
   };
 
   Model.fn.push = function ( data ) {

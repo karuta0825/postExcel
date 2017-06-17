@@ -453,7 +453,8 @@
 
   refresh = function () {
     var kid = cms.model.userBaseInfo.getCache().kid;
-    cms.model.userBaseInfo.fetch(kid, makeUserInfo);
+    cms.model.userBaseInfo.fetch(kid, makeSystemInfo);
+    cms.model.userCustomer.fetch( kid, makeCustomerInfo );
   };
 
   initModule = function () {
