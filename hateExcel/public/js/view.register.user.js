@@ -122,7 +122,7 @@
     // 選択させよう！
 
     // 基本情報
-    cms.model.userBaseInfo.register( upload_data.customers, function (o) {
+    cms.model.userCustomer.register( upload_data.customers, function (o) {
       console.log('customer');
       console.log(o);
     });

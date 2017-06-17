@@ -11,7 +11,8 @@
           'edit'        : '.btn--edit',
           'cancel'      : '.btn--cancel',
           'save'        : '.btn--save'
-        }
+        },
+        'alert' : '#modal-baseInfo-alert'
       },
       'base' : {
         'btn' : {
@@ -53,7 +54,7 @@
         }
       }
     }
-  , baseView
+  , systemView
   , customerView
   , commonView
   , _save
@@ -66,44 +67,73 @@
   , _selectNetwork
   , _hiddenItem
   , _goViewMode
+  , _validate
   , getViewInfo
-  , makeUserInfo
   , makeSystemInfo
+  , makeCustomerInfo
   , reset
   , clear
   , refresh
   , initModule
   ;
 
-  _toggleEditMode = function ( view_property, can_edit ) {
+  _validate = function ( list_key ) {
+
+    _.each( customerView.get('input'), function (val, key){
+      val.find('.item-value').removeClass('is-error');
+    });
+
+    if ( list_key.length !== 0 ) {
+
+      _.each( list_key, function ( v,k ) {
+        customerView.get('input__' + v )
+          .find('.item-value')
+          .addClass('is-error');
+      });
+
+      commonView.get('alert').get(0).showModal();
+
+      return true;
+
+    }
+
+    return false;
+
+  };
+
+  _toggleEditMode = function ( view_property, can_edit, view ) {
     if ( can_edit ) {
-      baseView.get(view_property).find('.item-value').addClass('is-edit');
-      baseView.get(view_property).find('.item-value').prop('disabled', false);
+      view.get(view_property).find('.item-value').addClass('is-edit');
+      view.get(view_property).find('.item-value').prop('disabled', false);
     }
     else {
-      baseView.get(view_property).find('.item-value').removeClass('is-edit');
-      baseView.get(view_property).find('.item-value').prop('disabled', true);
+      view.get(view_property).find('.item-value').removeClass('is-edit');
+      view.get(view_property).find('.item-value').prop('disabled', true);
     }
   };
 
   _hiddenItem = function ( is_onpre ) {
     if ( is_onpre === 'onpre' ) {
-      baseView.get('input__userkey').addClass('is-hidden');
-      baseView.get('input__server').addClass('is-hidden');
-      baseView.get('input__db_password').addClass('is-hidden');
+      systemView.get('input__userkey').addClass('is-hidden');
+      systemView.get('input__server').addClass('is-hidden');
+      systemView.get('input__db_password').addClass('is-hidden');
     }
   };
 
   _goViewMode = function () {
     // 編集不可
-    _.each( baseView.get('input'), function ( v,k ) {
-      _toggleEditMode('input__' +k , false);
+    _.each( systemView.get('input'), function ( v,k ) {
+      _toggleEditMode('input__' +k , false, systemView, systemView );
     });
 
-    baseView.get('environment__network').removeClass('is-edit');
+    _.each( customerView.get('input'), function ( v,k ) {
+      _toggleEditMode('input__' +k , false, customerView );
+    });
 
-    _.each( baseView.get('btn'), function (v,k) {
-      baseView.get('btn__' + k).addClass('is-hidden');
+    systemView.get('environment__network').removeClass('is-edit');
+
+    _.each( systemView.get('btn'), function (v,k) {
+      systemView.get('btn__' + k).addClass('is-hidden');
     });
 
     // ボタン状態制御
@@ -114,21 +144,32 @@
   };
 
   _save = function () {
+
+    // 入力チェック
+    var error = cms.model.userCustomer.check( getViewInfo('customer') );
+    if ( _validate(error) ) {
+      return;
+    }
+
     // update
     customer.model.kids.addFenicsAccount( getViewInfo() );
     customer.model.userBaseInfo.addClient( getViewInfo().client_number );
-    customer.model.userBaseInfo.update( getViewInfo('customer'), makeBaseInfo );
+    customer.model.userCustomer.update( getViewInfo('customer'), makeCustomerInfo );
     customer.model.kids.update( getViewInfo('system'), makeSystemInfo );
 
     // 編集不可
-    _.each( baseView.get('input'), function ( v,k ) {
-      _toggleEditMode('input__' +k , true );
+    _.each( systemView.get('input'), function ( v,k ) {
+      _toggleEditMode('input__' +k , false, systemView );
     });
 
-    baseView.get('environment__network').removeClass('is-edit');
+    _.each( customerView.get('input'), function ( v,k ) {
+      _toggleEditMode('input__' +k , false, customerView );
+    });
 
-    _.each( baseView.get('btn'), function (v,k) {
-      baseView.get('btn__' + k).removeClass('is-hidden');
+    systemView.get('environment__network').removeClass('is-edit');
+
+    _.each( systemView.get('btn'), function (v,k) {
+      systemView.get('btn__' + k).addClass('is-hidden');
     });
 
     // ボタン状態制御
@@ -150,16 +191,20 @@
   _edit = function () {
 
     // 編集可
-    _.each( baseView.get('input'), function ( v,k ) {
-      _toggleEditMode('input__' + k , true );
+    _.each( systemView.get('input'), function ( v,k ) {
+      _toggleEditMode('input__' + k , true, systemView );
+    });
+
+    _.each( customerView.get('input'), function ( v,k ) {
+      _toggleEditMode('input__' + k , true, customerView );
     });
 
     // セレクトボックス
-    baseView.get('environment__network').addClass('is-edit');
+    systemView.get('environment__network').addClass('is-edit');
 
     // ボタン状態制御
-    _.each( baseView.get('btn'), function (v,k) {
-      baseView.get('btn__' + k).removeClass('is-hidden');
+    _.each( systemView.get('btn'), function (v,k) {
+      systemView.get('btn__' + k).removeClass('is-hidden');
     });
 
     // ボタン状態制御
@@ -170,29 +215,28 @@
   };
 
   _increaseClient = function () {
-    var now = Number(baseView.get('input__client_number').find('.item-value').val());
-    baseView.get('input__client_number').find('.item-value').val( now + 1 );
+    var now = Number(systemView.get('input__client_number').find('.item-value').val());
+    systemView.get('input__client_number').find('.item-value').val( now + 1 );
   };
 
   _decreaseClient = function () {
-    var now = Number(baseView.get('input__client_number').find('.item-value').val());
+    var now = Number(systemView.get('input__client_number').find('.item-value').val());
     if ( now > 0 ) {
-      baseView.get('input__client_number').find('.item-value').val( now - 1 );
+      systemView.get('input__client_number').find('.item-value').val( now - 1 );
     }
   };
 
   _increasePC = function () {
-    var now = Number(baseView.get('input__number_pc').find('.item-value').val());
-    baseView.get('input__number_pc').find('.item-value').val( now + 1 );
+    var now = Number(systemView.get('input__number_pc').find('.item-value').val());
+    systemView.get('input__number_pc').find('.item-value').val( now + 1 );
   };
 
   _decreasePC = function () {
-    var now = Number(baseView.get('input__number_pc').find('.item-value').val());
+    var now = Number(systemView.get('input__number_pc').find('.item-value').val());
     if ( now > 0 ) {
-      baseView.get('input__number_pc').find('.item-value').val( now - 1 );
+      systemView.get('input__number_pc').find('.item-value').val( now - 1 );
     }
   };
-
 
   _selectNetwork = function ( event ) {
 
@@ -202,12 +246,12 @@
 
       switch ( list_class[1] ) {
         case 'busiv' :
-          baseView.get('busiv').addClass('choice--on');
-          baseView.get('univ').removeClass('choice--on');
+          systemView.get('busiv').addClass('choice--on');
+          systemView.get('univ').removeClass('choice--on');
           break;
         case 'univ' :
-          baseView.get('busiv').removeClass('choice--on');
-          baseView.get('univ').addClass('choice--on');
+          systemView.get('busiv').removeClass('choice--on');
+          systemView.get('univ').addClass('choice--on');
           break;
         default:
           break;
@@ -218,7 +262,7 @@
   };
 
   /**
-   * [getViewInfo description]
+   * 画面からデータ取得
    * @param  {String} section - 画面のセクション名
    * @return {Object} result  - セクションあるいは画面全体に入力されているデータ
    */
@@ -226,19 +270,19 @@
 
     var
       result = {}
-    , select_network = baseView.get('environment__network').find('.choice--on')
+    , select_network = systemView.get('environment__network').find('.choice--on')
     ;
 
     result.system = {
-      'kid'           : baseView.get('kid'                        ).find('.item-value').val(),
-      'user_name'     : baseView.get('input__user_name'           ).find('.item-value').val(),
-      'userkey'       : baseView.get('input__userkey'             ).find('.item-value').val(),
-      'server'        : baseView.get('input__server'              ).find('.item-value').val(),
-      'db_password'   : baseView.get('input__db_password'         ).find('.item-value').val(),
-      'client_number' : Number(baseView.get('input__client_number').find('.item-value').val() ),
-      'number_pc'     : Number(baseView.get('input__number_pc'    ).find('.item-value').val() ),
-      'number_id'     : Number(baseView.get('input__number_id'    ).find('.item-value').val() ),
-      'start_id'      : Number(baseView.get('input__start_id'     ).find('.item-value').val() )
+      'kid'           : systemView.get('kid'                        ).find('.item-value').val(),
+      'user_name'     : systemView.get('input__user_name'           ).find('.item-value').val(),
+      'userkey'       : systemView.get('input__userkey'             ).find('.item-value').val(),
+      'server'        : systemView.get('input__server'              ).find('.item-value').val(),
+      'db_password'   : systemView.get('input__db_password'         ).find('.item-value').val(),
+      'client_number' : Number(systemView.get('input__client_number').find('.item-value').val() ),
+      'number_pc'     : Number(systemView.get('input__number_pc'    ).find('.item-value').val() ),
+      'number_id'     : Number(systemView.get('input__number_id'    ).find('.item-value').val() ),
+      'start_id'      : Number(systemView.get('input__start_id'     ).find('.item-value').val() )
     };
 
     // ネットワーク判定
@@ -252,7 +296,7 @@
     }
 
     result.customer = {
-      'kid'           : baseView.get('kid'          ).find('.item-value').val(),
+      'kid'           : systemView.get('kid'          ).find('.item-value').val(),
       // 'user_name'     : customerView.get('input__user_name' ).find('.item-value').val(),
       'postal_cd'     : customerView.get('input__postal_cd' ).find('.item-value').val(),
       'address'       : customerView.get('input__address'   ).find('.item-value').val(),
@@ -274,73 +318,73 @@
 
   };
 
+  /**
+   * システム情報にデータ表示
+   */
   makeSystemInfo = function ( data ) {
+
     // 該当サーバの検索
     var list_option = customer.model.servers.find({
       'version'     : data.version
     });
 
-    // 検索結果をoptionとして追加
-    util.addOption( list_option, baseView.get('input__server').find('select'), true );
+    _.each( systemView.get('input'), function (v,k) {
+      v.find('.item-value').val(data[k]);
+    });
 
+    // オンプレの場合非表示
+    _hiddenItem( data.system_type );
+
+    // 検索結果をoptionとして追加
+    util.addOption( list_option, systemView.get('input__server').find('select'), true );
 
     if ( data.system_type === 'onpre' ) {
-      baseView.get('environment__system_type').find('.onpre').addClass('choice--on');
-      baseView.get('environment__system_type').find('.cloud').removeClass('choice--on');
+      systemView.get('environment__system_type').find('.onpre').addClass('choice--on');
+      systemView.get('environment__system_type').find('.cloud').removeClass('choice--on');
     }
     else {
-      baseView.get('environment__system_type').find('.onpre').removeClass('choice--on');
-      baseView.get('environment__system_type').find('.cloud').addClass('choice--on');
+      systemView.get('environment__system_type').find('.onpre').removeClass('choice--on');
+      systemView.get('environment__system_type').find('.cloud').addClass('choice--on');
     }
 
     if ( data.version === 'LM' ) {
-      baseView.get('environment__version').find('.ES').removeClass('choice--on');
-      baseView.get('environment__version').find('.LM').addClass('choice--on');
+      systemView.get('environment__version').find('.ES').removeClass('choice--on');
+      systemView.get('environment__version').find('.LM').addClass('choice--on');
     }
     else {
-      baseView.get('environment__version').find('.ES').addClass('choice--on');
-      baseView.get('environment__version').find('.LM').removeClass('choice--on');
+      systemView.get('environment__version').find('.ES').addClass('choice--on');
+      systemView.get('environment__version').find('.LM').removeClass('choice--on');
     }
 
     if ( data.is_busiv === 1 ) {
-      baseView.get('environment__network').find('.busiv').addClass('choice--on');
-      baseView.get('environment__network').find('.univ').removeClass('choice--on');
+      systemView.get('environment__network').find('.busiv').addClass('choice--on');
+      systemView.get('environment__network').find('.univ').removeClass('choice--on');
     }
     else if ( data.is_busiv === 0 ) {
-      baseView.get('environment__network').find('.busiv').removeClass('choice--on');
-      baseView.get('environment__network').find('.univ').addClass('choice--on');
+      systemView.get('environment__network').find('.busiv').removeClass('choice--on');
+      systemView.get('environment__network').find('.univ').addClass('choice--on');
     }
     else {
-      baseView.get('environment__network').find('.busiv').removeClass('choice--on');
-      baseView.get('environment__network').find('.univ').removeClass('choice--on');
+      systemView.get('environment__network').find('.busiv').removeClass('choice--on');
+      systemView.get('environment__network').find('.univ').removeClass('choice--on');
     }
 
   };
 
-  makeBaseInfo = function ( data ) {
+  /**
+   * 拠点情報にデータを表示
+   */
+  makeCustomerInfo = function ( data ) {
 
     if ( _.isArray( data ) ) {
       data = data[0];
     }
 
-    baseView.get('kid').find('.item-value').val(data['kid']);
-
-    _.each( baseView.get('input'), function (v,k) {
-      v.find('.item-value').val(data[k]);
-    });
+    systemView.get('kid').find('.item-value').val(data['kid']);
 
     _.each( customerView.get('input'), function (v,k) {
       v.find('.item-value').val(data[k]);
     });
-
-  };
-
-  makeUserInfo = function ( data ) {
-
-    makeSystemInfo( data );
-    makeBaseInfo( data );
-
-    _hiddenItem( data.system_type );
 
   };
 
@@ -350,30 +394,39 @@
    */
   reset = function () {
 
-    var data = customer.model.userBaseInfo.getCache();
+    var
+      systemInfo    = customer.model.userBaseInfo.getCache()
+    , customerInfo  = cms.model.userCustomer.getCache()
+    ;
 
-    baseView.get('kid').find('.item-value').val(data.kid);
+    systemView.get('kid').find('.item-value').val(systemInfo.kid);
 
-    _.each( baseView.get('input'), function (v,k) {
-      v.find('.item-value').val(data[k])
+    _.each( systemView.get('input'), function (v,k) {
+      v.find('.item-value').val(systemInfo[k])
     });
 
     _.each( customerView.get('input'), function (v,k) {
-      v.find('.item-value').val(data[k])
+      v.find('.item-value').val(customerInfo[k])
     });
 
-    if ( data.is_busiv === 1 ) {
-      baseView.get('environment__network').find('.busiv').addClass('choice--on');
-      baseView.get('environment__network').find('.univ').removeClass('choice--on');
+    if ( systemInfo.is_busiv === 1 ) {
+      systemView.get('environment__network').find('.busiv').addClass('choice--on');
+      systemView.get('environment__network').find('.univ').removeClass('choice--on');
     }
-    else if ( data.is_busiv === 0 ) {
-      baseView.get('environment__network').find('.busiv').removeClass('choice--on');
-      baseView.get('environment__network').find('.univ').addClass('choice--on');
+    else if ( systemInfo.is_busiv === 0 ) {
+      systemView.get('environment__network').find('.busiv').removeClass('choice--on');
+      systemView.get('environment__network').find('.univ').addClass('choice--on');
     }
     else {
-      baseView.get('environment__network').find('.busiv').removeClass('choice--on');
-      baseView.get('environment__network').find('.univ').removeClass('choice--on');
+      systemView.get('environment__network').find('.busiv').removeClass('choice--on');
+      systemView.get('environment__network').find('.univ').removeClass('choice--on');
     }
+
+    // 入力エラーの解除
+    _.each( customerView.get('input'), function (val, key){
+      val.find('.item-value').removeClass('is-error');
+    });
+
 
   };
 
@@ -383,11 +436,12 @@
     // 参照モードに
     _goViewMode();
 
-    baseView.get('input__userkey').removeClass('is-hidden');
-    baseView.get('input__server').removeClass('is-hidden');
-    baseView.get('input__db_password').removeClass('is-hidden');
+    // オンプレユーザーで非表示にした項目を表示
+    systemView.get('input__userkey').removeClass('is-hidden');
+    systemView.get('input__server').removeClass('is-hidden');
+    systemView.get('input__db_password').removeClass('is-hidden');
 
-    _.each( baseView.get('input'), function (v,k) {
+    _.each( systemView.get('input'), function (v,k) {
       v.find('.item-value').val('');
     });
 
@@ -403,15 +457,22 @@
   };
 
   initModule = function () {
+
     $('#usr-base-panel')
     .append( customer.db.getHtml('template/user.base.html'));
 
     commonView = new Controller('#usr-base-panel');
-    baseView = new Controller('#usr-base-panel');
+    systemView = new Controller('#usr-base-panel');
     customerView = new Controller('#usr-base-panel');
 
+    util.alert({
+      selector : commonView.top,
+      id       : 'modal-baseInfo-alert',
+      msg      : '入力に誤りがあります'
+    });
+
     commonView.initElement(elements.common);
-    baseView.initElement(elements.base);
+    systemView.initElement(elements.base);
     customerView.initElement(elements.customer);
 
     commonView.addListener({
@@ -420,7 +481,7 @@
      'click btn__save'         : _save,
     });
 
-    baseView.addListener({
+    systemView.addListener({
      'click btn__plusClient'   : _increaseClient,
      'click btn__minusClient'  : _decreaseClient,
      'click btn__plusPC'       : _increasePC,
@@ -432,7 +493,8 @@
 
   cms.view.userBaseInfo = {
     initModule   : initModule,
-    makeUserInfo : makeUserInfo,
+    makeSystemInfo : makeSystemInfo,
+    makeCustomerInfo : makeCustomerInfo,
     reset        : reset,
     clear        : clear,
     refresh      : refresh,

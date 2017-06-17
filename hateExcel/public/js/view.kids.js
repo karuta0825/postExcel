@@ -152,16 +152,20 @@
     cms.view.editUsrs.clearView();
 
 
-    // 基本情報タブ描画
+    // 基本情報タブ　システム情報描画
     customer.model.userBaseInfo.fetch( kid,
-      customer.view.userBaseInfo.makeUserInfo
+      customer.view.userBaseInfo.makeSystemInfo
+    );
+
+    // 基本情報タブ　拠点情報作成描画
+    customer.model.userCustomer.fetch(kid,
+      cms.view.userBaseInfo.makeCustomerInfo
     );
 
     // ネットワークタブ描画
     customer.model.userNetwork.fetch(kid,
       customer.view.userNetwork.redrawTable
     );
-
 
     // クライアントテーブル描画
     customer.model.clients.fetch(kid,

@@ -6,20 +6,6 @@
 
   var
     _cache
-  , config = {
-      table : 'customers',
-      tab_name : '基本情報',
-      item_name_map : {
-        'user_name'     : '顧客名',
-        'postal_cd'     : '郵便番号',
-        'address'       : '住所',
-        'affliation'    : '所属',
-        'owner'         : '担当者',
-        'tel'           : '電話番号',
-        'fax'           : 'FAX'
-      }
-    }
-  , _customerModel = new Model( config )
   , fetch
   , getCache
   , addClient
@@ -28,12 +14,7 @@
 
   fetch = function ( kid, callback  ) {
 
-
-    _cache = $.extend(
-      {},
-      customer.model.kids.find( {'kid' : kid } )[0],
-      _customerModel.fetch(kid)[0]
-    );
+    _cache = _.clone( customer.model.kids.find( {'kid' : kid } )[0] );
 
     if ( typeof callback === 'function' ) {
       callback( _cache );
@@ -92,10 +73,6 @@
     fetch          : fetch,
     getCache       : getCache,
     addClient      : addClient,
-    makeOrgFileMap : makeOrgFileMap,
-    update         : $.proxy( _customerModel.update, _customerModel ),
-    checkCust      : $.proxy( _customerModel._checkWhatsUpdated, _customerModel ),
-    register       : $.proxy( _customerModel.initUpdate, _customerModel ),
     makeOrgFileMap : makeOrgFileMap
   };
 

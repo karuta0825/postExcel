@@ -43,12 +43,12 @@ FROM
     
     
     
-# part2
+# part2 lm esでわける必要がある
 select 
 	DATE_FORMAT(create_on, '%Y/%m') as month,
-    sum(case item_name when 'ユーザー作成' THEN val else null end ) as user,
-    sum(case item_name when 'クライアント数' THEN val else null end ) as client,
-    sum(case item_name when '端末台数' THEN val else null end ) as pc
+    ifnull(sum(case item_name when 'ユーザー作成' THEN val else null end ),0) as user,
+    ifnull(sum(case item_name when 'クライアント数' THEN val else null end ),0) as client,
+    ifnull(sum(case item_name when '端末台数' THEN val else null end ),0) as pc
 from ((
     SELECT 
         'ユーザー作成' AS item_name,
