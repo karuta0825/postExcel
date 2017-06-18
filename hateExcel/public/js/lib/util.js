@@ -54,7 +54,7 @@
 
     return [ new Uint8Array( list_sjis ) ];
 
-  };  
+  };
 
   /**
    * jsonを受け取って、csvファイル用のblobオブジェクトを返す
@@ -238,12 +238,14 @@
     },
     isNumber : {
       validate : function ( value ) {
+        if ( value === '' ) { return true }
         return _.isNumber(value);
       },
       instructions : '数値しかあかんで'
     },
     isId : {
       validate : function ( value ) {
+        if ( value === '' ) { return true }
         return (value.match(/^[0-9]+$/)) ? true : false;
       },
       instructions : 'idのみや'
@@ -258,37 +260,42 @@
     },
     isAlpha : {
       validate : function ( value ) {
+        if ( value === '' ) { return true }
         return (value.match(/^[a-zA-Z]+$/)) ? true : false;
       },
       instructions : 'アルファベットだけや'
     },
     isAlphaNum : {
       validate : function ( value ) {
-        // return value && value.match(/[^0-9a-zA-Z]*/)[0].length > 1 || false;
+        if ( value === '' ) { return true }
         return (value.match(/^[0-9a-zA-Z]+$/)) ? true : false;
       },
       instructions : 'アルファベットと数値だけでんがな'
     },
     isMailAddress : {
       validate : function ( value ) {
+        if ( value === '' ) { return true }
         return ( value.match(/^[0-9a-zA-Z-_@\.]+$/) ) ? true : false;
       },
       instructions : 'メールアドレスの入力やで'
     },
     isBoolean : {
       validate : function ( value ) {
+        if ( value === '' ) { return true }
         return _.isBoolean(value);
       },
       instructions : '論理値だけやで'
     },
     isIp      : {
       validate : function ( value ) {
+        if ( value === '' ) { return true }
         return value.match(/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/);
       },
       instructions : 'IPアドレスをいれるんやで'
     },
     isTEL      : {
       validate : function ( value ) {
+        if ( value === '' ) { return true }
         return (value.match(/^[0-9-]+$/)) ? true : false;
       },
       instructions : 'IPアドレスをいれるんやで'

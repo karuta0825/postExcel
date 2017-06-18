@@ -35,25 +35,15 @@
   }
   , vl = new util.Validate({
       'sa_pid'        : 'isId',
-      'sa_company'    : 'isEmpty',
       'sa_postal_cd'  : 'isTEL',
-      'sa_address'    : 'isEmpty',
-      'sa_affliation' : 'isEmpty',
-      'sa_name'       : 'isEmpty',
       'sa_tel'        : 'isTEL',
       'sa_fax'        : 'isTEL',
       'sa_email'      : 'isMailAddress',
       'se_pid'        : 'isId',
-      'se_company'    : 'isEmpty',
       'se_postal_cd'  : 'isTEL',
-      'se_address'    : 'isEmpty',
-      'se_affliation' : 'isEmpty',
-      'se_name'       : 'isEmpty',
       'se_tel'        : 'isTEL',
       'se_fax'        : 'isTEL',
       'se_email'      : 'isMailAddress',
-      'em_company'    : 'isEmpty',
-      'em_name'       : 'isEmpty',
       'em_tel'        : 'isTEL',
       'em_email'      : 'isMailAddress'
     })

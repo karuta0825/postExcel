@@ -329,11 +329,19 @@
       return view_data;
     }
 
-    for ( var i in view_data ) {
-      if ( view_data[i] !== '' && view_data[i] != this['_cache'][0][i] ) {
-        result[i] = view_data[i];
+    _.each( view_data, function ( v, k ) {
+      // モデル値nullのときは、''で比較する
+      if ( this['_cache'][0][k] === null ) {
+        if ( v !== '' ) {
+          result[k] = v;
+        }
       }
-    }
+      else {
+        if ( this['_cache'][0][k] !== v ) {
+          result[k] = v;
+        }
+      }
+    },this);
 
     return result;
 
@@ -359,7 +367,7 @@
         type         : '更新',
         content_name : this['config']['tab_name'],
         item_name    : this['config']['item_name_map'][i],
-        before       : this['_cache'][i],
+        before       : this['_cache'][0][i],
         after        : update_data[i]
       });
 
