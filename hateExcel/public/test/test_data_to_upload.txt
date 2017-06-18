@@ -1,25 +1,36 @@
 #kid
-KID9837022
+KID98370
 
 #partners table
-partners__pid:11111
-partners__name:パートナーA
-partners__postal_cd:1234567
-partners__address:埼玉県戸田市新曽1-2-3
-partners__se_affliation:システム部
-partners__se_name:システム太郎
-partners__se_tel:090-111-1111
-partners__se_fax:080-111-1111
-partners__se_email:se@sysytem.com
-partners__sa_affliation:営業部
-partners__sa_name:営業太郎
-partners__sa_tel:090-222-2222
-partners__sa_fax:080-222-2222
-partners__sa_email:sa@system.com
-partners__em_company:緊急会社
-partners__em_name:緊急太郎
+# sa
+partners__sa_pid:10101
+partners__sa_company:販社名
+partners__sa_postal_cd:郵便番号
+partners__sa_address:111-1111
+partners__sa_affliation:SA所属
+partners__sa_kana:SAフリガナ
+partners__sa_name:SA担当者
+partners__sa_tel:090-111-1111
+partners__sa_fax:080-111-1111
+partners__sa_email: sa@mail.com
+
+# se
+partners__se_pid:10101
+partners__se_company:販社名
+partners__se_postal_cd:111-2222
+partners__se_address:SE住所
+partners__se_affliation:SE所属
+partners__se_kana:SEフリガナ
+partners__se_name:SE担当者
+partners__se_tel:090-222-2222
+partners__se_fax:080-222-2222
+partners__se_email:se@mail.com
+
+# 緊急連絡先
+partners__em_company:緊急連絡先社名
+partners__em_name:担当者
 partners__em_tel:090-333-3333
-partners__em_email:emegency@system.com
+partners__em_email:em@mail.com
 
 #customer table
 customers__user_name:A訪問看護ステーション

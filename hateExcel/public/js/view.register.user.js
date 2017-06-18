@@ -83,7 +83,7 @@
         val = v.slice(delimiter_position+1);
 
         table = key.split('__')[0];
-        field = key.split('__')[1];
+        field = key.split('__')[1].trim();
 
         if ( !map_result.hasOwnProperty(table) ){
           map_result[table] = { 'kid' : kid };
@@ -93,7 +93,7 @@
           field = cms.model.services.find({ 'version' : version, 'sales_id' : field })[0].service_id;
         }
 
-        map_result[table][field] = val;
+        map_result[table][field] = val.trim();
 
       });
 
@@ -120,6 +120,15 @@
 
     // 更新するKID情報をどこから取得するか？
     // 選択させよう！
+
+    cms.model.kids.register({
+      kid : kid,
+      register_on : moment().format('YYYY-MM-DD'),
+      is_registered : 1 },
+      function (o) {
+        console.log('kids');
+        console.log(o);
+    });
 
     // 基本情報
     cms.model.userCustomer.register( upload_data.customers, function (o) {
