@@ -25,7 +25,7 @@
       version     : 'all',
       server      : 'all',
       has_mobile  : 'all',
-      is_busiv    : 'all'
+      has_busiv   : 'all'
     }
     /*private method*/
   , _sortOrder = 1
@@ -33,6 +33,7 @@
   , sortByCol
   , setCondition
   , getHeader
+  , register
   , initModule
   , addFenicsAccount
   ;
@@ -194,6 +195,19 @@
 
   };
 
+  register = function ( obj, callback ) {
+
+    var kid = obj.kid;
+    delete obj.kid;
+
+      customer.db.update('/update', {
+        data      : obj,
+        condition : {'kid' : kid },
+        table     : _model['config']['table']
+      }, callback );
+
+  };
+
   /**
    * 追加した数を取得
    * @param {[type]} view_data
@@ -241,7 +255,8 @@
     getHeader    : getHeader,
     update       : $.proxy( _model.update, _model ),
     check        : $.proxy( _model._checkWhatsUpdated, _model ),
-    addFenicsAccount : addFenicsAccount
+    addFenicsAccount : addFenicsAccount,
+    register      : register
   };
 
 }( jQuery, customer ));

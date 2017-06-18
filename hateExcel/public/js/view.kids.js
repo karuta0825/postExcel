@@ -134,9 +134,11 @@
     jqueryMap.col['system_type'].addClass('is-hidden');
     jqueryMap.col['version'].addClass('is-hidden');
     jqueryMap.col['has_mobile'].addClass('is-hidden');
-    jqueryMap.col['is_busiv'].addClass('is-hidden');
+    jqueryMap.col['has_busiv'].addClass('is-hidden');
+    jqueryMap.col['has_fenics'].addClass('is-hidden');
     jqueryMap.col['is_registered'].addClass('is-hidden');
-  }
+    jqueryMap.col['register_on'].addClass('is-hidden');
+  };
 
   _onClickColumn = function () {
 
@@ -335,19 +337,19 @@
         jqueryMap.btnBusiv.addClass('btn--on');
         jqueryMap.btnUniv.removeClass('btn--on');
         jqueryMap.btnBusivUniv.removeClass('btn--on');
-        customer.model.kids.setCondition( { 'is_busiv' : 1 }, regenerateTable );
+        customer.model.kids.setCondition( { 'has_busiv' : 1 }, regenerateTable );
         break;
       case 'btn--univ' :
         jqueryMap.btnBusiv.removeClass('btn--on');
         jqueryMap.btnUniv.addClass('btn--on');
         jqueryMap.btnBusivUniv.removeClass('btn--on');
-        customer.model.kids.setCondition( { 'is_busiv' : 0 }, regenerateTable );
+        customer.model.kids.setCondition( { 'has_busiv' : 0 }, regenerateTable );
         break;
       case 'btn--busiv-univ' :
         jqueryMap.btnBusiv.removeClass('btn--on');
         jqueryMap.btnUniv.removeClass('btn--on');
         jqueryMap.btnBusivUniv.addClass('btn--on');
-        customer.model.kids.setCondition( { 'is_busiv' : 'all'}, regenerateTable );
+        customer.model.kids.setCondition( { 'has_busiv' : 'all'}, regenerateTable );
         break;
       default:
         break;

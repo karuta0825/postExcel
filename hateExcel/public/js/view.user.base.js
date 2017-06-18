@@ -288,10 +288,10 @@
     // ネットワーク判定
     if ( select_network.length !== 0 ) {
       if ( select_network.attr('class').split(' ')[1] === 'busiv' ) {
-        result['system']['is_busiv'] = 1;
+        result['system']['has_busiv'] = 1;
       }
       else {
-        result['system']['is_busiv'] = 0;
+        result['system']['has_busiv'] = 0;
       }
     }
 
@@ -356,11 +356,11 @@
       systemView.get('environment__version').find('.LM').removeClass('choice--on');
     }
 
-    if ( data.is_busiv === 1 ) {
+    if ( data.has_busiv === 1 ) {
       systemView.get('environment__network').find('.busiv').addClass('choice--on');
       systemView.get('environment__network').find('.univ').removeClass('choice--on');
     }
-    else if ( data.is_busiv === 0 ) {
+    else if ( data.has_busiv === 0 ) {
       systemView.get('environment__network').find('.busiv').removeClass('choice--on');
       systemView.get('environment__network').find('.univ').addClass('choice--on');
     }
@@ -409,11 +409,11 @@
       v.find('.item-value').val(customerInfo[k])
     });
 
-    if ( systemInfo.is_busiv === 1 ) {
+    if ( systemInfo.has_busiv === 1 ) {
       systemView.get('environment__network').find('.busiv').addClass('choice--on');
       systemView.get('environment__network').find('.univ').removeClass('choice--on');
     }
-    else if ( systemInfo.is_busiv === 0 ) {
+    else if ( systemInfo.has_busiv === 0 ) {
       systemView.get('environment__network').find('.busiv').removeClass('choice--on');
       systemView.get('environment__network').find('.univ').addClass('choice--on');
     }
