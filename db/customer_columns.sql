@@ -52,7 +52,7 @@ CREATE TABLE `columns` (
 
 LOCK TABLES `columns` WRITE;
 /*!40000 ALTER TABLE `columns` DISABLE KEYS */;
-INSERT INTO `columns` VALUES (0,'KID','顧客名','サーバ','ユーザキー','DBパスワード','fenicsキー','端末台数','クライアント数','端末id収容数','端末id','作成者','更新日','システム環境','バージョン','ビジVあり','モバイル有無','初期登録済'),(1,'1','1','1','1','1','1','1','1','1','1','1','1','0','0','0','0','0');
+INSERT INTO `columns` VALUES (0,'KID','顧客名','サーバ','ユーザキー','DBパスワード','fenicsキー','端末台数','クライアント数','端末id収容数','端末開始Id','作成者','更新日','システム環境','バージョン','ビジVあり','モバイル有無','初期登録済'),(1,'1','1','1','1','1','1','1','1','1','1','1','1','0','0','0','0','0');
 /*!40000 ALTER TABLE `columns` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -65,4 +65,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-06-09  7:47:49
+-- Dump completed on 2017-06-18 11:55:29
