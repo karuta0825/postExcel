@@ -68,6 +68,7 @@
   , _hiddenItem
   , _goViewMode
   , _validate
+  , _validateSystem
   , getViewInfo
   , makeSystemInfo
   , makeCustomerInfo
@@ -79,6 +80,7 @@
 
   _validate = function ( list_key ) {
 
+    // 拠点情報の入力チェック
     _.each( customerView.get('input'), function (val, key){
       val.find('.item-value').removeClass('is-error');
     });
@@ -95,6 +97,30 @@
 
       return true;
 
+    }
+
+    return false;
+
+  };
+
+  _validateSystem = function ( list_key ) {
+
+    // 初期化
+    _.each( systemView.get('input'), function (val, key){
+      val.find('.item-value').removeClass('is-error');
+    });
+
+    if ( list_key.length !== 0 ) {
+
+      _.each( list_key, function ( v,k ) {
+        systemView.get('input__' + v )
+          .find('.item-value')
+          .addClass('is-error');
+      });
+
+      commonView.get('alert').get(0).showModal();
+
+      return true;
     }
 
     return false;
@@ -145,9 +171,14 @@
 
   _save = function () {
 
-    // 入力チェック
+    // 拠点情報の入力チェック
     var error = cms.model.userCustomer.check( getViewInfo('customer') );
     if ( _validate(error) ) {
+      return;
+    }
+
+    error = cms.model.userBaseInfo.check( getViewInfo('system') );
+    if ( _validateSystem(error)) {
       return;
     }
 
@@ -423,6 +454,12 @@
     }
 
     // 入力エラーの解除
+    // システム情報
+    _.each( systemView.get('input'), function (val, key){
+      val.find('.item-value').removeClass('is-error');
+    });
+
+    // 拠点情報
     _.each( customerView.get('input'), function (val, key){
       val.find('.item-value').removeClass('is-error');
     });

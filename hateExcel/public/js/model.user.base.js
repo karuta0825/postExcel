@@ -6,11 +6,37 @@
 
   var
     _cache
+  , vl = new util.Validate({
+
+   })
   , fetch
   , getCache
   , addClient
   , makeOrgFileMap
   ;
+
+  validate = function ( view_data ) {
+
+    var result = [];
+
+    if ( view_data['client_number'] < getCache().client_number ) {
+      result.push('client_number');
+    }
+
+    if ( view_data['number_pc'] < getCache().number_pc ) {
+      result.push('number_pc');
+    }
+
+    if ( view_data['number_id'] < 0 )  {
+      result.push('number_id');
+    }
+    if ( view_data['start_id'] < 0 ) {
+      result.push('start_id');
+    }
+
+    return result;
+
+  };
 
   fetch = function ( kid, callback  ) {
 
@@ -60,7 +86,8 @@
   cms.model.userBaseInfo = {
     fetch          : fetch,
     getCache       : getCache,
-    addClient      : addClient
+    addClient      : addClient,
+    check          : validate
   };
 
 }( jQuery, customer ));
