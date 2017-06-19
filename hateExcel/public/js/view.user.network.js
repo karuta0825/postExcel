@@ -21,6 +21,7 @@
       'download' : {
         'fenics'      : '.download--fenics',
       },
+      'fenics-section' : '.fenics-section',
       'table'  : '.fenics-table',
       'dialog' : {
         'download' : '#modal-network-download',
@@ -252,8 +253,8 @@
     , complied = _.template( tmpl )
     ;
 
-    networkView.wrap.find('table').remove();
-    networkView.wrap.append( complied(data) );
+    networkView.get('fenics-section').empty();
+    networkView.get('fenics-section').append( complied(data) );
     componentHandler.upgradeElements( networkView.wrap );
 
     networkView.updateElement({'table'           : '.fenics-table'});

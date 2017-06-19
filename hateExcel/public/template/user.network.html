@@ -30,32 +30,35 @@
 
 <% } %>
 
-<table class='fenics-table mdl-data-table mdl-js-data-table mdl-data-table--selectable'>
+<div class='fenics-section'>
+  <h6 class='user-list__section'>Fenics情報</h6>
+  <table class='fenics-table mdl-data-table mdl-js-data-table mdl-data-table--selectable'>
 
-  <thead>
-    <th class='mdl-data-table__cell--non-numeric'>Fenics ID</th>
-    <th class='mdl-data-table__cell--non-numeric'>パスワード</th>
-    <th class='mdl-data-table__cell--non-numeric'>ip</th>
-    <th class='mdl-data-table__cell--non-numeric'>開始日</th>
-    <th class='mdl-data-table__cell--non-numeric'>作成日</th>
-  </thead>
-  <tbody>
+    <thead>
+      <th class='mdl-data-table__cell--non-numeric'>Fenics ID</th>
+      <th class='mdl-data-table__cell--non-numeric'>パスワード</th>
+      <th class='mdl-data-table__cell--non-numeric'>ip</th>
+      <th class='mdl-data-table__cell--non-numeric'>開始日</th>
+      <th class='mdl-data-table__cell--non-numeric'>作成日</th>
+    </thead>
+    <tbody>
 
-    <% _.each( list, function ( item, num ) { %>
-      <tr id='<%- item.fenics_id %>'>
-        <td class='mdl-data-table__cell--non-numeric fenics_id'><%- item.fenics_id %></td>
-        <td class='mdl-data-table__cell--non-numeric password'><%- item.password %></td>
-        <td class='mdl-data-table__cell--non-numeric fenics_ip'><%- item.fenics_ip %></td>
-        <td class='mdl-data-table__cell--non-numeric start_on'>
-          <input class='input-date' type='date' value='<%- moment(item.start_on).format("YYYY-MM-DD") %>' disabled='disabled'></input>
-        </td>
-        <td class='mdl-data-table__cell--non-numeric create_on'><%- item.create_on %></td>
-      </tr>
-    <% }); %>
+      <% _.each( list, function ( item, num ) { %>
+        <tr id='<%- item.fenics_id %>'>
+          <td class='mdl-data-table__cell--non-numeric fenics_id'><%- item.fenics_id %></td>
+          <td class='mdl-data-table__cell--non-numeric password'><%- item.password %></td>
+          <td class='mdl-data-table__cell--non-numeric fenics_ip'><%- item.fenics_ip %></td>
+          <td class='mdl-data-table__cell--non-numeric start_on'>
+            <input class='input-date' type='date' value='<%- moment(item.start_on).format("YYYY-MM-DD") %>' disabled='disabled'></input>
+          </td>
+          <td class='mdl-data-table__cell--non-numeric create_on'><%- item.create_on %></td>
+        </tr>
+      <% }); %>
 
-  </tbody>
+    </tbody>
 
-</table>
+  </table>
+</div>
 
 
 

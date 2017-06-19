@@ -809,7 +809,7 @@
 
 /* -------------------
    client tab
----------------------j- */
+---------------------- */
 
 #usr-client-panel .mdl-dialog {
   width : 60%;
@@ -817,6 +817,20 @@
 
 #usr-client-panel .mdl-dialog .mdl-checkbox {
   margin : 10px 0;
+}
+
+/* -------------------
+   network tab
+---------------------- */
+
+.fenics-section {
+  width : 85%;
+  min-width: 705px;
+  margin: 20px auto;
+}
+
+.fenics-section .fenics-table {
+  width : 100%;
 }
 
 /* -------------------
