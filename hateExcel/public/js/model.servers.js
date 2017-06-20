@@ -10,14 +10,63 @@
     })
   , list_es = new Model()
   , list_lm = new Model()
+  , vl = new util.Validate({
+      type : 'isEmpty',
+      name : 'isEmpty',
+      ip   : 'isIp'
+    })
   , initModule
   , insertItem
   , removeItem
   , updateItem
   , resetItems
   , sendServer
+  , validate
   ;
 
+  /**
+   * どんな結果が帰ってくれるとうれしんだ？
+   * idea1 [{id:1, key1:'msg', key2:'msg'}, {id:3, key1:'msg', key2:'msg'}]
+   * idea2 [[1,key1,key2],[3,key1,key3]]
+   * @param  {[type]} version
+   * @return {[type]}
+   */
+  validate = function ( version, callback ) {
+
+    var
+      list
+    , id
+    , err
+    , errs = []
+    ;
+
+    if ( version === 'LM' ) {
+      list = list_lm.getCache();
+    }
+    else {
+      list = list_es.getCache();
+    }
+
+    _.each( list, function (v,k) {
+
+      id = v.id;
+      err = vl.validate(v);
+
+      if ( err.length !== 0 ) {
+        err.unshift(id);
+        errs.push(err);
+      }
+
+    });
+
+    if ( typeof callback === 'function') {
+      callback(errs, version);
+    }
+    else {
+      return errs;
+    }
+
+  };
 
   initModule = function () {
     _model.fetch();
@@ -111,7 +160,7 @@
     removeItem : removeItem,
     resetItems : resetItems,
     sendServer : sendServer,
-    get        : function () { return [list_lm, list_es]; }
+    validate   : validate
   };
 
 

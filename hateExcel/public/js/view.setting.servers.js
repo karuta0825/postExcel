@@ -261,8 +261,26 @@
 
   };
 
-  _validate = function () {
+  /**
+   * [_validate description]
+   * @param  {Array} list - 入力エラーのidとkeyを格納した配列の配列
+   * 現在の状態を保持したほうがいいね
+   */
+  _validate = function ( list, version ) {
 
+    var id, tr;
+
+    _.each( list, function (item,idx) {
+
+      id = item.shift();
+
+      tr =view[version].get('table').find('[data-id=' + id + ']');
+
+      _.each( item, function (v,k) {
+        tr.find('.' + v).addClass('is-error');
+      });
+
+    });
   };
 
   // initialize module
@@ -313,6 +331,7 @@
   cms.view.servers = {
     initModule : initModule,
     redrawTable : redrawTable,
+    validate   : _validate
   };
 
 }(jQuery, customer ));

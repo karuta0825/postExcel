@@ -334,6 +334,7 @@
         // 入力エラーが見つかった場合
         if( !result_ok ){
           this.messages.push(i);
+          // this.messages.push({ i : checker.instructions });
         }
       }
     }
