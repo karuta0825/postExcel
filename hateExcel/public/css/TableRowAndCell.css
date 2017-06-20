@@ -823,7 +823,8 @@
    network tab
 ---------------------- */
 
-.fenics-section {
+.fenics-section,
+.busiv-section {
   width : 85%;
   min-width: 705px;
   margin: 20px auto;
@@ -832,6 +833,8 @@
 .fenics-section .fenics-table {
   width : 100%;
 }
+
+
 
 /* -------------------
    setting common
