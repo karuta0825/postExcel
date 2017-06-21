@@ -31,7 +31,8 @@
     "get_services_by_version" : "select * from services where version = ?;",
     "temp" : "select type, `before`, `after`, case when type = '更新' then case when `before` = '' then concat(`after`, 'に設定されました') else concat(`before`,'から', `after`, 'に更新されました') end when type = '削除' then concat(`item_name`, 'が削除されました') else null end as msg from historys;",
     "available_number_in_each_server" : "select GRP.server, GRP.pc_number, 80 - GRP.pc_number as available_number, S.version from (SELECT server, SUM(number_pc) as pc_number FROM kids K WHERE server != '' GROUP BY server) GRP left join servers S on GRP.server = S.name order by server;",
-    "busivs"               : "select * from busivs where base_id = ?;"
+    "busivs"              : "select * from busivs where kid = ?;",
+    "mobiles"             : "select * from mobiles where kid = ?"
   },
 
   "update" : {
