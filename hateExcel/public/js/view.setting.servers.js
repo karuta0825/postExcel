@@ -11,6 +11,7 @@
   , elements = {
       'select' : {
         'version' : '.select-version',
+        'alert'   : '#modal-servers-alert',
       },
       'common' : {
         'btn' : {
@@ -214,7 +215,15 @@
 
   _onClickSave = function ( evt ) {
 
-    var version = $(evt.target).parents('.setting').data('version')
+    var version = $(evt.target).parents('.setting').data('version');
+
+    var list = customer.model.servers.validate(version);
+
+    if ( !_validate(list,version) ) {
+      view['BASE'].get('alert').get(0).showModal();
+      return;
+    }
+
     cms.model.servers.sendServer(version);
 
   };
@@ -270,17 +279,24 @@
 
     var id, tr;
 
-    _.each( list, function (item,idx) {
+    if ( list.length !== 0 ) {
+      _.each( list, function (item,idx) {
 
-      id = item.shift();
+        id = item.shift();
 
-      tr =view[version].get('table').find('[data-id=' + id + ']');
+        tr =view[version].get('table').find('[data-id=' + id + ']');
 
-      _.each( item, function (v,k) {
-        tr.find('.' + v).addClass('is-error');
+        _.each( item, function (v,k) {
+          tr.find('.' + v).find('input').addClass('is-error');
+        });
+
       });
 
-    });
+      return false;
+    }
+
+    return true;
+
   };
 
   // initialize module
@@ -293,6 +309,12 @@
       'LM'   : new Controller('.setting--lm-servers'),
       'ES'   : new Controller('.setting--es-servers')
     };
+
+    util.alert({
+      selector : view['BASE'].top,
+      id       : 'modal-servers-alert',
+      msg      : '入力に誤りがあります'
+    });
 
     view['BASE'].initElement( elements.select );
     view['LM'].initElement( elements.common );
