@@ -19,7 +19,11 @@
     }
   , _customerModel = new Model( config )
   , vl = new util.Validate({
+      'user_name'     : 'noCheck',
       'postal_cd'     : 'isTEL',
+      'address'       : 'noCheck',
+      'affliation'    : 'noCheck',
+      'owner'         : 'noCheck',
       'tel'           : 'isTEL',
       'fax'           : 'isTEL'
     })

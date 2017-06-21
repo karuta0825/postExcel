@@ -230,6 +230,12 @@
   // 入力チェック項目の設定
   // validateエラー時に、falseを返す
   ValidateProto.types = {
+    noCheck : {
+      validate : function () {
+        return true;
+      },
+      instructions : '存在のみチェック通過'
+    },
     isEmpty : {
       validate : function ( value ) {
         return !_.isEmpty(value);
@@ -293,6 +299,13 @@
       },
       instructions : 'IPアドレスをいれるんやで'
     },
+    // 入力強制
+    isIp_f      : {
+      validate : function ( value ) {
+        return value.match(/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/);
+      },
+      instructions : 'IPアドレスをいれるんやで'
+    },
     isTEL      : {
       validate : function ( value ) {
         if ( value === '' ) { return true }
@@ -319,6 +332,7 @@
 
         // 入力チェック対象外の時
         if( !type ){
+          this.messages.push(i);
           continue ESC;
         }
         // 入力チェック関数が存在しないとき

@@ -11,9 +11,12 @@
   , list_es = new Model()
   , list_lm = new Model()
   , vl = new util.Validate({
-      type : 'isEmpty',
-      name : 'isEmpty',
-      ip   : 'isIp'
+      id         : 'noCheck',
+      type       : 'noCheck',
+      name       : 'isEmpty',
+      ip         : 'isIp_f',
+      connect_db : 'noCheck',
+      version    : 'noCheck'
     })
   , initModule
   , insertItem
