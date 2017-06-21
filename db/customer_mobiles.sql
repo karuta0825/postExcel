@@ -24,11 +24,18 @@ DROP TABLE IF EXISTS `mobiles`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `mobiles` (
   `kid` varchar(9) NOT NULL,
-  `fenics_key` varchar(45) NOT NULL,
-  `password` varchar(45) NOT NULL,
-  ` client_number` int(4) NOT NULL,
-  `office_cd` int(10) DEFAULT NULL,
-  PRIMARY KEY (`kid`)
+  `base_id` int(1) NOT NULL,
+  `fenics_key` varchar(5) NOT NULL,
+  `client_number` int(4) NOT NULL,
+  `admin_id` varchar(45) NOT NULL,
+  `admin_pw` varchar(45) NOT NULL,
+  `city_cd` varchar(45) NOT NULL,
+  `office_cd` int(10) NOT NULL,
+  PRIMARY KEY (`base_id`),
+  UNIQUE KEY `fenics_key_UNIQUE` (`fenics_key`),
+  UNIQUE KEY `admin_id_UNIQUE` (`admin_id`),
+  UNIQUE KEY `admin_pw_UNIQUE` (`admin_pw`),
+  UNIQUE KEY `office_cd_UNIQUE` (`office_cd`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -50,4 +57,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-06-18 13:11:37
+-- Dump completed on 2017-06-22  8:22:59
