@@ -279,12 +279,17 @@
 
     var id, tr;
 
+    // 初期化
+    view[version].get('table').find('.name input').removeClass('is-error');
+    view[version].get('table').find('.ip input').removeClass('is-error');
+
+
     if ( list.length !== 0 ) {
       _.each( list, function (item,idx) {
 
         id = item.shift();
 
-        tr =view[version].get('table').find('[data-id=' + id + ']');
+        tr = view[version].get('table').find('[data-id=' + id + ']');
 
         _.each( item, function (v,k) {
           tr.find('.' + v).find('input').addClass('is-error');

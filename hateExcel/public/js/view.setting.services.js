@@ -7,12 +7,11 @@
   var
   // member
     idx = 0
-  , view
-  , esView
-  , lmView
+  , view = {}
   , elements = {
       'select' : {
         'version' : '.select-version',
+        'alert'   : '#modal-services-alert',
       },
       'common' : {
         'btn' : {
@@ -33,6 +32,7 @@
   , _drawTable
   , _redrawTable
   , _makeRow
+  , _validate
   // public method
   , initModule
   ;
@@ -57,12 +57,12 @@
     var version = $(this).val();
 
     if ( version === 'LM' ) {
-      lmView.wrap.removeClass('is-hidden');
-      esView.wrap.addClass('is-hidden');
+      view['LM'].wrap.removeClass('is-hidden');
+      view['ES'].wrap.addClass('is-hidden');
     }
     else {
-      lmView.wrap.addClass('is-hidden');
-      esView.wrap.removeClass('is-hidden');
+      view['LM'].wrap.addClass('is-hidden');
+      view['ES'].wrap.removeClass('is-hidden');
     }
 
   };
@@ -96,6 +96,36 @@
 
   };
 
+  _validate = function ( list, version ) {
+
+    var id, tr;
+
+    // 初期化
+    view[version].get('table').find('.service_id input').removeClass('is-error');
+    view[version].get('table').find('.service_name input').removeClass('is-error');
+
+
+    if ( list.length !== 0 ) {
+      _.each( list, function (item,idx) {
+
+        id = item.shift();
+
+        tr = view[version].wrap.find('[data-id=' + id + ']');
+
+        _.each( item, function (v,k) {
+          tr.find('.' + v).find('input').addClass('is-error');
+        });
+
+      });
+
+      return false;
+    }
+
+    return true;
+
+
+  };
+
   _drawTable = function ( data ) {
 
     var
@@ -105,25 +135,14 @@
     , complied = _.template( tmpl )
     ;
 
-    if ( version === 'LM' ) {
-      lmView.get('body').append( complied(data) );
-    }
-    else {
-      esView.get('body').append( complied(data) );
-    }
+    view[version].get('body').append( complied(data) );
 
   };
 
   _redrawTable = function ( version ) {
 
-    if ( version === 'LM' ) {
-      lmView.get('body').empty();
-      _drawTable( customer.model.services.find( {'version' : 'LM'} ) );
-    }
-    else {
-      esView.get('body').empty();
-      _drawTable( customer.model.services.find( {'version' : 'ES'} ) );
-    }
+    view[version].get('body').empty();
+    _drawTable( customer.model.services.find( {'version' : 'LM'} ) );
 
   };
 
@@ -131,6 +150,14 @@
   _onClickSave = function ( evt ) {
 
     var version = $(evt.target).parents('.setting').data('version')
+
+    var list = customer.model.services.validate(version);
+
+    if ( !_validate(list,version) ) {
+      view['BASE'].get('alert').get(0).showModal();
+      return;
+    }
+
     cms.model.services.sendServer(version);
 
   };
@@ -147,24 +174,13 @@
       version = $(evt.target).parents('.setting').data('version')
     , row = _makeRow();
 
-    if ( version === 'LM' ) {
-      lmView.get('body').find('table').append(row);
-      cms.model.services.insertItem({
-        'id'           : row.data('id'),
-        'service_id'   : '',
-        'service_name' : '',
-        'version'      : 'LM'
-      });
-    }
-    else {
-      esView.get('body').find('table').append(row);
-      cms.model.services.insertItem({
-        'id'           : row.data('id'),
-        'service_id'   : '',
-        'service_name' : '',
-        'version'      : 'ES'
-      });
-    }
+    view[version].get('body').find('table').append(row);
+    cms.model.services.insertItem({
+      'id'           : row.data('id'),
+      'service_id'   : '',
+      'service_name' : '',
+      'version'      : version
+    });
 
   };
 
@@ -190,22 +206,28 @@
     // 同期処理させる
     $('.main-contents--settings-services').append( customer.db.getHtml('setting.services.html') );
 
-    view   = new Controller('.main-contents--settings-services');
-    lmView = new Controller('.setting--lm-services');
-    esView = new Controller('.setting--es-services');
+    view['BASE'] = new Controller('.main-contents--settings-services');
+    view['LM'] = new Controller('.setting--lm-services');
+    view['ES'] = new Controller('.setting--es-services');
 
-    view.initElement(   elements.select );
-    lmView.initElement( elements.common );
-    esView.initElement( elements.common );
+    util.alert({
+      selector : view['BASE'].top,
+      id       : 'modal-services-alert',
+      msg      : '入力に誤りがあります'
+    });
+
+    view['BASE'].initElement( elements.select );
+    view['LM'].initElement( elements.common );
+    view['ES'].initElement( elements.common );
 
     _drawTable( customer.model.services.find( {'version' : 'LM'} ) );
     _drawTable( customer.model.services.find( {'version' : 'ES'} ) );
 
-    view.addListener({
+    view['BASE'].addListener({
       'change version' : _changeVersion
     });
 
-    lmView.addListener({
+    view['LM'].addListener({
       'click btn__add'    : _onClickAdd,
       'click btn__save'   : _onClickSave,
       'click btn__cancel' : _onClickCancel,
@@ -213,7 +235,7 @@
       'change body'       : _changeValue
     });
 
-    esView.addListener({
+    view['ES'].addListener({
       'click btn__add'    : _onClickAdd,
       'click btn__save'   : _onClickSave,
       'click btn__cancel' : _onClickCancel,

@@ -9,6 +9,14 @@
     _model = new Model({ table : 'services' })
   , list_es = new Model()
   , list_lm = new Model()
+  , vl = new util.Validate({
+      'id'          : 'noCheck',
+      'sales_id'    : 'noCheck',
+      'service_id'  : 'isEmpty',
+      'service_name': 'isEmpty',
+      'version'     : 'noCheck',
+    })
+  , validate
   , initModule
   , insertItem
   , removeItem
@@ -16,6 +24,44 @@
   , resetItems
   , sendServer
   ;
+
+  validate = function ( version, callback ) {
+
+    var
+      list
+    , id
+    , err
+    , errs = []
+    ;
+
+    if ( version === 'LM' ) {
+      list = list_lm.getCache();
+    }
+    else {
+      list = list_es.getCache();
+    }
+
+    _.each( list, function (v,k) {
+
+      id = v.id;
+      err = vl.validate(v);
+
+      if ( err.length !== 0 ) {
+        err.unshift(id);
+        errs.push(err);
+      }
+
+    });
+
+    if ( typeof callback === 'function') {
+      callback(errs, version);
+    }
+    else {
+      return errs;
+    }
+
+  };
+
 
   initModule = function () {
     _model.fetch();
@@ -108,7 +154,7 @@
     removeItem : removeItem,
     resetItems : resetItems,
     sendServer : sendServer,
-    get        : function () { return [list_lm, list_es]; }
+    validate   : validate
   };
 
 }( jQuery, customer ));
