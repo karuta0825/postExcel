@@ -28,28 +28,10 @@
     this['selector'] = map_element;
     this['_el'] = this.deep( map_element, key );
 
-    // _.each( map_element, function ( val, key ) {
-    //   this['_el'][key] = this.$(val);
-    // },this);
-
   };
 
   Controller.fn.deep = function ( obj, key ) {
 
-    // for ( var i in obj ) {
-    //   if ( ! (typeof obj[i] === 'object')) {
-    //     if ( !key ) {
-    //       this['_el'][i] = this.$(obj[i]);
-    //     }
-    //     else {
-    //       this['_el'][key][i] = this.$(obj[i]);
-    //     }
-    //   }
-    //   else {
-    //     this['_el'][i] = {}
-    //     this.deep(obj[i], i );
-    //   }
-    // }
     if ( _.isObject(obj) ) {
       return _.mapObject( obj, function (v,k) {
         return this.deep(v);
@@ -58,7 +40,6 @@
     else {
       return this.$(obj);
     }
-
 
   };
 
@@ -83,7 +64,6 @@
   };
 
   Controller.fn.getSelector = function ( property ) {
-    // return this['selector'][property];
 
     var local = this['selector'];
     property = property.split('__');
@@ -168,17 +148,6 @@
 
     this['_cache'] = [];
     this['config'] = map_setttings;
-
-    // example
-    // this.config = {
-    //   tab_name  : '',
-    //   item_name : {
-    //   },
-    //   table     : '',
-    // };
-
-    // validate
-    // this.validate( map_settings );
 
   };
 

@@ -21,7 +21,7 @@
           'del'    : '.btn--del',
         },
         'body'  : '.setting__body',
-        'table' : 'table',
+        'table' : '.mdl-data-table'
       }
     }
   // private method
@@ -101,8 +101,8 @@
     var id, tr;
 
     // 初期化
-    view[version].get('table').find('.service_id input').removeClass('is-error');
-    view[version].get('table').find('.service_name input').removeClass('is-error');
+    view[version].wrap.find('.service_id input').removeClass('is-error');
+    view[version].wrap.find('.service_name input').removeClass('is-error');
 
 
     if ( list.length !== 0 ) {
@@ -136,6 +136,7 @@
     ;
 
     view[version].get('body').append( complied(data) );
+    view[version].updateElement({'table': 'table'});
 
   };
 
@@ -207,8 +208,8 @@
     $('.main-contents--settings-services').append( customer.db.getHtml('setting.services.html') );
 
     view['BASE'] = new Controller('.main-contents--settings-services');
-    view['LM'] = new Controller('.setting--lm-services');
-    view['ES'] = new Controller('.setting--es-services');
+    view['LM']   = new Controller('.setting--lm-services');
+    view['ES']   = new Controller('.setting--es-services');
 
     util.alert({
       selector : view['BASE'].top,
@@ -222,6 +223,7 @@
 
     _drawTable( customer.model.services.find( {'version' : 'LM'} ) );
     _drawTable( customer.model.services.find( {'version' : 'ES'} ) );
+
 
     view['BASE'].addListener({
       'change version' : _changeVersion
