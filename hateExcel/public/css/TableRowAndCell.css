@@ -82,10 +82,6 @@
   margin-left: auto;
 }
 
-.material-icons {
-  font-size: 1.3em;
-}
-
 /* --------------
    common button
 ----------------- */
@@ -118,7 +114,6 @@
 .icon-name-super {
   margin-left: 3px;
   vertical-align: super;
-  font-size: 0.9em;
 }
 
 .icon-name-middle {
@@ -163,29 +158,6 @@
    home
 ---------------------- */
 
-.home-wrapper {
-  display: flex;
-  display: -webkit-flex;
-  height: 100%;
-}
-
-.home-wrapper__left {
-  flex: 0.7;
-  margin-top: 15px;
-  margin-left: 30px;
-  margin-right: 30px;
-}
-
-.home-wrapper__center {
-  flex : 1;
-  margin-top: 15px;
-}
-
-.home-wrapper__right {
-  flex : 2;
-  margin: 15px 30px;
-}
-
 .header-icon {
   margin-right: 10px;
 }
@@ -201,31 +173,27 @@
   font-size: 0.6em;
 }
 
-.article-notice {
-  min-width: 200px;
-  height: 100%;
+.article-notice, .article-graph, .article-servers-table {
+  margin: 30px auto 30px auto;
+  width: 75%;
+  min-width: 750px;
 }
 
 .article__title {
-  margin : 0 0 3px 0;
+  margin : 0 0 10px 0;
   padding-left: 7px;
   color : #595959;
-
 }
 
 .article__body {
   width: 100%;
-  height: 92%;
   border-radius: 5px;
-  min-width: 300px;
 }
 
 .article-notice__list {
-  height: 94%;
   list-style: none;
   padding:0;
   margin: 0;
-  overflow-y: scroll;
 }
 
 .article-notice__item--header {
@@ -234,50 +202,27 @@
   height :40px;
 }
 
-.notice-item__body {
+.article-notice__list .state,
+.article-notice__list .date ,
+.article-notice__list .user ,
+.article-notice__list .msg    {
   display: inline-block;
-  width: 80%;
+  margin: 9px 14px;
 }
 
-.notice-item__body .msg {
-  display: inline-block;
-  height: 45px;
-  margin-top :5%;
-  font-size: 0.8em;
+.article-notice__list .state {
+  width : 70px;
+  border-radius: 5px;
+  margin-left: 40px;
 }
 
-.notice-item__body .date,
-.notice-item__body .user {
-  font-size: 0.7em;
+.article-notice__item--header .state {
+  text-align: left;
 }
 
-.article-notice__item--body {
-  /*height: 80px;*/
-  border-bottom: 1px solid #dedcdc;
-}
-
-.notice-item__footer {
-  display: block;
-  text-align: right;
-  font-size: 0.5em;
-}
-
-.notice-item-status-circle {
-  display: block;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: red;
-  margin: 20px 0 0 7px;
-  color: white;
-}
-
-.notice-item-status {
-  display: inline-block;
-  width: 20%;
-  float: left;
-  line-height: 3;
+.article-notice__item--body .state {
   text-align: center;
+  color: white;
 }
 
 .article-notice__item--body .state--warning {
@@ -297,55 +242,16 @@
 }
 
 .article-notice__list .date {
+  width: 87px;
 }
 
 .article-notice__list .user {
-}
-
-.article-servers-table {
-  height: 92%;
+  width: 100px;
 }
 
 .article-servers-table .servers-table {
-  width : 100%;
+  width : 410px;
   margin : 20px auto;
-  border-collapse: collapse;
-  font-size: 0.8em;
-}
-
-.article-servers-table .article__body {
-  height: 100%;
-  overflow-y: scroll;
-}
-
-.article-servers-table tr {
-}
-
-.article-servers-table td {
-  border-top: 1px solid #ccc;
-  border-bottom: 1px solid #ccc;
-  padding: 5px 0 5px 10px;
-}
-
-.article-servers-table .server {
-  width: 20%;
-}
-
-.article-servers-table .pc_number,
-.article-servers-table .available_number {
-  text-align: right;
-  padding-right: 15px;
-}
-
-
-.article-graph {
-  /*margin-top:45px;*/
-  height: 47%;
-}
-
-.article-calendar {
-  margin-top: 20px;
-  height: 48%;
 }
 
 .article__footer {
@@ -408,7 +314,7 @@
 
 .upload {
   width : 85%;
-  height: 80%;
+  height: 85%;
   margin: 20px auto;
   border: 5px dashed rgb(103,58,183);
   border-radius: 25px;
@@ -449,6 +355,7 @@
 #tmp {
   display: flex;
   display: -webkit-flex;
+  height: 100%;
 }
 
 .users-table td.kid{
@@ -465,8 +372,9 @@
 }
 
 .main-contents__filter {
+  z-index: 2000;
   width : 220px;
-  height: 1000px;
+  height: 100%;
   min-width: 220px;
 }
 
@@ -541,20 +449,28 @@
 }
 
 .users-table__action {
-  margin-top :  20px;
-  margin-left: 30px;
-  margin-bottom: 15px;
+
+  position : absolute;
+  right: 0;
+  z-index: 1000;
+
+  width: 100%;
+  height: 37px;
+  background: whitesmoke;
+
+  padding: 15px 20px 13px 0;
   text-align: right;
-  width: 96%;
+
 }
 
 .users-table__body {
-  height: 900px;
-  overflow-y: scroll;
+  height: 100%;
+  margin-top: 70px
 }
 
 .users-table {
   width : 100%;
+  height: 100%;
   overflow-x: scroll;
 }
 
@@ -774,18 +690,17 @@
 }
 
 .user-list__section {
-  /*border-left: 6px solid #673ab7;*/
-  /*padding-left: 14px;*/
   width: 145px;
   border-radius: 5px;
   background: #bdbdbd;
   color : white;
   text-align: center;
+  font-size: 0.9em;
 }
 
 
 .user-list__item {
-  margin : 15px 0 0 15px;
+  margin : 10px 0 0 10px;
   width: 100%;
 }
 
@@ -799,6 +714,7 @@
   margin-right: 10px;
   text-align: center;
   color : #dedcdc;
+  font-size: 0.6em;
 }
 
 /*.user-list__item .choice--on {*/
@@ -812,12 +728,12 @@
 .user-edit__body .item-value
  {
   display: inline-block;
-  font-size: 14px;
+  font-size: 12px;
   height: 27px;
 }
 
 .user-edit__body .item-key {
-  width : 150px;
+  width : 170px;
 }
 
 .user-edit__body .item-value {
@@ -838,11 +754,16 @@
 }
 
 .user-list .client_number .item-value,
-.user-list .number_pc .item-value,
-.user-list .number_id .item-value,
-.user-list .range_id .item-value {
-
+.user-list .number_pc .item-value {
   width : 25px;
+}
+
+.user-list .number_id .item-value {
+  width: 30px;
+}
+
+.user-list .start_id .item-value {
+  width: 40px;
 }
 
 .user-base-list .account .item-value {
@@ -888,7 +809,7 @@
 
 /* -------------------
    client tab
----------------------j- */
+---------------------- */
 
 #usr-client-panel .mdl-dialog {
   width : 60%;
@@ -897,6 +818,23 @@
 #usr-client-panel .mdl-dialog .mdl-checkbox {
   margin : 10px 0;
 }
+
+/* -------------------
+   network tab
+---------------------- */
+
+.fenics-section,
+.busiv-section {
+  width : 85%;
+  min-width: 705px;
+  margin: 20px auto;
+}
+
+.fenics-section .fenics-table {
+  width : 100%;
+}
+
+
 
 /* -------------------
    setting common
