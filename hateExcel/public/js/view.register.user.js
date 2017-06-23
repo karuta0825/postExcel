@@ -15,6 +15,9 @@
       },
       'alert' : '#modal-alert-register'
     }
+  , vl = new util.Validate({
+
+    })
   , uploadData
   , _onClickUpload
   , _selectFile
@@ -62,6 +65,14 @@
       // 入力チェック
       if ( cms.model.kids.find({'kid' : kid}).length === 0 )  {
         // 入力エラー
+        registerView.get('alert').get(0).showModal();
+        return false;
+      }
+
+      if ( cms.model.kids.find({'kid' : kid})[0].is_registered === 1 ) {
+        registerView.get('alert')
+          .find('.mdl-dialog__content')
+          .text('二度目の登録はできません')
         registerView.get('alert').get(0).showModal();
         return false;
       }
