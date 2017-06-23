@@ -1,0 +1,59 @@
+/**
+ * オブジェクトの差分を取得する
+ * テストデータ
+ */
+
+var view = {
+  'a' : '',
+  'b' : '',
+  'c' : 'value',
+  'd' : 'value',
+  'e' : 'value'
+};
+
+var cache = {
+  'a' : '',
+  'b' : 'value',
+  'c' : '',
+  'd' : 'value',
+  'e' : 'value2'
+};
+
+var result = {
+  'b' : '',
+  'c' : 'value',
+  'e' : 'value'
+};
+
+function diff ( view, cache ) {
+
+  var result = {};
+
+  _.each( cache, function (v,k) {
+    if ( view[k] !== v ) {
+      result[k] = v;
+    }
+  });
+
+  return result;
+
+}
+
+function diff ( view, cache ) {
+
+  var result = {};
+
+  _.each( view, function (v,k) {
+    if ( cache[k] !== v ) {
+      result[k] = v;
+    }
+  });
+
+  return result;
+
+}
+
+
+
+
+
