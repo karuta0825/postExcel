@@ -4,7 +4,7 @@
   <div class='home-wrapper__left'>
     <div class='article article-notice'>
       <p class='article__title'>
-        <i class="material-icons">event_note</i>
+        <i class="material-icons">announcement</i>
         <span class='icon-name-super'>お知らせ<span>
       </p>
       <div class='article__body mdl-card mdl-shadow--2dp'>
@@ -12,10 +12,12 @@
         <ul class='article-notice__list'>
 
           <li class='article-notice__item--header'>
-            <span class='state'>カテゴリ</span>
-            <span class='date'>日付</span>
-            <span class='user'>担当者</span>
-            <span class='msg'>内容</span>
+            <select type="button" class="mdl-chip filter">
+              <option value='all'>全て</option>
+              <option value='emergency'>緊急</option>
+              <option value='important'>重要</option>
+              <option value='remider'>備忘録</option>
+            </select>
           </li>
 
         </ul>
@@ -73,7 +75,7 @@
 
     <div class='article article-calendar'>
       <p class='article__title'>
-        <i class="material-icons">equalizer</i>
+        <i class="material-icons">event_note</i>
         <span class='icon-name-super'>カレンダー<span>
       </p>
       <div class='article__body mdl-card mdl-shadow--2dp'>
