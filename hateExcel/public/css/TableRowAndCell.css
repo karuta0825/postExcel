@@ -252,8 +252,14 @@
 }
 
 .article-notice__item--body {
-  height: 80px;
+  /*height: 80px;*/
   border-bottom: 1px solid #dedcdc;
+}
+
+.notice-item__footer {
+  display: block;
+  text-align: right;
+  font-size: 0.5em;
 }
 
 .notice-item-status-circle {
