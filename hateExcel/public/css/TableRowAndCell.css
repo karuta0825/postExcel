@@ -356,6 +356,12 @@
   height: 47%;
 }
 
+.article-graph .article__body .action {
+  margin-top : 5px;
+  height: 40px;
+  border-bottom: 1px solid #ccc;
+}
+
 .article-graph .article__body .content {
   display: -webkit-flex;
   display: flex;
