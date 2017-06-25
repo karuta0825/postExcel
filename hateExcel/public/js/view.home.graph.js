@@ -21,23 +21,8 @@
   , redraw
   ;
 
-  draw = function () {
 
-    google.charts.setOnLoadCallback(
-      function() {
-
-        // LM
-        draws('LM')
-
-        // ES
-        draws('ES')
-
-      }
-    );
-
-  };
-
-  draws = function (version) {
+  draw = function (version) {
 
     var list_data = cms.model.homeGraph.find(version);
 
@@ -78,7 +63,12 @@
 
     viewGraph.initElement(elements);
 
-    draw();
+    // draw
+    google.charts.setOnLoadCallback( function() {
+      draw('LM');
+      draw('ES');
+    });
+
 
     // windowリサイズ時にグラフ長さ調整
     $(window).resize(function() {
@@ -86,9 +76,9 @@
             clearTimeout(timer);
         }
         timer = setTimeout(function() {
-            console.log('resized');
-            resize_chart['LM'].draw(resize_data['LM'], resize_options['LM']);
-            resize_chart['ES'].draw(resize_data['ES'], resize_options['ES']);
+          console.log('resized');
+          resize_chart['LM'].draw(resize_data['LM'], resize_options['LM']);
+          resize_chart['ES'].draw(resize_data['ES'], resize_options['ES']);
         }, 200);
     });
 
