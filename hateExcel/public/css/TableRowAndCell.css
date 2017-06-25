@@ -348,6 +348,23 @@
   height: 47%;
 }
 
+.article-graph .article__body .content {
+  display: -webkit-flex;
+  display: flex;
+  height: 100%
+}
+
+
+.article-graph .lm {
+  width: 50%;
+  height: 90%;
+}
+
+.article-graph .es {
+  width: 50%;  
+  height: 90%;
+}
+
 .article-calendar {
   margin-top: 20px;
   height: 48%;
