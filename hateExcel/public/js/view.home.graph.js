@@ -31,7 +31,8 @@
     resize_options[version] = {
       title: version,
       hAxis: {title: '月'},
-      legend:{position:'bottom'}
+      legend:{position:'bottom'},
+      colors:['#7575ff','#ff5b94','#ffb600']
     };
 
     resize_chart[version] = new google.visualization.ColumnChart(viewGraph.get(version).get(0));
