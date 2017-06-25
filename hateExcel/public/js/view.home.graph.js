@@ -109,7 +109,8 @@
         }
         timer = setTimeout(function() {
             console.log('resized');
-            resize_chart.draw( resize_data, resize_options )
+            resize_chart['LM'].draw(resize_data['LM'], resize_options['LM']);
+            resize_chart['ES'].draw(resize_data['ES'], resize_options['ES']);
         }, 200);
     });
 
@@ -122,7 +123,7 @@
     empty : function () { viewGraph.get('lm').empty(); },
     get : function () { resize_chart.draw(resize_data, resize_options); },
     redraw : redraw
- 
+
   };
 
 }( jQuery, customer ));
