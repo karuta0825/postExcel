@@ -39,18 +39,7 @@
 
   draws = function (version) {
 
-    var list_data = _.where( customer.db.select('/select',{'table' : 'get_add_info_in_each_month'}), {version: version});
-
-    list_data = _.map(list_data, function (v,k) {
-      delete v.version;
-      return v;
-    });
-
-    list_data = _.map( list_data, function ( v,k ) {
-      return _.values(v);
-    });
-
-    list_data.unshift(['','ユーザ','クライア ント', 'PC']);
+    var list_data = cms.model.homeGraph.find(version);
 
     resize_data[version] = google.visualization.arrayToDataTable(list_data);
 
@@ -89,18 +78,7 @@
 
     viewGraph.initElement(elements);
 
-    var model = _.where( customer.db.select('/select',{'table' : 'get_add_info_in_each_month'}), {version:'LM'});
-
-    model = _.map(model, function (v,k) {
-      delete v.version;
-      return v;
-    });
-
-    model = _.map( model, function ( v,k ) {
-      return _.values(v);
-    });
-
-    draw( model, ['','ユーザ','クライア ント', 'PC']);
+    draw();
 
     // windowリサイズ時にグラフ長さ調整
     $(window).resize(function() {
