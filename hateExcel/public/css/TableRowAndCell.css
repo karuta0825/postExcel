@@ -169,6 +169,12 @@
   height: 100%;
 }
 
+.home-wrapper .filter {
+  margin : 11px 0 0 10px;
+  height : 20px;
+  font-size: 0.8em;
+}
+
 .home-wrapper__left {
   flex: 0.7;
   margin-top: 15px;
@@ -313,7 +319,7 @@
 
 .article-servers-table .servers-table {
   width : 100%;
-  margin : 20px auto;
+  margin : 5px auto;
   border-collapse: collapse;
   font-size: 0.8em;
 }
@@ -323,7 +329,9 @@
   overflow-y: scroll;
 }
 
-.article-servers-table tr {
+.article-servers-table .article__body .action {
+  height: 40px;
+  border-bottom : 1px solid #ccc;
 }
 
 .article-servers-table td {
@@ -361,7 +369,7 @@
 }
 
 .article-graph .es {
-  width: 50%;  
+  width: 50%;
   height: 90%;
 }
 
