@@ -32,7 +32,9 @@
 
           resize_options = {
               title: 'LM',
-              hAxis: {title: '月'}
+              hAxis: {title: '月'},
+              legend:{position:'bottom'}
+              // colors:['#ff0000','#00ff00']
           };
 
           resize_chart = new google.visualization.ColumnChart(document.getElementById('gct_sample_column'));

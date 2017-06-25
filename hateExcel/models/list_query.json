@@ -30,7 +30,8 @@
     "get_version_by_kid"  : "SELECT version FROM kids K left join environments E on K.environment_id = E.id where kid = ?",
     "get_services_by_version" : "select * from services where version = ?;",
     "temp" : "select type, `before`, `after`, case when type = '更新' then case when `before` = '' then concat(`after`, 'に設定されました') else concat(`before`,'から', `after`, 'に更新されました') end when type = '削除' then concat(`item_name`, 'が削除されました') else null end as msg from historys;",
-    "available_number_in_each_server" : "select GRP.server, GRP.pc_number, 80 - GRP.pc_number as available_number, S.version from (SELECT server, SUM(number_pc) as pc_number FROM kids K WHERE server != '' GROUP BY server) GRP left join servers S on GRP.server = S.name order by server;"
+    "available_number_in_each_server" : "select GRP.server, GRP.pc_number, 80 - GRP.pc_number as available_number, S.version from (SELECT server, SUM(number_pc) as pc_number FROM kids K WHERE server != '' GROUP BY server) GRP left join servers S on GRP.server = S.name order by server;",
+    "get_add_info_in_each_month" : "select DATE_FORMAT(create_on, '%Y/%m') as month, ifnull(sum(case item_name when 'ユーザー作成' THEN val else null end ),0) as user, ifnull(sum(case item_name when 'クライアント数' THEN val else null end ),0) as client, ifnull(sum(case item_name when '端末台数' THEN val else null end ),0) as pc, version from (( SELECT 'ユーザー作成' AS item_name, 1 as val, create_on, E.version FROM kids K left join environments E on K.environment_id = E.id ) UNION ALL ( SELECT item_name, `after` - `before` AS diff, H.create_on, E.version FROM historys H LEFT JOIN kids K ON H.kid = K.kid LEFT JOIN environments E ON K.environment_id = E.id WHERE item_name = 'クライアント数' OR item_name = '端末台数' and `after` - `before` > 0 )) AS T GROUP BY DATE_FORMAT(create_on, '%Y/%m'), version;"
   },
 
   "update" : {
