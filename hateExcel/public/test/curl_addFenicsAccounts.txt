@@ -1,0 +1,9 @@
+
+#jsonデータを送るときの注意点
+#シングルクォートで全体をくくり、各key:valueはダブルクォートを使用する
+curl -v -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"table":"servers"}' localhost:3000/select
+
+
+curl -v -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"data":{"fenics_key":"mmm","kid":"KID00824","number_pc_added":20}}' localhost:3000/addFenicsAccounts
+
+
