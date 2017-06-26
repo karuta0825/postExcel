@@ -16,7 +16,8 @@
       name       : 'isEmpty',
       ip         : 'isIp_f',
       connect_db : 'noCheck',
-      version    : 'noCheck'
+      version    : 'noCheck',
+      environment_id : 'noCheck'
     })
   , initModule
   , insertItem
