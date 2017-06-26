@@ -6,4 +6,14 @@ curl -v -H "Accept: application/json" -H "Content-type: application/json" -X POS
 
 curl -v -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"data":{"fenics_key":"mmm","kid":"KID00824","number_pc_added":20}}' localhost:3000/addFenicsAccounts
 
+#cookie取得
+curl -c cookie -v -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"user" : "aka", "pass" : "aka"}' localhost:3000/login
+
+#cookie利用
+
+curl -b cookie -v -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"data":{"fenics_key":"mmm","kid":"KID00824","number_pc_added":20}}' localhost:3000/addFenicsAccounts
+
+
+
+
 
