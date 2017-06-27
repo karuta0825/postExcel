@@ -359,15 +359,16 @@
       'version'     : data.version
     });
 
-    _.each( systemView.get('input'), function (v,k) {
-      v.find('.item-value').val(data[k]);
-    });
-
     // オンプレの場合非表示
     _hiddenItem( data.system_type );
 
     // 検索結果をoptionとして追加
     util.addOption( list_option, systemView.get('input__server').find('select'), true );
+   
+    // 値設定
+    _.each( systemView.get('input'), function (v,k) {
+      v.find('.item-value').val(data[k]);
+    });
 
     if ( data.system_type === 'onpre' ) {
       systemView.get('environment__system_type').find('.onpre').addClass('choice--on');
