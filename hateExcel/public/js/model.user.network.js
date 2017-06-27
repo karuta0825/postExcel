@@ -13,6 +13,7 @@
   , changeUpdateInfo
   , clearUpdateInfo
   , update
+  , addFenicsAccount
   ;
 
   changeUpdateInfo = function ( id ) {
@@ -73,12 +74,45 @@
 
   };
 
+  /**
+   * 追加した数を取得
+   * @param {[type]} view_data
+   */
+  addFenicsAccount = function ( view_data ) {
+
+    var before = customer.model.userBaseInfo.getCache();
+    var after  = view_data.number_pc;
+    var diff   = after - before.number_pc;
+
+    if ( diff < 1 ) {
+      return;
+    }
+
+    var post = {
+      kid             : before.kid,
+      fenics_key      : before.fenics_key,
+      number_pc_added : diff
+    }
+
+    customer.db.insert('/addFenicsAccounts',
+      { data  : post },
+       function () {
+        customer.model.userNetwork.fetch( before.kid,
+          customer.view.userNetwork.redrawTable
+        );
+       }
+    );
+
+  };
+
+
   cms.model.userNetwork = {
     fetch               : $.proxy( _model.fetch, _model ),
     getCache            : $.proxy( _model.getCache, _model),
     delete              : $.proxy( _model.delete, _model ),
     find                : $.proxy( _model.find, _model ),
     makeAccountMapList  : makeAccountMapList,
+    addFenicsAccount    : addFenicsAccount,
     changeUpdateInfo    : changeUpdateInfo,
     clearUpdateInfo     : clearUpdateInfo,
     update              : update

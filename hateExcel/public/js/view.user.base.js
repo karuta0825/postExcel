@@ -184,7 +184,7 @@
     }
 
     // update
-    customer.model.kids.addFenicsAccount( getViewInfo() );
+    customer.model.userNetwork.addFenicsAccount( getViewInfo() );
     customer.model.userBaseInfo.addClient( getViewInfo().client_number );
     customer.model.userCustomer.update( getViewInfo('customer'), makeCustomerInfo );
     customer.model.kids.update( getViewInfo('system'), makeSystemInfo );
