@@ -308,9 +308,10 @@
     result.system = {
       'kid'           : systemView.get('kid'                        ).find('.item-value').val(),
       'user_name'     : systemView.get('input__user_name'           ).find('.item-value').val(),
-      'userkey'       : systemView.get('input__userkey'             ).find('.item-value').val(),
       'server'        : systemView.get('input__server'              ).find('.item-value').val(),
+      'userkey'       : systemView.get('input__userkey'             ).find('.item-value').val(),
       'db_password'   : systemView.get('input__db_password'         ).find('.item-value').val(),
+      'fenics_key'    : systemView.get('input__fenics_key'          ).find('.item-value').val(),
       'client_number' : Number(systemView.get('input__client_number').find('.item-value').val() ),
       'number_pc'     : Number(systemView.get('input__number_pc'    ).find('.item-value').val() ),
       'number_id'     : Number(systemView.get('input__number_id'    ).find('.item-value').val() ),
