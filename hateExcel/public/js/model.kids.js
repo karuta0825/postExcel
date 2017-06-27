@@ -8,9 +8,10 @@
       tab_name : '基本情報',
       item_name_map : {
         'kid'           : 'KID',
-        'userkey'       : 'ユーザーキー',
         'server'        : 'サーバ',
+        'userkey'       : 'ユーザーキー',
         'db_password'   : 'DBパスワード',
+        'fenics_key'    : 'Fenicsキー',
         'is_busiv'      : 'ネットワーク',
         'client_number' : 'クライアント数',
         'number_pc'     : '端末台数',
@@ -35,7 +36,6 @@
   , getHeader
   , register
   , initModule
-  , addFenicsAccount
   ;
 
   /**
