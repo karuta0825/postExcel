@@ -24,9 +24,10 @@
         'kid'              : '.kid',
         'input' : {
           'user_name'      : '.user_name',
-          'userkey'        : '.userkey',
           'server'         : '.server',
+          'userkey'        : '.userkey',
           'db_password'    : '.db_pass',
+          'fenics_key'     : '.fenics_key',
           'client_number'  : '.client_number',
           'number_pc'      : '.number_pc',
           'number_id'      : '.number_id',
@@ -364,7 +365,7 @@
 
     // 検索結果をoptionとして追加
     util.addOption( list_option, systemView.get('input__server').find('select'), true );
-   
+
     // 値設定
     _.each( systemView.get('input'), function (v,k) {
       v.find('.item-value').val(data[k]);
