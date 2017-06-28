@@ -13,6 +13,8 @@ curl -c cookie -v -H "Accept: application/json" -H "Content-type: application/js
 
 curl -b cookie -v -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"data":{"fenics_key":"mmm","kid":"KID00824","number_pc_added":20}}' localhost:3000/addFenicsAccounts
 
+# addClient cookie利用
+curl -b cookie -v -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"data":{"userkey":"MMMRG","kid":"KID00824","number_client_added":10}}' localhost:3000/addClient
 
 
 
