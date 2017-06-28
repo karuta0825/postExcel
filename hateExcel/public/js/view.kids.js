@@ -452,8 +452,10 @@
   };
 
   refresh = function () {
-    // regenerateTable( cms.model.kids.fetch() ) ;
-    cms.model.kids.fetch( null, regenerateTable );
+
+    cms.model.kids.fetch( null );
+    cms.model.kids.getCondition( cms.view.kids.regenerateTable );
+
   };
 
 

@@ -33,6 +33,7 @@
     /*public  method*/
   , sortByCol
   , setCondition
+  , getCondition
   , getHeader
   , register
   , initModule
@@ -63,6 +64,17 @@
     // モデルの変化時にviewを更新する処理
     if( callbackFromView ) {
       callbackFromView( col, _model.getFiltered() );
+    }
+
+  };
+
+  getCondition = function ( callback ) {
+
+    if ( typeof callback === 'function' ) {
+      _model.find( _condition, callback );
+    }
+    else {
+      return _model.find( _condition );
     }
 
   };
@@ -215,6 +227,7 @@
     getData      : $.proxy( _model.getCache, _model ),
     find         : $.proxy( _model.find,     _model ),
     delete       : $.proxy( _model.delete,   _model ),
+    getCondition : getCondition,
     setCondition : setCondition,
     sortByCol    : sortByCol,
     getHeader    : getHeader,
