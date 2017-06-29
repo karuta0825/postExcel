@@ -183,13 +183,13 @@
       return;
     }
 
-    // update
+    // データ操作 update
     customer.model.userNetwork.addFenicsAccount( getViewInfo() );
     customer.model.userBaseInfo.addClient( getViewInfo().client_number );
     customer.model.userCustomer.update( getViewInfo('customer'), makeCustomerInfo );
     customer.model.kids.update( getViewInfo('system'), makeSystemInfo );
 
-    // 編集不可
+    // 画面制御
     _.each( systemView.get('input'), function ( v,k ) {
       _toggleEditMode('input__' +k , false, systemView );
     });
