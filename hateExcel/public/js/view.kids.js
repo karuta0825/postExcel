@@ -194,6 +194,17 @@
       customer.view.editUsrs.makeMemos
     );
 
+    // ビジV表示制御
+    if ( cms.model.userBaseInfo.getCache().has_busiv === 0 ) {
+      cms.view.userNetwork.hideBusiv();
+    }
+    else {
+      cms.view.userNetwork.showBusiv();
+      cms.model.userBusiv.fetch(kid,
+        cms.view.userNetwork.setBusivInfo
+      );
+    }
+
     $('.main-contents').removeClass('is-active');
 
     // クリックされたコンテンツにis-activeを付与

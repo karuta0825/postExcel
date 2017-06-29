@@ -681,12 +681,17 @@
 
 
 .user-list,
+.partner-list,
+.busiv-list {
+  padding-left: 0px;
+  list-style: none;
+}
+
+.user-list,
 .partner-list {
   width:  85%;
   min-width: 705px;
   margin: 0 auto;
-  padding-left: 0px;
-  list-style: none;
 }
 
 .user-list__section {

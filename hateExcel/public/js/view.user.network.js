@@ -26,6 +26,28 @@
       'dialog' : {
         'download' : '#modal-network-download',
         'delete'   : '#confirm-delete-fenics-accounts'
+      },
+      'busiv-section' : {
+        'self' : '.busiv-section',
+        'input' : {
+          'circuit_name'           : '.circuit_name'      ,
+          'circuit_service'        : '.circuit_service'   ,
+          'open_date'              : '.open_date'         ,
+          'w_network'              : '.w_network'         ,
+          'w_subnet'               : '.w_subnet'          ,
+          'w_router'               : '.w_router'          ,
+          'has_sx'                 : '.has_sx'            ,
+          'how_to_cooperate'       : '.how_to_cooperate'  ,
+          'has_L3'                 : '.has_L3'            ,
+          'sx_ip'                  : '.sx_ip'             ,
+          'has_carte'              : '.has_carte'         ,
+          'carte_system'           : '.carte_system'      ,
+          'carte_html_save_ip'     : '.carte_html_save_ip',
+          'has_cc'                 : '.has_cc'            ,
+          'cc_ip'                  : '.cc_ip'             ,
+          'download_server_ip'     : '.download_server_ip',
+          'auth_server_ip'         : '.auth_server_ip'
+        }
       }
     }
   , _openDialog
@@ -41,6 +63,9 @@
   , makeClientSelectBox
   , selectNetwork
   , clear
+  , showBusiv
+  , hideBusiv
+  , setBusivInfo
   , refresh
   , drawTable
   , initModule
@@ -51,14 +76,22 @@
    * TODO:セレクトボックス指定のためのPropertyを作る
    */
   _goEditMode = function () {
+
+    // ボタン制御
     networkView.get('btn__edit').addClass('is-hidden');
     networkView.get('btn__download').addClass('is-hidden');
     networkView.get('btn__cancel').removeClass('is-hidden');
     networkView.get('btn__delete').removeClass('is-hidden');
     networkView.get('btn__save').removeClass('is-hidden');
 
-    // wrapではなく、propertyをしていさせる
+    // ユニバ情報
     networkView.wrap.find('.input-date').prop('disabled', false);
+
+    // busiv情報
+    _.each( networkView.get('busiv-section__input'), function (val,key) {
+      val.find('.item-value').addClass('is-edit');
+      val.find('.item-value').prop('disabled', false);
+    });
 
   };
 
@@ -67,13 +100,21 @@
    */
   _backMode = function () {
 
+    // ボタン制御
     networkView.get('btn__edit').removeClass('is-hidden');
     networkView.get('btn__download').removeClass('is-hidden');
     networkView.get('btn__cancel').addClass('is-hidden');
     networkView.get('btn__delete').addClass('is-hidden');
     networkView.get('btn__save').addClass('is-hidden');
 
+    // ユニバ情報
     networkView.wrap.find('.input-date').prop('disabled', true);
+
+    // busiv情報
+    _.each( networkView.get('busiv-section__input'), function (val,key) {
+      val.find('.item-value').removeClass('is-edit');
+      val.find('.item-value').prop('disabled', true);
+    });
 
   };
 
@@ -240,6 +281,19 @@
 
   };
 
+  setBusivInfo = function ( data ) {
+
+    var data = _.isArray( data ) ? data[0] : data;
+
+    if ( !data ) {
+      return;
+    }
+
+    _.each( networkView.get('busiv-section__input'), function (v,k) {
+      v.find('.item-value').val( data[k]);
+    });
+
+  };
 
   redrawTable = function ( data ) {
 
@@ -293,6 +347,14 @@
 
   };
 
+  showBusiv = function () {
+    networkView.get('busiv-section__self').removeClass('is-hidden');
+  };
+
+  hideBusiv = function () {
+    networkView.get('busiv-section__self').addClass('is-hidden');
+  };
+
   refresh = function () {
 
     if ( cms.model.userNetwork.getCache().length > 0 ) {
@@ -333,10 +395,14 @@
 
   // to public
   cms.view.userNetwork = {
-    initModule  : initModule,
-    redrawTable : redrawTable,
-    clear       : clear,
-    makeClientSelectBox : makeClientSelectBox
+    initModule          : initModule,
+    redrawTable         : redrawTable,
+    clear               : clear,
+    makeClientSelectBox : makeClientSelectBox,
+    showBusiv           : showBusiv,
+    hideBusiv           : hideBusiv,
+    setBusivInfo        : setBusivInfo,
+    get                 : function () { return networkView; }
   };
 
 } ( jQuery, customer ));
