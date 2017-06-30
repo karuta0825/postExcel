@@ -6,12 +6,14 @@ select
     S.version
 from 
 (SELECT 
-    server, 
-    SUM(number_pc) as pc_number
+    K.server, 
+    count(CLI.kid) as pc_number
 FROM
-    kids K
+    clients CLI
+left join kids K 
+on CLI.kid = K.kid
 WHERE
-    server != ''
+    CLI.is_admin = 0
 GROUP BY server) GRP
 left join servers S on GRP.server = S.name
 order by server;
