@@ -46,8 +46,9 @@
     "memos"         : "UPDATE memos SET ? WHERE ?",
     "servers"       : "UPDATE servers SET ? WHERE id = ?;",
     "fenics"        : "UPDATE fenics SET ? WHERE fenics_id = ?;",
-    "clients"       : "UPDATE clients SET ? WHERE client_id = ?;"
-  },
+    "clients"       : "UPDATE clients SET ? WHERE client_id = ?;",
+    "busivs"        : "UPDATE busivs SET ? WHERE ?;"
+   },
 
   "insert" : {
     "historys"            : "INSERT INTO historys SET ?;",

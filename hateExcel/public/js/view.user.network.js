@@ -17,6 +17,7 @@
         'exec'     : '.btn--exec',
       },
       'input-date'     : '.input-date',
+      'alert-dialog' : '#modal-userBusiv-alert',
       'checkbox' : '.mdl-checkbox',
       'download' : {
         'fenics'      : '.download--fenics',
@@ -50,6 +51,7 @@
         }
       }
     }
+  , _validate
   , _openDialog
   , _closeDialog
   , _execDowload
@@ -60,10 +62,8 @@
   , _save
   , _cancel
   , _setClientsSelectValue
-  , _selectSx
-  , _selectL3
-  , _selectCarte
-  , _selectCc
+  , _selectChoice
+  , _getBusivInfo
   , makeClientSelectBox
   , clear
   , showBusiv
@@ -73,6 +73,31 @@
   , drawTable
   , initModule
   ;
+
+  _validate = function ( list_key ) {
+
+    _.each( networkView.get('busiv-section__input'), function (val, key){
+      val.find('.item-value').removeClass('is-error');
+    });
+
+    if ( list_key.length !== 0 ) {
+
+      _.each( list_key, function ( v,k ) {
+        networkView.get('busiv-section__input__' + v )
+          .find('.item-value')
+          .addClass('is-error');
+      });
+
+      networkView.get('alert-dialog').get(0).showModal();
+
+      return true;
+
+    }
+
+    return false;
+
+  };
+
 
   /**
    * 編集モード
@@ -233,8 +258,18 @@
   };
 
   _save = function () {
+
+    var error = cms.model.userBusiv.check( _getBusivInfo() );
+    if ( _validate(error) ) {
+      return;
+    }
+
+    cms.model.userBusiv.update( _getBusivInfo(), setBusivInfo );
+
     cms.model.userNetwork.update();
+
     _backMode();
+
   };
 
   _cancel = function () {
@@ -289,6 +324,37 @@
       }
 
     }
+
+  };
+
+  _getBusivInfo = function () {
+
+    var
+      result = {}
+    , list_choice = ['has_sx', 'has_L3', 'has_carte', 'has_cc']
+    ;
+
+    _.each( networkView.get('busiv-section__input'), function (v,k) {
+      result[k] = v.find('.item-value').val();
+    });
+
+    // 選択形式の入力の値を取得
+    _.each( list_choice, function (v,k) {
+
+      if ( networkView.get('busiv-section__input')[v]
+      .find('.choice--on')
+      .attr('class').split(' ')[1]
+      .match(/yes/) ) {
+        result[v] = 1
+      }
+      else {
+        result[v]= 0
+      }
+      ;
+
+    });
+
+    return result;
 
   };
 
@@ -456,6 +522,14 @@
 
     drawTable();
 
+    networkView = new Controller('#usr-network-panel');
+
+    util.alert({
+      selector : networkView.top,
+      id       : 'modal-userBusiv-alert',
+      msg      : '入力に誤りがあります'
+    });
+
     util.confirm({
       selector : '#usr-network-panel',
       id       : 'confirm-delete-fenics-accounts',
@@ -463,7 +537,6 @@
       yes      : _deleteFenicsAccounts
     });
 
-    networkView = new Controller('#usr-network-panel');
     networkView.initElement( elements );
 
     networkView.addListener({
@@ -494,7 +567,7 @@
     showBusiv           : showBusiv,
     hideBusiv           : hideBusiv,
     setBusivInfo        : setBusivInfo,
-    get                 : function () { return networkView; }
+    get                 : _getBusivInfo
   };
 
 } ( jQuery, customer ));
