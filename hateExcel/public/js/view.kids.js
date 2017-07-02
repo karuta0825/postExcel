@@ -68,7 +68,6 @@
 
       jqueryMap.btnBusiv  = filter.find('.btn--busiv');
       jqueryMap.btnUniv = filter.find('.btn--univ');
-      jqueryMap.btnBusivUniv = filter.find('.btn--busiv-univ')
       jqueryMap.btnNetwork = filter.find('.network .filter-item__body');
 
       jqueryMap.btnMobileOn  = filter.find('.btn--mon');
@@ -346,22 +345,22 @@
 
     switch ( list_class[1] ) {
       case 'btn--busiv' :
-        jqueryMap.btnBusiv.addClass('btn--on');
-        jqueryMap.btnUniv.removeClass('btn--on');
-        jqueryMap.btnBusivUniv.removeClass('btn--on');
-        customer.model.kids.setCondition( { 'has_busiv' : 1 }, regenerateTable );
+        jqueryMap.btnBusiv.toggleClass('btn--on');
+        if ( jqueryMap.btnBusiv.hasClass('btn--on') ) {
+          customer.model.kids.setCondition( { 'has_busiv' : 1 }, regenerateTable );
+        }
+        else {
+          customer.model.kids.setCondition( { 'has_busiv' : 0 }, regenerateTable );
+        }
         break;
       case 'btn--univ' :
-        jqueryMap.btnBusiv.removeClass('btn--on');
-        jqueryMap.btnUniv.addClass('btn--on');
-        jqueryMap.btnBusivUniv.removeClass('btn--on');
-        customer.model.kids.setCondition( { 'has_busiv' : 0 }, regenerateTable );
-        break;
-      case 'btn--busiv-univ' :
-        jqueryMap.btnBusiv.removeClass('btn--on');
-        jqueryMap.btnUniv.removeClass('btn--on');
-        jqueryMap.btnBusivUniv.addClass('btn--on');
-        customer.model.kids.setCondition( { 'has_busiv' : 'all'}, regenerateTable );
+        jqueryMap.btnUniv.toggleClass('btn--on');
+        if ( jqueryMap.btnUniv.hasClass('btn--on') ) {
+          customer.model.kids.setCondition( { 'has_fenics' : 1 }, regenerateTable );
+        }
+        else {
+          customer.model.kids.setCondition( { 'has_fenics' : 0 }, regenerateTable );
+        }
         break;
       default:
         break;
