@@ -198,8 +198,8 @@
       if ( typeof callback === 'function' ) {
         cms.view.home.refresh();
         cms.view.kids.refresh();
-        cms.model.userBaseInfo.fetch(view_data['kid']);
-        callback( this.find( { 'kid' : view_data['kid'] } )[0] );
+        callback(cms.model.userBaseInfo.fetch(view_data['kid']));
+        // callback( this.find( { 'kid' : view_data['kid'] } )[0] );
       }
     }
 

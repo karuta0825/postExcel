@@ -44,6 +44,10 @@
 
     _cache = _.clone( customer.model.kids.find( {'kid' : kid } )[0] );
 
+    // 端末IDの
+    _cache.start_id = Number(_cache.range_id.split('-')[0]);
+    delete _cache.range_id
+
     if ( typeof callback === 'function' ) {
       callback( _cache );
     }
