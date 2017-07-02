@@ -131,6 +131,7 @@
   };
 
   _hideCol = function () {
+    jqueryMap.col['license'].addClass('is-hidden');
     jqueryMap.col['system_type'].addClass('is-hidden');
     jqueryMap.col['version'].addClass('is-hidden');
     jqueryMap.col['has_mobile'].addClass('is-hidden');
