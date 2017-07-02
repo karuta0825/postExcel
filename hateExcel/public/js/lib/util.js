@@ -22,6 +22,21 @@
 
   };
 
+  util.addServerOption = function ( list_option, selectbox ) {
+
+    var option;
+
+    $(selectbox).find('option').remove();
+
+    _.each( list_option, function (val, key) {
+      option = $('<option>', { 'value' : val.name, 'text' : val.name + ' ( ' + val.ip + ' ) ' });
+      $(selectbox).append(option);
+    });
+
+    return selectbox;
+
+  };
+
   /**
    * 文字列をUnicode配列に変換
    * @param  {String} str  - 文字列

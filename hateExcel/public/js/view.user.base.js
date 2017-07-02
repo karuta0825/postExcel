@@ -372,14 +372,15 @@
 
     // 該当サーバの検索
     var list_option = customer.model.servers.find({
-      'version'     : data.version
+      'version'     : data.version,
+      'type'        : 'AP'
     });
 
     // オンプレの場合非表示
     _hiddenItem( data.system_type );
 
     // 検索結果をoptionとして追加
-    util.addOption( list_option, systemView.get('input__server').find('select'), true );
+    util.addServerOption( list_option, systemView.get('input__server').find('select'), true );
 
     // 値設定
     _.each( systemView.get('input'), function (v,k) {
