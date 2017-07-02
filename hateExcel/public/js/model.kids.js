@@ -174,7 +174,6 @@
 
     // クライアント・PC数はテーブルにないため削除
     delete update_data.client_number;
-    delete update_data.number_pc;
 
     // updateする対象が存在する場合
     if ( _.keys(update_data).length > 0 ) {
