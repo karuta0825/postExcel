@@ -116,6 +116,10 @@
      before = this.find({ 'kid' : view_data['kid'] })[0]
     ;
 
+    // 端末開始IDを端末ID範囲から求める
+    before['start_id'] = before['range_id'] && Number(before['range_id'].split('-')[0]) || '';
+    delete before['range_id'];
+
     if ( !before ) {
       return;
     }
