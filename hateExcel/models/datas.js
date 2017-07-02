@@ -535,12 +535,6 @@ datas.makeUser = function ( input_map, callback ) {
       }
   ], function(err, results) {
 
-      if ( input_map.system_type === 'cloud' ) {
-        set['is_busiv'] = 0;
-      }
-      else {
-        set['is_busiv'] = 1;
-      }
 
       set['kid']            = results[0];
       set['userkey']        = results[1];
