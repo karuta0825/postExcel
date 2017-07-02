@@ -541,7 +541,7 @@
     util.confirmYesNo({
       selector : commonView.top,
       id       : 'modal-baseInfo-fenicsAdd-confirm',
-      msg      : 'ビジVとユニバの両方を使用しています。端末追加分fenicsIDを作成しますか？',
+      msg      : 'ビジVとユニバの両方を使用しています。端末追加の場合、fenicsIDを作成しますか？',
       yes      : function () { _update(true) },
       no       : function () { _update(false) }
     });
