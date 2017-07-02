@@ -12,7 +12,9 @@
           'cancel'      : '.btn--cancel',
           'save'        : '.btn--save'
         },
-        'alert' : '#modal-baseInfo-alert'
+        'alert' : '#modal-baseInfo-alert',
+        'alert-network' : '#modal-baseInfo-notHasNetwork-alert',
+        'confirm' : '#modal-baseInfo-fenicsAdd-confirm'
       },
       'base' : {
         'btn' : {
@@ -34,8 +36,8 @@
           'start_id'       : '.start_id'
         },
         'choice' : {
-          'univ'           : '.univ',
           'busiv'          : '.busiv',
+          'fenics'         : '.univ',
         },
         'environment' : {
           'system_type'    : '.system_type',
@@ -70,6 +72,7 @@
   , _goViewMode
   , _validate
   , _validateSystem
+  , _update
   , getViewInfo
   , makeSystemInfo
   , makeCustomerInfo
@@ -85,6 +88,10 @@
     _.each( customerView.get('input'), function (val, key){
       val.find('.item-value').removeClass('is-error');
     });
+
+    // 除外対象
+    list_key = _.without( list_key, 'has_busiv');
+    list_key = _.without( list_key, 'has_fenics');
 
     if ( list_key.length !== 0 ) {
 
@@ -106,7 +113,7 @@
 
   _validateSystem = function ( list_key ) {
 
-    // 初期化
+    // エラーviewの初期化
     _.each( systemView.get('input'), function (val, key){
       val.find('.item-value').removeClass('is-error');
     });
@@ -170,44 +177,61 @@
 
   };
 
-  _save = function () {
+  _update = function ( can_add_fenicsId ) {
 
-    // 拠点情報の入力チェック
-    var error = cms.model.userCustomer.check( getViewInfo('customer') );
-    if ( _validate(error) ) {
-      return;
+    if ( can_add_fenicsId ) {
+      customer.model.userNetwork.addFenicsAccount( getViewInfo() );
     }
 
-    error = cms.model.userBaseInfo.check( getViewInfo('system') );
-    if ( _validateSystem(error)) {
-      return;
-    }
-
-    // データ操作 update
-    customer.model.userNetwork.addFenicsAccount( getViewInfo() );
     customer.model.userBaseInfo.addClient( getViewInfo().client_number );
     customer.model.userCustomer.update( getViewInfo('customer'), makeCustomerInfo );
     customer.model.kids.update( getViewInfo('system'), makeSystemInfo );
 
+  };
+
+  _save = function () {
+
+    var
+      error
+      // view情報が最新なのでから判断する
+    , has_busiv = getViewInfo('customer').has_busiv
+    , has_fenics = getViewInfo('customer').has_fenics
+    ;
+
+    // 拠点情報の入力チェック
+    error = cms.model.userCustomer.check( getViewInfo('customer') )
+    if ( _validate(error) ) {
+      return;
+    }
+
+    // 基本除法の入力チェック
+    error = cms.model.userBaseInfo.check( getViewInfo('system'), has_busiv );
+    if ( _validateSystem(error)) {
+      return;
+    }
+
+    // ネットワーク情報による入力チェック
+    if (  has_busiv === 0 && has_fenics === 0     ) {
+      commonView.get('alert-network').get(0).showModal();
+      return;
+    }
+
+    // データ操作 update
+    if (  has_busiv === 0 && has_fenics === 1     ) {
+      _update(true);
+    }
+
+    // 両方使用してる場合、fenics追加かどうか尋ねる
+    if ( has_busiv === 1 && has_fenics === 1 ) {
+      commonView.get('confirm').get(0).showModal();
+    }
+
+    if ( has_busiv === 1 && has_fenics === 0 ) {
+      _update(false);
+    }
+
     // 画面制御
-    _.each( systemView.get('input'), function ( v,k ) {
-      _toggleEditMode('input__' +k , false, systemView );
-    });
-
-    _.each( customerView.get('input'), function ( v,k ) {
-      _toggleEditMode('input__' +k , false, customerView );
-    });
-
-    systemView.get('environment__network').removeClass('is-edit');
-
-    _.each( systemView.get('btn'), function (v,k) {
-      systemView.get('btn__' + k).addClass('is-hidden');
-    });
-
-    // ボタン状態制御
-    commonView.get('btn__edit').removeClass('is-hidden');
-    commonView.get('btn__cancel').addClass('is-hidden');
-    commonView.get('btn__save').addClass('is-hidden');
+    _goViewMode();
 
   };
 
@@ -278,12 +302,10 @@
 
       switch ( list_class[1] ) {
         case 'busiv' :
-          systemView.get('busiv').addClass('choice--on');
-          systemView.get('univ').removeClass('choice--on');
+          systemView.get('choice__busiv').toggleClass('choice--on');
           break;
         case 'univ' :
-          systemView.get('busiv').removeClass('choice--on');
-          systemView.get('univ').addClass('choice--on');
+          systemView.get('choice__fenics').toggleClass('choice--on');
           break;
         default:
           break;
@@ -292,6 +314,7 @@
     }
 
   };
+
 
   /**
    * 画面からデータ取得
@@ -318,25 +341,16 @@
       'start_id'      : Number(systemView.get('input__start_id'     ).find('.item-value').val() )
     };
 
-    // ネットワーク判定
-    if ( select_network.length !== 0 ) {
-      if ( select_network.attr('class').split(' ')[1] === 'busiv' ) {
-        result['system']['has_busiv'] = 1;
-      }
-      else {
-        result['system']['has_busiv'] = 0;
-      }
-    }
-
     result.customer = {
-      'kid'           : systemView.get('kid'          ).find('.item-value').val(),
-      // 'user_name'     : customerView.get('input__user_name' ).find('.item-value').val(),
+      'kid'           : systemView.get('kid'                ).find('.item-value').val(),
       'postal_cd'     : customerView.get('input__postal_cd' ).find('.item-value').val(),
       'address'       : customerView.get('input__address'   ).find('.item-value').val(),
       'affliation'    : customerView.get('input__affliation').find('.item-value').val(),
       'owner'         : customerView.get('input__owner'     ).find('.item-value').val(),
       'tel'           : customerView.get('input__tel'       ).find('.item-value').val(),
       'fax'           : customerView.get('input__fax'       ).find('.item-value').val(),
+      'has_busiv'     : systemView.get('choice__busiv').hasClass('choice--on') ? 1 :0 ,
+      'has_fenics'    : systemView.get('choice__fenics').hasClass('choice--on') ? 1 :0
     };
 
     if ( section === 'system' ) {
@@ -392,16 +406,18 @@
 
     if ( data.has_busiv === 1 ) {
       systemView.get('environment__network').find('.busiv').addClass('choice--on');
-      systemView.get('environment__network').find('.univ').removeClass('choice--on');
-    }
-    else if ( data.has_busiv === 0 ) {
-      systemView.get('environment__network').find('.busiv').removeClass('choice--on');
-      systemView.get('environment__network').find('.univ').addClass('choice--on');
     }
     else {
       systemView.get('environment__network').find('.busiv').removeClass('choice--on');
+    }
+
+    if ( data.has_fenics === 1 ) {
+      systemView.get('environment__network').find('.univ').addClass('choice--on');
+    }
+    else {
       systemView.get('environment__network').find('.univ').removeClass('choice--on');
     }
+
 
   };
 
@@ -443,16 +459,19 @@
       v.find('.item-value').val(customerInfo[k])
     });
 
-    if ( systemInfo.has_busiv === 1 ) {
+    // ビジVの状態
+    if ( customerInfo.has_busiv === 1 ) {
       systemView.get('environment__network').find('.busiv').addClass('choice--on');
-      systemView.get('environment__network').find('.univ').removeClass('choice--on');
-    }
-    else if ( systemInfo.has_busiv === 0 ) {
-      systemView.get('environment__network').find('.busiv').removeClass('choice--on');
-      systemView.get('environment__network').find('.univ').addClass('choice--on');
     }
     else {
       systemView.get('environment__network').find('.busiv').removeClass('choice--on');
+    }
+
+    // ユニバの状態
+    if ( customerInfo.has_fenics === 1 ) {
+      systemView.get('environment__network').find('.univ').addClass('choice--on');
+    }
+    else {
       systemView.get('environment__network').find('.univ').removeClass('choice--on');
     }
 
@@ -512,6 +531,20 @@
       msg      : '入力に誤りがあります'
     });
 
+    util.alert({
+      selector : commonView.top,
+      id       : 'modal-baseInfo-notHasNetwork-alert',
+      msg      : 'ネットワーク情報（ユニバあるいはビジV）を決めてください'
+    });
+
+    util.confirm({
+      selector : commonView.top,
+      id       : 'modal-baseInfo-fenicsAdd-confirm',
+      msg      : 'ビジVとユニバの両方を使用しています。端末追加分fenicsIDを作成しますか？',
+      yes      : function () { _update(true) },
+      no       : function () { _update(false) }
+    });
+
     commonView.initElement(elements.common);
     systemView.initElement(elements.base);
     customerView.initElement(elements.customer);
@@ -540,6 +573,7 @@
     clear        : clear,
     refresh      : refresh,
     getViewInfo  : getViewInfo,
+    get : function () { return customerView;}
   };
 
 

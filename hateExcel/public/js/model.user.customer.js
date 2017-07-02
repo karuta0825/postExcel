@@ -14,7 +14,9 @@
         'affliation'    : '所属',
         'owner'         : '担当者',
         'tel'           : '電話番号',
-        'fax'           : 'FAX'
+        'fax'           : 'FAX',
+        'has_busiv'     : 'ビジV',
+        'has_fenics'    : 'ユニバ'
       }
     }
   , _customerModel = new Model( config )
@@ -40,6 +42,19 @@
   };
 
   /**
+   * ネットワーク情報のみ更新したときは、kidsに変更がないので、
+   * kidsがリフレッシュされないので、代わりに行う
+   * @override
+   */
+  update = function ( view_date, callback ) {
+
+    _customerModel.update( view_date, callback);
+
+    cms.view.kids.refresh();
+
+  };
+
+  /**
    * @override
    */
   getCache = function () {
@@ -50,7 +65,7 @@
   cms.model.userCustomer = {
     fetch    : $.proxy( _customerModel.fetch, _customerModel ),
     getCache : getCache,
-    update   : $.proxy( _customerModel.update, _customerModel ),
+    update   : update,
     register : $.proxy( _customerModel.initUpdate, _customerModel ),
     check    : validate
   };

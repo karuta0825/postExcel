@@ -15,7 +15,7 @@
   , makeOrgFileMap
   ;
 
-  validate = function ( view_data ) {
+  validate = function ( view_data, has_busiv ) {
 
     var result = [];
 
@@ -23,7 +23,9 @@
       result.push('client_number');
     }
 
-    if ( view_data['number_pc'] < getCache().number_pc ) {
+    // ユニバのみの場合、端末削除はできない
+    // 端末削除するならば、fenicsIDを削除する
+    if ( !has_busiv && view_data['number_pc'] < getCache().number_pc ) {
       result.push('number_pc');
     }
 
