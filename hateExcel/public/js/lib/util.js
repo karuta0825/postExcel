@@ -210,6 +210,56 @@
 
   };
 
+  util.confirmYesNo = function ( map_option ) {
+
+    // 入力チェック
+    if ( !_.isObject( map_option ) ) {
+      throw new Error("can't make dialog because argument is not object.");
+    }
+
+    if ( !map_option.hasOwnProperty('selector') ) {
+      throw new Error("can't make dialog because the argument don't have selector key.");
+    }
+
+    var
+      dialog  = $('<dialog>', { 'class' : 'mdl-dialog', 'id' : map_option['id'] } )
+    , title   = $('<h6>', { 'class' : 'mdl-dialog__title', 'text' : '確認' })
+    , content = $('<p>',  { 'class' : 'mdl-dialog__content', 'text' : map_option['msg']})
+    , action  = $('<div>', { 'class' : 'mdl-dialog__actions'} )
+    , btnYes  = $('<button>', { 'type' : 'button', 'class' : 'btn modal-btn--yes mdl-button', 'text' : 'はい' })
+    , btnNo   = $('<button>', { 'type' : 'button', 'class' : 'btn modal-btn--no mdl-button', 'text' : 'いいえ' })
+    ;
+
+    action
+      .append(btnYes)
+      .append(btnNo)
+      ;
+
+    dialog
+      .append( title )
+      .append( content )
+      .append( action )
+      ;
+
+    btnYes.on('click', function () {
+      if( typeof map_option.yes === 'function' ) {
+        map_option.yes(this);
+      }
+      dialog.get(0).close();
+    });
+
+    btnNo.on('click', function () {
+      if( typeof map_option.no === 'function' ) {
+        map_option.no(this);
+      }
+      dialog.get(0).close();
+    });
+
+    $(map_option['selector']).append(dialog);
+
+  };
+
+
   /**
    * [Validate description]
    * input check Class

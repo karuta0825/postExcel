@@ -537,7 +537,7 @@
       msg      : 'ネットワーク情報（ユニバあるいはビジV）を決めてください'
     });
 
-    util.confirm({
+    util.confirmYesNo({
       selector : commonView.top,
       id       : 'modal-baseInfo-fenicsAdd-confirm',
       msg      : 'ビジVとユニバの両方を使用しています。端末追加分fenicsIDを作成しますか？',
