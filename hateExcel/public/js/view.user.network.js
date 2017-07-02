@@ -60,8 +60,11 @@
   , _save
   , _cancel
   , _setClientsSelectValue
+  , _selectSx
+  , _selectL3
+  , _selectCarte
+  , _selectCc
   , makeClientSelectBox
-  , selectNetwork
   , clear
   , showBusiv
   , hideBusiv
@@ -84,7 +87,7 @@
     networkView.get('btn__delete').removeClass('is-hidden');
     networkView.get('btn__save').removeClass('is-hidden');
 
-    // ユニバ情報
+    // 日付変更可能
     networkView.wrap.find('.input-date').prop('disabled', false);
 
     // busiv情報
@@ -115,6 +118,12 @@
       val.find('.item-value').removeClass('is-edit');
       val.find('.item-value').prop('disabled', true);
     });
+
+    // buisvセレクトボックスの編集可能
+    networkView.get('busiv-section__input')['has_sx'].addClass('is-edit');
+    networkView.get('busiv-section__input')['has_L3'].addClass('is-edit');
+    networkView.get('busiv-section__input')['has_carte'].addClass('is-edit');
+    networkView.get('busiv-section__input')['has_cc'].addClass('is-edit');
 
   };
 
@@ -260,6 +269,29 @@
 
   };
 
+  _selectChoice    = function () {
+    var
+      el_pushed = $(event.target)
+    , className = el_pushed.attr('class').split(' ')[1]
+    , yes = $( $(this).find('button').get(0) )
+    , no  = $( $(this).find('button').get(1) )
+    ;
+
+    if ( el_pushed.parents('li').hasClass('is-edit') ) {
+
+      if ( className.match(/yes/) ) {
+        yes.addClass('choice--on');
+        no.removeClass('choice--on');
+      }
+      else {
+        no.addClass('choice--on');
+        yes.removeClass('choice--on');
+      }
+
+    }
+
+  };
+
   makeClientSelectBox = function () {
 
     var
@@ -292,6 +324,62 @@
     _.each( networkView.get('busiv-section__input'), function (v,k) {
       v.find('.item-value').val( data[k]);
     });
+
+    // sx連携
+    if ( data.has_sx === 1 ) {
+      networkView.get('busiv-section__input__has_sx')
+      .find('.yes_sx').addClass('choice--on');
+      networkView.get('busiv-section__input__has_sx')
+      .find('.no_sx').removeClass('choice--on');
+    }
+    else {
+      networkView.get('busiv-section__input__has_sx')
+      .find('.yes_sx').removeClass('choice--on');
+      networkView.get('busiv-section__input__has_sx')
+      .find('.no_sx').addClass('choice--on');
+    }
+
+    //　L3有無
+    if ( data.has_L3 === 1) {
+      networkView.get('busiv-section__input__has_L3')
+      .find('.yes_L3').addClass('choice--on');
+      networkView.get('busiv-section__input__has_L3')
+      .find('.no_L3').removeClass('choice--on');
+    }
+    else {
+      networkView.get('busiv-section__input__has_L3')
+      .find('.yes_L3').removeClass('choice--on');
+      networkView.get('busiv-section__input__has_L3')
+      .find('.no_L3').addClass('choice--on');
+    }
+
+    // カルテ連携
+    if ( data.has_carte === 1 ) {
+      networkView.get('busiv-section__input__has_carte')
+      .find('.yes_carte').addClass('choice--on');
+      networkView.get('busiv-section__input__has_carte')
+      .find('.no_carte').removeClass('choice--on');
+    }
+    else {
+      networkView.get('busiv-section__input__has_carte')
+      .find('.yes_carte').removeClass('choice--on');
+      networkView.get('busiv-section__input__has_carte')
+      .find('.no_carte').addClass('choice--on');
+    }
+
+    //　CC連携
+    if ( data.has_cc === 1) {
+      networkView.get('busiv-section__input__has_cc')
+      .find('.yes_cc').addClass('choice--on');
+      networkView.get('busiv-section__input__has_cc')
+      .find('.no_cc').removeClass('choice--on');
+    }
+    else {
+      networkView.get('busiv-section__input__has_cc')
+      .find('.yes_cc').removeClass('choice--on');
+      networkView.get('busiv-section__input__has_cc')
+      .find('.no_cc').addClass('choice--on');
+    }
 
   };
 
@@ -387,7 +475,11 @@
       'click btn__cancel'       : _cancel,
       'click btn__save'         : _save,
       'click download__fenics'  : _downloadFile,
-      'change input-date'       : _changeClientId
+      'change input-date'       : _changeClientId,
+      'click busiv-section__input__has_sx' : _selectChoice,
+      'click busiv-section__input__has_L3' : _selectChoice,
+      'click busiv-section__input__has_carte' : _selectChoice,
+      'click busiv-section__input__has_cc' : _selectChoice,
     });
 
   };
