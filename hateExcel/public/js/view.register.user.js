@@ -15,10 +15,11 @@
       },
       'alert' : '#modal-alert-register'
     }
-  , vl = new util.Validate({
-
-    })
-  , uploadData
+  , uploadData = {
+      'client_number' : 0,
+      'user_number'   : 0,
+      'sd_number'     : 0
+    }
   , _onClickUpload
   , _selectFile
   , _dragOver
@@ -62,13 +63,14 @@
 
       kid = list_oneline.shift();
 
-      // 入力チェック
+      // 入力チェック -　KIDが存在しない
       if ( cms.model.kids.find({'kid' : kid}).length === 0 )  {
         // 入力エラー
         registerView.get('alert').get(0).showModal();
         return false;
       }
 
+      // 入力チェック - 二重登録防止
       if ( cms.model.kids.find({'kid' : kid})[0].is_registered === 1 ) {
         registerView.get('alert')
           .find('.mdl-dialog__content')
