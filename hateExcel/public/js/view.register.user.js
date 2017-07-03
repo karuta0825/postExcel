@@ -129,9 +129,6 @@
 
   _upload = function ( upload_data ) {
 
-    // 更新するKID情報をどこから取得するか？
-    // 選択させよう！
-
     cms.model.kids.register({
       kid : kid,
       register_on : moment().format('YYYY-MM-DD'),

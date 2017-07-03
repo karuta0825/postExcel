@@ -32,7 +32,7 @@ partners__em_name:担当者
 partners__em_tel:090-333-3333
 partners__em_email:em@mail.com
 
-#customer table
+#customers table
 customers__user_name:A訪問看護ステーション
 customers__postal_cd:12341111
 customers__address:東京都太田区北千束1-2-3
@@ -40,6 +40,18 @@ customers__owner:介護オーナー
 customers__affliation:介護情報部
 customers__tel:090-333-3333
 customers__fax:080-333-3333
+
+add
+==========================
+#customers table add filed
+customers__has_busiv:1
+customers__has_mobile:1
+customers__has_fenics:0
+
+#client number
+
+#user number
+==========================
 
 #licenses table
 licenses__AK1:1
@@ -76,6 +88,4 @@ licenses__ASJ:0
 licenses__ASL:0
 licenses__ASM:0
 licenses__ASO:0
-
-
 
