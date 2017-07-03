@@ -3,6 +3,7 @@
   <thead>
     <th class='mdl-data-table__cell--non-numeric'>サービスID</th>
     <th class='mdl-data-table__cell--non-numeric'>サービス名</th>
+    <th class='mdl-data-table__cell--non-numeric'>型名</th>
     <th class='del-flg'>削除</th>
   </thead>
 
@@ -16,6 +17,10 @@
 
         <td class='service_name'>
           <input type='text' value=<%- item.service_name %> >
+        </td>
+
+        <td class='sales_id'>
+          <input type='text' value=<%- item.sales_id %> >
         </td>
 
         <td align='center' class='del'>
