@@ -15,11 +15,7 @@
       },
       'alert' : '#modal-alert-register'
     }
-  , uploadData = {
-      'client_number' : 0,
-      'user_number'   : 0,
-      'sd_number'     : 0
-    }
+  , uploadData
   , _onClickUpload
   , _selectFile
   , _dragOver
@@ -63,18 +59,9 @@
 
       kid = list_oneline.shift();
 
-      // 入力チェック -　KIDが存在しない
+      // 入力チェック
       if ( cms.model.kids.find({'kid' : kid}).length === 0 )  {
         // 入力エラー
-        registerView.get('alert').get(0).showModal();
-        return false;
-      }
-
-      // 入力チェック - 二重登録防止
-      if ( cms.model.kids.find({'kid' : kid})[0].is_registered === 1 ) {
-        registerView.get('alert')
-          .find('.mdl-dialog__content')
-          .text('二度目の登録はできません')
         registerView.get('alert').get(0).showModal();
         return false;
       }
@@ -96,7 +83,7 @@
         val = v.slice(delimiter_position+1);
 
         table = key.split('__')[0];
-        field = key.split('__')[1].trim();
+        field = key.split('__')[1];
 
         if ( !map_result.hasOwnProperty(table) ){
           map_result[table] = { 'kid' : kid };
@@ -106,7 +93,7 @@
           field = cms.model.services.find({ 'version' : version, 'sales_id' : field })[0].service_id;
         }
 
-        map_result[table][field] = val.trim();
+        map_result[table][field] = val;
 
       });
 
@@ -131,17 +118,11 @@
 
   _upload = function ( upload_data ) {
 
-    cms.model.kids.register({
-      kid : kid,
-      register_on : moment().format('YYYY-MM-DD'),
-      is_registered : 1 },
-      function (o) {
-        console.log('kids');
-        console.log(o);
-    });
+    // 更新するKID情報をどこから取得するか？
+    // 選択させよう！
 
     // 基本情報
-    cms.model.userCustomer.register( upload_data.customers, function (o) {
+    cms.model.userBaseInfo.register( upload_data.customers, function (o) {
       console.log('customer');
       console.log(o);
     });
