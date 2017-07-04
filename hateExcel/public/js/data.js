@@ -73,6 +73,9 @@ customer.db = ( function (){
     })
     .done( function ( result ) {
       dfd.resolve(result);
+    })
+    .fail( function ( err ) {
+      dfd.reject(err);
     });
 
     return dfd.promise();
