@@ -8,6 +8,7 @@ customer.db = ( function (){
   var
     configMap, data, getData,
     _ajaxPost, _ajaxGet, ajaxHtml,
+    post,
     selectAll, select,
     insert,    update, remove
   ;
@@ -55,6 +56,30 @@ customer.db = ( function (){
     return result;
   };
 
+  /**
+   * Defferedを用いたAjax非同期通信(for post)
+   * @param  {String} url
+   * @param  {Object} data
+   * @return {Promise}
+   */
+  post = function ( url, data ) {
+
+    var dfd = $.Deferred();
+    $.ajax({
+      dataType: 'json',
+      type    : 'post',
+      url     : url,
+      data    : data,
+    })
+    .done( function ( result ) {
+      dfd.resolve(result);
+    });
+
+    return dfd.promise();
+
+  };
+
+
   selectAll = function ( url ) {
     return JSON.parse( _ajaxGet( url ) ) ;
   };
@@ -81,7 +106,8 @@ customer.db = ( function (){
     select    : select,
     insert    : insert,
     update    : update,
-    remove    : remove
+    remove    : remove,
+    post      : post
   };
 
 }());

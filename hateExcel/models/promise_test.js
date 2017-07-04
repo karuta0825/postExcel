@@ -121,3 +121,56 @@ new Promise( function (res, rej) {
   .then ( function ( result ) {
     console.log( 'two: ' + result );
   });
+
+
+// ajax defferを利用した直列操作
+// 非同期処理の結果をreturnすることで,
+// then内の関数の引数として
+// 受け取れる
+customer.db.post('/select', {table : 'kids'})
+.then( function (result) {
+  console.log(result);
+  // returnがポイント
+  return customer.db.post('/select', {table:'servers'})
+})
+.then(function (servers) {
+  // customer.db.post('/select', {table:"servers"})の結果がserversに格納
+  console.log(servers);
+  // returnがポイント
+  return customer.db.post('/select', {table:'services'})
+})
+.then( function (services) {
+  console.log(services)
+})
+
+// 例えば、2番目が重い処理もでも直列性を保ってくれる
+
+function test () {
+
+    var dfd = $.Deferred();
+
+    setTimeout( function () {
+      dfd.resolve('end');
+    },4000)
+
+    return dfd.promise();
+
+}
+
+customer.db.post('/select', {table:'servers'})
+.then( function (result) {
+  console.log(result);
+  // returnがポイント
+  return test()
+})
+.then(function (servers) {
+  // customer.db.post('/select', {table:"servers"})の結果がserversに格納
+  console.log(servers);
+  // returnがポイント
+  return customer.db.post('/select', {table:'services'})
+})
+.then( function (services) {
+  console.log(services)
+});
+
+
