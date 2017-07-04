@@ -143,7 +143,7 @@
   _redrawTable = function ( version ) {
 
     view[version].get('body').empty();
-    _drawTable( customer.model.services.find( {'version' : 'LM'} ) );
+    _drawTable( customer.model.services.find( {'version' : version, 'is_setup_info' : 0} ) );
 
   };
 
@@ -221,8 +221,8 @@
     view['LM'].initElement( elements.common );
     view['ES'].initElement( elements.common );
 
-    _drawTable( customer.model.services.find( {'version' : 'LM'} ) );
-    _drawTable( customer.model.services.find( {'version' : 'ES'} ) );
+    _drawTable( customer.model.services.find( {'version' : 'LM', 'is_setup_info' : 0 } ) );
+    _drawTable( customer.model.services.find( {'version' : 'ES', 'is_setup_info' : 0 } ) );
 
 
     view['BASE'].addListener({
