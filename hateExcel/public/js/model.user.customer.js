@@ -8,7 +8,7 @@
       table : 'customers',
       tab_name : '基本情報',
       item_name_map : {
-        'user_name'     : '顧客名',
+        'base_name'     : '顧客名',
         'postal_cd'     : '郵便番号',
         'address'       : '住所',
         'affliation'    : '所属',
@@ -21,7 +21,7 @@
     }
   , _customerModel = new Model( config )
   , vl = new util.Validate({
-      'user_name'     : 'noCheck',
+      'base_name'     : 'noCheck',
       'postal_cd'     : 'isTEL',
       'address'       : 'noCheck',
       'affliation'    : 'noCheck',

@@ -214,18 +214,6 @@
 
   };
 
-  register = function ( obj, callback ) {
-
-    var kid = obj.kid;
-    delete obj.kid;
-
-      customer.db.update('/update', {
-        data      : obj,
-        condition : {'kid' : kid },
-        table     : _model['config']['table']
-      }, callback );
-
-  };
 
   /*public method*/
   cms.model.kids = {
@@ -240,7 +228,7 @@
     getHeader    : getHeader,
     update       : $.proxy( _model.update, _model ),
     check        : $.proxy( _model._checkWhatsUpdated, _model ),
-    register     : register
+    register     : $.proxy( _model.initUpdate, _model )
   };
 
 }( jQuery, customer ));

@@ -14,6 +14,7 @@
   , clearUpdateInfo
   , update
   , addFenicsAccount
+  , registerFenicsAccount
   ;
 
   changeUpdateInfo = function ( id ) {
@@ -105,17 +106,33 @@
 
   };
 
+  /**
+   * ユーザ登録時のFenicsアカウント作成関数
+   * @param  {Object} map
+   * @param  {String} map.kid
+   * @param  {String} map.fenics_key
+   * @param  {Number} map.number_pc_added
+   * @return {Promise}
+   */
+  registerFenicsAccount = function ( map ) {
+
+    var params = { data : map };
+    return cms.db.post('/addFenicsAccounts', params );
+
+  };
+
 
   cms.model.userNetwork = {
-    fetch               : $.proxy( _model.fetch, _model ),
-    getCache            : $.proxy( _model.getCache, _model),
-    delete              : $.proxy( _model.delete, _model ),
-    find                : $.proxy( _model.find, _model ),
-    makeAccountMapList  : makeAccountMapList,
-    addFenicsAccount    : addFenicsAccount,
-    changeUpdateInfo    : changeUpdateInfo,
-    clearUpdateInfo     : clearUpdateInfo,
-    update              : update
+    fetch                 : $.proxy( _model.fetch, _model ),
+    getCache              : $.proxy( _model.getCache, _model),
+    delete                : $.proxy( _model.delete, _model ),
+    find                  : $.proxy( _model.find, _model ),
+    makeAccountMapList    : makeAccountMapList,
+    addFenicsAccount      : addFenicsAccount,
+    registerFenicsAccount : registerFenicsAccount,
+    changeUpdateInfo      : changeUpdateInfo,
+    clearUpdateInfo       : clearUpdateInfo,
+    update                : update
   };
 
 }( jQuery, customer ));

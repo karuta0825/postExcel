@@ -13,7 +13,8 @@
       'btn' : {
         'upload' : '.btn--upload'
       },
-      'alert' : '#modal-alert-register'
+      'alert'  : '#modal-alert-register',
+      'finish' : '#modal-finish-register'
     }
   , uploadData
   , _onClickUpload
@@ -27,9 +28,11 @@
   ;
 
   _onClickUpload = function () {
-    console.log('upload');
     // upload処理
     _upload( uploadData );
+    // ボタン非活性
+    registerView.get('btn__upload').prop('disabled', true);
+
   };
 
   _getLineList = function ( fileReader ) {
@@ -101,11 +104,12 @@
       var
         version = cms.model.kids.find({'kid':kid})[0].version
       , map_result = {
-          'kids'     : { 'pc_number' : 0 },
-          'clients'  : {},
-          'licenses' : {},
-          'partners' : {},
-          'mobiles'  : {}
+          'kids'      : { 'kid' : kid, 'number_pc' : 1 },
+          'clients'   : { 'kid' : kid, 'number' : 1 },
+          'customers' : { 'kid' : kid },
+          'licenses'  : { 'kid' : kid },
+          'partners'  : { 'kid' : kid },
+          'mobiles'   : { 'kid' : kid, 'number' : 1 }
         }
       , delimiter_position
       , key
@@ -167,22 +171,22 @@
 
       // 追加1クライアント数
       if ( item.service_id === 'add_one_cli' ) {
-        map['kids']['pc_number'] += Number(value);
+        map['kids']['number_pc'] += Number(value);
       }
 
       // 追加10クライアント数
       if ( item.service_id === 'add_ten_cli' ) {
-        map['kids']['pc_number'] += 10 * Number(value);
+        map['kids']['number_pc'] += 10 * Number(value);
       }
 
       // 追加20クライアント数
       if ( item.service_id === 'add_twe_cli' ) {
-        map['kids']['pc_number'] += 20 * Number(value);
+        map['kids']['number_pc'] += 20 * Number(value);
       }
 
       // 追加ユーザー
       if ( item.service_id === 'add_one_usr' ) {
-        map['clients']['number'] = value;
+        map['clients']['number'] += value;
       }
 
       if ( item.service_id === 'add_sd' ) {
@@ -202,38 +206,60 @@
 
   _upload = function ( upload_data ) {
 
+    // kids -端末数
     cms.model.kids.register({
-      kid : kid,
-      register_on : moment().format('YYYY-MM-DD'),
-      is_registered : 1 },
-      function (o) {
-        console.log('kids');
-        console.log(o);
-    });
+      kid           : kid,
+      register_on   : moment().format('YYYY-MM-DD'),
+      number_pc     : uploadData['kids']['number_pc'],
+      is_registered : 1 }
+    )
+    // customers
+    .then( function () {
+      return cms.model.userCustomer.register( upload_data.customers );
 
-    // 基本情報
-    cms.model.userCustomer.register( upload_data.customers, function (o) {
-      console.log('customer');
-      console.log(o);
-    });
+    })
+    // licenses
+    .then( function () {
+      return customer.model.userLicense.register( upload_data.licenses );
+    })
+    // partners
+    .then( function () {
+      return cms.model.userPartner.register( upload_data.partners );
 
-    // サービス
-    customer.model.userLicense.register( upload_data.licenses, function (o) {
-      console.log('license');
-      console.log(o);
-    } );
+    })
+    // mobiles
+    .then( function () {
+      //
+    })
+    // クライアント - ユーザー数
+    .then( function () {
+      // kid , userkey が必要
+      return cms.model.userBaseInfo.registerClient({
+        kid                 : kid,
+        userkey             : cms.model.kids.find({'kid' : kid})[0].userkey,
+        number_client_added : upload_data['clients']['number']
+      });
 
-    // クライアント
-    // customer.model.initUpdate( upload_data.client );
-
-    // ネットワーク
-    // customer.model.initUpdate( upload_data.network );
-
-    // パートナー
-    cms.model.userPartner.register( uploadData.partners, function (o) {
-      console.log('partner');
-      console.log(o);
-    } );
+    })
+    // ネットワーク - クライアント数
+    .then( function () {
+      if ( uploadData['customers']['has_fenics'] === 1 ) {
+        return cms.model.userNetwork.registerFenicsAccount({
+          kid             : kid,
+          fenics_key      : cms.model.kids.find({'kid' : kid})[0].fenics_key,
+          number_pc_added : upload_data['kids']['number_pc']
+        });
+      }
+    })
+    // all refresh
+    .then( function () {
+      cms.view.kids.refresh();
+      registerView.get('finish').get(0).showModal();
+    })
+    .fail( function (err) {
+      throw err.responseJSON;
+    })
+    ;
 
   };
 
@@ -248,10 +274,18 @@
 
     registerView = new Controller('.main-contents--reg-usr');
 
+    // 登録前入力違反ダイアログ
     util.alert({
       selector : registerView.top,
       id       : 'modal-alert-register',
       msg      : 'KIDが存在しないため登録できません'
+    });
+
+    // 登録後ダイアログ
+    util.alert({
+      selector : registerView.top,
+      id       : 'modal-finish-register',
+      msg      : '登録完了しました'
     });
 
     registerView.initElement( elements );

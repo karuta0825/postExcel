@@ -12,6 +12,7 @@
   , fetch
   , getCache
   , addClient
+  , registerClient
   , makeOrgFileMap
   ;
 
@@ -88,11 +89,27 @@
 
   };
 
+  /**
+   *
+   * @param {Object} map
+   * @param {Object} map.kid
+   * @param {Object} map.userkey
+   * @param {Object} map.number_client_added
+   */
+  registerClient = function ( map ) {
+
+    var params = { data : map };
+
+    return cms.db.post('/addClient', params );
+
+  };
+
   // To pubic
   cms.model.userBaseInfo = {
     fetch          : fetch,
     getCache       : getCache,
     addClient      : addClient,
+    registerClient : registerClient,
     check          : validate
   };
 

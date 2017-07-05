@@ -319,7 +319,8 @@ app.post('/update', function ( req, res ) {
   // ライセンステーブル以外の更新処理
   datas.update( data, condition, table, function ( err ) {
     if  ( err ) {
-      res.json({ err : err })
+      // res.json(err)
+      res.status(500).send({ error: err });
       return;
     }
     res.json({ result : 'ok'});
