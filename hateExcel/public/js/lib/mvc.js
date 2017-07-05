@@ -443,11 +443,12 @@
     var kid = obj.kid;
     delete obj.kid;
 
-    customer.db.update('/update', {
+    return customer.db.post('/update', {
       data  : obj,
       condition : { 'kid' : kid },
       table : this['config']['table']
-    }, callback );
+    });
+
 
   };
 
