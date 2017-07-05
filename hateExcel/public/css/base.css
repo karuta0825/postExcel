@@ -11,6 +11,7 @@ html, body {
 
 select {
   color : #696969;
+  font-size :12.5px;
 }
 
 input, th
@@ -52,6 +53,7 @@ table {
 
 tbody, input {
   color :#696969;
+  font-size: 12.5px;
 }
 
 .btn {
