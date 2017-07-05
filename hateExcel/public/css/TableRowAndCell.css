@@ -379,6 +379,7 @@
 
 .users-table td.kid{
   color : #ff4081;
+  cursor: pointer;
 }
 
 .main-contents--view-usr .mdl-data-table {
