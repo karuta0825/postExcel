@@ -8,7 +8,8 @@ CREATE TRIGGER kids_delete AFTER DELETE ON kids FOR EACH ROW
 
 	delete from licenses where kid = old.kid;
     delete from customers where kid = old.kid;
-    delete from partners where kid = old.kid;    
+    delete from partners where kid = old.kid;
+    delete from fenics where kid = old.kid;    
     delete from clients where kid = old.kid;
     delete from historys where kid = old.kid;
    

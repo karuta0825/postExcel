@@ -34,7 +34,7 @@ CREATE TABLE `columns` (
   `client_number` varchar(45) DEFAULT '1',
   `license` varchar(45) DEFAULT NULL,
   `number_id` varchar(45) DEFAULT NULL,
-  `start_id` varchar(45) DEFAULT NULL,
+  `range_id` varchar(45) DEFAULT NULL,
   `creater` varchar(45) DEFAULT '1',
   `update_on` varchar(45) DEFAULT '1',
   `system_type` varchar(45) DEFAULT NULL,
@@ -68,4 +68,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-07-02 17:27:41
+-- Dump completed on 2017-07-05 21:28:36

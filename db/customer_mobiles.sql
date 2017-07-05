@@ -25,12 +25,12 @@ DROP TABLE IF EXISTS `mobiles`;
 CREATE TABLE `mobiles` (
   `kid` varchar(9) NOT NULL,
   `base_id` int(1) NOT NULL,
-  `fenics_key` varchar(5) NOT NULL,
-  `client_number` int(4) NOT NULL,
-  `admin_id` varchar(45) NOT NULL,
-  `admin_pw` varchar(45) NOT NULL,
-  `city_cd` varchar(45) NOT NULL,
-  `office_cd` int(10) NOT NULL,
+  `fenics_key` varchar(5) DEFAULT NULL,
+  `client_number` int(4) DEFAULT NULL,
+  `admin_id` varchar(45) DEFAULT NULL,
+  `admin_pw` varchar(45) DEFAULT NULL,
+  `city_cd` varchar(45) DEFAULT NULL,
+  `office_cd` int(10) DEFAULT NULL,
   PRIMARY KEY (`base_id`),
   UNIQUE KEY `fenics_key_UNIQUE` (`fenics_key`),
   UNIQUE KEY `admin_id_UNIQUE` (`admin_id`),
@@ -45,6 +45,7 @@ CREATE TABLE `mobiles` (
 
 LOCK TABLES `mobiles` WRITE;
 /*!40000 ALTER TABLE `mobiles` DISABLE KEYS */;
+INSERT INTO `mobiles` VALUES ('KID88888',112,'feni',NULL,NULL,NULL,NULL,NULL),('KID88888',114,'fen',NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `mobiles` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -57,4 +58,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-06-22  8:22:59
+-- Dump completed on 2017-07-05 21:28:36
