@@ -241,8 +241,8 @@
   initModule = function () {
 
     // テーブル生成
-    makeServiceTable( cms.model.services.find({ 'version' : 'LM' }), 'lm' );
-    makeServiceTable( cms.model.services.find({ 'version' : 'ES' }), 'es' );
+    makeServiceTable( cms.model.services.find({ 'version' : 'LM', 'is_setup_info' : 0 }), 'lm' );
+    makeServiceTable( cms.model.services.find({ 'version' : 'ES', 'is_setup_info' : 0 }), 'es' );
 
     licenseView = new Controller('#usr-service-panel');
     licenseView.initElement( elements );
