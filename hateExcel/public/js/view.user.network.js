@@ -259,12 +259,20 @@
 
   _save = function () {
 
-    var error = cms.model.userBusiv.check( _getBusivInfo() );
-    if ( _validate(error) ) {
-      return;
+    var error;
+
+    if ( cms.model.userBaseInfo.getCache().has_busiv === 1 ) {
+
+      error = cms.model.userBusiv.check( _getBusivInfo() );
+
+      if ( _validate(error) ) {
+        return;
+      }
+
+      cms.model.userBusiv.update( _getBusivInfo(), setBusivInfo ); 
+
     }
 
-    cms.model.userBusiv.update( _getBusivInfo(), setBusivInfo );
 
     cms.model.userNetwork.update();
 
