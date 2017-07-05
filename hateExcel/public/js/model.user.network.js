@@ -52,7 +52,7 @@
   makeAccountMapList = function ( list_checed ) {
 
     var user_name    = cms.model.userBaseInfo.getCache().user_name;
-    var partner_name = cms.model.userPartner.getCache().name;
+    var partner_name = cms.model.userPartner.getCache()[0].sa_company || '';
     var server       = cms.model.userBaseInfo.getCache().server;
     var list_fenics  = _model.find( list_checed );
 
