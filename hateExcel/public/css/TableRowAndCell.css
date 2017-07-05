@@ -82,6 +82,25 @@
   margin-left: auto;
 }
 
+.mdl-data-table {
+  font-size: 11.5px;
+}
+
+.mdl-data-table th {
+  height: 40px;
+  padding: 0 15px 4px 15px;
+  line-height :30px;
+}
+
+.mdl-data-table tbody tr {
+  height: 35px;
+}
+
+.mdl-data-table td {
+  height: 35px;
+  padding : 5px 15px;
+}
+
 /* --------------
    common button
 ----------------- */
