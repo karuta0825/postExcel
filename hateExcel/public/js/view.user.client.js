@@ -20,10 +20,11 @@
       'checkbox' : '.mdl-checkbox',
       'select-clients' : '.select-clients',
       'download' : {
-        'client'      : '.download--client',
-        'open_notice' : '.download--open-notice',
-        'spla'        : '.download--spla',
-        'mail'        : '.download--mail',
+        'client'          : '.download--client',
+        'open_notice'     : '.download--open-notice',
+        'open_notice_add' : '.download--open-notice-for-add',
+        'spla'            : '.download--spla',
+        'mail'            : '.download--mail',
       },
       'table'  : '.account-table',
       'dialog' : {
@@ -37,6 +38,7 @@
   , _closeDialog
   , _execDowload
   , _downloadOpenNotice
+  , _downloadOpenNoticeForAdd
   , _downloadBat
   , _downloadSpla
   , _changeFenicsId
@@ -121,7 +123,7 @@
     }
 
     // 取得データからモデルにデータ検索
-    downloadMap = cms.model.clients.makeOpenNotice( list_checked );
+    downloadMap = cms.model.clients.makeOpenNotice( list_checked, false);
 
     csv_header = _.values(downloadMap.header).join(',');
 
@@ -132,6 +134,37 @@
     util.downloadFile( this, blob, file_name );
 
   };
+
+  _downloadOpenNoticeForAdd = function () {
+
+    var
+      kid          =  cms.model.userBaseInfo.getCache().kid
+    , file_name    = new moment().format('YYYYMMDD') + '_' + kid + '_OpenNotice.csv'
+    , list_checked = _getSelectItem()
+    , downloadMap
+    , csv_header
+    , blob
+    ;
+
+    // 検索データがゼロのとき、処理終了
+    if ( list_checked.length < 1 ) {
+      return;
+    }
+
+    // 取得データからモデルにデータ検索
+    downloadMap = cms.model.clients.makeOpenNotice( list_checked, true);
+
+    csv_header = _.values(downloadMap.header).join(',');
+
+    // データ作成
+    blob = util.convertMap2Blob( downloadMap.body, csv_header );
+
+    // ダウンロード
+    util.downloadFile( this, blob, file_name );
+
+  };
+
+
 
   _downloadBat = function () {
 
@@ -320,18 +353,19 @@
     clientView.initElement( elements );
 
     clientView.addListener({
-      'click btn__download'         : _openDialog,
-      'click btn__close'            : _closeDialog,
-      'click btn__exec'             : _execDowload,
-      'click btn__delete'           : function (){ clientView.get('dialog__delete').get(0).showModal(); },
-      'click btn__edit'             : _goEditMode,
-      'click btn__cancel'           : _cancel,
-      'click btn__save'             : _save,
-      'click download__client'      : _downloadBat,
-      'click download__open_notice' : _downloadOpenNotice,
-      'click download__spla'        : function () { alert('download download__s')},
-      'click download__mail'        : function () { alert('download download__m')},
-      'change select-clients'       : _changeFenicsId
+      'click btn__download'             : _openDialog,
+      'click btn__close'                : _closeDialog,
+      'click btn__exec'                 : _execDowload,
+      'click btn__delete'               : function (){ clientView.get('dialog__delete').get(0).showModal(); },
+      'click btn__edit'                 : _goEditMode,
+      'click btn__cancel'               : _cancel,
+      'click btn__save'                 : _save,
+      'click download__client'          : _downloadBat,
+      'click download__open_notice'     : _downloadOpenNotice,
+      'click download__open_notice_add' : _downloadOpenNoticeForAdd,
+      'click download__spla'            : function () { alert('download download__s')},
+      'click download__mail'            : function () { alert('download download__m')},
+      'change select-clients'           : _changeFenicsId
     });
 
   };

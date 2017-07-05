@@ -13,6 +13,7 @@
   , _updateInfo = []
   , _makeOpenNoticeHeader
   , _makeOpenNoticeMapList
+  , _makeOpenNoticeMapListForAdd
   , changeUpdateInfo
   , clearUpdateInfo
   , update
@@ -62,9 +63,8 @@
     ;
 
     return {
-      'downloadSite' : 'https://',
-      'downloadUrl'  : 'http:',
-      'password'     : 'pass',
+      'user_name'    : base.user_name,
+      'kid'          : base.kid,
       'userkey'      : base.userkey,
       'db_password'  : base.db_password,
       'domain'       : base.server,
@@ -73,6 +73,8 @@
     };
 
   };
+
+
 
   /**
    * 選択したクライアントの開通通知用の行情報取得
@@ -101,10 +103,49 @@
 
   };
 
-  makeOpenNotice = function ( list_checked ) {
+
+  /**
+   * 選択したクライアントの開通通知用の行情報取得
+   * @param  {Array} list_checked
+   * @return {Array}
+   * TODO:
+   */
+  _makeOpenNoticeMapListForAdd = function ( list_checked ) {
+
+    var
+      list_clients  = _model.find( list_checked )
+    , fenicskey     = cms.model.userNetwork.getCache()[0].fenics_key
+    , honame_prefix = fenicskey && fenicskey.toUpperCase()
+    ;
+
+    return  _.map( list_clients, function ( val, key ) {
+
+      return {
+        'hostname'        : honame_prefix + val.client_id.match(/\d+/)[0],
+        'fenics_id'       : val.fenics_id && 'hopecl-' + val.fenics_id || '',
+        'password'        : val.fenics_id || '',
+        'client_id'       : val.client_id,
+        'client_password' : val.client_pass,
+        'comment'         : moment().format('YYYY/MM/DD') + ' 追加分'
+      };
+    });
+
+  };
+
+  makeOpenNotice = function ( list_checked, is_add ) {
+
+    var content;
+
+    if ( is_add ) {
+      content = _makeOpenNoticeMapListForAdd(list_checked);
+    }
+    else {
+      content = _makeOpenNoticeMapList(list_checked);
+    }
+
     return {
       header :  _makeOpenNoticeHeader(),
-      body   :  _makeOpenNoticeMapList(list_checked)
+      body   :  content
     }
   };
 

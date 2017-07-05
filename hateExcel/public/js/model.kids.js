@@ -26,8 +26,8 @@
       version     : 'all',
       server      : 'all',
       has_mobile  : 'all',
-      has_busiv   : 1,
-      has_fenics  : 1
+      has_busiv   : 'all',
+      has_fenics  : 'all'
     }
     /*private method*/
   , _sortOrder = 1
