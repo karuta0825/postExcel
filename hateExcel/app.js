@@ -339,12 +339,11 @@ app.post('/updateFenics', function (req, res) {
 
   for ( var i = 0; i < data.length; i++ ) {
 
-
     item.client_id = data[i].client_id || '';
 
-    if ( data[i].start_on ) {
-      item.start_on  = data[i].start_on
-    }
+    item.start_on = ( data[i].start_on ) ? data[i].start_on : null;
+
+    item.end_on = ( data[i].end_on ) ? data[i].end_on : null;
 
     condition = data[i].fenics_id;
 
@@ -352,7 +351,7 @@ app.post('/updateFenics', function (req, res) {
       // insert時のエラー処理
       if (err) {
         console.log(err);
-        res.json({ result : 'fail', err : err });
+        res.status(500).send({ error: err });
       }
       else {
         len += 1;

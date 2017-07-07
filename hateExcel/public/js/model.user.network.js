@@ -8,6 +8,7 @@
     _model = new Model({
       'table' : 'fenics'
     })
+  // update候補のidのみ保存
   , _updateInfo = []
   , makeFenicsDownloadMap
   , changeUpdateInfo
@@ -64,7 +65,7 @@
         'init_password'        : val.password,
         'id_group'             : 'お客様　システム１',
         'access_control_group' : 'お客様用　システム１',
-        'start_date'           : val.start_on,
+        'start_date'           : val.start_on && moment(val.start_on).format('YYYY/MM/DD') || '',
         'end_date'             : '',
         'comment1'             : user_name,
         'comment2'             : 'パートナー　' + partner_name,
