@@ -459,7 +459,6 @@ var makeClient = function ( input_map, idx, callback ) {
 var makeService = function ( list_item, idx, callback ) {
 
   var data = list_item[idx];
-
   datas.insert( data, 'services', function ( err, results ) {
     // 連続insertでKIDが重複していた場合、再作成
     if ( err ){
@@ -498,6 +497,83 @@ var makeServer = function ( list_item, idx, callback ) {
 
 };
 
+var makeNewMobileFenicsId = function ( data, callback ) {
+
+  return new Promise( function (res,rej) {
+      datas.select(
+      [data.kid],
+      'find_last_mobile_fenics_id',
+      function ( result ) {
+        if ( result.length === 0 ) {
+          res( data.fenics_key + '01001' );
+        }
+        else {
+          res( getNextZeroPadData( result[0].fenics_id ) );
+        }
+      }
+    );
+  });
+
+};
+
+var makeNewMobileFenicsIp = function ( data, callback ) {
+
+  return new Promise( function ( res, rej ) {
+    datas.select(
+      [],
+      'get_new_fenics_ip',
+      function ( result ) {
+        if ( result.length !== 0 ) {
+          res( result[0].next_ip );
+        }
+      }
+    );
+  });
+
+};
+
+
+/**
+ * [makeMobileUser description]
+ * @param  {Object}   input_map  - オブジェクト化した引数
+ * @param  {Number}   idx        - ループ現在番号
+ * @param  {Function} cb_resolve - 非同期処理終了後の合図
+ */
+var makeMobileUser = function ( input_map, idx, cb_resolve ) {
+
+  var fenics_account = {};
+
+  Promise.all([
+    makeNewMobileFenicsId(input_map),
+    makeNewMobileFenicsIp(null)
+  ]).
+  then( function (results) {
+
+    fenics_account['kid']        = input_map.kid;
+    fenics_account['fenics_id']  = results[0];
+    fenics_account['password']   = results[0];
+    fenics_account['fenics_ip']  = results[1];
+    fenics_account['fenics_key'] = input_map.fenics_key;
+    fenics_account['start_on']   = new Date();
+    fenics_account['create_on']  = new Date();
+    fenics_account['is_mobile']  = 1;
+
+    datas.insert( fenics_account, 'make_fenics_account', function ( err, results ) {
+      if ( err ){
+        console.log(err);
+        return;
+      }
+      else {
+        cb_resolve(null);
+      }
+    });
+
+  });
+
+
+};
+
+
 
 /**
  * fenicsアカウント作成関数
@@ -510,7 +586,7 @@ datas.makeServiceList = flow.makeSyncLoop( makeService );
 
 datas.makeServerList = flow.makeSyncLoop( makeServer );
 
-
+datas.makeMobileUserList = flow.makeSyncLoop( makeMobileUser );
 
 /**
  * 空ユーザー作成関数
@@ -674,6 +750,11 @@ datas.getLicense = function ( kid, callback ) {
 // ];
 // datas.makeServiceList( lists, lists.length, function (result) {
 //   console.log( result );
+// });
+
+// モバイルユーザー追加
+// datas.makeMobileUserList({kid:'KID98375', fenics_key : 'm4wlm' }, 3, function (err) {
+//   console.log('heelo');
 // });
 
 

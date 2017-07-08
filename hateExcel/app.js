@@ -209,6 +209,17 @@ app.post('/addClient', function ( req, res ) {
 
 });
 
+app.post('/addMobileClient', function ( req, res ) {
+
+  var data = req.body.data;
+  data.create_user_id = req.session.uid;
+
+  datas.makeMobileList( data, data.number_client_added, function (err) {
+    res.json({'result' : 'ok'});
+  });
+
+});
+
 app.post('/makeUser', function ( req, res ) {
 
   var data = req.body.data;
