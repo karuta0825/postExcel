@@ -1,0 +1,25 @@
+{
+    "appenders": [
+        {
+            "type": "dateFile",
+            "category": "request",
+            "filename": "logs/request.log",
+            "pattern": "-yyyy-MM-dd"
+        },
+        {
+            "type": "dateFile",
+            "category": "access",
+            "filename": "logs/access.log",
+            "pattern": "-yyyy-MM-dd"
+        },
+        {
+            "type": "dateFile",
+            "category": "error",
+            "filename": "logs/error.log",
+            "pattern": "-yyyy-MM-dd"
+        },
+        {
+            "type": "console"
+        }
+    ]
+}

@@ -6,7 +6,8 @@
     "start": "node app.js"
   },
   "dependencies": {
+    "ejs": "*",
     "express": "3.21.2",
-    "ejs": "*"
+    "log4js": "^1.1.1"
   }
 }

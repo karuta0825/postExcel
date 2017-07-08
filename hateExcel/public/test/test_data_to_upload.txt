@@ -1,4 +1,4 @@
-#kid
+﻿#kid
 KID98375
 
 #partners table
@@ -33,7 +33,7 @@ partners__em_tel:090-333-3333
 partners__em_email:em@mail.com
 
 #customers table
-customers__base_name:B訪問看護ステーション
+customers__user_name:B訪問看護ステーション
 customers__postal_cd:12341111
 customers__address:東京都太田区北千束1-2-3
 customers__owner:介護オーナー
