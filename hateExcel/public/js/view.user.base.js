@@ -95,6 +95,7 @@
     // 除外対象
     list_key = _.without( list_key, 'has_busiv');
     list_key = _.without( list_key, 'has_fenics');
+    list_key = _.without( list_key, 'has_mobile');
 
     if ( list_key.length !== 0 ) {
 
@@ -180,6 +181,10 @@
 
   };
 
+  /**
+   * 一連の更新内容をまとめる
+   * @param  {[type]} can_add_fenicsId
+   */
   _update = function ( can_add_fenicsId ) {
 
     if ( can_add_fenicsId ) {
@@ -196,9 +201,10 @@
 
     var
       error
-      // view情報が最新なのでから判断する
+      // view情報が最新なので判断する
     , has_busiv = getViewInfo('customer').has_busiv
     , has_fenics = getViewInfo('customer').has_fenics
+    , has_mobile = getViewInfo('customer').has_mobile
     ;
 
     // 拠点情報の入力チェック
@@ -231,6 +237,14 @@
 
     if ( has_busiv === 1 && has_fenics === 0 ) {
       _update(false);
+    }
+
+    // モバイル表示制御
+    if ( cms.model.userBaseInfo.getCache().has_mobile === 1 ) {
+      cms.view.editUsrs.showMobile();
+    }
+    else {
+      cms.view.editUsrs.hideMobile();
     }
 
     // 画面制御
