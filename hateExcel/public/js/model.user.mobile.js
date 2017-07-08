@@ -18,10 +18,43 @@
       }
     }
   , _model = new Model(config)
+  , vl = new util.Validate({
+      'fenics_key'    : 'isAlphaNum',
+      'client_number' : 'isNatural',
+      'admin_id'      : 'isAlphaNum',
+      'admin_pw'      : 'isAlphaNum',
+      'city_cd'       : 'isId',
+      'office_cd'     : 'isId'
+    })
   // private
   // public method
+  , validate
   , addMobile
   ;
+
+  /**
+   * 入力チェック。違反のキーのリストを返す
+   * @param  {Object} view_data - 画面のデータ
+   * @return {Array}  result    - エラーのkeyリスト
+   */
+  validate = function ( view_data ) {
+    var
+      diff   = _model._checkWhatsUpdated(view_data)
+    , result = vl.validate( diff )
+    ;
+
+    // クライアント数の差分を減少することはできない
+    if ( diff.client_number ) {
+
+      if ( view_data.client_number - _model.getCache()[0].client_number < 0 ) {
+        result.push('client_number');
+      }
+
+    }
+
+    return result;
+
+  };
 
   /**
    * モバイル使用クライアントのFenics追加
@@ -33,10 +66,6 @@
       diff = value - _model.getCache()[0].client_number
     , params
     ;
-
-    if ( diff <= 0 ) {
-      return;
-    }
 
     params = {
       data : {
@@ -59,6 +88,7 @@
     getCache  : $.proxy( _model.getCache, _model ),
     find      : $.proxy( _model.find, _model ),
     update    : $.proxy( _model.update, _model ),
+    validate  : validate,
     addMobile : addMobile
   };
 

@@ -27,9 +27,11 @@
         'city_cd'       : '.city_cd',
         'office_cd'     : '.office_cd'
      },
-     'fenics-list' : '.fenics-list'
+     'fenics-list' : '.fenics-list',
+     'alert' : '#modal-mobile-save-alert'
     }
   // private method
+  , _validate
   , _goEditMode
   , _goViewMode
   , _save
@@ -43,10 +45,33 @@
   , initModule
   ;
 
-
   /**
    * private method
    */
+
+  _validate = function ( list_key ) {
+
+    _.each( view.get('input'), function (val, key){
+      val.find('.item-value').removeClass('is-error');
+    });
+
+    if ( list_key.length !== 0 ) {
+
+      _.each( list_key, function ( v,k ) {
+        view.get('input__' + v )
+          .find('.item-value')
+          .addClass('is-error');
+      });
+
+      view.get('alert').get(0).showModal();
+
+      return true;
+
+    }
+
+    return false;
+
+  };
 
   /**
    * 編集モードへ移行
@@ -117,6 +142,12 @@
 
   _save = function () {
 
+    var errors = cms.model.userMobile.validate( getInfo() );
+
+    if ( _validate(errors) ) {
+      return;
+    }
+
     // update
     var promise = cms.model.userMobile.addMobile( getInfo().client_number );
 
@@ -135,8 +166,16 @@
   };
 
   _cancel = function () {
+
+    // エラー色を消す
+    _.each( view.get('input'), function (val, key){
+      val.find('.item-value').removeClass('is-error');
+    });
+
     cms.model.userMobile.getCache(setInfo);
+
     _goViewMode();
+
   };
 
   _increaseMobile = function () {
@@ -194,6 +233,12 @@
     view = new Controller('#usr-mobile-panel');
 
     view.wrap.append( customer.db.getHtml('template/user.mobile.html'));
+
+    util.alert({
+      selector : view.top,
+      id       : 'modal-mobile-save-alert',
+      msg      : '入力に誤りがあります'
+    });
 
     view.initElement( elements );
 
