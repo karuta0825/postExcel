@@ -28,20 +28,26 @@
         'office_cd'     : '.office_cd'
      },
      'fenics-list' : '.fenics-list',
-     'alert' : '#modal-mobile-save-alert'
+     'dialog' : {
+      'delete' : '#confirm-delete-mobile-fenics-accounts',
+      'error'  : '#modal-mobile-save-alert'
+     }
     }
   // private method
   , _validate
   , _goEditMode
   , _goViewMode
+  , _getSelectItem
   , _save
   , _cancel
+  , _delete
   , _increaseMobile
   , _decreaseMobile
   // public method
   , setInfo
   , getInfo
   , drawTable
+  , refresh
   , initModule
   ;
 
@@ -63,7 +69,7 @@
           .addClass('is-error');
       });
 
-      view.get('alert').get(0).showModal();
+      view.get('dialog__error').get(0).showModal();
 
       return true;
 
@@ -140,6 +146,26 @@
 
   };
 
+  /**
+   * チェックされたユーザを取得する
+   */
+  _getSelectItem = function () {
+
+    var ids = _.map( $('.is-selected', view.top ), function (val,key){
+      return { 'fenics_id' : $(val).attr('id') } ;
+    });
+
+    if ( ids.length === 0 ) {
+      alert('選択されていません');
+      return [];
+    }
+
+    return ids;
+
+  };
+
+
+
   _save = function () {
 
     var errors = cms.model.userMobile.validate( getInfo() );
@@ -162,6 +188,45 @@
 
     // 参照モードに戻す
     _goViewMode();
+
+  };
+
+  _delete = function () {
+
+    var
+      list_accounts           = _getSelectItem()
+    , kid                     = cms.model.userBaseInfo.getCache().kid
+    , number_accounts_now     = cms.model.userMobile.getCache()[0].client_number
+    , number_deleted_accounts
+    , diff
+    ;
+
+    if ( list_accounts && list_accounts.length > 0 ) {
+
+      number_deleted_accounts = list_accounts.length
+
+      // 差分がマイナスになる場合、0にする
+      diff = number_accounts_now - list_accounts.length;
+
+      diff = ( diff < 0 ) ? 0 : diff;
+
+      // 端末削除
+      cms.model.userNetwork.delete( list_accounts, function () {
+
+        // 端末台数の変更
+        cms.model.userMobile.update({
+            'kid'           : kid,
+            'client_number' : diff
+          }, function () {
+            refresh();
+        });
+
+      });
+
+      _goViewMode();
+
+    }
+
 
   };
 
@@ -228,6 +293,22 @@
 
   };
 
+  refresh = function () {
+
+    if ( cms.model.userNetwork.getCache().length > 0 ) {
+
+      var kid = cms.model.userBaseInfo.getCache().kid;
+
+      cms.model.userNetwork.fetch(kid);
+      cms.model.userMobile.fetch( kid, setInfo );
+
+      cms.model.userNetwork.find({is_mobile : 1}, drawTable);
+
+    }
+
+
+  };
+
   initModule = function () {
 
     view = new Controller('#usr-mobile-panel');
@@ -240,12 +321,20 @@
       msg      : '入力に誤りがあります'
     });
 
+    util.confirm({
+      selector : view.top,
+      id       : 'confirm-delete-mobile-fenics-accounts',
+      msg      : '選択したユーザを削除しますか？',
+      yes      : _delete
+    });
+
     view.initElement( elements );
 
     view.addListener({
       'click btn__edit'          : _goEditMode,
       'click btn__cancel'        : _cancel,
       'click btn__save'          : _save,
+      'click btn__delete'        : function () { view.get('dialog__delete').get(0).showModal()},
       'click deivice_btn__plus'  : _increaseMobile,
       'click deivice_btn__minus' : _decreaseMobile
     });
