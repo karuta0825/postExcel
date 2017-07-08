@@ -80,7 +80,7 @@
 
     // 画面入力制御
     _.each( view.get('input'), function ( v,k ) {
-      if ( k !== 'client_number' ) {
+      if ( k !== 'client_number' &&  k !== 'fenics_key' ) {
         v.find('.item-value').addClass('is-edit');
         v.find('.item-value').prop('disabled', false);
       }
@@ -106,7 +106,7 @@
 
     // 画面入力制御
     _.each( view.get('input'), function ( v,k ) {
-      if ( k !== 'client_number' ) {
+      if ( k !== 'client_number' ||  k !== 'fenics_key' ) {
         v.find('.item-value').removeClass('is-edit');
         v.find('.item-value').prop('disabled', true);
       }

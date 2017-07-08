@@ -9,7 +9,7 @@
       table : 'mobiles',
       tab_name : 'モバイル',
       item_name_map : {
-        'fenics_key'    : 'FENICSキー',
+        // 'fenics_key'    : 'FENICSキー',
         'client_number' : 'モバイル台数',
         'admin_id'      : '管理者ID',
         'admin_pw'      : '管理者パスワード',
@@ -19,7 +19,7 @@
     }
   , _model = new Model(config)
   , vl = new util.Validate({
-      'fenics_key'    : 'isAlphaNum',
+      // 'fenics_key'    : 'isAlphaNum',
       'client_number' : 'isNatural',
       'admin_id'      : 'isAlphaNum',
       'admin_pw'      : 'isAlphaNum',
@@ -66,6 +66,10 @@
       diff = value - _model.getCache()[0].client_number
     , params
     ;
+
+    if ( diff === 0 ) {
+      return;
+    }
 
     params = {
       data : {
