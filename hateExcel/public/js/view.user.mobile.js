@@ -118,7 +118,16 @@
   _save = function () {
 
     // update
+    var promise = cms.model.userMobile.addMobile( getInfo().client_number );
+
     cms.model.userMobile.update( getInfo(), setInfo );
+
+    // モバイル追加があったとき
+    if ( promise ) {
+      promise.then( function () {
+        cms.model.userNetwork.find( {is_mobile : 1}, drawTable );
+      });
+    }
 
     // 参照モードに戻す
     _goViewMode();
