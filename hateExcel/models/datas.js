@@ -586,7 +586,7 @@ datas.makeServiceList = flow.makeSyncLoop( makeService );
 
 datas.makeServerList = flow.makeSyncLoop( makeServer );
 
-datas.makeMobileUserList = flow.makeSyncLoop( makeMobileUser );
+datas.makeMobileList = flow.makeSyncLoop( makeMobileUser );
 
 /**
  * 空ユーザー作成関数
@@ -752,7 +752,7 @@ datas.getLicense = function ( kid, callback ) {
 //   console.log( result );
 // });
 
-// モバイルユーザー追加
+// モバイルユーザー追加用
 // datas.makeMobileUserList({kid:'KID98375', fenics_key : 'm4wlm' }, 3, function (err) {
 //   console.log('heelo');
 // });
