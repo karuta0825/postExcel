@@ -64,6 +64,7 @@
   , _setClientsSelectValue
   , _selectChoice
   , _getBusivInfo
+  , _changeClientId
   , makeClientSelectBox
   , clear
   , showBusiv
@@ -269,7 +270,7 @@
         return;
       }
 
-      cms.model.userBusiv.update( _getBusivInfo(), setBusivInfo ); 
+      cms.model.userBusiv.update( _getBusivInfo(), setBusivInfo );
 
     }
 
@@ -281,8 +282,16 @@
   };
 
   _cancel = function () {
+
+    // 画面制御
     _backMode();
+
+    // update候補の初期化
+    cms.model.userNetwork.clearUpdateInfo();
+
+    // 最新データの取得・再描画
     refresh();
+
   };
 
   _changeClientId = function ( evt ) {
@@ -292,9 +301,16 @@
     , value     = el.val()
     ;
 
-    // コレクションの値を書き換えるわけだ
-    cms.model.userNetwork.find({ 'fenics_id' : fenics_id })[0].start_on = value;
+    // update用に値を書き換える
+    if ( el.parent().hasClass('start_on') ) {
+      cms.model.userNetwork.find({ 'fenics_id' : fenics_id })[0].start_on = value;
+    }
 
+    if ( el.parent().hasClass('end_on') ) {
+      cms.model.userNetwork.find({ 'fenics_id' : fenics_id })[0].end_on = value;
+    }
+
+    // update候補に追加
     cms.model.userNetwork.changeUpdateInfo( fenics_id  );
 
   };

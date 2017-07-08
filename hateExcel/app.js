@@ -220,6 +220,17 @@ app.post('/addClient', function ( req, res ) {
 
 });
 
+app.post('/addMobileClient', function ( req, res ) {
+
+  var data = req.body.data;
+  data.create_user_id = req.session.uid;
+
+  datas.makeMobileList( data, data.number_client_added, function (err) {
+    res.json({'result' : 'ok'});
+  });
+
+});
+
 app.post('/makeUser', function ( req, res ) {
 
   var data = req.body.data;
@@ -351,12 +362,11 @@ app.post('/updateFenics', function (req, res) {
 
   for ( var i = 0; i < data.length; i++ ) {
 
-
     item.client_id = data[i].client_id || '';
 
-    if ( data[i].start_on ) {
-      item.start_on  = data[i].start_on
-    }
+    item.start_on = ( data[i].start_on ) ? data[i].start_on : null;
+
+    item.end_on = ( data[i].end_on ) ? data[i].end_on : null;
 
     condition = data[i].fenics_id;
 
@@ -364,7 +374,7 @@ app.post('/updateFenics', function (req, res) {
       // insert時のエラー処理
       if (err) {
         console.log(err);
-        res.json({ result : 'fail', err : err });
+        res.status(500).send({ error: err });
       }
       else {
         len += 1;

@@ -850,7 +850,8 @@
 ---------------------- */
 
 .fenics-section,
-.busiv-section {
+.busiv-section,
+.mobile-fenics {
   width : 85%;
   min-width: 705px;
   margin: 20px auto;
@@ -859,6 +860,11 @@
 .fenics-section .fenics-table {
   width : 100%;
 }
+
+/* -------------------
+   mobile tab
+---------------------- */
+
 
 
 

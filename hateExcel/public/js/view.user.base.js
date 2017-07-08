@@ -38,11 +38,13 @@
         'choice' : {
           'busiv'          : '.busiv',
           'fenics'         : '.univ',
+          'mobile'         : '.has_mobile'
         },
         'environment' : {
           'system_type'    : '.system_type',
           'version'        : '.version',
           'network'        : '.network',
+          'mobile'         : '.mobile'
         }
       },
       'customer' : {
@@ -68,6 +70,7 @@
   , _decreasePC
   , _increasePC
   , _selectNetwork
+  , _selectHasMobile
   , _hiddenItem
   , _goViewMode
   , _validate
@@ -92,6 +95,7 @@
     // 除外対象
     list_key = _.without( list_key, 'has_busiv');
     list_key = _.without( list_key, 'has_fenics');
+    list_key = _.without( list_key, 'has_mobile');
 
     if ( list_key.length !== 0 ) {
 
@@ -177,6 +181,10 @@
 
   };
 
+  /**
+   * 一連の更新内容をまとめる
+   * @param  {[type]} can_add_fenicsId
+   */
   _update = function ( can_add_fenicsId ) {
 
     if ( can_add_fenicsId ) {
@@ -193,9 +201,10 @@
 
     var
       error
-      // view情報が最新なのでから判断する
+      // view情報が最新なので判断する
     , has_busiv = getViewInfo('customer').has_busiv
     , has_fenics = getViewInfo('customer').has_fenics
+    , has_mobile = getViewInfo('customer').has_mobile
     ;
 
     // 拠点情報の入力チェック
@@ -230,6 +239,14 @@
       _update(false);
     }
 
+    // モバイル表示制御
+    if ( cms.model.userBaseInfo.getCache().has_mobile === 1 ) {
+      cms.view.editUsrs.showMobile();
+    }
+    else {
+      cms.view.editUsrs.hideMobile();
+    }
+
     // 画面制御
     _goViewMode();
 
@@ -257,6 +274,8 @@
 
     // セレクトボックス
     systemView.get('environment__network').addClass('is-edit');
+
+    systemView.get('environment__mobile').addClass('is-edit');
 
     // ボタン状態制御
     _.each( systemView.get('btn'), function (v,k) {
@@ -315,6 +334,15 @@
 
   };
 
+  _selectHasMobile = function ( event ) {
+
+    if ( $(event.target).parent('li').hasClass('is-edit') ) {
+
+      systemView.get('choice__mobile').toggleClass('choice--on');
+
+    }
+
+  }
 
   /**
    * 画面からデータ取得
@@ -350,7 +378,8 @@
       'tel'           : customerView.get('input__tel'       ).find('.item-value').val(),
       'fax'           : customerView.get('input__fax'       ).find('.item-value').val(),
       'has_busiv'     : systemView.get('choice__busiv').hasClass('choice--on') ? 1 :0 ,
-      'has_fenics'    : systemView.get('choice__fenics').hasClass('choice--on') ? 1 :0
+      'has_fenics'    : systemView.get('choice__fenics').hasClass('choice--on') ? 1 :0,
+      'has_mobile'    : systemView.get('choice__mobile').hasClass('choice--on') ? 1 : 0
     };
 
     if ( section === 'system' ) {
@@ -417,6 +446,13 @@
     }
     else {
       systemView.get('environment__network').find('.univ').removeClass('choice--on');
+    }
+
+    if ( data.has_mobile === 1 )  {
+      systemView.get('environment__mobile').find('.has_mobile').addClass('choice--on');
+    }
+    else {
+      systemView.get('environment__mobile').find('.has_mobile').removeClass('choice--on');
     }
 
 
@@ -561,7 +597,8 @@
      'click btn__minusClient'  : _decreaseClient,
      'click btn__plusPC'       : _increasePC,
      'click btn__minusPC'      : _decreasePC,
-     'click environment__network' : _selectNetwork
+     'click environment__network' : _selectNetwork,
+     'click environment__mobile' : _selectHasMobile
     });
 
   };
