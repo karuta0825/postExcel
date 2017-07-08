@@ -19,6 +19,7 @@
         'usr-client'  : 'a[href="#usr-client-panel"]',
         'usr-partner' : 'a[href="#usr-partner-panel"]',
         'usr-network' : 'a[href="#usr-network-panel"]',
+        'usr-mobile'  : 'a[href="#usr-mobile-panel"]',
         'usr-history' : 'a[href="#usr-history-panel"]'
       },
       'tab_panel' : {
@@ -27,6 +28,7 @@
         'usr-client'  : '#usr-client-panel',
         'usr-partner' : '#usr-partner-panel',
         'usr-network' : '#usr-network-panel',
+        'usr-mobile'  : '#usr-mobile-panel',
         'usr-history' : '#usr-history-panel',
       },
       'memo' : {
@@ -44,6 +46,8 @@
   , clearView
   , clearMemoFilter
   , initModule
+  , showMobile
+  , hideMobile
   ;
 
   _openMemoDialog = function () {
@@ -146,6 +150,14 @@
 
   };
 
+  showMobile = function () {
+    editView.get('tab_bar__usr-mobile').removeClass('is-hidden');
+  };
+
+  hideMobile = function () {
+    editView.get('tab_bar__usr-mobile').addClass('is-hidden');
+  };
+
   initModule = function () {
 
     // コンテンツの挿入
@@ -169,7 +181,9 @@
     initModule      : initModule,
     makeMemos       : makeMemos,
     clearView       : clearView,
-    clearMemoFilter : clearMemoFilter
+    clearMemoFilter : clearMemoFilter,
+    showMobile      : showMobile,
+    hideMobile      : hideMobile
   };
 
 }( jQuery, customer ));

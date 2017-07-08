@@ -1,0 +1,60 @@
+<div class='user-edit-header__action'>
+    <button class='btn btn--cancel mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect is-hidden' href='#edit-usr'>キャンセル</button>
+    <button class='btn btn--del mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect is-hidden' href='#edit-usr'>削除</button>
+    <button class='btn btn--save mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect is-hidden' href='#edit-usr'>保存</button>
+    <button class='btn btn--edit mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect' href='#edit-usr'>編集</button>
+    <button class='btn btn--download mdl-button mdl-js-button mdl-button--raised mdl-button--accent'>ダウンロード</button>
+</div>
+
+<!-- 基本情報 -->
+<div class='mobile-base-info'>
+
+  <ul class='user-list'>
+
+    <h6 class='user-list__section'>基本情報</h6>
+
+    <li class='user-list__item fenics_key'>
+      <span class='item-key'>fenicsキー</span>
+      <input class='item-value' type='text' value='' disabled='disabled'></input>
+    </li>
+
+    <li class='user-list__item client_number'>
+      <span class='item-key'>デバイス数</span>
+      <input class='item-value' type='text' value='' disabled='disabled'></input>
+      <div class='item-action'>
+        <button class='btn btn-minus-mobile is-hidden mdl-button mdl-js-button mdl-button--raised'>-</button>
+        <button class='btn btn-plus-mobile is-hidden mdl-button mdl-js-button mdl-button--raised mdl-button--colored'>+</button>
+      </div>
+    </li>
+
+    <li class='user-list__item admin_id'>
+      <span class='item-key'>管理者ID</span>
+      <input class='item-value' type='text' value='' disabled='disabled'></input>
+    </li>
+
+    <li class='user-list__item admin_pw'>
+      <span class='item-key'>管理者パスワード</span>
+      <input class='item-value' type='text' value='' disabled='disabled'></input>
+    </li>
+
+    <li class='user-list__item city_cd'>
+      <span class='item-key'>市町村コード</span>
+      <input class='item-value' type='text' value='' disabled='disabled'></input>
+    </li>
+
+    <li class='user-list__item office_cd'>
+      <span class='item-key'>事業者コード</span>
+      <input class='item-value' type='text' value='' disabled='disabled'></input>
+    </li>
+
+  </ul>
+
+
+</div>
+
+<!-- fenics情報 -->
+<div class='mobile-fenics'>
+  <h6 class='user-list__section'>Fenicsリスト</h6>
+  <div class='fenics-list'></div>
+</div>
+

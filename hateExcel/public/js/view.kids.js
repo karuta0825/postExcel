@@ -155,43 +155,53 @@
 
 
     // 基本情報タブ　システム情報描画
-    customer.model.userBaseInfo.fetch( kid,
-      customer.view.userBaseInfo.makeSystemInfo
+    cms.model.userBaseInfo.fetch( kid,
+      cms.view.userBaseInfo.makeSystemInfo
     );
 
     // 基本情報タブ　拠点情報作成描画
-    customer.model.userCustomer.fetch(kid,
+    cms.model.userCustomer.fetch(kid,
       cms.view.userBaseInfo.makeCustomerInfo
     );
 
     // ネットワークタブ描画
-    customer.model.userNetwork.fetch(kid,
-      customer.view.userNetwork.redrawTable
+    cms.model.userNetwork.fetch(kid,
+      cms.view.userNetwork.redrawTable
     );
 
     // クライアントテーブル描画
-    customer.model.clients.fetch(kid,
-      customer.view.userClient.redrawTable
+    cms.model.clients.fetch(kid,
+      cms.view.userClient.redrawTable
     );
 
     // サービステーブル描画
-    customer.model.userLicense.fetch( kid,
-      customer.view.userService.setViewInfo
+    cms.model.userLicense.fetch( kid,
+      cms.view.userService.setViewInfo
     );
 
     // パートナータブの描画
-    customer.model.userPartner.fetch( kid,
-      customer.view.userPartner.setInfo
+    cms.model.userPartner.fetch( kid,
+      cms.view.userPartner.setInfo
+    );
+
+    // モバイルタブの描画
+    cms.model.userMobile.fetch( kid,
+      cms.view.userMobile.setInfo
+    );
+
+    // モバイルfenicsテーブル描画
+    cms.model.userNetwork.find({is_mobile : 1},
+      cms.view.userMobile.drawTable
     );
 
     // 履歴タブの描画
-    customer.model.userHistory.fetch( kid,
-      customer.view.userHistory.drawTable
+    cms.model.userHistory.fetch( kid,
+      cms.view.userHistory.drawTable
     );
 
     // メモ一覧作成
-    customer.model.userMemo.fetch( kid,
-      customer.view.editUsrs.makeMemos
+    cms.model.userMemo.fetch( kid,
+      cms.view.editUsrs.makeMemos
     );
 
     // ビジV表示制御
@@ -203,6 +213,14 @@
       cms.model.userBusiv.fetch(kid,
         cms.view.userNetwork.setBusivInfo
       );
+    }
+
+    // モバイル表示制御
+    if ( cms.model.userBaseInfo.getCache().has_mobile === 1 ) {
+      cms.view.editUsrs.showMobile();
+    }
+    else {
+      cms.view.editUsrs.hideMobile();
     }
 
     $('.main-contents').removeClass('is-active');
