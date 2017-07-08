@@ -11,17 +11,17 @@ var http = require('http');
 var path = require('path');
 var datas = require('./models/datas');
 var _ = require('./public/js/lib/underscore');
-var log4js = require('log4js');
+// var log4js = require('log4js');
 
 var app = express();
 
-log4js.configure('log4js_config.json');
-var logger = {
-  // どこのファイルにログを出力するかを決めている
-  access  : log4js.getLogger('access'),
-  error   : log4js.getLogger('error'),
-  request : log4js.getLogger('request')
-};
+// log4js.configure('log4js_config.json');
+// var logger = {
+//   // どこのファイルにログを出力するかを決めている
+//   access  : log4js.getLogger('access'),
+//   error   : log4js.getLogger('error'),
+//   request : log4js.getLogger('request')
+// };
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -32,8 +32,8 @@ app.use(express.cookieParser());
 app.use(express.session({ secret: "password" }));
 
 app.use(express.favicon());
-app.use(log4js.connectLogger(logger['request'], { level :  log4js.levels.INFO} ));
-// app.use(express.logger('dev'));
+// app.use(log4js.connectLogger(logger['request'], { level :  log4js.levels.INFO} ));
+app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.bodyParser({uploadDir:'./uploads'}));
@@ -96,7 +96,7 @@ app.get('/', function ( req, res ) {
     return;
   }
   else {
-    logger['access'].info('Access uid is', req.session.uid );
+    // logger['access'].info('Access uid is', req.session.uid );
     res.render('index');
     return;
   }
@@ -342,7 +342,7 @@ app.post('/update', function ( req, res ) {
   datas.update( data, condition, table, function ( err ) {
     if  ( err ) {
       // res.json(err)
-      logger['error'].error("Something went wrong:", err );
+      // logger['error'].error("Something went wrong:", err );
       res.status(500).send({ error: err });
       return;
     }
