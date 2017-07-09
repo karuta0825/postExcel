@@ -13,7 +13,7 @@
 
   // to public
   cms.model.userHistory = {
-    fetch    : $.proxy( _model.fetch,    _model ),
+    fetch    : $.proxy( _model.fetchAsync,    _model ),
     getCache : $.proxy( _model.getCache, _model )
   };
 
