@@ -537,7 +537,8 @@
 
     if ( cms.model.userNetwork.getCache().length > 0 ) {
       var kid = cms.model.userNetwork.getCache()[0].kid;
-      cms.model.userNetwork.fetch( kid, redrawTable );
+      cms.model.userNetwork.fetch( kid );
+      cms.model.userNetwork.find({'is_mobile' : 0}, redrawTable);
     }
 
   };

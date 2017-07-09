@@ -165,7 +165,9 @@
     );
 
     // ネットワークタブ描画
-    cms.model.userNetwork.fetch(kid,
+    cms.model.userNetwork.fetch(kid);
+
+    cms.model.userNetwork.find({'is_mobile':0},
       cms.view.userNetwork.redrawTable
     );
 
