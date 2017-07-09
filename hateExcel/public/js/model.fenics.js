@@ -25,22 +25,15 @@
     })
   // public method
   , initModule
-  , validate
   , update
   ;
-
-  validate = function ( view_data ) {
-
-    return vl.validate( view_data );
-
-  };
 
   // 成功時と失敗時のコールバックを引数にすることで
   // viewの負担が減る
   update = function ( view_data, cb_success, cb_fail ) {
 
     var
-      errs = validate( view_data );
+      errs = vl.validate( view_data );
 
     if ( errs && errs.length > 0 ) {
       cb_fail( errs );
@@ -50,7 +43,7 @@
     cms.db.post('/isUniqueIp', { ip : view_data['fenics_ip']})
     .then( function (result) {
 
-      if ( result.length > 0 ) {
+      if ( result.length > 0 && result[0]['fenics_id'] !== view_data['fenics_id']) {
 
         cb_fail( ['fenics_ip'] );
 
@@ -81,7 +74,6 @@
   // to public
   cms.model.fenics = {
     initModule : initModule,
-    validate   : validate,
     update     : update,
     fetch      : $.proxy( _model.fetchAsync, _model),
     getCache   : $.proxy( _model.getCache, _model ),

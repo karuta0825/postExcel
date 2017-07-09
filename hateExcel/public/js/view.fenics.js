@@ -19,7 +19,8 @@
       'fenics-list' : '.fenics-list',
       'edit-icon'   : 'td.edit',
       'dialog'      : {
-        'edit'   : '#edit-fenics-item'
+        'edit'   : '#edit-fenics-item',
+        'error'  : '#dialog-fenics-edit-error'
       },
       'input'       : {
         'fenics_id' : '.fenics_id .input',
@@ -36,6 +37,7 @@
   , _cancel
   , _getSelectItem
   , _getViewInfo
+  , _download
   // public method
   , drawTable
   , initModule
@@ -51,6 +53,7 @@
       view.get('input__' + v ).addClass('is-error');
     });
 
+    view.get('dialog__error').get(0).showModal();
 
   };
 
@@ -133,6 +136,28 @@
 
   };
 
+  _download = function () {
+
+    var
+      ids      = _getSelectItem()
+    , filename = new moment().format('YYYYMMDD') + '_Fenics_List.csv'
+    , header   = 'no,kid,fenics_key,fenics_id,password,ip,開始日,終了日,モバイルフラグ,作成日'
+    , data     = customer.model.fenics.find( ids )
+    , Blob
+    ;
+
+    if ( ids.length === 0 ) {
+      alert('選択してください');
+      return;
+    }
+
+    Blob = util.convertMap2Blob( data, header );
+
+    // ダウンロード
+    util.downloadFile( this, Blob, filename );
+
+  };
+
 
   drawTable = function ( data ) {
 
@@ -159,15 +184,23 @@
 
     view.wrap.append( customer.db.getHtml('template/fenics.html'));
 
+    util.alert({
+      selector : view.top,
+      id       : 'dialog-fenics-edit-error',
+      msg      : '入力に誤りがあります'
+    });
+
     view.initElement( elements );
 
     cms.model.fenics.fetch( null, drawTable );
 
     view.addListener({
-      'click edit-icon'   : _edit,
-      'click btn__save'   : _save,
-      'click btn__cancel' : _cancel,
+      'click edit-icon'     : _edit,
+      'click btn__save'     : _save,
+      'click btn__cancel'   : _cancel,
+      'click btn__download' : _download
     });
+
   };
 
   // to public
