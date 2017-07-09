@@ -870,6 +870,36 @@
 /* -------------------
    fenics list
 ---------------------- */
+.fenics-wrap {
+  width: 50%;
+  margin: 20px auto;
+  min-width: 765px;
+  height: 100%;
+}
+
+.fenics-header {
+  position: fixed;
+  top: 0;
+  z-index: 100;
+  width: 50%;
+  height: 54px;
+  padding-top: 85px;
+  background: whitesmoke;
+}
+
+.fenics-action {
+  text-align: right;
+}
+
+.fenics-body {
+  margin-top: 75px;
+}
+
+.fenics-list .edit {
+  cursor: pointer;
+}
+
+/* 編集モーダル画面*/
 #edit-fenics-item {
   width: 50%;
 }
