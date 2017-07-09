@@ -75,7 +75,7 @@
 
   // to public
   cms.model.userPartner = {
-    fetch     : $.proxy( _model.fetch, _model ),
+    fetch     : $.proxy( _model.fetchAsync, _model ),
     getCache  : $.proxy( _model.getCache, _model ),
     update    : $.proxy( _model.update, _model),
     check     : validate,

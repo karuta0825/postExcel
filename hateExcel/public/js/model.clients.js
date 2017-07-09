@@ -169,7 +169,7 @@
 
   // to public
   cms.model.clients = {
-    fetch               : $.proxy( _model.fetch, _model ),
+    fetch               : $.proxy( _model.fetchAsync, _model ),
     getCache            : $.proxy( _model.getCache, _model),
     find                : $.proxy( _model.find, _model ),
     insert              : $.proxy( _model.insert, _model ),

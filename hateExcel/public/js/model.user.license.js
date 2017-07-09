@@ -80,7 +80,7 @@
 
   // to public
   cms.model.userLicense = {
-    fetch    : $.proxy( _model.fetch, _model ),
+    fetch    : $.proxy( _model.fetchAsync, _model ),
     find     : $.proxy( _model.find, _model ),
     getCache : $.proxy( _model.getCache, _model ),
     update   : $.proxy( _model.update, _model ),
