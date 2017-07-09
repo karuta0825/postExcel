@@ -881,9 +881,10 @@
   position: fixed;
   top: 0;
   z-index: 100;
-  width: 50%;
+  width: 773px;
   height: 54px;
   padding-top: 85px;
+  padding-right: 100%;
   background: whitesmoke;
 }
 
@@ -893,6 +894,10 @@
 
 .fenics-body {
   margin-top: 75px;
+}
+
+.fenics-body .fenics-list {
+  margin-bottom: 20px;
 }
 
 .fenics-list .edit {
