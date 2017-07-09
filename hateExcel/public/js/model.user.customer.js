@@ -15,8 +15,9 @@
         'owner'         : '担当者',
         'tel'           : '電話番号',
         'fax'           : 'FAX',
-        'has_busiv'     : 'ビジV',
-        'has_fenics'    : 'ユニバ'
+        'has_busiv'     : 'ビジV利用',
+        'has_fenics'    : 'ユニバ利用',
+        'has_mobile'    : 'モバイル利用'
       }
     }
   , _customerModel = new Model( config )
