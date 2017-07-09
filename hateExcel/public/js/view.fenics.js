@@ -9,51 +9,130 @@
     view
   , elements = {
       'btn' : {
-        'del' : '.btn--del',
         'download' : '.btn--download',
-        'save' : '.btn--save',
-        'cancel' : '.btn--cancel'
+        'save'     : '.btn--save',
+        'cancel'   : '.btn--cancel'
       },
-      'wrap'   : '.fenics-wrap',
-      'header' : '.fenics-header',
-      'action' : '.fenics-action',
+      'wrap'        : '.fenics-wrap',
+      'header'      : '.fenics-header',
+      'action'      : '.fenics-action',
       'fenics-list' : '.fenics-list',
-      'edit-icon' : 'td.edit',
-      'dialog' : {
-        'edit' : '#edit-fenics-item'
+      'edit-icon'   : 'td.edit',
+      'dialog'      : {
+        'edit'   : '#edit-fenics-item'
+      },
+      'input'       : {
+        'fenics_id' : '.fenics_id .input',
+        'password'  : '.password .input',
+        'fenics_ip' : '.fenics_ip .input',
+        'start_on'  : '.start_on .input',
+        'end_on'    : '.end_on .input'
       }
     }
   // private methos
+  , _showError
   , _edit
   , _save
   , _cancel
+  , _getSelectItem
+  , _getViewInfo
   // public method
   , drawTable
   , initModule
   ;
 
+  _showError = function ( err_keys ) {
+
+    _.each( view.get('input'), function (val, key){
+      val.find('.item-value').removeClass('is-error');
+    });
+
+    _.each( err_keys, function ( v,k ) {
+      view.get('input__' + v ).addClass('is-error');
+    });
+
+
+  };
+
   _edit = function () {
 
     // クリックした要素
-    console.log(this);
+    var
+      fenics_id = $(this).parents('tr').attr('id')
+    , item
+    ;
+
+    item = cms.model.fenics.find({ 'fenics_id' : fenics_id })[0];
+
+    // input type date用にフォーマット
+    item['start_on'] = moment(item['start_on']).format('YYYY-MM-DD');
+    item['end_on'] = moment(item['end_on']).format('YYYY-MM-DD');
+
+    _.each( view.get('input'), function (v,k) {
+      v.val( item[k] );
+    });
 
     // モーダル表示
     view.get('dialog__edit').get(0).showModal();
 
-
   };
 
+  /**
+   * 保存ボタン押下時の処理
+   */
   _save = function () {
 
-    view.get('dialog__edit').get(0).close();
+    // 更新
+    cms.model.fenics.update( _getViewInfo(), _cancel, _showError );
+
 
   };
 
+  /**
+   * キャンセルボタン押下時の処理
+   */
   _cancel = function () {
 
+    // エラーの初期化
+    _.each( view.get('input'), function (val, key){
+      val.removeClass('is-error');
+    });
+
     view.get('dialog__edit').get(0).close();
 
+    // 画面データ消去
+    _.each( view.get('input'), function (v,k) {
+      v.val('');
+    });
+
   };
+
+  /**
+   * チェックされている対象を取得する
+   * @return {Array} ids - fenicsIdのオブジェクト配列
+   */
+  _getSelectItem = function () {
+
+    var ids = _.map( $('.is-selected', view.top ), function (val,key){
+      return { 'fenics_id' : $(val).attr('id') } ;
+    });
+
+    return ids;
+
+  };
+
+  _getViewInfo = function () {
+
+    var result = {};
+
+    _.each( view.get('input'), function (v,k) {
+      result[k] = v.val();
+    });
+
+    return result;
+
+  };
+
 
   drawTable = function ( data ) {
 
@@ -82,21 +161,19 @@
 
     view.initElement( elements );
 
-    cms.db.post('/select', {'table' : 'all_fenics'} )
-    .then( function (result) {
-      drawTable(result);
-    });
+    cms.model.fenics.fetch( null, drawTable );
 
     view.addListener({
       'click edit-icon'   : _edit,
       'click btn__save'   : _save,
-      'click btn__cancel' : _cancel
+      'click btn__cancel' : _cancel,
     });
   };
 
   // to public
   cms.view.fenics = {
-    initModule : initModule
+    initModule : initModule,
+    drawTable  : drawTable
   };
 
 } ( jQuery, customer ));

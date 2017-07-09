@@ -372,6 +372,17 @@ app.post('/update', function ( req, res ) {
 
 });
 
+app.post('/isUniqueIp', function (req, res) {
+  var ip = req.body.ip;
+
+  console.log(ip);
+
+  datas.select( ip, 'is_unique_fenics_ip', function ( result ) {
+    res.json( result );
+  });
+
+});
+
 app.post('/updateFenics', function (req, res) {
   var
     data = req.body.data
@@ -382,11 +393,17 @@ app.post('/updateFenics', function (req, res) {
 
   for ( var i = 0; i < data.length; i++ ) {
 
+    console.log(data[i]);
+
     item.client_id = data[i].client_id || '';
 
     item.start_on = ( data[i].start_on ) ? data[i].start_on : null;
 
     item.end_on = ( data[i].end_on ) ? data[i].end_on : null;
+
+    if ( data[i].fenics_ip ) {
+      item.fenics_ip = inet_aton(data[i].fenics_ip);
+    }
 
     condition = data[i].fenics_id;
 
@@ -567,6 +584,16 @@ app.post('/m_server_add', function (req, res) {
 });
 
 
+function inet_aton(ip){
+    // split into octets
+    var a = ip.split('.');
+    var buffer = new ArrayBuffer(4);
+    var dv = new DataView(buffer);
+    for(var i = 0; i < 4; i++){
+        dv.setUint8(i, a[i]);
+    }
+    return(dv.getUint32(0));
+}
 
 // app.post('/updateColumns', function ( req, res ) {
 //   var data = req.body;

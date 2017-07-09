@@ -171,6 +171,33 @@
 
   };
 
+  Model.fn.fetchAsync = function ( kid, callback ) {
+
+    var
+      context = this
+    , promise
+    ;
+
+    promise = customer.db.post('/select', {
+      'condition' : [kid],
+      'table'     : this['config']['table']
+    });
+
+    if ( !promise ) {
+      throw Error('非同期処理できません');
+    }
+
+    return promise.then( function (result) {
+      context['_cache'] = result;
+
+      if ( typeof callback === 'function' ) {
+        callback( result );
+      }
+
+    });
+
+  };
+
 
   Model.fn.add = function ( item ) {
     this['_cache'].push(item);
