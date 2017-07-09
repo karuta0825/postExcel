@@ -240,7 +240,7 @@
     }
 
     // モバイル表示制御
-    if ( cms.model.userBaseInfo.getCache().has_mobile === 1 ) {
+    if ( has_mobile === 1 ) {
       cms.view.editUsrs.showMobile();
     }
     else {
