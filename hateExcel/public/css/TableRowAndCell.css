@@ -867,6 +867,32 @@
 
 
 
+/* -------------------
+   fenics list
+---------------------- */
+#edit-fenics-item {
+  width: 50%;
+}
+
+#edit-fenics-item .input-list {
+  list-style: none;
+  padding-left: 0px;
+}
+
+#edit-fenics-item li {
+  margin: 10px 0 0 10px;
+}
+
+#edit-fenics-item .input-name {
+  display: inline-block;
+  width:15%;
+  margin-right: 20px;
+}
+
+#edit-fenics-item .input {
+  width: 70%;
+}
+
 
 /* -------------------
    setting common
