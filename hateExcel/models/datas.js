@@ -193,6 +193,17 @@ var makeFenicsKey = function ( length ) {
 
 };
 
+var makeMobileAdminPw = function ( adminId ) {
+  var c = '1234567890';
+  var cl = c.length;
+  var r = '';
+
+  for(var i=0; i<2; i++){
+    r += c[Math.floor(Math.random()*cl)];
+  }
+  return adminId + r;
+};
+
 
 var findNewDbPass = function ( data, callback ) {
   var db_pass = 'U' + makeUserKey(6);
@@ -270,6 +281,28 @@ var findNewFenicsKey = function ( data, callback ) {
     }
   );
 };
+
+var findNewMobileFenicsKey = function ( data, callback ) {
+
+  var fenics_key = data || 'm4' + makeFenicsKey(3);
+
+  datas.select(
+    fenics_key,
+    'is_unique_fenicskey',
+    function ( result ) {
+      if ( result.length !== 0 ) {
+        console.log('not unique');
+        findNewMobileFenicsKey( null, callback );
+      }
+      else {
+        if ( typeof callback === 'function') {
+          callback( null, fenics_key );
+        }
+      }
+    }
+  );
+};
+
 
 var findEnvironmentId = function ( data, callback ) {
 
@@ -590,9 +623,13 @@ datas.makeMobileList = flow.makeSyncLoop( makeMobileUser );
 
 /**
  * 空ユーザー作成関数
- * @param  {[type]}   input_map
- * @param  {Function} callback
- * @return {[type]}
+ * @param  {Object}   input_map                - 入力引数
+ * @param  {String}   input_map.system_type    - オンプレ or クラウド
+ * @param  {String}   input_map.version        - LM or ES
+ * @param  {Number}   input_map.environment    - 環境ID
+ * @param  {String}   input_map.server         - サーバ名
+ * @param  {Number}   input_map.create_user_id - 作成ユーザーID
+ * @param  {Function} callback                 - 非同期処理終了後の実行関数
  */
 datas.makeUser = function ( input_map, callback ) {
   var set = {};
@@ -633,6 +670,50 @@ datas.makeUser = function ( input_map, callback ) {
       });
   });
 };
+
+/**
+ * 拠点追加メソッド
+ * 処理としては、ビジVとモバイルテーブルに初期データ追加
+ * @param  {Object}   input_map     - 入力引数
+ * @param  {Object}   input_map.kid - KID
+ * @param  {Function} callback      - 全ての処理終了時点で実行される関数
+ */
+datas.makeBase = function ( input_map, callback ) {
+
+  var info = {};
+
+  async.series([
+      function(callback) {
+        // ビジVに追加
+        datas.insert(input_map, 'make_busiv', callback )
+      },
+      function(callback) {
+        findNewMobileFenicsKey(null, callback);
+      }
+  ], function(err, results) {
+
+    if ( err ) {
+      console.log(err);
+      callback(err);
+      return;
+    }
+
+    info['kid'] = input_map.kid;
+    info['base_id'] = results[0].insertId;
+    info['fenics_key'] = results[1];
+    info['admin_id'] = results[1];
+    info['admin_pw'] = makeMobileAdminPw( results[1] );
+
+
+    // モバイルテーブルに追加
+    datas.insert(info, 'make_mobiles', function (err, result) {
+      callback(null);
+    })
+
+  });
+
+};
+
 
 datas.makeMemo = function ( input_map, callback ) {
 
@@ -756,5 +837,18 @@ datas.getLicense = function ( kid, callback ) {
 // datas.makeMobileUserList({kid:'KID98375', fenics_key : 'm4wlm' }, 3, function (err) {
 //   console.log('heelo');
 // });
+
+// ビジVテスト
+// datas.insert({ kid : 'KID77777' }, 'make_busiv', function (err, result) {
+//   console.log(result.insertId);
+//   console.log(result);
+// });
+
+// 拠点追加テスト
+// datas.makeBase({kid:'KID77777'}, function () {
+//     console.log('finish');
+// });
+
+
 
 

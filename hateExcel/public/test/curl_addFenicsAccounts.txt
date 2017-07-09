@@ -16,6 +16,8 @@ curl -b cookie -v -H "Accept: application/json" -H "Content-type: application/js
 # addClient cookie利用
 curl -b cookie -v -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"data":{"userkey":"MMMRG","kid":"KID00824","number_client_added":10}}' localhost:3000/addClient
 
+# 拠点追加
+curl -b cookie -v -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"kid" : "${i}"}' localhost:3000/addBase
 
-
-
+# 引っ越し用のsh
+for i in `cat kid_list.csv`; do echo 'curl -b cookie -v -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '"'{\"kid\" : \""${i}"\"}'"' localhost:3000/addBase'; done;

@@ -38,7 +38,7 @@ app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.bodyParser({uploadDir:'./uploads'}));
 app.use(express.methodOverride());
-app.use(app.router);  
+app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
 
@@ -240,7 +240,27 @@ app.post('/makeUser', function ( req, res ) {
   // urlからダイレクトにされたときのために入力チェックする
 
   datas.makeUser( data, function ( result ) {
-    res.json(result);
+
+    datas.makeBase({kid : result.kid}, function () {
+      res.json(result);
+    })
+
+  });
+
+});
+
+app.post('/addBase', function ( req, res ) {
+
+  var kid = req.body.kid;
+
+  datas.makeBase({kid:kid}, function (err) {
+    if ( err ) {
+      res.status(500).send({error : err});
+      return;
+    }
+
+    res.json({'result' : 'ok'});
+
   });
 
 });
