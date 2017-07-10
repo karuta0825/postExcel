@@ -68,6 +68,7 @@
 
       jqueryMap.btnBusiv  = filter.find('.btn--busiv');
       jqueryMap.btnUniv = filter.find('.btn--univ');
+      jqueryMap.btnBusivUniv = filter.find('.btn--busivUniv');
       jqueryMap.btnNetwork = filter.find('.network .filter-item__body');
 
       jqueryMap.btnMobileOn  = filter.find('.btn--mon');
@@ -130,19 +131,14 @@
   };
 
   _hideCol = function () {
-    jqueryMap.col['license'].addClass('is-hidden');
-    jqueryMap.col['system_type'].addClass('is-hidden');
-    jqueryMap.col['version'].addClass('is-hidden');
-    jqueryMap.col['has_mobile'].addClass('is-hidden');
-    jqueryMap.col['has_busiv'].addClass('is-hidden');
-    jqueryMap.col['has_fenics'].addClass('is-hidden');
+    jqueryMap.col['license'      ].addClass('is-hidden');
+    jqueryMap.col['system_type'  ].addClass('is-hidden');
+    jqueryMap.col['version'      ].addClass('is-hidden');
+    jqueryMap.col['has_mobile'   ].addClass('is-hidden');
+    jqueryMap.col['has_busiv'    ].addClass('is-hidden');
+    jqueryMap.col['has_fenics'   ].addClass('is-hidden');
     jqueryMap.col['is_registered'].addClass('is-hidden');
-    jqueryMap.col['register_on'].addClass('is-hidden');
-    jqueryMap.col['register_on'].addClass('is-hidden');
-    jqueryMap.col['register_on'].addClass('is-hidden');
-    jqueryMap.col['register_on'].addClass('is-hidden');
-    jqueryMap.col['register_on'].addClass('is-hidden');
-    jqueryMap.col['register_on'].addClass('is-hidden');
+    jqueryMap.col['register_on'  ].addClass('is-hidden');
     jqueryMap.col['sa_company'   ].addClass('is-hidden');
     jqueryMap.col['sa_name'      ].addClass('is-hidden');
     jqueryMap.col['sa_tel'       ].addClass('is-hidden');
@@ -378,29 +374,87 @@
 
   };
 
+  /**
+   * ネットワークのフィルター
+   * @param  {Event} event
+   * TODO: viewに仕事させすぎなのでモデルでできないか！
+   */
   _selectNetwork = function ( event ) {
 
     var list_class = $( event.target ).attr('class').split(' ');
 
     switch ( list_class[1] ) {
       case 'btn--busiv' :
+
         jqueryMap.btnBusiv.toggleClass('btn--on');
+        jqueryMap.btnBusivUniv.removeClass('btn--on');
+
         if ( jqueryMap.btnBusiv.hasClass('btn--on') ) {
-          customer.model.kids.setCondition( { 'has_busiv' : 1 }, regenerateTable );
+          cms.model.kids.setCondition( { 'has_busiv' : 1 } );
         }
         else {
-          customer.model.kids.setCondition( { 'has_busiv' : 0 }, regenerateTable );
+          cms.model.kids.setCondition( { 'has_busiv' : 0 } );
         }
+
+        if ( jqueryMap.btnUniv.hasClass('btn--on') ) {
+          cms.model.kids.setCondition( { 'has_fenics' : 1 } );
+        }
+        else {
+          cms.model.kids.setCondition( { 'has_fenics' : 0 } );
+        }
+
+        cms.model.kids.getCondition( regenerateTable );
+
         break;
       case 'btn--univ' :
         jqueryMap.btnUniv.toggleClass('btn--on');
-        if ( jqueryMap.btnUniv.hasClass('btn--on') ) {
-          customer.model.kids.setCondition( { 'has_fenics' : 1 }, regenerateTable );
+        jqueryMap.btnBusivUniv.removeClass('btn--on');
+
+        if ( jqueryMap.btnBusiv.hasClass('btn--on') ) {
+          cms.model.kids.setCondition( { 'has_busiv' : 1 } );
         }
         else {
-          customer.model.kids.setCondition( { 'has_fenics' : 0 }, regenerateTable );
+          cms.model.kids.setCondition( { 'has_busiv' : 0 } );
         }
+
+        if ( jqueryMap.btnUniv.hasClass('btn--on') ) {
+          cms.model.kids.setCondition( { 'has_fenics' : 1 } );
+        }
+        else {
+          cms.model.kids.setCondition( { 'has_fenics' : 0 } );
+        }
+
+        cms.model.kids.getCondition( regenerateTable );
+
         break;
+      case 'btn--busivUniv' :
+
+        if ( jqueryMap.btnBusivUniv.hasClass('btn--on') ) {
+
+          jqueryMap.btnBusivUniv.removeClass('btn--on');
+
+          if ( jqueryMap.btnBusiv.hasClass('btn--on') ) {
+            cms.model.kids.setCondition( { 'has_busiv' : 1 } );
+          }
+          else {
+            cms.model.kids.setCondition( { 'has_busiv' : 0 } );
+          }
+
+          if ( jqueryMap.btnUniv.hasClass('btn--on') ) {
+            cms.model.kids.setCondition( { 'has_fenics' : 1 } );
+          }
+          else {
+            cms.model.kids.setCondition( { 'has_fenics' : 0 } );
+          }
+
+          cms.model.kids.getCondition( regenerateTable );
+
+        }
+        else {
+          jqueryMap.btnBusivUniv.addClass('btn--on');
+          cms.model.kids.setCondition( { 'has_fenics' : 'all', 'has_busiv' : 'all' }, regenerateTable );
+        }
+        break
       default:
         break;
     }
