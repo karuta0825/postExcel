@@ -9,6 +9,8 @@
       'table' : 'memos'
     })
   , vl = new util.Validate({
+      'id'          : 'noCheck',
+      'kid'         : 'noCheck',
       'priority_id' : 'noCheck',
       'title'       : 'isEmpty',
       'message'     : 'isEmpty'
