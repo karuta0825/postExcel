@@ -64,7 +64,7 @@
 
   // to public
   cms.model.userCustomer = {
-    fetch    : $.proxy( _customerModel.fetch, _customerModel ),
+    fetch    : $.proxy( _customerModel.fetchAsync, _customerModel ),
     getCache : getCache,
     update   : update,
     register : $.proxy( _customerModel.initUpdate, _customerModel ),

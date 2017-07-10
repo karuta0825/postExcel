@@ -72,7 +72,7 @@
 
   // to public
   cms.model.userMemo = {
-    fetch    : $.proxy( _model.fetch, _model ),
+    fetch    : $.proxy( _model.fetchAsync, _model ),
     find     : $.proxy( _model.find, _model ),
     validate : validate,
     update   : update,
