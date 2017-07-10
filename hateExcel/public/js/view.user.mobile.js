@@ -9,15 +9,21 @@
     view
   , elements = {
      'btn' : {
-        'cancel'   : '.btn--cancel',
-        'delete'   : '.btn--del',
-        'save'     : '.btn--save',
-        'edit'     : '.btn--edit',
-        'download' : '.btn--download'
+        'cancel'        : '.btn--cancel',
+        'delete'        : '.btn--del',
+        'save'          : '.btn--save',
+        'edit'          : '.btn--edit',
+        'download'      : '.btn--download',
+        'close-dialog'  : '.btn--close',
+        'exec-download' : '.btn--exec'
      },
      'deivice_btn' : {
         'minus'     : '.btn-minus-mobile',
         'plus'      : '.btn-plus-mobile',
+     },
+     'download' : {
+        'csv' : '.download--mobile-fenics-csv',
+        'sh'  : '.download--mobile-sh'
      },
      'input' : {
         'fenics_key'    : '.fenics_key',
@@ -28,9 +34,11 @@
         'office_cd'     : '.office_cd'
      },
      'fenics-list' : '.fenics-list',
+     'checkbox' : '.mdl-checkbox',
      'dialog' : {
-      'delete' : '#confirm-delete-mobile-fenics-accounts',
-      'error'  : '#modal-mobile-save-alert'
+      'delete'   : '#confirm-delete-mobile-fenics-accounts',
+      'error'    : '#modal-mobile-save-alert',
+      'download' : '#dialog-mobile-download'
      }
     }
   // private method
@@ -41,6 +49,9 @@
   , _save
   , _cancel
   , _delete
+  , _execDownload
+  , _makeFenicsCSV
+  , _makeFenicsSh
   , _increaseMobile
   , _decreaseMobile
   // public method
@@ -165,7 +176,6 @@
   };
 
 
-
   _save = function () {
 
     var errors = cms.model.userMobile.validate( getInfo() );
@@ -230,6 +240,29 @@
 
   };
 
+  _execDownload = function () {
+
+    // ダウンロード
+    _.each( view.get('checkbox'), function ( val, key ) {
+      if( $(val).hasClass('is-checked') ) {
+        $(val).find('a')[0].click();
+      }
+    });
+
+    // チェックを外す
+    _.each( view.get('checkbox'), function ( val, key ) {
+      if ( $(val).hasClass('is-checked') ) {
+        $(val).trigger('click');
+      }
+    });
+
+    // ダイアログを閉じる
+    view.get('dialog__download').get(0).close();
+
+    // _goViewMode();
+
+  };
+
   _cancel = function () {
 
     // エラー色を消す
@@ -253,6 +286,51 @@
     if ( now > 0 ) {
       view.get('input__client_number').find('.item-value').val( now - 1 );
     }
+  };
+
+  _makeFenicsSh = function () {
+    var
+      kid       =  cms.model.userBaseInfo.getCache().kid
+    , file_name = new moment().format('YYYYMMDD') + '_' + kid + '_Mobile.sh'
+    , tmpl      = cms.db.getHtml('/template/mobile_sh.txt')
+    , complied  = _.template( tmpl )
+    , output
+    ;
+
+    output = new Blob( [tmpl], {'type' : 'text/plain'});
+
+    // modelからもらう
+    util.downloadFile( this, output, file_name );
+
+
+  };
+
+  _makeFenicsCSV = function () {
+
+    var
+      csv_header   = '"※update_flag[A:Add,M:modify,D:Delete] ",※Prefix,※user_label,init_password,id_group,access_control_group,start_date[ex.20091201],end_date[ex.20091231],comment1,comment2,comment3,"regist_terminal_flag[1:Pre-Reg,2:Auto-Reg,3:Approval]",card_line_no01[ex.09012345678],card_line_no02[ex.09012345678],card_line_no03[ex.09012345678],card_line_no04[ex.09012345678],card_line_no05[ex.09012345678],card_line_no06[ex.09012345678],card_line_no07[ex.09012345678],card_line_no08[ex.09012345678],card_line_no09[ex.09012345678],card_line_no10[ex.09012345678]'
+    , kid          =  cms.model.userBaseInfo.getCache().kid
+    , file_name    = new moment().format('YYYYMMDD') + '_' + kid + '_MobileFenicsAccount.csv'
+    , list_checked = _getSelectItem()
+    , downloadMap
+    , blob
+    ;
+
+    // 検索データがゼロのとき、処理終了
+    if ( list_checked.length < 1 ) {
+      return;
+    }
+
+    // 取得データからモデルにデータ検索
+    downloadMap = cms.model.userNetwork.makeAccountMapList( list_checked );
+
+    // データ作成
+    blob = util.convertMap2Blob( downloadMap, csv_header );
+
+    // ダウンロード
+    util.downloadFile( this, blob, file_name );
+
+
   };
 
   /**
@@ -334,7 +412,12 @@
       'click btn__edit'          : _goEditMode,
       'click btn__cancel'        : _cancel,
       'click btn__save'          : _save,
-      'click btn__delete'        : function () { view.get('dialog__delete').get(0).showModal()},
+      'click btn__delete'        : function () { view.get('dialog__delete').get(0).showModal() },
+      'click btn__download'      : function () { view.get('dialog__download').get(0).showModal() },
+      'click btn__close-dialog'  : function () { view.get('dialog__download').get(0).close(); },
+      'click btn__exec-download' : _execDownload,
+      'click download__csv'       : _makeFenicsCSV,
+      'click download__sh'       : _makeFenicsSh,
       'click deivice_btn__plus'  : _increaseMobile,
       'click deivice_btn__minus' : _decreaseMobile
     });

@@ -58,3 +58,31 @@
   <div class='fenics-list'></div>
 </div>
 
+
+<!-- ダウンロード用ダイアログ -->
+<dialog class="mdl-dialog" id="dialog-mobile-download">
+    <h5 class="mdl-dialog__title">ファイル選択</h5>
+    <div class="mdl-dialog__content">
+
+      <!-- fenicsアカウント作成 -->
+      <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-mobile-fenics-csv">
+        <input type="checkbox" id="checkbox-mobile-fenics-csv" class="mdl-checkbox__input">
+        <span class="mdl-checkbox__label">fenicsアカウント作成CSV</span>
+        <a class='download--mobile-fenics-csv is-hidden' href="#">ダウンロード</a>
+      </label>
+
+      <!-- sh作成 -->
+      <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-mobile-fenics-sh">
+        <input type="checkbox" id="checkbox-mobile-fenics-sh" class="mdl-checkbox__input">
+        <span class="mdl-checkbox__label">シェルスクリプト作成</span>
+        <a class='download--mobile-sh is-hidden' href="#">ダウンロード</a>
+      </label>
+
+
+    </div>
+    <div class="mdl-dialog__actions">
+        <button type="button" class="mdl-button btn--exec">実行</button>
+        <button type="button" class="mdl-button btn--close">閉じる</button>
+    </div>
+</dialog>
+
