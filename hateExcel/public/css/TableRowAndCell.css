@@ -881,15 +881,16 @@
   position: fixed;
   top: 0;
   z-index: 100;
-  width: 773px;
+  width: 800px;
   height: 54px;
-  padding-top: 85px;
-  padding-right: 100%;
+  padding-top: 77px;
   background: whitesmoke;
 }
 
 .fenics-action {
-  text-align: right;
+  width: 117px;
+  position: absolute;
+  right: 0;
 }
 
 .fenics-body {
