@@ -81,7 +81,12 @@
 
     return cms.db.post('/addMobileClient', params)
     .then( function () {
-      cms.model.userNetwork.fetch( _model.getCache()[0].kid );
+
+      cms.model.userNetwork.fetch( _model.getCache()[0].kid,
+      function () {
+        cms.model.userNetwork.find( {is_mobile : 1}, cms.view.userMobile.drawTable );
+      });
+
     });
 
   };

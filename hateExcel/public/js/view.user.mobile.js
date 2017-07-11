@@ -185,16 +185,9 @@
     }
 
     // update
-    var promise = cms.model.userMobile.addMobile( getInfo().client_number );
+    cms.model.userMobile.addMobile( getInfo().client_number );
 
     cms.model.userMobile.update( getInfo(), setInfo );
-
-    // モバイル追加があったとき
-    if ( promise ) {
-      promise.then( function () {
-        cms.model.userNetwork.find( {is_mobile : 1}, drawTable );
-      });
-    }
 
     // 参照モードに戻す
     _goViewMode();
@@ -292,12 +285,12 @@
     var
       kid       =  cms.model.userBaseInfo.getCache().kid
     , file_name = new moment().format('YYYYMMDD') + '_' + kid + '_Mobile.sh'
-    , tmpl      = cms.db.getHtml('/template/mobile_sh.txt')
+    , tmpl      = cms.db.getHtml('/template/outLicense.txt')
     , complied  = _.template( tmpl )
     , output
     ;
 
-    output = new Blob( [tmpl], {'type' : 'text/plain'});
+    output = new Blob( [complied({data:customer.model.userMobile.getCache()[0]})], {'type' : 'text/plain'});
 
     // modelからもらう
     util.downloadFile( this, output, file_name );
@@ -377,10 +370,11 @@
 
       var kid = cms.model.userBaseInfo.getCache().kid;
 
-      cms.model.userNetwork.fetch(kid);
-      cms.model.userMobile.fetch( kid, setInfo );
+      cms.model.userNetwork.fetch(kid, function () {
+        cms.model.userNetwork.find({is_mobile : 1}, drawTable);
+      });
 
-      cms.model.userNetwork.find({is_mobile : 1}, drawTable);
+      cms.model.userMobile.fetch( kid, setInfo );
 
     }
 
