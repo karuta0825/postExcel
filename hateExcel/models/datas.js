@@ -180,6 +180,7 @@ var makeUserKey = function ( length ) {
 };
 
 var makeFenicsKey = function ( length ) {
+
   var c = 'abcdefghijklmnopwrstrvwxyz';
   var l = length;
   var cl = c.length;
@@ -191,6 +192,12 @@ var makeFenicsKey = function ( length ) {
 
   return r;
 
+};
+
+var makeMoblieFenicsKey = function () {
+  var num = Math.floor( Math.random() * 9 + 1);
+
+  return 'm' + num + makeFenicsKey(3);
 };
 
 var makeMobileAdminPw = function ( adminId ) {
@@ -284,7 +291,7 @@ var findNewFenicsKey = function ( data, callback ) {
 
 var findNewMobileFenicsKey = function ( data, callback ) {
 
-  var fenics_key = data || 'm4' + makeFenicsKey(3);
+  var fenics_key = data || makeMoblieFenicsKey();
 
   datas.select(
     fenics_key,
@@ -353,7 +360,7 @@ var makeNewFenicsId = function ( data, callback ) {
     'find_last_fenics_id',
     function ( result ) {
       if ( result.length === 0 ) {
-        callback( null, data.fenics_key + '0001')
+        callback( null, data.fenics_key + '0001');
       }
       else {
         callback( null, getNextZeroPadData( result[0].fenics_id ) );
@@ -538,7 +545,7 @@ var makeNewMobileFenicsId = function ( data, callback ) {
       'find_last_mobile_fenics_id',
       function ( result ) {
         if ( result.length === 0 ) {
-          res( data.fenics_key + '01001' );
+          res( data.fenics_key + '001' );
         }
         else {
           res( getNextZeroPadData( result[0].fenics_id ) );
@@ -685,7 +692,7 @@ datas.makeBase = function ( input_map, callback ) {
   async.series([
       function(callback) {
         // ビジVに追加
-        datas.insert(input_map, 'make_busiv', callback )
+        datas.insert(input_map, 'make_busiv', callback );
       },
       function(callback) {
         findNewMobileFenicsKey(null, callback);
@@ -707,8 +714,9 @@ datas.makeBase = function ( input_map, callback ) {
 
     // モバイルテーブルに追加
     datas.insert(info, 'make_mobiles', function (err, result) {
+      console.log(err);
       callback(null);
-    })
+    });
 
   });
 
