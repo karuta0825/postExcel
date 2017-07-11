@@ -142,14 +142,15 @@
       ids      = _getSelectItem()
     , filename = new moment().format('YYYYMMDD') + '_Fenics_List.csv'
     , header   = 'no,kid,fenics_key,fenics_id,password,ip,開始日,終了日,モバイルフラグ,作成日'
-    , data     = customer.model.fenics.find( ids )
+    // , data     = customer.model.fenics.find( ids )
+    , data     = customer.model.fenics.getCache()
     , Blob
     ;
 
-    if ( ids.length === 0 ) {
-      alert('選択してください');
-      return;
-    }
+    // if ( ids.length === 0 ) {
+    //   alert('選択してください');
+    //   return;
+    // }
 
     Blob = util.convertMap2Blob( data, header );
 
