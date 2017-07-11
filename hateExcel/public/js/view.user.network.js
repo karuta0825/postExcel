@@ -122,6 +122,12 @@
       val.find('.item-value').prop('disabled', false);
     });
 
+    // buisvセレクトボックスの編集可能
+    networkView.get('busiv-section__input')['has_sx'].addClass('is-edit');
+    networkView.get('busiv-section__input')['has_L3'].addClass('is-edit');
+    networkView.get('busiv-section__input')['has_carte'].addClass('is-edit');
+    networkView.get('busiv-section__input')['has_cc'].addClass('is-edit');
+
   };
 
   /**
@@ -145,11 +151,11 @@
       val.find('.item-value').prop('disabled', true);
     });
 
-    // buisvセレクトボックスの編集可能
-    networkView.get('busiv-section__input')['has_sx'].addClass('is-edit');
-    networkView.get('busiv-section__input')['has_L3'].addClass('is-edit');
-    networkView.get('busiv-section__input')['has_carte'].addClass('is-edit');
-    networkView.get('busiv-section__input')['has_cc'].addClass('is-edit');
+    // buisvセレクトボックスの編集不可能
+    networkView.get('busiv-section__input')['has_sx'].removeClass('is-edit');
+    networkView.get('busiv-section__input')['has_L3'].removeClass('is-edit');
+    networkView.get('busiv-section__input')['has_carte'].removeClass('is-edit');
+    networkView.get('busiv-section__input')['has_cc'].removeClass('is-edit');
 
   };
 
@@ -331,22 +337,12 @@
   _selectChoice    = function () {
     var
       el_pushed = $(event.target)
-    , className = el_pushed.attr('class').split(' ')[1]
+    , className = el_pushed.attr('class').split(' ')[0]
     , yes = $( $(this).find('button').get(0) )
-    , no  = $( $(this).find('button').get(1) )
     ;
 
-    if ( el_pushed.parents('li').hasClass('is-edit') ) {
-
-      if ( className.match(/yes/) ) {
-        yes.addClass('choice--on');
-        no.removeClass('choice--on');
-      }
-      else {
-        no.addClass('choice--on');
-        yes.removeClass('choice--on');
-      }
-
+    if ( className === 'choice' && el_pushed.parents('li').hasClass('is-edit') ) {
+      yes.toggleClass('choice--on');
     }
 
   };
@@ -366,9 +362,7 @@
     _.each( list_choice, function (v,k) {
 
       if ( networkView.get('busiv-section__input')[v]
-      .find('.choice--on')
-      .attr('class').split(' ')[1]
-      .match(/yes/) ) {
+      .hasClass('.choice--on') ) {
         result[v] = 1
       }
       else {
@@ -419,56 +413,40 @@
     if ( data.has_sx === 1 ) {
       networkView.get('busiv-section__input__has_sx')
       .find('.yes_sx').addClass('choice--on');
-      networkView.get('busiv-section__input__has_sx')
-      .find('.no_sx').removeClass('choice--on');
     }
     else {
       networkView.get('busiv-section__input__has_sx')
       .find('.yes_sx').removeClass('choice--on');
-      networkView.get('busiv-section__input__has_sx')
-      .find('.no_sx').addClass('choice--on');
     }
 
     //　L3有無
     if ( data.has_L3 === 1) {
       networkView.get('busiv-section__input__has_L3')
       .find('.yes_L3').addClass('choice--on');
-      networkView.get('busiv-section__input__has_L3')
-      .find('.no_L3').removeClass('choice--on');
     }
     else {
       networkView.get('busiv-section__input__has_L3')
       .find('.yes_L3').removeClass('choice--on');
-      networkView.get('busiv-section__input__has_L3')
-      .find('.no_L3').addClass('choice--on');
     }
 
     // カルテ連携
     if ( data.has_carte === 1 ) {
       networkView.get('busiv-section__input__has_carte')
       .find('.yes_carte').addClass('choice--on');
-      networkView.get('busiv-section__input__has_carte')
-      .find('.no_carte').removeClass('choice--on');
     }
     else {
       networkView.get('busiv-section__input__has_carte')
       .find('.yes_carte').removeClass('choice--on');
-      networkView.get('busiv-section__input__has_carte')
-      .find('.no_carte').addClass('choice--on');
     }
 
     //　CC連携
     if ( data.has_cc === 1) {
       networkView.get('busiv-section__input__has_cc')
       .find('.yes_cc').addClass('choice--on');
-      networkView.get('busiv-section__input__has_cc')
-      .find('.no_cc').removeClass('choice--on');
     }
     else {
       networkView.get('busiv-section__input__has_cc')
       .find('.yes_cc').removeClass('choice--on');
-      networkView.get('busiv-section__input__has_cc')
-      .find('.no_cc').addClass('choice--on');
     }
 
   };
@@ -537,9 +515,12 @@
 
     if ( cms.model.userNetwork.getCache().length > 0 ) {
       var kid = cms.model.userNetwork.getCache()[0].kid;
-      cms.model.userNetwork.fetch( kid );
-      cms.model.userNetwork.find({'is_mobile' : 0}, redrawTable);
+      cms.model.userNetwork.fetch( kid , function () {
+        cms.model.userNetwork.find({'is_mobile' : 0}, redrawTable);
+      });
     }
+
+    cms.model.userBusiv.getCache( setBusivInfo );
 
   };
 
