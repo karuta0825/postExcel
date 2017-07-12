@@ -13,12 +13,13 @@
         'table'  : '.article-servers-table'
       },
       'notice' : {
-        'title' : '.article-notice .article__title',
-        'body'  : '.article-notice .article__body',
-        'list'  : '.article-notice__list',
-        'items' : '.article-notice__item--body',
-        'header' : '.article-notice__item--header',
-        'btnMore' : '.article__footer'
+        'title'   : '.article-notice .article__title',
+        'body'    : '.article-notice .article__body',
+        'list'    : '.article-notice__list',
+        'items'   : '.article-notice__item--body',
+        'header'  : '.article-notice__item--header',
+        'btnMore' : '.article__footer',
+        'filter'  : '.article-notice .filter'
       },
       'table' : {
         'title' : '.article-servers-table .article__title',
@@ -26,14 +27,39 @@
       }
     }
   // private
-  , _addNews
-  , getMoreHistory
+  , _filter
   // public
+  , getMoreHistory
   , hideFooter
   , initModule
   , refresh
   , drawNews
   ;
+
+  _filter = function () {
+
+    var condition = $(this).val();
+
+    switch ( condition ) {
+      case 'new' :
+        condition = '新規';
+      break
+      case 'add' :
+        condition = '追加';
+      break
+      case 'update' :
+        condition = '更新';
+      break
+      case 'delete' :
+        condition = '削除';
+      break
+      default :
+      break
+    }
+
+    cms.model.historys.find({ type : condition }, drawNews );
+
+  };
 
   drawNews = function ( data ) {
 
@@ -45,6 +71,8 @@
 
     homeView.get('notice__items').remove();
     homeView.get('notice__list').append( complied(data) );
+
+    homeView.updateElement({'notice__items' : '.article-notice__item--body'});
 
   };
 
@@ -79,7 +107,8 @@
     homeView.updateElement({ 'notice__items' : '.article-notice__item--body'});
 
     homeView.addListener({
-      'click notice__btnMore' : getMoreHistory
+      'click notice__btnMore' : getMoreHistory,
+      'change notice__filter' : _filter
     });
 
   };
