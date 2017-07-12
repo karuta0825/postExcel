@@ -33,6 +33,7 @@
         'city_cd'       : '.city_cd',
         'office_cd'     : '.office_cd'
      },
+     'site' : '.site .item-value',
      'fenics-list' : '.fenics-list',
      'checkbox' : '.mdl-checkbox',
      'dialog' : {
@@ -57,6 +58,7 @@
   // public method
   , setInfo
   , getInfo
+  , clear
   , drawTable
   , refresh
   , initModule
@@ -252,7 +254,6 @@
     // ダイアログを閉じる
     view.get('dialog__download').get(0).close();
 
-    // _goViewMode();
 
   };
 
@@ -326,6 +327,7 @@
 
   };
 
+
   /**
    * public method
    */
@@ -362,6 +364,8 @@
       v.find('.item-value').val( data[k] );
     });
 
+    view.get('site').text('http://192.168.1.1/' + data.fenics_key );
+
   };
 
   refresh = function () {
@@ -378,6 +382,19 @@
 
     }
 
+
+  };
+
+  /**
+   * 画面の情報を空っぽにする
+   */
+  clear = function () {
+
+    _.each( view.get('input'), function (v,k) {
+      v.find('.item-value').val('');
+    });
+
+    view.get('site').text('');
 
   };
 
@@ -423,6 +440,7 @@
     initModule : initModule,
     setInfo : setInfo,
     getInfo : getInfo,
+    clear   : clear,
     drawTable : drawTable
   };
 

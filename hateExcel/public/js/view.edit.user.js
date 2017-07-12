@@ -116,10 +116,11 @@
 
     // 各タブの初期化
     cms.view.userBaseInfo.clear();
-    cms.view.userPartner.clear();
     cms.view.userService.clear();
     cms.view.userClient.clear();
     cms.view.userNetwork.clear();
+    cms.view.userPartner.clear();
+    cms.view.userMobile.clear();
 
   };
 
