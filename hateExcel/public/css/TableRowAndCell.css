@@ -508,7 +508,7 @@
 /* メモリスト */
 .memos {
   width : 370px;
-  height: 97%;
+  height: 95%;
   margin: 20px 20px 20px 10px;
 }
 
@@ -540,7 +540,7 @@
 
 .memos__body {
   width: 98%;
-  height: 94.5%;
+  height: 96%;
 }
 
 .memo-list {
@@ -665,6 +665,7 @@
 
 .user-edit__container {
   width: 80%;
+  height : 95%;
   min-width: 760px;
   margin: 20px 20px 20px 30px;
 }
