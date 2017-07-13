@@ -8,19 +8,66 @@
   // member
     viewGraph
   , elements = {
+      'btn' : {
+        'prev' : '.btn--prev',
+        'next' : '.btn--next',
+        'this-month' : '.btn--this-month',
+        'download' : '.btn--download'
+      },
       'LM' : '.article__body .lm',
-      'ES' : '.article__body .es'
+      'ES' : '.article__body .es',
     }
   , timer = false
   , resize_chart = {}
   , resize_options = {}
   , resize_data = {}
+  // private method
+  , _next
+  , _prev
+  , _download
   // public method
   , initModule
   , draw
   , redraw
   ;
 
+  _next = function () {
+    cms.model.homeGraph.get('next', function () {
+      draw('LM');
+      draw('ES');
+    });
+  };
+
+  _prev = function () {
+    cms.model.homeGraph.get('prev', function () {
+      draw('LM');
+      draw('ES');
+    });
+  };
+
+  _thisMonth = function () {
+    cms.model.homeGraph.get('this_month', function () {
+      draw('LM');
+      draw('ES');
+    });
+  };
+
+  _download = function () {
+
+    var
+      file_name = new moment().format('YYYYMMDD') + '_addInfo.csv'
+    , downloadMap
+    , csv_header = ['月','ユーザ','クライアント','PC', 'バージョン']
+    , blob
+    ;
+
+    downloadMap = cms.model.homeGraph.getCache();
+
+    blob = util.convertMap2Blob( downloadMap, csv_header );
+
+    util.downloadFile( this, blob, file_name );
+
+  };
 
   draw = function (version) {
 
@@ -70,7 +117,6 @@
       draw('ES');
     });
 
-
     // windowリサイズ時にグラフ長さ調整
     $(window).resize(function() {
         if (timer !== false) {
@@ -83,6 +129,13 @@
         }, 200);
     });
 
+    viewGraph.addListener({
+      'click btn__prev' : _prev,
+      'click btn__next' : _next,
+      'click btn__this-month' : _thisMonth,
+      'click btn__download' : _download
+    });
+
   };
 
 
@@ -90,9 +143,7 @@
   cms.view.homeGraph = {
     initModule : initModule,
     empty : function () { viewGraph.get('lm').empty(); },
-    get : function () { resize_chart.draw(resize_data, resize_options); },
-    redraw : redraw
-
+    get : function () { resize_chart.draw(resize_data, resize_options); }
   };
 
 }( jQuery, customer ));
