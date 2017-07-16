@@ -30,10 +30,10 @@
         'event' : '#modal-event-item'
       },
       'event-input' : {
-        'title' : '#modal-event-item .event__title .title-value',
-        'date'  : '#modal-event-item .start-date .input',
-        'time'  : '#modal-event-item .start-time .input',
-        'msg'   : '#modal-event-item .content-value'
+        'title'    : '#modal-event-item .event__title .title-value',
+        'start_on' : '#modal-event-item .start-date .input',
+        'time'     : '#modal-event-item .start-time .input',
+        'msg'      : '#modal-event-item .content-value'
       }
     }
   , m = moment()
@@ -165,7 +165,7 @@
 
     var result = {
       'title'      : view.get('event-input__title').val(),
-      'start_on'   : view.get('event-input__date').val(),
+      'start_on'   : view.get('event-input__start_on').val(),
       'start_time' : view.get('event-input__time').val(),
       'message'    : view.get('event-input__msg').val()
     };
@@ -223,7 +223,7 @@
 
     // エラー場所の表示
     _.each( list, function ( v,k ) {
-      view.get(v).addClass('is-error');
+      view.get( 'event-input__' + v ).addClass('is-error');
     });
 
   };
@@ -237,10 +237,8 @@
 
   _save   = function () {
 
-    var data = _getEventModalInfo();
-
     cms.model.homeEvents.insert(
-      data,
+      _getEventModalInfo(),
       _successSave,
       _showError
     );

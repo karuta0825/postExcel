@@ -37,10 +37,11 @@
     "all_fenics"                      : "SELECT id, kid, fenics_key, fenics_id, `password`, inet_ntoa(fenics_ip) as fenics_ip, DATE_FORMAT( start_on, '%Y/%m/%d') as start_on, DATE_FORMAT( end_on, '%Y/%m/%d') as end_on, is_mobile, DATE_FORMAT( create_on, '%Y/%m/%d') as create_on FROM customer.fenics;",
     "is_unique_fenics_ip"             : "SELECT fenics_id from fenics where fenics_ip = INET_ATON(?);",
     "available_number_in_each_server" : "select GRP.server, GRP.pc_number, 80 - GRP.pc_number as available_number, S.version from (SELECT server, SUM(number_pc) as pc_number FROM kids K WHERE server != '' GROUP BY server) GRP left join servers S on GRP.server = S.name order by server;",
-    "get_add_info_in_each_month" : "select DATE_FORMAT(create_on, '%Y/%m') as month, ifnull(sum(case item_name when 'ユーザー作成' THEN val else null end ),0) as user, ifnull(sum(case item_name when 'クライアント数' THEN val else null end ),0) as client, ifnull(sum(case item_name when '端末台数' THEN val else null end ),0) as pc, version from (( SELECT 'ユーザー作成' AS item_name, 1 as val, create_on, E.version FROM kids K left join environments E on K.environment_id = E.id ) UNION ALL ( SELECT item_name, `after` - `before` AS diff, H.create_on, E.version FROM historys H LEFT JOIN kids K ON H.kid = K.kid LEFT JOIN environments E ON K.environment_id = E.id WHERE item_name = 'クライアント数' OR item_name = '端末台数' and `after` - `before` > 0 )) AS T GROUP BY DATE_FORMAT(create_on, '%Y/%m'), version;",
-    "get_add_info_in_three_month" : "select D.month, ifnull(user,0) as user, ifnull(client,0) as client, ifnull(pc,0) as pc, D.version from ( SELECT DATE_FORMAT(create_on, '%Y/%m') AS month, IFNULL(SUM(CASE item_name WHEN 'ユーザー作成' THEN val ELSE NULL END), 0) AS user, IFNULL(SUM(CASE item_name WHEN 'クライアント数' THEN val ELSE NULL END), 0) AS client, IFNULL(SUM(CASE item_name WHEN '端末台数' THEN val ELSE NULL END), 0) AS pc, version FROM ((SELECT 'ユーザー作成' AS item_name, 1 AS val, create_on, E.version FROM kids K LEFT JOIN environments E ON K.environment_id = E.id) UNION ALL (SELECT item_name, `after` - `before` AS diff, H.create_on, E.version FROM historys H LEFT JOIN kids K ON H.kid = K.kid LEFT JOIN environments E ON K.environment_id = E.id WHERE item_name = 'クライアント数' OR item_name = '端末台数' AND `after` - `before` > 0)) AS T GROUP BY DATE_FORMAT(create_on, '%Y/%m') ,version ) TMP right join ( select ? as month, 'ES' as version union all select ? , 'LM' union all select ?, 'ES' union all select ?, 'LM' union all select ?, 'ES' union all select ?, 'LM' ) D on TMP.month = D.month and TMP.version = D.version order by D.month",
-    "events" : "SELECT id, title, message, DATE_FORMAT(start_on, '%Y年%m月%d日') AS start_on_for_view, DATE_FORMAT(start_time, '%k時%i分') as start_time_for_view, DATE_FORMAT(start_on, '%Y-%m-%d') AS start_on, DATE_FORMAT(start_time, '%k:%i') as start_time FROM events;"
+    "get_add_info_in_each_month"      : "select DATE_FORMAT(create_on, '%Y/%m') as month, ifnull(sum(case item_name when 'ユーザー作成' THEN val else null end ),0) as user, ifnull(sum(case item_name when 'クライアント数' THEN val else null end ),0) as client, ifnull(sum(case item_name when '端末台数' THEN val else null end ),0) as pc, version from (( SELECT 'ユーザー作成' AS item_name, 1 as val, create_on, E.version FROM kids K left join environments E on K.environment_id = E.id ) UNION ALL ( SELECT item_name, `after` - `before` AS diff, H.create_on, E.version FROM historys H LEFT JOIN kids K ON H.kid = K.kid LEFT JOIN environments E ON K.environment_id = E.id WHERE item_name = 'クライアント数' OR item_name = '端末台数' and `after` - `before` > 0 )) AS T GROUP BY DATE_FORMAT(create_on, '%Y/%m'), version;",
+    "get_add_info_in_three_month"     : "select D.month, ifnull(user,0) as user, ifnull(client,0) as client, ifnull(pc,0) as pc, D.version from ( SELECT DATE_FORMAT(create_on, '%Y/%m') AS month, IFNULL(SUM(CASE item_name WHEN 'ユーザー作成' THEN val ELSE NULL END), 0) AS user, IFNULL(SUM(CASE item_name WHEN 'クライアント数' THEN val ELSE NULL END), 0) AS client, IFNULL(SUM(CASE item_name WHEN '端末台数' THEN val ELSE NULL END), 0) AS pc, version FROM ((SELECT 'ユーザー作成' AS item_name, 1 AS val, create_on, E.version FROM kids K LEFT JOIN environments E ON K.environment_id = E.id) UNION ALL (SELECT item_name, `after` - `before` AS diff, H.create_on, E.version FROM historys H LEFT JOIN kids K ON H.kid = K.kid LEFT JOIN environments E ON K.environment_id = E.id WHERE item_name = 'クライアント数' OR item_name = '端末台数' AND `after` - `before` > 0)) AS T GROUP BY DATE_FORMAT(create_on, '%Y/%m') ,version ) TMP right join ( select ? as month, 'ES' as version union all select ? , 'LM' union all select ?, 'ES' union all select ?, 'LM' union all select ?, 'ES' union all select ?, 'LM' ) D on TMP.month = D.month and TMP.version = D.version order by D.month",
+    "events"                          : "SELECT id, title, message, DATE_FORMAT(start_on, '%Y年%m月%d日') AS start_on_for_view, DATE_FORMAT(start_time, '%k時%i分') as start_time_for_view, DATE_FORMAT(start_on, '%Y-%m-%d') AS start_on, DATE_FORMAT(start_time, '%k:%i') as start_time FROM events;"
   },
+
   "update" : {
     "date"          : "UPDATE USERS SET updateDate = ? WHERE kid = ?",
     "client_number" : "UPDATE USERS SET client_number = ? WHERE kid = ?",
@@ -54,8 +55,9 @@
     "fenics"        : "UPDATE fenics SET ? WHERE fenics_id = ?;",
     "clients"       : "UPDATE clients SET ? WHERE client_id = ?;",
     "busivs"        : "UPDATE busivs SET ? WHERE ?;",
-    "mobiles"       : "UPDATE mobiles SET ? WHERE ?;"
-   },
+    "mobiles"       : "UPDATE mobiles SET ? WHERE ?;",
+    "events"        : "UPDATE events SET ? WHERE ?;"
+  },
 
   "insert" : {
     "historys"            : "INSERT INTO historys SET ?;",
@@ -69,7 +71,8 @@
     "make_login_account"  : "INSERT INTO login_users set ?",
     "add_base"            : "INSERT INTO customers set ?",
     "make_busiv"          : "INSERT INTO busivs set ?",
-    "make_mobiles"        : "INSERT INTO mobiles set ?"
+    "make_mobiles"        : "INSERT INTO mobiles set ?",
+    "events"              : "INSERT INTO events set ?;"
   },
 
   "delete" : {
@@ -78,6 +81,7 @@
     "fenics"   : "DELETE FROM fenics where ?;",
     "memos"    : "DELETE FROM memos where ?;",
     "services" : "DELETE FROM services where version = ?;",
-    "servers"  : "DELETE FROM servers where version = ?;"
+    "servers"  : "DELETE FROM servers where version = ?;",
+    "events"   : "DELETE FROM events where id = ?;"
   }
 }
