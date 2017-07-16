@@ -13,6 +13,8 @@ $(function(){
   customer.model.servers.initModule();
   customer.model.services.initModule();
   customer.model.historys.initModule();
+  customer.model.homeServerTable.initModule();
+  customer.model.homeGraph.initModule();
   customer.model.environments.initModule();
   customer.model.kids.initModule();
 

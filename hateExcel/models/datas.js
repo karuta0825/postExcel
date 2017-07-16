@@ -4,6 +4,7 @@ var
   database = require('./database'),
   querys   = require('./list_query'),
   flow     = require('./flow'),
+  moment   = require('../public/js/lib/moment.min'),
   db = database.createClient(),
   datas = exports
   ;
@@ -736,6 +737,32 @@ datas.makeMemo = function ( input_map, callback ) {
 
 };
 
+/**
+ * 指定された月から前3ヶ月分のデータを渡す
+ * @param  {String} month
+ * @return {Array}
+ */
+datas.getAddInfo = function ( month, callback ) {
+
+  var
+    index_month = moment(month)
+  , pre = index_month.add(-1, 'months').format('YYYY/MM')
+  , prepre = index_month.add(-1, 'months').format('YYYY/MM')
+  , list
+  ;
+
+    console.log( month );
+    console.log( pre );
+    console.log( prepre );
+
+  list = [ month, month, pre, pre, prepre, prepre ];
+
+  datas.select( list, 'get_add_info_in_three_month', function ( result ) {
+    console.log(result);
+    callback( result );
+  });
+
+};
 
 /**
  * KIDから使用ライセンスを取得

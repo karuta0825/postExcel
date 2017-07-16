@@ -24,7 +24,7 @@
 
       if ( val.type === '新規') {
         val.className = 'state state--primary'
-        val.msg = val.kid + 'の' + val.item_name + ':' + val.after
+        val.msg = val.kid + 'が作成されました';
       }
       else if ( val.type === '追加') {
         val.className = 'state state--info'

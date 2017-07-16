@@ -1,51 +1,173 @@
-<!-- お知らせ情報 -->
-<div class='article article-notice'>
-  <p class='article__title'>
-    <i class="material-icons">event_note</i>
-    <span class='icon-name-super'>お知らせ<span>
-  </p>
-  <div class='article__body mdl-card mdl-shadow--3dp'>
+<div class='home-wrapper'>
 
-    <ul class='article-notice__list'>
+  <!-- 左カラム -->
+  <div class='home-wrapper__left'>
+    <div class='article article-notice'>
+      <p class='article__title'>
+        <i class="material-icons">announcement</i>
+        <span class='icon-name-super'>お知らせ<span>
+      </p>
+      <div class='article__body mdl-card mdl-shadow--2dp'>
 
-      <li class='article-notice__item--header'>
-        <span class='state'>カテゴリ</span>
-        <span class='date'>日付</span>
-        <span class='user'>担当者</span>
-        <span class='msg'>内容</span>
-      </li>
+        <ul class='article-notice__list'>
 
-    </ul>
+          <li class='article-notice__item--header'>
+            <select type="button" class="mdl-chip filter">
+              <option value='all'>全て</option>
+              <option value='new'>新規</option>
+              <option value='add'>追加</option>
+              <option value='update'>更新</option>
+              <option value='delete'>削除</option>
+            </select>
+          </li>
 
-    <div class='article__footer'>
-      <span class='more-news'>もっと見る</span>
+        </ul>
+
+        <div class='article__footer'>
+          <span class='more-news'>もっと見る</span>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- 中央カラム -->
+  <div class='home-wrapper__center'>
+
+    <div class='article article-servers-table'>
+      <p class='article__title'>
+        <i class="material-icons">grid_on</i>
+        <span class='icon-name-super'>ユーザー収容表<span>
+      </p>
+
+      <div class='article__body mdl-card mdl-shadow--2dp'>
+        <div class='article__header'>
+
+          <div class='action'>
+            <select type="button" class="mdl-chip filter">
+              <option val='LM'>LM</option>
+              <option val='ES'>ES</option>
+            </select>
+          </div>
+
+        </div>
+
+      </div>
+
     </div>
 
   </div>
-</div>
 
-<div class='article article-servers-table'>
-  <p class='article__title'>
-    <i class="material-icons">grid_on</i>
-    <span class='icon-name-super'>ユーザー収容表<span>
-  </p>
-  <div class='article__body mdl-card mdl-shadow--3dp'>
-  <div class='article__header'>
-    <select>
-      <option val='LM'>LM</option>
-      <option val='ES'>ES</option>
-    </select>
+  <!-- 右カラム -->
+  <div class='home-wrapper__right'>
+
+    <!-- グラフ -->
+    <div class='article   article-graph'>
+      <p class='article__title'>
+        <i class="material-icons">equalizer</i>
+        <span class='icon-name-super'>ユーザー・クライアント追加<span>
+      </p>
+      <div class='article__body mdl-card mdl-shadow--2dp'>
+        <div class='action'>
+          <button class='btn mdl-button btn--prev'>
+            <i class="material-icons">keyboard_arrow_left</i>
+            前回
+          </button>
+          <button class='btn mdl-button btn--this-month'>今月</button>
+          <button class='btn mdl-button btn--next'>
+            次回
+            <i class="material-icons">keyboard_arrow_right</i>
+          </button>
+          <a class='btn mdl-button btn--download'>ダウンロード</a>
+        </div>
+        <div class='content'>
+          <div class='lm'></div>
+          <div class='es'></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- カレンダー・イベント -->
+    <div class='article article-calendar'>
+      <p class='article__title'>
+        <i class="material-icons">event_note</i>
+        <span class='icon-name-super'>イベント<span>
+      </p>
+      <div class='article__body mdl-card mdl-shadow--2dp'>
+        <div class='content'>
+          <div class='calendar'>
+
+            <div class='header'>
+              <button class='btn mdl-button btn--prev'>
+                <i class="material-icons">keyboard_arrow_left</i>
+              </button>
+              <span class='month'></span>
+              <button class='btn mdl-button btn--next'>
+                <i class="material-icons">keyboard_arrow_right</i>
+              </button>
+            </div>
+            <div class='body'></div>
+
+          </div>
+
+          <div class='events'>
+
+            <div class='header'>
+              <button class='btn mdl-button btn--make-event'>イベント作成</button>
+            </div>
+            <div class='body'>
+              <ul class='event-list'></ul>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <!-- イベント作成ダイアログ -->
+      <dialog class="mdl-dialog" id="modal-event-item">
+          <h5 class="mdl-dialog__title">イベント作成</h5>
+          <div class="mdl-dialog__content">
+
+            <!-- タイトル -->
+            <div class='event__title'>
+              <span class='name'>タイトル</span>
+              <input class='title-value' type='text' value=''></input>
+            </div>
+
+            <!-- 内容  -->
+            <div class='event__content'>
+
+              <!-- 開始日 -->
+              <div class='input-item start-date'>
+                <span class='item-name'>日付</span>
+                <input class='input' type='date'></input>
+              </div>
+
+              <!-- 開始時間 -->
+              <div class='input-item start-time'>
+                <span class='item-name'>時間</span>
+                <input class='input' type='time'></input>
+              </div>
+
+              <!-- 入力 -->
+              <textarea class='content-value' maxlength='300'></textarea>
+
+            </div>
+
+          </div>
+          <div class="mdl-dialog__actions">
+              <button type="button" class="mdl-button btn--update is-hidden">更新</button>
+              <button type="button" class="mdl-button btn--del is-hidden">削除</button>
+              <button type="button" class="mdl-button btn--save">保存</button>
+              <button type="button" class="mdl-button btn--cancel">キャンセル</button>
+          </div>
+
+      </dialog>
+
+    </div>
+
   </div>
 
 
-  <div>
-
 </div>
-
-<!-- グラフ -->
-<!-- <div class='article article-graph'>
-  <h4 class='article__title'>グラフ</h4>
-  <div class='article__body mdl-card mdl-shadow--3dp'>
-  </div>
-</div>
- -->

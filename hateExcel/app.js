@@ -125,6 +125,13 @@ app.post('/select', function ( req, res ) {
     return;
   }
 
+  if ( table === 'add_info' ) {
+    datas.getAddInfo( condition, function ( result ) {
+      res.json( result );
+    });
+    return;
+  }
+
   if ( condition ) {
     datas.select( condition, table, function ( results ) {
       res.json( results );

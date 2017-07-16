@@ -13,38 +13,47 @@
         'table'  : '.article-servers-table'
       },
       'notice' : {
-        'title' : '.article-notice .article__title',
-        'body'  : '.article-notice .article__body',
-        'list'  : '.article-notice__list',
-        'items' : '.article-notice__item--body',
-        'header' : '.article-notice__item--header',
-        'btnMore' : '.article__footer'
-      },
-      'table' : {
-        'title' : '.article-servers-table .article__title',
-        'body'  : '.article-servers-table .article__body'
+        'title'   : '.article-notice .article__title',
+        'body'    : '.article-notice .article__body',
+        'list'    : '.article-notice__list',
+        'items'   : '.article-notice__item--body',
+        'header'  : '.article-notice__item--header',
+        'btnMore' : '.article__footer',
+        'filter'  : '.article-notice .filter'
       }
     }
   // private
-  , _addNews
-  , _drawTable
-  , getMoreHistory
+  , _filter
   // public
+  , getMoreHistory
   , hideFooter
   , initModule
   , refresh
   , drawNews
   ;
 
-  _drawTable = function ( data ) {
+  _filter = function () {
 
-    var
-      data     = { list : data }
-    , tmpl     = customer.db.getHtml('template/home.serverTable.html')
-    , complied = _.template( tmpl )
-    ;
+    var condition = $(this).val();
 
-    homeView.get('table__body').append( complied(data) );
+    switch ( condition ) {
+      case 'new' :
+        condition = '新規';
+      break
+      case 'add' :
+        condition = '追加';
+      break
+      case 'update' :
+        condition = '更新';
+      break
+      case 'delete' :
+        condition = '削除';
+      break
+      default :
+      break
+    }
+
+    cms.model.historys.find({ type : condition }, drawNews );
 
   };
 
@@ -58,6 +67,8 @@
 
     homeView.get('notice__items').remove();
     homeView.get('notice__list').append( complied(data) );
+
+    homeView.updateElement({'notice__items' : '.article-notice__item--body'});
 
   };
 
@@ -89,14 +100,11 @@
 
     drawNews( customer.model.historys.getCache() );
 
-    _drawTable(
-      cms.db.select('/select', {'table' : 'available_number_in_each_server'})
-    );
-
     homeView.updateElement({ 'notice__items' : '.article-notice__item--body'});
 
     homeView.addListener({
-      'click notice__btnMore' : getMoreHistory
+      'click notice__btnMore' : getMoreHistory,
+      'change notice__filter' : _filter
     });
 
   };
