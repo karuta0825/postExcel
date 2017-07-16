@@ -179,7 +179,7 @@
     data = _.isArray(data) ? data[0] : data;
 
     view.get('event-input__title').val(data.title);
-    view.get('event-input__date').val(data.start_on);
+    view.get('event-input__start_on').val(data.start_on);
     view.get('event-input__time').val(data.start_time);
     view.get('event-input__msg').val(data.message);
 
@@ -231,6 +231,12 @@
   _successSave = function ( data ) {
 
     _drawEvents(data);
+
+    // ダイアログの初期化
+    _.each( view.get('event-input'), function (val, key){
+      val.removeClass('is-error');
+    });
+
     view.get('dialog__event').get(0).close();
 
   };
@@ -249,7 +255,7 @@
 
     // 入力データを初期化
     view.get('event-input__title').val('');
-    view.get('event-input__date').val('');
+    view.get('event-input__start_on').val('');
     view.get('event-input__time').val('');
     view.get('event-input__msg').val('');
 
