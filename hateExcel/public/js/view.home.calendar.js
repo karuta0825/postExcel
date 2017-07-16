@@ -28,6 +28,12 @@
       },
       'dialog' : {
         'event' : '#modal-event-item'
+      },
+      'event-input' : {
+        'title' : '#modal-event-item .event__title .title-value',
+        'date'  : '#modal-event-item .start-date .input',
+        'time'  : '#modal-event-item .start-time .input',
+        'msg'   : '#modal-event-item .content-value'
       }
     }
   , m = moment()
@@ -36,6 +42,14 @@
   , _getCalender
   , _drawCalendar
   , _drawEvents
+  , _getEventModalInfo
+  , _setEventInfo
+  , _clearEventView
+  , _selectEvent
+  , _save
+  , _cancel
+  , _update
+  , _delete
   // public method
   , initModule
   ;
@@ -85,6 +99,7 @@
     // 初期化
     view.get('calendar__body').empty();
 
+    // データ取得
     var tableMap = _getCalender(diff);
 
     var
@@ -93,7 +108,8 @@
     , td
     ;
 
-    for ( var i = 0; i <7 ; i++ ) {
+    // 曜日行を作成し、テーブルに追加
+    for ( var i = 0; i < 7 ; i++ ) {
       weekTr.append( $('<td>', {
         text : tableMap['weeks'][i],
         class : 'table-data-center'
@@ -102,6 +118,7 @@
 
     table.append(weekTr);
 
+    // 週ごとのデータを作成し、テーブルに追加
     for ( var i = 0; i < tableMap['number_line']; i++ ) {
       var tr = $('<tr>', { class : 'event-item'});
       for ( var j = 0; j < 7; j++ ) {
@@ -113,11 +130,11 @@
         }));
 
         table.append(tr);
-
       }
 
     }
 
+    // 表示
     view.get('calendar__month').text( tableMap['month'] );
     view.get('calendar__body').append( table );
 
@@ -142,6 +159,82 @@
 
   };
 
+  _getEventModalInfo = function () {
+
+    var result = {
+      'title'      : view.get('event-input__title').val(),
+      'start_on'   : view.get('event-input__date').val(),
+      'start_time' : view.get('event-input__time').val(),
+      'message'    : view.get('event-input__msg').val()
+    };
+
+    return result;
+
+  };
+
+  _setEventInfo = function ( data ) {
+
+    data = _.isArray(data) ? data[0] : data;
+
+    view.get('event-input__title').val(data.title);
+    view.get('event-input__date').val(data.start_on);
+    view.get('event-input__time').val(data.start_time);
+    view.get('event-input__msg').val(data.message);
+
+  };
+
+  _selectEvent = function ( e ) {
+
+    var
+      item = $(e.target)
+    , id
+    ;
+
+    if ( item.hasClass('start_on') || item.hasClass('title') ) {
+      item = item.parent();
+    }
+
+    if ( item.hasClass('event-list') ) {
+      return;
+    }
+
+    id = Number(item.attr('data-id')) ;
+
+    cms.model.homeEvents.find({'id' : id }, _setEventInfo );
+    view.get('dialog__event').get(0).showModal();
+
+  };
+
+  _save   = function () {
+
+
+    // ダイアログを閉じる
+    view.get('dialog__event').get(0).close();
+
+  };
+
+  _cancel = function () {
+
+    // 入力データを初期化
+    view.get('event-input__title').val('');
+    view.get('event-input__date').val('');
+    view.get('event-input__time').val('');
+    view.get('event-input__msg').val('');
+
+    // ダイアログを閉じる
+    view.get('dialog__event').get(0).close();
+
+  };
+
+  _update = function () {
+
+  };
+
+  _delete = function () {
+
+  };
+
+  // initialize method
   initModule = function () {
 
     view = new Controller('.article.article-calendar');
@@ -156,7 +249,8 @@
       'click btn__prev-month' : function () { _drawCalendar(-1) },
       'click btn__next-month' : function () { _drawCalendar(1) },
       'click btn__make-event' : function () { view.get('dialog__event').get(0).showModal(); },
-      'click btn__cancel' : function () { view.get('dialog__event').get(0).close(); }
+      'click btn__cancel' : _cancel,
+      'click events__list' : _selectEvent
     });
 
   };
@@ -164,7 +258,7 @@
   // to public
   cms.view.homeCalendar = {
     initModule : initModule,
-    get : _getCalender
+    get : _getEventModalInfo
   };
 
 } ( jQuery, customer ))

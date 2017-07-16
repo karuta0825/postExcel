@@ -113,7 +113,7 @@
           <div class='events'>
 
             <div class='header'>
-              <button class='btn mdl-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent btn--make-event'>イベント作成</button>
+              <button class='btn mdl-button btn--make-event'>イベント作成</button>
             </div>
             <div class='body'>
               <ul class='event-list'></ul>
@@ -130,14 +130,29 @@
           <div class="mdl-dialog__content">
 
             <!-- タイトル -->
-            <div class='memo__title'>
+            <div class='event__title'>
               <span class='name'>タイトル</span>
               <input class='title-value' type='text' value=''></input>
             </div>
 
             <!-- 内容  -->
-            <div class='memo__content'>
-              <textarea class='content-value'></textarea>
+            <div class='event__content'>
+
+              <!-- 開始日 -->
+              <div class='input-item start-date'>
+                <span class='item-name'>日付</span>
+                <input class='input' type='date'></input>
+              </div>
+
+              <!-- 開始時間 -->
+              <div class='input-item start-time'>
+                <span class='item-name'>時間</span>
+                <input class='input' type='time'></input>
+              </div>
+
+              <!-- 入力 -->
+              <textarea class='content-value' maxlength='300'></textarea>
+
             </div>
 
           </div>
