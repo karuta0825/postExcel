@@ -31,7 +31,7 @@
     </div>
   </div>
 
-  <!-- 右カラム -->
+  <!-- 中央カラム -->
   <div class='home-wrapper__center'>
 
     <div class='article article-servers-table'>
@@ -56,29 +56,28 @@
 
     </div>
 
-<!--     <div class='article article-graph'>
-      <p class='article__title'>
-        <i class="material-icons">equalizer</i>
-        <span class='icon-name-super'>ユーザー・クライアント追加<span>
-      </p>
-      <div class='article__body mdl-card mdl-shadow--3dp'>
-      </div>
-    </div>
+  </div>
 
- -->  </div>
-
+  <!-- 右カラム -->
   <div class='home-wrapper__right'>
 
-    <div class='article article-graph'>
+    <!-- グラフ -->
+    <div class='article   article-graph'>
       <p class='article__title'>
         <i class="material-icons">equalizer</i>
         <span class='icon-name-super'>ユーザー・クライアント追加<span>
       </p>
       <div class='article__body mdl-card mdl-shadow--2dp'>
         <div class='action'>
-          <button class='btn mdl-button btn--prev'>< 前回</button>
+          <button class='btn mdl-button btn--prev'>
+            <i class="material-icons">keyboard_arrow_left</i>
+            前回
+          </button>
           <button class='btn mdl-button btn--this-month'>今月</button>
-          <button class='btn mdl-button btn--next'>次回 ></button>
+          <button class='btn mdl-button btn--next'>
+            次回
+            <i class="material-icons">keyboard_arrow_right</i>
+          </button>
           <a class='btn mdl-button btn--download'>ダウンロード</a>
         </div>
         <div class='content'>
@@ -88,12 +87,28 @@
       </div>
     </div>
 
+    <!-- カレンダー・イベント -->
     <div class='article article-calendar'>
       <p class='article__title'>
         <i class="material-icons">event_note</i>
         <span class='icon-name-super'>イベント<span>
       </p>
       <div class='article__body mdl-card mdl-shadow--2dp'>
+        <div class='content'>
+          <div class='calendar'>
+            <div class='header'>
+            <button class='btn mdl-button btn--prev'>
+              <i class="material-icons">keyboard_arrow_left</i>
+            </button>
+            <span class='month'></span>
+            <button class='btn mdl-button btn--next'>
+              <i class="material-icons">keyboard_arrow_right</i>
+            </button>
+            </div>
+            <div class='body'></div>
+          </div>
+          <div class='events'></div>
+        </div>
       </div>
     </div>
 

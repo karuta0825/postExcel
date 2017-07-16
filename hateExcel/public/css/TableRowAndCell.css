@@ -384,6 +384,50 @@
   height: 48%;
 }
 
+.article-calendar .content {
+  display: -webkit-flex;
+  display : flex;
+  height: 100%;
+}
+
+.article-calendar .calendar {
+  width: 60%;
+  height: 100%;
+}
+
+.article-calendar .events {
+  width: 40%;
+  height: 100%;
+  background: blue;
+}
+
+.article-calendar .table-data-center {
+  text-align: center;
+}
+
+.calendar .header {
+  width: 65%;
+  margin: 25px auto;
+  text-align: center;
+}
+
+.calendar .header .month {
+  display: inline-block;
+  width: 30%;
+}
+
+.calendar .body {
+  height: 100%;
+  width: 100%;
+}
+
+.calendar-table {
+  width  : 65%;
+  height : 65%;
+  margin : 5px auto 0px auto;
+}
+
+
 .article__footer {
   margin-top: 10px;
   padding: 6px 0;
