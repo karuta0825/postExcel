@@ -10,19 +10,22 @@
   , elements = {
       'btn' : {
         'next-month' : '.btn--next',
-        'prev-month' : '.btn--prev'
+        'prev-month' : '.btn--prev',
+        'make-event' : '.events .btn--make-event'
       },
       'calendar' : {
         'self' : '.calendar',
         'body' : '.calendar .body',
         'month' : '.calendar .header .month'
       },
-      'events'   : '.events'
+      'events'   : {
+        'self' : '.calendar',
+        'list' : '.calendar .event-list'
+      }
     }
   , m = moment()
   , today = moment()
   // private method
-  , _isLeapYear
   , _getCalender
   , _drawCalendar
   // public method
@@ -60,7 +63,12 @@
       tableData[i+firstDay] = i + 1 ;
     }
 
-    return { number_line : TblLine, data : tableData, weeks : DAYS, month : m.format('YYYY年MM月') };
+    return { 
+      number_line : TblLine,
+      data        : tableData,
+      weeks       : DAYS,
+      month       : m.format('YYYY年MM月') 
+    };
 
   };
 
