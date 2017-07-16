@@ -46,6 +46,8 @@
   , _setEventInfo
   , _clearEventView
   , _selectEvent
+  , _showError
+  , _successSave
   , _save
   , _cancel
   , _update
@@ -200,16 +202,48 @@
 
     id = Number(item.attr('data-id')) ;
 
+    // 画面追加
     cms.model.homeEvents.find({'id' : id }, _setEventInfo );
+
+    // 表示制御
+    view.get('btn__save').addClass('is-hidden');
+    view.get('btn__del').removeClass('is-hidden');
+    view.get('btn__update').removeClass('is-hidden');
+
     view.get('dialog__event').get(0).showModal();
+
+  };
+
+  _showError = function ( list ) {
+
+    // 初期化
+    _.each( view.get('event-input'), function (val, key){
+      val.removeClass('is-error');
+    });
+
+    // エラー場所の表示
+    _.each( list, function ( v,k ) {
+      view.get(v).addClass('is-error');
+    });
+
+  };
+
+  _successSave = function ( data ) {
+
+    _drawEvents(data);
+    view.get('dialog__event').get(0).close();
 
   };
 
   _save   = function () {
 
+    var data = _getEventModalInfo();
 
-    // ダイアログを閉じる
-    view.get('dialog__event').get(0).close();
+    cms.model.homeEvents.insert(
+      data,
+      _successSave,
+      _showError
+    );
 
   };
 
@@ -228,9 +262,17 @@
 
   _update = function () {
 
+    // idとデータを取得
+    // cms.model.homeEvents.updaet( data, _drawEvents );
+    view.get('dialog__event').get(0).close();
+
   };
 
   _delete = function () {
+
+    // idを取得
+    // cms.model.homeEvents.remove( id, _drawEvents );
+    view.get('dialog__event').get(0).close();
 
   };
 
@@ -249,8 +291,9 @@
       'click btn__prev-month' : function () { _drawCalendar(-1) },
       'click btn__next-month' : function () { _drawCalendar(1) },
       'click btn__make-event' : function () { view.get('dialog__event').get(0).showModal(); },
-      'click btn__cancel' : _cancel,
-      'click events__list' : _selectEvent
+      'click btn__cancel'     : _cancel,
+      'click events__list'    : _selectEvent,
+      'click btn__save'       : _save
     });
 
   };
