@@ -28,6 +28,7 @@
   // private method
   , _getCalender
   , _drawCalendar
+  , _drawEvents
   // public method
   , initModule
   ;
@@ -123,6 +124,10 @@
     view.get('calendar__body').append( table );
 
 
+  };
+
+  _drawEvents = function () {
+    cms.model.homeEvents.fetch()
   };
 
   initModule = function () {
