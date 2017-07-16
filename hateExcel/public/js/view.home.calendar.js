@@ -89,11 +89,24 @@
     for ( var i = 0; i < tableMap['number_line']; i++ ) {
       var tr = $('<tr>');
       for ( var j = 0; j < 7; j++ ) {
-        tr.append( $('<td>', {
-          text : tableMap['data'][j+(i*7)],
-          class : 'table-data-center'
-        }));
-        table.append(tr);
+
+        if ( tableMap['month'] === today.format('YYYY年MM月') &&
+             tableMap['data'][j+(i*7)] === today.date()
+        ) {
+          tr.append( $('<td>', {
+            text : today.date(),
+            class : 'table-data-center today'
+          }));
+          table.append(tr);
+        }
+        else {
+          tr.append( $('<td>', {
+            text : tableMap['data'][j+(i*7)],
+            class : 'table-data-center'
+          }));
+          table.append(tr);
+        }
+
       }
 
     }
