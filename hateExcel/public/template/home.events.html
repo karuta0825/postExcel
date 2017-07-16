@@ -1,0 +1,8 @@
+<% _.each( list, function ( val, key ) { %>
+
+  <li data-id='<%- val.id %>'>
+    <span class='start_on'> <%- val.start_on %> </span>
+    <span class='title'> <%- val.title %> </span>
+  </li>
+
+<% }); %>

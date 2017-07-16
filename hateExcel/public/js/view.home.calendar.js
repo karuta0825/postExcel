@@ -11,7 +11,11 @@
       'btn' : {
         'next-month' : '.btn--next',
         'prev-month' : '.btn--prev',
-        'make-event' : '.events .btn--make-event'
+        'make-event' : '.events .btn--make-event',
+        'cancel'     : '.btn--cancel',
+        'del'        : '.btn--del',
+        'save'       : '.btn--save',
+        'update'     : '.btn--update'
       },
       'calendar' : {
         'self' : '.calendar',
@@ -19,8 +23,11 @@
         'month' : '.calendar .header .month'
       },
       'events'   : {
-        'self' : '.calendar',
-        'list' : '.calendar .event-list'
+        'self' : '.events',
+        'list' : '.events .event-list'
+      },
+      'dialog' : {
+        'event' : '#modal-event-item'
       }
     }
   , m = moment()
@@ -64,11 +71,11 @@
       tableData[i+firstDay] = i + 1 ;
     }
 
-    return { 
+    return {
       number_line : TblLine,
       data        : tableData,
       weeks       : DAYS,
-      month       : m.format('YYYY年MM月') 
+      month       : m.format('YYYY年MM月')
     };
 
   };
@@ -96,25 +103,16 @@
     table.append(weekTr);
 
     for ( var i = 0; i < tableMap['number_line']; i++ ) {
-      var tr = $('<tr>');
+      var tr = $('<tr>', { class : 'event-item'});
       for ( var j = 0; j < 7; j++ ) {
 
-        if ( tableMap['month'] === today.format('YYYY年MM月') &&
-             tableMap['data'][j+(i*7)] === today.date()
-        ) {
-          tr.append( $('<td>', {
-            text : today.date(),
-            class : 'table-data-center today'
-          }));
-          table.append(tr);
-        }
-        else {
-          tr.append( $('<td>', {
-            text : tableMap['data'][j+(i*7)],
-            class : 'table-data-center'
-          }));
-          table.append(tr);
-        }
+        tr.append( $('<td>', {
+          'text'    : tableMap['data'][j+(i*7)],
+          'class'   : 'table-data-center',
+          'data-on' : tableMap['data'][j+(i*7)]
+        }));
+
+        table.append(tr);
 
       }
 
@@ -123,11 +121,25 @@
     view.get('calendar__month').text( tableMap['month'] );
     view.get('calendar__body').append( table );
 
+    // 今日日付に強調デザイン
+    if ( tableMap['month'] === today.format('YYYY年MM月') ) {
+      view.get('calendar__body').find('[data-on="' + today.date() + '"]').addClass('today');
+    }
+
 
   };
 
-  _drawEvents = function () {
-    cms.model.homeEvents.fetch()
+  _drawEvents = function ( data ) {
+
+    var
+      data     = { list : data }
+    , tmpl     = customer.db.getHtml('template/home.events.html')
+    , complied = _.template( tmpl )
+    ;
+
+    view.get('events__list').empty();
+    view.get('events__list').append( complied(data) );
+
   };
 
   initModule = function () {
@@ -138,9 +150,13 @@
 
     _drawCalendar();
 
+    cms.model.homeEvents.fetch( null, _drawEvents );
+
     view.addListener({
       'click btn__prev-month' : function () { _drawCalendar(-1) },
-      'click btn__next-month' : function () { _drawCalendar(1) }
+      'click btn__next-month' : function () { _drawCalendar(1) },
+      'click btn__make-event' : function () { view.get('dialog__event').get(0).showModal(); },
+      'click btn__cancel' : function () { view.get('dialog__event').get(0).close(); }
     });
 
   };
