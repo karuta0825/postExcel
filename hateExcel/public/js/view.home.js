@@ -81,6 +81,8 @@
       hideFooter();
     }
 
+    homeView.get('notice__filter').val('all');
+
   };
 
   hideFooter = function () {
