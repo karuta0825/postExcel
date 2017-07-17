@@ -751,14 +751,9 @@ datas.getAddInfo = function ( month, callback ) {
   , list
   ;
 
-    console.log( month );
-    console.log( pre );
-    console.log( prepre );
-
   list = [ month, month, pre, pre, prepre, prepre ];
 
   datas.select( list, 'get_add_info_in_three_month', function ( result ) {
-    console.log(result);
     callback( result );
   });
 
