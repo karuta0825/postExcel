@@ -4,21 +4,6 @@ SELECT
     GRP.pc_number,
     S.capacity - GRP.pc_number AS available_number,
     S.version
-<<<<<<< HEAD
-from 
-(SELECT 
-    K.server, 
-    count(CLI.kid) as pc_number
-FROM
-    clients CLI
-left join kids K 
-on CLI.kid = K.kid
-WHERE
-    CLI.is_admin = 0
-GROUP BY server) GRP
-left join servers S on GRP.server = S.name
-order by server;
-=======
 FROM
     (SELECT 
         server, SUM(number_pc) AS pc_number
@@ -48,4 +33,3 @@ FROM
         kids K
     RIGHT JOIN servers S ON S.name = K.server
     GROUP BY version) GRP ON WEB.version = GRP.version;
->>>>>>> add-graph

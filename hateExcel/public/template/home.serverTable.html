@@ -17,7 +17,11 @@
         <td class='pc_number'>
           <%- item.pc_number %>
         </td>
-        <td class='available_number'>
+        <% if ( item.available_number < 0 ) { %>
+          <td class='available_number is-over'>
+        <% } else { %>
+          <td class='available_number'>
+        <% }  %>
           <%- item.available_number %>
         </td>
       </tr>

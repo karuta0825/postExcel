@@ -87,3 +87,9 @@ tbody, input {
   border: 1px solid #ff4081 !important;
   background: #ffeaf1 !important;
 }
+
+.is-over {
+  background : #ff5b94 !important;
+  color : white !important;
+  font-weight: 600 !important;
+}
