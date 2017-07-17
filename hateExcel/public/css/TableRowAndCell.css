@@ -442,6 +442,10 @@
   margin : 0px auto 0px auto;
 }
 
+.calendar-table .is-event {
+  color : #ffb600;
+}
+
 .calendar-table .today {
   color : #ff5b94;
 }

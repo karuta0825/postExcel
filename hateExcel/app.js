@@ -176,12 +176,12 @@ app.post('/columns', function ( req, res ) {
 
 });
 
-
 app.post('/insert', function ( req, res ) {
   //post送信で渡ってきたデータ
   var
     data = req.body.data
   , table = req.body.table
+  , idx = 0
   ;
 
   // dataがArrayであることが前提だね
@@ -194,14 +194,24 @@ app.post('/insert', function ( req, res ) {
         // insert時のエラー処理
         if (err) {
           console.log(err);
-          res.status( 500 ).send( err.message );
+          res.status( 500 ).send( {error : err} );
           return;
+        }
+
+        idx++;
+        console.log('idx increment');
+        console.log(idx);
+
+        console.log( idx === data.length );
+
+        if ( idx === data.length ) {
+          console.log('end');
+          res.json({'result' : 'ok'});
         }
 
       });
     }
   }
-  res.status(200).send('ok');
 
 });
 
@@ -567,13 +577,12 @@ app.post('/m_server_add', function (req, res) {
   var
     data = req.body.data
   , table = req.body.table
+  , idx = 0
   ;
 
   // dataがArrayであることが前提だね
   if ( Object.prototype.toString.call( data ) === '[object Array]' ) {
     for ( var i = 0; i < data.length; i+= 1 ) {
-
-      // data[i].environment_id = ?して追加させる。
 
       datas.insert( data[i], table, function ( err ) {
         // insert時のエラー処理
@@ -583,10 +592,16 @@ app.post('/m_server_add', function (req, res) {
           return;
         }
 
+        idx++;
+
+        if ( idx === data.length ) {
+          console.log('end');
+          res.json({'result' : 'ok'});
+        }
+
       });
     }
   }
-  res.status(200).send('ok');
 
 });
 

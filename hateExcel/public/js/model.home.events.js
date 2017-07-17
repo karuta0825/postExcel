@@ -23,33 +23,52 @@
 
   insert = function ( data, cb_success, cb_fail ) {
 
-    var errors = vl.validate( data );
+    var
+      errors = vl.validate( data )
+    , params = {
+        table : 'events',
+        data  : [data]
+      }
+    ;
 
     if ( errors.length > 0 ) {
       cb_fail(errors);
       return;
     }
 
-    // cms.db.insert('/insert', params, function () {
-    // _model.fetch(null, cb_success )
-    // });
+    cms.db.post('/insert', params )
+    .then( function () {
+      console.log('callback')
+      _model.fetch(null, cb_success );
+    });
 
   };
 
-  update = function ( data, callback ) {
+  update = function ( data, cb_success, cb_fail ) {
 
-    var clone = _.clone( data );
+    var
+      clone = _.clone( data )
+    , params
+    , errors
+    ;
 
     delete clone.id;
 
-    var param = {
+    errors = vl.validate( clone );
+
+    if ( errors.length > 0 ) {
+      cb_fail( errors );
+      return;
+    }
+
+    param = {
       data      : clone,
       condition : { id : data.id },
       table     : 'events'
     };
 
     cms.db.update('/update', param, function () {
-      _model.fetch( null, callback );
+      _model.fetch( null, cb_success );
     });
 
 

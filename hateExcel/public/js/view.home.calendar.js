@@ -27,7 +27,9 @@
         'list' : '.events .event-list'
       },
       'dialog' : {
-        'event' : '#modal-event-item'
+        'event'   : '#modal-event-item',
+        'confirm' : '#modal-delete-event',
+        'alert'   : '#modal-alert-event'
       },
       'event-input' : {
         'title'    : '#modal-event-item .event__title .title-value',
@@ -38,6 +40,7 @@
     }
   , m = moment()
   , today = moment()
+  , select_id
   // private method
   , _getCalender
   , _drawCalendar
@@ -45,6 +48,7 @@
   , _getEventModalInfo
   , _setEventInfo
   , _clearEventView
+  , _moveMonth
   , _selectEvent
   , _showError
   , _successSave
@@ -95,6 +99,14 @@
     };
 
   };
+
+  _moveMonth = function ( diff ) {
+
+    _drawCalendar( diff );
+
+    cms.model.homeEvents.fetch( m.format('YYYY-MM'), _drawEvents );
+
+  }
 
   _drawCalendar = function ( diff ) {
 
@@ -159,6 +171,12 @@
     view.get('events__list').empty();
     view.get('events__list').append( complied(data) );
 
+    _.each( data['list'], function ( v,k ) {
+      view.get('calendar__body')
+      .find('[data-on="' + v.date + '"]')
+      .addClass('is-event');
+    });
+
   };
 
   _getEventModalInfo = function () {
@@ -187,10 +205,7 @@
 
   _selectEvent = function ( e ) {
 
-    var
-      item = $(e.target)
-    , id
-    ;
+    var item = $(e.target);
 
     if ( item.hasClass('start_on') || item.hasClass('title') ) {
       item = item.parent();
@@ -200,10 +215,10 @@
       return;
     }
 
-    id = Number(item.attr('data-id')) ;
+    select_id = Number(item.attr('data-id')) ;
 
     // 画面追加
-    cms.model.homeEvents.find({'id' : id }, _setEventInfo );
+    cms.model.homeEvents.find({'id' : select_id }, _setEventInfo );
 
     // 表示制御
     view.get('btn__save').addClass('is-hidden');
@@ -225,6 +240,9 @@
     _.each( list, function ( v,k ) {
       view.get( 'event-input__' + v ).addClass('is-error');
     });
+
+    // ダイアログの表示
+    view.get('dialog__alert').get(0).showModal();
 
   };
 
@@ -259,6 +277,16 @@
     view.get('event-input__time').val('');
     view.get('event-input__msg').val('');
 
+    // エラー状態の初期化
+    _.each( view.get('event-input'), function (val, key){
+      val.removeClass('is-error');
+    });
+
+    // 表示制御
+    view.get('btn__save').removeClass('is-hidden');
+    view.get('btn__del').addClass('is-hidden');
+    view.get('btn__update').addClass('is-hidden');
+
     // ダイアログを閉じる
     view.get('dialog__event').get(0).close();
 
@@ -267,16 +295,17 @@
   _update = function () {
 
     // idとデータを取得
-    // cms.model.homeEvents.updaet( data, _drawEvents );
-    view.get('dialog__event').get(0).close();
+    var data = _getEventModalInfo();
+
+    data['id'] = select_id;
+
+    cms.model.homeEvents.update( data, _successSave, _showError );
 
   };
 
   _delete = function () {
 
-    // idを取得
-    // cms.model.homeEvents.remove( id, _drawEvents );
-    view.get('dialog__event').get(0).close();
+    cms.model.homeEvents.remove( select_id, _successSave );
 
   };
 
@@ -285,19 +314,34 @@
 
     view = new Controller('.article.article-calendar');
 
+    util.confirm({
+      selector : view.top,
+      id       : 'modal-delete-event',
+      msg      : 'イベントを削除しますか？',
+      yes      : _delete
+    });
+
+    util.alert({
+      selector : view.top,
+      id       : 'modal-alert-event',
+      msg      : '入力に誤りがあります'
+    });
+
     view.initElement(elements);
 
     _drawCalendar();
 
-    cms.model.homeEvents.fetch( null, _drawEvents );
+    cms.model.homeEvents.fetch( m.format('YYYY-MM'), _drawEvents );
 
     view.addListener({
-      'click btn__prev-month' : function () { _drawCalendar(-1) },
-      'click btn__next-month' : function () { _drawCalendar(1) },
+      'click btn__prev-month' : function () { _moveMonth(-1) },
+      'click btn__next-month' : function () { _moveMonth(1) },
       'click btn__make-event' : function () { view.get('dialog__event').get(0).showModal(); },
+      'click btn__del'        : function () { view.get('dialog__confirm').get(0).showModal(); },
       'click btn__cancel'     : _cancel,
       'click events__list'    : _selectEvent,
-      'click btn__save'       : _save
+      'click btn__save'       : _save,
+      'click btn__update'     : _update
     });
 
   };
