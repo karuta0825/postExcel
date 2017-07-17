@@ -93,3 +93,7 @@ tbody, input {
   color : white !important;
   font-weight: 600 !important;
 }
+
+.mdl-layout__content .material-icons {
+  font-size: 1em;
+}
