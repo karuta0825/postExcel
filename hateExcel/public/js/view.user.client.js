@@ -245,13 +245,13 @@
     var list_clients = _getSelectItem();
 
     if ( list_clients && list_clients.length > 0 ) {
-      console.log(list_clients);
       customer.model.clients.delete( list_clients, function () {
         // 画面更新
         cms.view.kids.refresh();
         cms.view.home.refresh();
         cms.view.userBaseInfo.refresh();
         refresh();
+        _backMode();
       } );
     }
 
