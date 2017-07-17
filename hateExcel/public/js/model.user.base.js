@@ -87,6 +87,26 @@
       cms.model.clients.fetch( _cache['kid'], cms.view.userClient.redrawTable );
     });
 
+    var history_info = {
+      kid          : _cache['kid'],
+      type         : '更新',
+      content_name : '基本情報',
+      item_name    : 'クライアント数',
+      before       : _cache['client_number'],
+      after        : view_client_number
+    };
+
+    customer.db.post('/insert', {
+      data  : [history_info],
+      table : 'historys'
+    })
+    .then( function () {
+      customer.model.userHistory.fetch( _cache['kid'],
+        customer.view.userHistory.drawTable
+      );
+    });
+
+
   };
 
   /**

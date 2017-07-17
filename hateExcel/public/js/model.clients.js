@@ -17,6 +17,7 @@
   , changeUpdateInfo
   , clearUpdateInfo
   , update
+  , remove
   , makeOpenNotice
   , makeBatInfo
   ;
@@ -47,6 +48,35 @@
 
     cms.db.update('/updateClient', params, function () {
       _model.fetch( kid, cms.view.userClient.redrawTable );
+    });
+
+  };
+
+  remove = function ( data, callback ) {
+
+    var
+      base = cms.model.userBaseInfo.getCache()
+    , history_info = {
+        kid          : base['kid'],
+        type         : '削除',
+        content_name : '基本情報',
+        item_name    : 'クライアント数',
+        before       : base['client_number'],
+        after        : base['client_number'] - data.length
+      }
+    ;
+
+    customer.db.post('/insert', {
+      data  : [history_info],
+      table : 'historys'
+    })
+    .then( function () {
+      customer.model.userHistory.fetch( base['kid'],
+        customer.view.userHistory.drawTable
+      );
+    })
+    .then( function () {
+      _model.delete( data, callback );
     });
 
   };
@@ -173,8 +203,7 @@
     getCache            : $.proxy( _model.getCache, _model),
     find                : $.proxy( _model.find, _model ),
     insert              : $.proxy( _model.insert, _model ),
-    delete              : $.proxy( _model.delete, _model ),
-    tmp                 : _makeOpenNoticeMapList,
+    delete              : remove,
     changeUpdateInfo    : changeUpdateInfo,
     clearUpdateInfo     : clearUpdateInfo,
     update              : update,
