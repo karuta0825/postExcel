@@ -19,7 +19,6 @@
   , _selectSystem
   , _selectVertion
   , _selectNetwork
-  , _selectServer
   , _selectMobileAvailable
   , _getSelectItem
   , _deleteUser
@@ -28,6 +27,7 @@
   , drawTable
   , redrawTable
   , regenerateTable
+  , selectServer
   , refresh
   ;
 
@@ -329,7 +329,7 @@
         jqueryMap.btnESLM.removeClass('btn--on');
         customer.model.kids.setCondition( {'version' : 'ES', 'server' : 'all' }, regenerateTable );
         // 選択サーバ変更
-        _selectServer('ES');
+        selectServer('ES');
         break;
       case 'btn--LM' :
         jqueryMap.btnES.removeClass('btn--on');
@@ -337,7 +337,7 @@
         jqueryMap.btnESLM.removeClass('btn--on');
         customer.model.kids.setCondition( { 'version' : 'LM', 'server' : 'all' }, regenerateTable );
         // 選択サーバ変更
-        _selectServer('LM');
+        selectServer('LM');
         break;
       case 'btn--ESLM' :
         jqueryMap.btnES.removeClass('btn--on');
@@ -345,7 +345,7 @@
         jqueryMap.btnESLM.addClass('btn--on');
         customer.model.kids.setCondition( { 'version' : 'all', 'server' : 'all'}, regenerateTable );
         //
-        _selectServer('all');
+        selectServer('all');
         break;
       default:
         break;
@@ -469,7 +469,7 @@
 
   };
 
-  _selectServer = function ( version ) {
+  selectServer = function ( version ) {
 
     var filtered = customer.model.servers.find({ 'version' : version, type : 'AP' });
     var select =  util.addOption( filtered, $('.select-servers') );
@@ -587,7 +587,7 @@
     drawTable();
 
     // サーバー選択肢作成
-    _selectServer( 'all' );
+    selectServer( 'all' );
 
     // ヘッダークリック
     jqueryMap.header.on( 'click', _onClickColumn );
@@ -619,6 +619,7 @@
     redrawTable     : redrawTable,
     regenerateTable : regenerateTable,
     refresh         : refresh,
+    selectServer    : selectServer,
     get             : _getSelectItem
   };
 

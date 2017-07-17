@@ -17,6 +17,7 @@
       ip         : 'isIp_f',
       connect_db : 'noCheck',
       version    : 'noCheck',
+      capacity   : 'noCheck',
       environment_id : 'noCheck'
     })
   , initModule
@@ -143,15 +144,14 @@
       });
     }
 
-    console.log(params);
-
-    cms.db.insert('/master', params, function ( result ) {
-      console.log(result);
+    cms.db.post('/master', params )
+    .then( function () {
+      _model.fetch();
+      // ユーザ一覧のサーバー選択肢を更新
+      cms.view.kids.selectServer('all');
     });
 
   };
-
-
 
 
   /* to public */
