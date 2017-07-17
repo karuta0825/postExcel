@@ -250,18 +250,14 @@
 
     _drawEvents(data);
 
-    // ダイアログの初期化
-    _.each( view.get('event-input'), function (val, key){
-      val.removeClass('is-error');
-    });
-
-    view.get('dialog__event').get(0).close();
+    _cancel();
 
   };
 
   _save   = function () {
 
     cms.model.homeEvents.insert(
+      m.format('YYYY-MM'),
       _getEventModalInfo(),
       _successSave,
       _showError

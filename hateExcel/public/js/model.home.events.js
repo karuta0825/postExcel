@@ -21,7 +21,7 @@
   , remove
   ;
 
-  insert = function ( data, cb_success, cb_fail ) {
+  insert = function ( month, data, cb_success, cb_fail ) {
 
     var
       errors = vl.validate( data )
@@ -38,8 +38,7 @@
 
     cms.db.post('/insert', params )
     .then( function () {
-      console.log('callback')
-      _model.fetch(null, cb_success );
+      _model.fetch( month , cb_success );
     });
 
   };
