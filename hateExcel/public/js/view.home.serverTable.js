@@ -12,8 +12,7 @@
       'select' : '.article__header select',
       'table' : {
         'title' : '.article-servers-table .article__title',
-        'body'  : '.article-servers-table .article__body',
-        'self'  : '.servers-table'
+        'body'  : '.article-servers-table .servers-table-wrap'
       }
     }
   // private
@@ -31,15 +30,12 @@
     , complied = _.template( tmpl )
     ;
 
+    homeView.get('table__body').empty();
     homeView.get('table__body').append( complied(data) );
-
-    homeView.updateElement({'table__self' : '.servers-table'});
 
   };
 
   changeView = function ( version ) {
-
-    homeView.get('table__self').remove();
 
     cms.model.homeServerTable.find({'version' : version}, drawTable);
 
@@ -51,7 +47,6 @@
     homeView.initElement( elements );
 
     cms.model.homeServerTable.find({'version' : 'LM'}, drawTable);
-
 
     homeView.get('select').change(function (e) {
       changeView( $(this).val() );
