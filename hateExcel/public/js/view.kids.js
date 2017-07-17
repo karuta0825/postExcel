@@ -221,6 +221,14 @@
       cms.view.editUsrs.makeMemos
     );
 
+    // ユニバ表示制御
+    if ( cms.model.userBaseInfo.getCache().has_fenics === 0 ) {
+      cms.view.userNetwork.hideFenics();
+    }
+    else {
+      cms.view.userNetwork.showFenics();
+    }
+
     // ビジV表示制御
     if ( cms.model.userBaseInfo.getCache().has_busiv === 0 ) {
       cms.view.userNetwork.hideBusiv();

@@ -69,6 +69,8 @@
   , clear
   , showBusiv
   , hideBusiv
+  , showFenics
+  , hideFenics
   , setBusivInfo
   , refresh
   , drawTable
@@ -511,6 +513,14 @@
     networkView.get('busiv-section__self').addClass('is-hidden');
   };
 
+  showFenics = function () {
+    networkView.get('fenics-section').removeClass('is-hidden');
+  };
+
+  hideFenics = function () {
+    networkView.get('fenics-section').addClass('is-hidden');
+  };
+
   refresh = function () {
 
     if ( cms.model.userNetwork.getCache().length > 0 ) {
@@ -572,6 +582,8 @@
     makeClientSelectBox : makeClientSelectBox,
     showBusiv           : showBusiv,
     hideBusiv           : hideBusiv,
+    showFenics          : showFenics,
+    hideFenics          : hideFenics,
     setBusivInfo        : setBusivInfo,
     get                 : _getBusivInfo
   };
