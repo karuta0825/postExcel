@@ -42,6 +42,10 @@ $(function(){
       var target = '.main-contents--' + $(this).attr('href').slice(1);
       $(target).addClass('is-active');
 
+      if ( target === '.main-contents--home' ) {
+        customer.view.homeGraph.pushThisMonth();
+      }
+
   };
 
   /* events */

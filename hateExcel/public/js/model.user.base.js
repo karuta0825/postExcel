@@ -104,6 +104,7 @@
       customer.model.userHistory.fetch( _cache['kid'],
         customer.view.userHistory.drawTable
       );
+      customer.view.homeGraph.refresh();
     });
 
 

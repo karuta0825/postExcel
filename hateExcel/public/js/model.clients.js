@@ -77,6 +77,9 @@
     })
     .then( function () {
       _model.delete( data, callback );
+    })
+    .then( function () {
+      customer.view.homeGraph.refresh();
     });
 
   };

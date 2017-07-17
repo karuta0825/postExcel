@@ -11,6 +11,7 @@
   , initModule
   , get
   , find
+  , refresh
   ;
 
   initModule = function () {
@@ -79,12 +80,22 @@
 
   };
 
+  refresh = function ( callback ) {
+
+    _model['_cache'] = cms.db.select('/select', { 'table' : 'add_info' });
+
+    callback( 'ES' );
+    callback( 'LM' );
+
+  };
+
   // to public
   cms.model.homeGraph = {
     initModule : initModule,
     find       : find,
     getCache   : $.proxy( _model.getCache, _model ),
-    get        : get
+    get        : get,
+    refresh    : refresh
   };
 
 } ( jQuery, customer ));

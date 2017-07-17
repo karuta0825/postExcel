@@ -29,6 +29,8 @@
   , initModule
   , draw
   , redraw
+  , refresh
+  , pushThisMonth
   ;
 
   _next = function () {
@@ -138,12 +140,19 @@
 
   };
 
+  refresh = function () {
+    cms.model.homeGraph.refresh( draw )
+  };
+
+  pushThisMonth = function () {
+    viewGraph.get('btn__this-month').click();
+  };
 
   // to public
   cms.view.homeGraph = {
     initModule : initModule,
-    empty : function () { viewGraph.get('lm').empty(); },
-    get : function () { resize_chart.draw(resize_data, resize_options); }
+    refresh    : refresh,
+    pushThisMonth : pushThisMonth
   };
 
 }( jQuery, customer ));
