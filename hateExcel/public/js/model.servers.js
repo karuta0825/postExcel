@@ -11,13 +11,13 @@
   , list_es = new Model()
   , list_lm = new Model()
   , vl = new util.Validate({
-      id         : 'noCheck',
-      type       : 'noCheck',
-      name       : 'isEmpty',
-      ip         : 'isIp_f',
-      connect_db : 'noCheck',
-      version    : 'noCheck',
-      capacity   : 'noCheck',
+      id             : 'noCheck',
+      type           : 'noCheck',
+      name           : 'isEmpty',
+      ip             : 'isIp_f',
+      connect_db     : 'noCheck',
+      version        : 'noCheck',
+      capacity       : 'isNatural',
       environment_id : 'noCheck'
     })
   , initModule

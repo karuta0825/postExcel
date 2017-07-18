@@ -7,6 +7,7 @@
       <th class='env mdl-data-table__cell--non-numeric'>サーバタイプ</th>
       <th class='name mdl-data-table__cell--non-numeric'>サーバ名</th>
       <th class='ip mdl-data-table__cell--non-numeric'>IPアドレス</th>
+      <th class='env mdl-data-table__cell--non-numeric'>収容数</th>
       <th class='env mdl-data-table__cell--non-numeric'>接続DB</th>
       <th class='del-flg'>削除</th>
     </tr>
@@ -35,16 +36,29 @@
           >WEB</option>
         </select>
       </td>
-      <td class='name'> <input type='text' value=<%- item.name        %> > </td>
-      <td class='ip'>   <input type='text' value=<%- item.ip%> >           </td>
+
+      <td class='name'>
+        <input type='text' value=<%- item.name %> >
+      </td>
+
+      <td class='ip'>
+        <input type='text' value=<%- item.ip%> >
+      </td>
+
       <td class='connect_db'>
             <select class='select-db'></select>
       </td>
+
+      <td class='capacity'>
+        <input type='number' value=<%- item.capacity %> >
+      </td>
+
       <td align='center' class='del'>
         <button class='btn btn--del mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect'>
           <i class="material-icons">delete_forever</i>
         </button>
       </td>
+
     </tr>
   <% });%>
 
