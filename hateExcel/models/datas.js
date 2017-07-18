@@ -116,7 +116,7 @@ datas.insert = function ( data, table, callback ) {
       db.end();
       // エラー時
       if ( err ) {
-        console.log(err);
+        // console.log(err);
         callback( err );
         return;
       }
@@ -687,43 +687,85 @@ datas.makeUser = function ( input_map, callback ) {
  * @param  {Object}   input_map.kid - KID
  * @param  {Function} callback      - 全ての処理終了時点で実行される関数
  */
+// datas.makeBase = function ( input_map, callback ) {
+
+//   var info = {};
+
+//   async.series([
+//       function ( callback ) {
+//         // ビジVに追加
+//         datas.insert(input_map, 'make_busiv', callback );
+//       },
+//       function ( callback ) {
+//         findNewMobileFenicsKey(null, callback);
+//       }
+//   ], function(err, results) {
+
+//     if ( err ) {
+//       console.log(err);
+//       callback(err);
+//       return;
+//     }
+
+//     info['kid']        = input_map.kid;
+//     info['base_id']    = results[0].insertId;
+//     info['fenics_key'] = results[1];
+//     info['admin_id']   = results[1];
+//     info['admin_pw']   = makeMobileAdminPw( results[1] );
+
+
+//   //   // モバイルテーブルに追加
+//     datas.insert(info, 'make_mobiles', function (err, result) {
+//       console.log(err);
+//       callback(null);
+//     });
+
+//   });
+
+// };
+
+var findLastBaseId = function ( kid ) {
+  return new Promise( function ( res, rej ) {
+    datas.select( kid, 'find_last_base_id', function (r) {
+      res( r[0].base_id );
+    });
+  });
+};
+
 datas.makeBase = function ( input_map, callback ) {
 
-  var info = {};
+  findLastBaseId(input_map.kid)
+  .then( function (r) {
+    input_map['base_id'] = r;
+    datas.insert( input_map, 'make_busiv', function ( err ,result ) {
+      if ( err ) { console.log(err); }
+    });
+  })
+  .then( function (r) {
+    return new Promise( function ( res, rej ) {
+      findNewMobileFenicsKey( null, function ( err, result ) {
+        res( result );
+      });
+    });
+  })
+  .then( function (r) {
+    input_map['fenics_key'] = r;
+  })
+  .then( function () {
 
-  async.series([
-      function(callback) {
-        // ビジVに追加
-        datas.insert(input_map, 'make_busiv', callback );
-      },
-      function(callback) {
-        findNewMobileFenicsKey(null, callback);
-      }
-  ], function(err, results) {
-
-    if ( err ) {
-      console.log(err);
-      callback(err);
-      return;
-    }
-
-    info['kid'] = input_map.kid;
-    info['base_id'] = results[0].insertId;
-    info['fenics_key'] = results[1];
-    info['admin_id'] = results[1];
-    info['admin_pw'] = makeMobileAdminPw( results[1] );
-
+    input_map['admin_id']   = input_map['fenics_key'];
+    input_map['admin_pw']   = makeMobileAdminPw( input_map['fenics_key'] );
 
     // モバイルテーブルに追加
-    datas.insert(info, 'make_mobiles', function (err, result) {
-      console.log(err);
-      callback(null);
+    datas.insert(input_map, 'make_mobiles', function (err, result) {
+      if ( typeof callback === 'function') {
+        callback(err);
+      }
     });
 
   });
 
 };
-
 
 datas.makeMemo = function ( input_map, callback ) {
 
