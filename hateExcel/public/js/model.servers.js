@@ -146,9 +146,16 @@
 
     cms.db.post('/master', params )
     .then( function () {
+
+      // モデルの更新
       _model.fetch();
+
       // ユーザ一覧のサーバー選択肢を更新
       cms.view.kids.selectServer('all');
+
+      // ホーム画面のサーバー収容表を更新
+      cms.view.homeServerTable.refresh();
+
     });
 
   };

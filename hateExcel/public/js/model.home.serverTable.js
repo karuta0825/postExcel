@@ -17,6 +17,7 @@
   // to public
   cms.model.homeServerTable = {
     initModule : initModule,
+    fetch      : $.proxy( _model.fetch, _model ),
     find       : $.proxy( _model.find, _model ),
     getCache   : $.proxy( _model.getCache, _model )
   };

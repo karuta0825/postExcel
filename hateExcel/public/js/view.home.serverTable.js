@@ -41,6 +41,12 @@
 
   };
 
+  refresh = function () {
+    cms.model.homeServerTable.fetch( null, function () {
+      changeView('LM');
+    });
+  };
+
   initModule = function () {
 
     homeView = new Controller('.home-wrapper__center');
@@ -54,11 +60,11 @@
 
   };
 
+
   cms.view.homeServerTable = {
     initModule : initModule,
     drawTable  : drawTable,
-    refresh    : refresh,
-    get : function () { return homeView; }
+    refresh    : refresh
   };
 
 
