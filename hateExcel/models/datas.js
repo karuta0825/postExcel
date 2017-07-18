@@ -214,7 +214,7 @@ var makeMobileAdminPw = function ( adminId ) {
 
 
 var findNewDbPass = function ( data, callback ) {
-  var db_pass = 'U' + makeUserKey(6);
+  var db_pass = 'U53R' + makeUserKey(6);
 
   datas.select(
     db_pass,
@@ -235,7 +235,7 @@ var findNewDbPass = function ( data, callback ) {
 };
 
 var findNewUserkey = function ( data, callback ) {
-  var userkey = makeUserKey(6);
+  var userkey =  makeUserKey(6);
 
   datas.select(
     userkey,
@@ -271,7 +271,7 @@ var findNewKid = function ( data, callback ) {
 
 var findNewFenicsKey = function ( data, callback ) {
 
-  var fenics_key = data || makeFenicsKey(3);
+  var fenics_key = data || makeFenicsKey(4);
 
   datas.select(
     fenics_key,
@@ -361,7 +361,7 @@ var makeNewFenicsId = function ( data, callback ) {
     'find_last_fenics_id',
     function ( result ) {
       if ( result.length === 0 ) {
-        callback( null, data.fenics_key + '0001');
+        callback( null, data.fenics_key + '01001');
       }
       else {
         callback( null, getNextZeroPadData( result[0].fenics_id ) );
