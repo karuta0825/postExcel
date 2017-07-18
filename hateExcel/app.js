@@ -24,7 +24,7 @@ var app = express();
 // };
 
 // all environments
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 8000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
@@ -412,7 +412,7 @@ app.post('/updateFenics', function (req, res) {
 
     console.log(data[i]);
 
-    item.client_id = data[i].client_id || '';
+    item.fenics_id = data[i].fenics_id || '';
 
     item.start_on = ( data[i].start_on ) ? data[i].start_on : null;
 
