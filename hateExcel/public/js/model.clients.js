@@ -126,7 +126,7 @@
     return  _.map( list_clients, function ( val, key ) {
 
       return {
-        'hostname'        : honame_prefix + val.client_id.match(/\d+/)[0],
+        'hostname'        : honame_prefix + val.fenics_id.match(/\d+/)[0],
         'fenics_id'       : val.fenics_id && 'hopecl-' + val.fenics_id || '',
         'password'        : val.fenics_id || '',
         'client_id'       : val.client_id,
@@ -154,7 +154,7 @@
     return  _.map( list_clients, function ( val, key ) {
 
       return {
-        'hostname'        : honame_prefix + val.client_id.match(/\d+/)[0],
+        'hostname'        : honame_prefix + val.fenics_id.match(/\d+/)[0],
         'fenics_id'       : val.fenics_id && 'hopecl-' + val.fenics_id || '',
         'password'        : val.fenics_id || '',
         'client_id'       : val.client_id,
