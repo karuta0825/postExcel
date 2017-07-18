@@ -12,6 +12,8 @@ CREATE TRIGGER kids_delete AFTER DELETE ON kids FOR EACH ROW
     delete from fenics where kid = old.kid;    
     delete from clients where kid = old.kid;
     delete from historys where kid = old.kid;
+    delete from busivs where kid = old.kid;
+    delete from mobiles where kid = old.kid;
    
  END;
 $$
