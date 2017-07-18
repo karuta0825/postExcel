@@ -436,6 +436,7 @@ var makeFenicsAccount = function ( input_map, idx, callback ) {
     fenics_account['fenics_key'] = input_map.fenics_key;
     fenics_account['start_on']   = new Date();
     fenics_account['create_on']  = new Date();
+    fenics_account['is_mobile']  = 0;
 
     // check
     // console.log( fenics_account );
