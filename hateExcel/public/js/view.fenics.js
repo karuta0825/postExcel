@@ -147,10 +147,10 @@
     , Blob
     ;
 
-    // if ( ids.length === 0 ) {
-    //   alert('選択してください');
-    //   return;
-    // }
+    if ( ids.length === 0 ) {
+      alert('選択してください');
+      return;
+    }
 
     Blob = util.convertMap2Blob( data, header );
 

@@ -43,11 +43,13 @@
     cms.db.post('/isUniqueIp', { ip : view_data['fenics_ip']})
     .then( function (result) {
 
+      // 重複で更新不可
       if ( result.length > 0 && result[0]['fenics_id'] !== view_data['fenics_id']) {
 
         cb_fail( ['fenics_ip'] );
 
       }
+      // 更新可能
       else {
 
         cms.db.post('/updateFenics', { data : [view_data] })
