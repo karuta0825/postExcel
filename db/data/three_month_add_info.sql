@@ -1,3 +1,4 @@
+use customer;
 select D.month, ifnull(user,0) as user, ifnull(client,0) as client, ifnull(pc,0) as pc, D.version from (
 SELECT 
     DATE_FORMAT(create_on, '%Y/%m') AS month,
@@ -18,26 +19,33 @@ SELECT
             0) AS pc,
     version
 FROM
-    ((SELECT 
-        'ユーザー作成' AS item_name,
-            1 AS val,
-            create_on,
-            E.version
-    FROM
-        kids K
-    LEFT JOIN environments E ON K.environment_id = E.id) UNION ALL (SELECT 
-        item_name,
-            `after` - `before` AS diff,
-            H.create_on,
-            E.version
-    FROM
-        historys H
-    LEFT JOIN kids K ON H.kid = K.kid
-    LEFT JOIN environments E ON K.environment_id = E.id
-    WHERE
-        item_name = 'クライアント数'
-            OR item_name = '端末台数'
-            AND `after` - `before` > 0)) AS T
+    (
+		(
+        SELECT 
+			'ユーザー作成' AS item_name,
+				1 AS val,
+				register_on as create_on,
+				E.version
+		FROM
+			kids K
+		LEFT JOIN environments E ON K.environment_id = E.id
+        )
+		UNION ALL
+		(
+		SELECT 
+			item_name,
+				`after` - `before` AS diff,
+				H.create_on,
+				E.version
+		FROM
+			historys H
+		LEFT JOIN kids K ON H.kid = K.kid
+		LEFT JOIN environments E ON K.environment_id = E.id
+		WHERE
+			(item_name = 'クライアント数' OR item_name = '端末台数')
+			AND ( `after` - `before` > 0 )
+		)
+	) AS T
 GROUP BY DATE_FORMAT(create_on, '%Y/%m') ,version
 ) TMP 
 right join 
