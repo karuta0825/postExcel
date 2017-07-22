@@ -43,7 +43,7 @@
 
   };
 
-  update = function ( data, cb_success, cb_fail ) {
+  update = function ( month, data, cb_success, cb_fail ) {
 
     var
       clone = _.clone( data )
@@ -67,13 +67,13 @@
     };
 
     cms.db.update('/update', param, function () {
-      _model.fetch( null, cb_success );
+      _model.fetch( month, cb_success );
     });
 
 
   };
 
-  remove = function ( id, callback ) {
+  remove = function ( month, id, callback ) {
 
     var param = {
       data : [{ id : id }],
@@ -81,7 +81,7 @@
     };
 
     cms.db.remove('/delete', param, function () {
-      _model.fetch( null, callback );
+      _model.fetch( month, callback );
     });
 
   };

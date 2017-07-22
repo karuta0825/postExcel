@@ -295,13 +295,13 @@
 
     data['id'] = select_id;
 
-    cms.model.homeEvents.update( data, _successSave, _showError );
+    cms.model.homeEvents.update( m.format('YYYY-MM'), data, _successSave, _showError );
 
   };
 
   _delete = function () {
 
-    cms.model.homeEvents.remove( select_id, _successSave );
+    cms.model.homeEvents.remove( m.format('YYYY-MM'), select_id, _successSave );
 
   };
 
