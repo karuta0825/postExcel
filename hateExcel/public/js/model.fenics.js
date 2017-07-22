@@ -14,7 +14,6 @@
   , vl = new util.Validate({
       'id'         : 'noCheck',
       'kid'        : 'noCheck',
-      'fenics_key' : 'noCheck',
       'fenics_id'  : 'isAlphaNum',
       'fenics_ip'  : 'isIp',
       'password'   : 'isAlphaNum',

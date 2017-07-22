@@ -119,7 +119,7 @@
 
     var
       list_clients  = _model.find( list_checked )
-    , fenicskey     = cms.model.userNetwork.getCache()[0].fenics_key
+    , fenicskey     = cms.model.userBaseInfo.getCache().fenics_key
     , honame_prefix = fenicskey && fenicskey.toUpperCase()
     ;
 
@@ -147,7 +147,7 @@
 
     var
       list_clients  = _model.find( list_checked )
-    , fenicskey     = cms.model.userNetwork.getCache()[0].fenics_key
+    , fenicskey     = cms.model.userBaseInfo.getCache().fenics_key
     , honame_prefix = fenicskey && fenicskey.toUpperCase()
     ;
 
