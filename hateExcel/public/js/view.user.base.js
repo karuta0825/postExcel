@@ -197,7 +197,9 @@
 
     // usekeyが更新されることがあるため更新
     // kids.updateに実行されるようにしたい
-    customer.view.userClient.refresh();
+    cms.view.userClient.refresh();
+    cms.view.userNetwork.refresh();
+
 
   };
 

@@ -585,7 +585,7 @@
     showFenics          : showFenics,
     hideFenics          : hideFenics,
     setBusivInfo        : setBusivInfo,
-    get                 : _getBusivInfo
+    refresh             : refresh
   };
 
 } ( jQuery, customer ));
