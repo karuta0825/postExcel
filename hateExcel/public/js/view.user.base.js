@@ -195,6 +195,10 @@
     customer.model.userCustomer.update( getViewInfo('customer'), makeCustomerInfo );
     customer.model.kids.update( getViewInfo('system'), makeSystemInfo );
 
+    // usekeyが更新されることがあるため更新
+    // kids.updateに実行されるようにしたい
+    customer.view.userClient.refresh();
+
   };
 
   _save = function () {

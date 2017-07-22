@@ -48,6 +48,7 @@
   , clear
   , drawTable
   , redrawTable
+  , refresh
   , initModule
   ;
 
@@ -376,7 +377,7 @@
     drawTable  : drawTable,
     redrawTable : redrawTable,
     clear : clear,
-    get : _getSelectItem,
+    refresh : refresh,
     makeFenicsSelectBox : makeFenicsSelectBox
   };
 
