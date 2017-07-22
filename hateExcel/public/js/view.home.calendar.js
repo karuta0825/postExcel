@@ -45,6 +45,7 @@
   , _getCalender
   , _drawCalendar
   , _drawEvents
+  , _markCalendar
   , _getEventModalInfo
   , _setEventInfo
   , _clearEventView
@@ -160,6 +161,23 @@
 
   };
 
+
+  _markCalendar = function ( list_event ) {
+
+    // 一度リセット
+    _.each( view.get('calendar__body').find('td'), function (v,k) {
+      $(v).removeClass('is-event');
+    });
+
+    _.each( list_event, function ( v,k ) {
+      view.get('calendar__body')
+      .find('[data-on="' + v.date + '"]')
+      .addClass('is-event');
+    });
+
+
+  };
+
   _drawEvents = function ( data ) {
 
     var
@@ -171,11 +189,7 @@
     view.get('events__list').empty();
     view.get('events__list').append( complied(data) );
 
-    _.each( data['list'], function ( v,k ) {
-      view.get('calendar__body')
-      .find('[data-on="' + v.date + '"]')
-      .addClass('is-event');
-    });
+    _markCalendar( data['list'] );
 
   };
 
