@@ -115,6 +115,13 @@
           <div class='events'>
 
             <div class='header'>
+
+              <select type="button" class="mdl-chip filter">
+                <option value='0'>未完了</option>
+                <option value='1'>完了</option>
+                <option value='all'>全て</option>
+              </select>
+
               <button class='btn mdl-button btn--make-event'>イベント作成</button>
             </div>
             <div class='body'>
@@ -150,6 +157,11 @@
               <div class='input-item start-time'>
                 <span class='item-name'>時間</span>
                 <input class='input' type='time'></input>
+              </div>
+
+              <!-- 完了状態 -->
+              <div class='input-item is_finished'>
+                <button class='choice'>完了</button>
               </div>
 
               <!-- 入力 -->

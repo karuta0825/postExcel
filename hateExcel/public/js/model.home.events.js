@@ -13,7 +13,8 @@
       'title'      : 'isEmpty',
       'start_on'   : 'isEmpty',
       'start_time' : 'noCheck',
-      'message'    : 'noCheck'
+      'message'    : 'noCheck',
+      'is_finished' : 'noCheck'
     })
   , validate
   , insert

@@ -458,10 +458,13 @@
 
 .events .header {
   width: 100%;
-  height: 40px;
+  height: 45px;
+  border-bottom: 1px solid #ccc;
 }
 
 .events .header .btn--make-event {
+  position: absolute;
+  right: 5px;
   margin-top: 5px;
 }
 

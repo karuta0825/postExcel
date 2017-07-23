@@ -15,8 +15,10 @@
         'cancel'     : '.btn--cancel',
         'del'        : '.btn--del',
         'save'       : '.btn--save',
-        'update'     : '.btn--update'
+        'update'     : '.btn--update',
+        'is_finished' : '.is_finished .choice'
       },
+      'filter' : '.filter',
       'calendar' : {
         'self' : '.calendar',
         'body' : '.calendar .body',
@@ -50,7 +52,9 @@
   , _setEventInfo
   , _clearEventView
   , _moveMonth
+  , _toggleFinishStatus
   , _selectEvent
+  , _filterEvent
   , _showError
   , _successSave
   , _save
@@ -107,7 +111,11 @@
 
     cms.model.homeEvents.fetch( m.format('YYYY-MM'), _drawEvents );
 
-  }
+  };
+
+  _toggleFinishStatus = function () {
+    view.get('btn__is_finished').toggleClass('choice--on');
+  };
 
   _drawCalendar = function ( diff ) {
 
@@ -195,12 +203,21 @@
 
   _getEventModalInfo = function () {
 
+
     var result = {
       'title'      : view.get('event-input__title').val(),
       'start_on'   : view.get('event-input__start_on').val(),
       'start_time' : view.get('event-input__time').val(),
       'message'    : view.get('event-input__msg').val()
     };
+
+    // 完了フラグ
+    if ( view.get('btn__is_finished').hasClass('choice--on') ) {
+      result['is_finished'] = 1;
+    }
+    else {
+      result['is_finished'] = 0;
+    }
 
     return result;
 
@@ -214,6 +231,10 @@
     view.get('event-input__start_on').val(data.start_on);
     view.get('event-input__time').val(data.start_time);
     view.get('event-input__msg').val(data.message);
+
+    if ( data.is_finished === 1 ) {
+      view.get('btn__is_finished').addClass('choice--on');
+    }
 
   };
 
@@ -240,6 +261,18 @@
     view.get('btn__update').removeClass('is-hidden');
 
     view.get('dialog__event').get(0).showModal();
+
+  };
+
+  _filterEvent = function () {
+
+    var filter = $(this).val();
+
+    if ( filter === '1' || filter === '0' ) {
+      filter = Number(filter);
+    }
+
+    cms.model.homeEvents.find({ is_finished : filter }, _drawEvents );
 
   };
 
@@ -297,6 +330,9 @@
     view.get('btn__del').addClass('is-hidden');
     view.get('btn__update').addClass('is-hidden');
 
+    // 完了フラグを外す
+    view.get('btn__is_finished').removeClass('choice--on');
+
     // ダイアログを閉じる
     view.get('dialog__event').get(0).close();
 
@@ -341,7 +377,9 @@
 
     _drawCalendar();
 
-    cms.model.homeEvents.fetch( m.format('YYYY-MM'), _drawEvents );
+    cms.model.homeEvents.fetch( m.format('YYYY-MM'), function () {
+      cms.model.homeEvents.find({ 'is_finished' : 0 }, _drawEvents );
+    });
 
     view.addListener({
       'click btn__prev-month' : function () { _moveMonth(-1) },
@@ -351,7 +389,9 @@
       'click btn__cancel'     : _cancel,
       'click events__list'    : _selectEvent,
       'click btn__save'       : _save,
-      'click btn__update'     : _update
+      'click btn__update'     : _update,
+      'click btn__is_finished' : _toggleFinishStatus,
+      'change filter'          : _filterEvent
     });
 
   };
