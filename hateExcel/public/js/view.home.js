@@ -19,11 +19,13 @@
         'items'   : '.article-notice__item--body',
         'header'  : '.article-notice__item--header',
         'btnMore' : '.article__footer',
-        'filter'  : '.article-notice .filter'
+        'filter'  : '.article-notice .filter',
+        'msg'     : '.notice-item__body .msg'
       }
     }
   // private
   , _filter
+  , _goUserView
   // public
   , getMoreHistory
   , hideFooter
@@ -54,6 +56,13 @@
     }
 
     cms.model.historys.find({ type : condition }, drawNews );
+
+  };
+
+  _goUserView = function () {
+
+    var kid = $(this).text().match(/^KID\d{5}/)[0];
+    cms.view.kids.moveUserDetail( kid );
 
   };
 
@@ -106,7 +115,8 @@
 
     homeView.addListener({
       'click notice__btnMore' : getMoreHistory,
-      'change notice__filter' : _filter
+      'change notice__filter' : _filter,
+      'click notice__msg'     : _goUserView
     });
 
   };
