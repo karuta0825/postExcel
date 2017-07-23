@@ -109,7 +109,11 @@
 
     _drawCalendar( diff );
 
-    cms.model.homeEvents.fetch( m.format('YYYY-MM'), _drawEvents );
+    cms.model.homeEvents.fetch( m.format('YYYY-MM'), function () {
+      cms.model.homeEvents.find({ 'is_finished' : 0 }, _drawEvents );
+    });
+
+    view.get('filter').val('0');
 
   };
 
