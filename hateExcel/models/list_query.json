@@ -24,6 +24,7 @@
     "fenics"                          : "SELECT kid, fenics_id, `password`, inet_ntoa(fenics_ip) as fenics_ip, DATE_FORMAT( create_on, '%Y/%m/%d') as create_on, DATE_FORMAT( start_on, '%Y-%m-%d') as start_on, DATE_FORMAT( end_on, '%Y-%m-%d') as end_on, is_mobile FROM customer.fenics WHERE kid = ?;",
     "memos"                           : "SELECT M.id, kid, title, priority_id, CASE priority_id WHEN 1 THEN 'emergency' WHEN 2 THEN 'important' WHEN 3 THEN 'reminder' ELSE '' END AS priority, message, case when CHAR_LENGTH(message) > 10 then CONCAT( LEFT(message, 10), '...') else message end as short_msg, date_format( ifnull( update_on, create_on ), '%Y/%m/%d') as create_on, L.name FROM memos M left join login_users L on ifnull( M.update_user_id, M.create_user_id ) = L.id where kid = ? order by create_on desc, id desc;",
     "is_unique_fenicskey"             : "SELECT fenics_key FROM fenics WHERE fenics_key = ?;",
+    "is_unique_fenicskey_for_update"  : "SELECT kid FROM kids WHERE fenics_key = ?;",
     "get_new_fenics_ip"               : "SELECT CASE SUBSTRING_INDEX(INET_ntoa(fenics_ip), '.', - 1) WHEN 254 THEN fenics_ip + 3 ELSE fenics_ip + 1 END AS next_ip FROM fenics F right join kids K on K.kid = F.kid ORDER BY fenics_ip DESC limit 1;",
     "find_last_fenics_id"             : "select fenics_id from fenics where kid = ? and is_mobile = 0 order by fenics_id desc limit 1;",
     "find_last_mobile_fenics_id"      : "select fenics_id from fenics where kid = ? and is_mobile = 1 order by fenics_id desc limit 1;",

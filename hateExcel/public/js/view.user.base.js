@@ -12,9 +12,10 @@
           'cancel'      : '.btn--cancel',
           'save'        : '.btn--save'
         },
-        'alert' : '#modal-baseInfo-alert',
+        'alert'         : '#modal-baseInfo-alert',
         'alert-network' : '#modal-baseInfo-notHasNetwork-alert',
-        'confirm' : '#modal-baseInfo-fenicsAdd-confirm'
+        'confirm'       : '#modal-baseInfo-fenicsAdd-confirm',
+        'alert-unique'  : '#modal-baseInfo-unique-error'
       },
       'base' : {
         'btn' : {
@@ -183,7 +184,7 @@
 
   /**
    * 一連の更新内容をまとめる
-   * @param  {[type]} can_add_fenicsId
+   * @param  {Boolean} can_add_fenicsId - FenicsIDを追加するかどうか
    */
   _update = function ( can_add_fenicsId ) {
 
@@ -224,6 +225,24 @@
     if ( _validateSystem(error)) {
       return;
     }
+
+    // 基本情報のユニークチェック
+    var kid = customer.db.select('/isUniqueFenicsKey',{ fenicsKey : getViewInfo('system').fenics_key } );
+    if ( kid[0] && kid[0] !== cms.model.userBaseInfo.getCache().kid ) {
+
+      // エラー画面をだす
+      systemView.get('input__fenics_key')
+      .find('.item-value')
+      .addClass('is-error')
+      ;
+
+      commonView.get('alert-unique').get(0).showModal();
+
+      return;
+    }
+
+    // userKeyの重複チェック
+
 
     // ネットワーク情報による入力チェック
     if (  has_busiv === 0 && has_fenics === 0     ) {
@@ -572,6 +591,12 @@
       selector : commonView.top,
       id       : 'modal-baseInfo-alert',
       msg      : '入力に誤りがあります'
+    });
+
+    util.alert({
+      selector : commonView.top,
+      id       : 'modal-baseInfo-unique-error',
+      msg      : '重複してます'
     });
 
     util.alert({

@@ -679,49 +679,6 @@ datas.makeUser = function ( input_map, callback ) {
   });
 };
 
-/**
- * 拠点追加メソッド
- * 処理としては、ビジVとモバイルテーブルに初期データ追加
- * @param  {Object}   input_map     - 入力引数
- * @param  {Object}   input_map.kid - KID
- * @param  {Function} callback      - 全ての処理終了時点で実行される関数
- */
-// datas.makeBase = function ( input_map, callback ) {
-
-//   var info = {};
-
-//   async.series([
-//       function ( callback ) {
-//         // ビジVに追加
-//         datas.insert(input_map, 'make_busiv', callback );
-//       },
-//       function ( callback ) {
-//         findNewMobileFenicsKey(null, callback);
-//       }
-//   ], function(err, results) {
-
-//     if ( err ) {
-//       console.log(err);
-//       callback(err);
-//       return;
-//     }
-
-//     info['kid']        = input_map.kid;
-//     info['base_id']    = results[0].insertId;
-//     info['fenics_key'] = results[1];
-//     info['admin_id']   = results[1];
-//     info['admin_pw']   = makeMobileAdminPw( results[1] );
-
-
-//   //   // モバイルテーブルに追加
-//     datas.insert(info, 'make_mobiles', function (err, result) {
-//       console.log(err);
-//       callback(null);
-//     });
-
-//   });
-
-// };
 
 var findLastBaseId = function ( kid ) {
   return new Promise( function ( res, rej ) {

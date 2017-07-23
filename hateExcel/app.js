@@ -400,6 +400,16 @@ app.post('/isUniqueIp', function (req, res) {
 
 });
 
+app.post('/isUniqueFenicsKey', function ( req, res ) {
+
+  var fenicsKey = req.body.fenicsKey;
+
+  datas.select( fenicsKey, 'is_unique_fenicskey_for_update', function ( result ) {
+    res.json( result );
+  });
+
+});
+
 app.post('/updateFenics', function (req, res) {
   var
     data = req.body.data
