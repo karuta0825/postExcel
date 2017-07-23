@@ -63,7 +63,7 @@
 
     console.log('saved');
 
-    cms.model.userNetwork.update2( getViewInfo(), close, _showError );
+    cms.model.userNetwork.update( getViewInfo(), close, _showError );
 
   };
 

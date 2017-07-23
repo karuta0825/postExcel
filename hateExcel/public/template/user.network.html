@@ -3,10 +3,10 @@
 <% if ( !is_redraw ) { %>
   <!-- アクション -->
   <div class='user-edit-header__action'>
-    <button class='btn--cancel mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect is-hidden' href='#edit-usr'>キャンセル</button>
-    <button class='btn--del mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect is-hidden' href='#edit-usr'>削除</button>
-    <button class='btn--save mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect is-hidden' href='#edit-usr'>保存</button>
-    <button class='btn--edit mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect' href='#edit-usr'>編集</button>
+    <button class='btn btn--cancel mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect is-hidden' href='#edit-usr'>キャンセル</button>
+    <button class='btn btn--del mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect is-hidden' href='#edit-usr'>削除</button>
+    <button class='btn btn--save mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect is-hidden' href='#edit-usr'>保存</button>
+    <button class='btn btn--edit mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect' href='#edit-usr'>編集</button>
     <button class='btn btn--download mdl-button mdl-js-button mdl-button--raised mdl-button--accent'>ダウンロード</button>
   </div>
 
@@ -42,21 +42,33 @@
       <th class='mdl-data-table__cell--non-numeric start_on'>開始日</th>
       <th class='mdl-data-table__cell--non-numeric end_on'>終了日</th>
       <th class='mdl-data-table__cell--non-numeric create_on'>作成日</th>
+      <th class='mdl-data-table__cell--non-numeric edit'>編集</th>
     </thead>
+
     <tbody>
 
       <% _.each( list, function ( item, num ) { %>
         <tr id='<%- item.fenics_id %>'>
-          <td class='mdl-data-table__cell--non-numeric fenics_id'><%- item.fenics_id %></td>
-          <td class='mdl-data-table__cell--non-numeric password'><%- item.password %></td>
-          <td class='mdl-data-table__cell--non-numeric fenics_ip'><%- item.fenics_ip %></td>
+          <td class='mdl-data-table__cell--non-numeric fenics_id'>
+            <%- item.fenics_id %>
+          </td>
+          <td class='mdl-data-table__cell--non-numeric password'>
+            <%- item.password %>
+          </td>
+          <td class='mdl-data-table__cell--non-numeric fenics_ip'>
+            <%- item.fenics_ip %></td>
           <td class='mdl-data-table__cell--non-numeric start_on'>
-            <input class='input-date' type='date' value='<%- item.start_on %>' disabled='disabled'></input>
+            <%- item.start_on %>
           </td>
           <td class='mdl-data-table__cell--non-numeric end_on'>
-            <input class='input-date' type='date' value='<%- item.end_on %>' disabled='disabled'></input>
+            <%- item.end_on %>
           </td>
           <td class='mdl-data-table__cell--non-numeric create_on'><%- item.create_on %></td>
+          <td class='mdl-data-table__cell--non-numeric edit'>
+            <button class="mdl-button mdl-js-button mdl-button--icon">
+              <i class="material-icons">edit</i>
+            </button>
+          </td>
         </tr>
       <% }); %>
 

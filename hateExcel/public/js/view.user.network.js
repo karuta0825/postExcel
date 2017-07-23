@@ -15,6 +15,7 @@
         'download' : '.btn--download',
         'close'    : '.btn--close',
         'exec'     : '.btn--exec',
+        'fenics-edit' : '.fenics-table td.edit'
       },
       'input-date'     : '.input-date',
       'alert-dialog' : '#modal-userBusiv-alert',
@@ -61,11 +62,9 @@
   , _deleteFenicsAccounts
   , _save
   , _cancel
-  , _setClientsSelectValue
   , _selectChoice
   , _getBusivInfo
-  , _changeClientId
-  , makeClientSelectBox
+  , _openFenicsEditDialog
   , clear
   , showBusiv
   , hideBusiv
@@ -170,6 +169,17 @@
     networkView.get('dialog__download').get(0).close();
   };
 
+  _openFenicsEditDialog = function () {
+
+    var
+      fenics_id = $(this).parents('tr').attr('id')
+    , item = cms.model.fenics.find({ 'fenics_id' : fenics_id })[0];
+    ;
+
+    cms.view.dialogFenics.open(item);
+
+  };
+
   _execDowload = function () {
 
     // ダウンロード
@@ -184,6 +194,7 @@
 
     // // 閉じる
     networkView.get('dialog__download').get(0).close();
+
   };
 
   _downloadFile = function () {
@@ -245,9 +256,6 @@
 
       number_deleted_accounts = list_accounts.length
 
-      // check
-      console.log(list_accounts);
-
       // 端末削除
       cms.model.userNetwork.delete( list_accounts, function () {
 
@@ -258,6 +266,7 @@
           }, function () {
             cms.view.userBaseInfo.refresh();
             refresh();
+            _backMode();
         });
 
       });
@@ -266,6 +275,9 @@
 
   };
 
+  /**
+   * ビジV情報を更新するために必要
+   */
   _save = function () {
 
     var error;
@@ -282,9 +294,6 @@
 
     }
 
-
-    cms.model.userNetwork.update();
-
     _backMode();
 
   };
@@ -294,45 +303,8 @@
     // 画面制御
     _backMode();
 
-    // update候補の初期化
-    cms.model.userNetwork.clearUpdateInfo();
-
     // 最新データの取得・再描画
     refresh();
-
-  };
-
-  _changeClientId = function ( evt ) {
-    var
-      el        = $(evt.target)
-    , fenics_id = el.parents('tr').attr('id')
-    , value     = el.val()
-    ;
-
-    // update用に値を書き換える
-    if ( el.parent().hasClass('start_on') ) {
-      cms.model.userNetwork.find({ 'fenics_id' : fenics_id })[0].start_on = value;
-    }
-
-    if ( el.parent().hasClass('end_on') ) {
-      cms.model.userNetwork.find({ 'fenics_id' : fenics_id })[0].end_on = value;
-    }
-
-    // update候補に追加
-    cms.model.userNetwork.changeUpdateInfo( fenics_id  );
-
-  };
-
-  _setClientsSelectValue = function () {
-    var
-      tr = networkView.get('table').find('tbody tr')
-    , value
-    ;
-
-    _.each( tr, function ( el, idx ) {
-      value = cms.model.userNetwork.find( { fenics_id :$(el).attr('id') })[0].client_id;
-      $(el).find('.select-clients').val( value );
-    });
 
   };
 
@@ -375,27 +347,6 @@
     });
 
     return result;
-
-  };
-
-  makeClientSelectBox = function () {
-
-    var
-      data = cms.model.clients.find({ is_admin : 0 })
-    , option
-    ;
-
-    networkView.get('select-clients').empty();
-
-    // 空オプション作成
-    networkView.get('select-clients').append( $('<option>') );
-
-    _.each( data, function ( v, k ) {
-      option = $('<option>', { 'value' : v['fenics_id'], 'text' : v['client_id'] } );
-      networkView.get('select-clients').append(option);
-    });
-
-    _setClientsSelectValue();
 
   };
 
@@ -469,10 +420,7 @@
     networkView.get('fenics-section').append( complied(data) );
     componentHandler.upgradeElements( networkView.wrap );
 
-    networkView.updateElement({'table'           : '.fenics-table'});
-    networkView.updateElement({'select-clients'  : '.select-clients'});
-
-    makeClientSelectBox();
+    networkView.updateElement({'table' : '.fenics-table'});
 
   };
 
@@ -492,15 +440,19 @@
 
   };
 
+  /**
+   * 初期状態の戻す
+   * チェック状態とボタンの情報を初期化してる
+   */
   clear = function () {
 
+    // チェックを外す
     _.each( networkView.get('checkbox'), function ( val, key ) {
       if ( $(val).hasClass('is-checked') ) {
         $(val).trigger('click');
       }
     });
 
-    cms.model.userNetwork.clearUpdateInfo();
     _backMode();
 
   };
@@ -563,8 +515,8 @@
       'click btn__edit'         : _goEditMode,
       'click btn__cancel'       : _cancel,
       'click btn__save'         : _save,
+      'click btn__fenics-edit'  : _openFenicsEditDialog,
       'click download__fenics'  : _downloadFile,
-      'change input-date'       : _changeClientId,
       'click busiv-section__input__has_sx' : _selectChoice,
       'click busiv-section__input__has_L3' : _selectChoice,
       'click busiv-section__input__has_carte' : _selectChoice,
@@ -579,7 +531,6 @@
     initModule          : initModule,
     redrawTable         : redrawTable,
     clear               : clear,
-    makeClientSelectBox : makeClientSelectBox,
     showBusiv           : showBusiv,
     hideBusiv           : hideBusiv,
     showFenics          : showFenics,
