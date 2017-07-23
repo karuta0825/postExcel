@@ -293,9 +293,14 @@
 
   };
 
-  _successSave = function ( data ) {
+  /**
+   * 更新成功時に未完了状態を表示
+   */
+  _successSave = function () {
 
-    _drawEvents(data);
+    cms.model.homeEvents.find({ 'is_finished' : 0 }, _drawEvents );
+
+    view.get('filter').val('0');
 
     _cancel();
 
