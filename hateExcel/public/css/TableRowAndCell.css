@@ -469,6 +469,10 @@
   margin-top: 5px;
 }
 
+.event-list .event-item {
+  cursor: pointer;
+}
+
 /* イベントダイアログ */
 #modal-event-item {
   width : 50%;
