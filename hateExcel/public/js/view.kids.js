@@ -24,6 +24,7 @@
   , _deleteUser
   // public
   , initModule
+  , moveUserDetail
   , drawTable
   , redrawTable
   , regenerateTable
@@ -139,18 +140,6 @@
     jqueryMap.col['has_fenics'   ].addClass('is-hidden');
     jqueryMap.col['is_registered'].addClass('is-hidden');
     jqueryMap.col['register_on'  ].addClass('is-hidden');
-    jqueryMap.col['sa_company'   ].addClass('is-hidden');
-    jqueryMap.col['sa_name'      ].addClass('is-hidden');
-    jqueryMap.col['sa_tel'       ].addClass('is-hidden');
-    jqueryMap.col['sa_email'     ].addClass('is-hidden');
-    jqueryMap.col['se_company'   ].addClass('is-hidden');
-    jqueryMap.col['se_name'      ].addClass('is-hidden');
-    jqueryMap.col['se_tel'       ].addClass('is-hidden');
-    jqueryMap.col['se_email'     ].addClass('is-hidden');
-    jqueryMap.col['em_company'   ].addClass('is-hidden');
-    jqueryMap.col['em_name'      ].addClass('is-hidden');
-    jqueryMap.col['em_tel'       ].addClass('is-hidden');
-    jqueryMap.col['em_email'     ].addClass('is-hidden');
   };
 
   _onClickColumn = function () {
@@ -161,99 +150,10 @@
   };
 
   _onClickKid = function () {
+
     var kid = $(this).text().trim();
 
-    // 編集画面の初期化
-    cms.view.editUsrs.clearView();
-
-
-    // 基本情報タブ　システム情報描画
-    cms.model.userBaseInfo.fetch( kid,
-      cms.view.userBaseInfo.makeSystemInfo
-    );
-
-    // 基本情報タブ　拠点情報作成描画
-    cms.model.userCustomer.fetch(kid,
-      cms.view.userBaseInfo.makeCustomerInfo
-    );
-
-    cms.model.userNetwork.fetch(kid, function () {
-
-      // ネットワークタブ描画
-      cms.model.userNetwork.find({'is_mobile':0},
-        cms.view.userNetwork.redrawTable
-      );
-
-      // モバイルfenicsテーブル描画
-      cms.model.userNetwork.find({is_mobile : 1},
-        cms.view.userMobile.drawTable
-      );
-
-    });
-
-    // クライアントテーブル描画
-    cms.model.clients.fetch(kid,
-      cms.view.userClient.redrawTable
-    );
-
-    // サービステーブル描画
-    cms.model.userLicense.fetch( kid,
-      cms.view.userService.setViewInfo
-    );
-
-    // パートナータブの描画
-    cms.model.userPartner.fetch( kid,
-      cms.view.userPartner.setInfo
-    );
-
-    // モバイルタブの描画
-    cms.model.userMobile.fetch( kid,
-      cms.view.userMobile.setInfo
-    );
-
-    // 履歴タブの描画
-    cms.model.userHistory.fetch( kid,
-      cms.view.userHistory.drawTable
-    );
-
-    // メモ一覧作成
-    cms.model.userMemo.fetch( kid,
-      cms.view.editUsrs.makeMemos
-    );
-
-    // ユニバ表示制御
-    if ( cms.model.userBaseInfo.getCache().has_fenics === 0 ) {
-      cms.view.userNetwork.hideFenics();
-    }
-    else {
-      cms.view.userNetwork.showFenics();
-    }
-
-    // ビジV表示制御
-    if ( cms.model.userBaseInfo.getCache().has_busiv === 0 ) {
-      cms.view.userNetwork.hideBusiv();
-    }
-    else {
-      cms.view.userNetwork.showBusiv();
-      cms.model.userBusiv.fetch(kid,
-        cms.view.userNetwork.setBusivInfo
-      );
-    }
-
-    // モバイル表示制御
-    if ( cms.model.userBaseInfo.getCache().has_mobile === 1 ) {
-      cms.view.editUsrs.showMobile();
-    }
-    else {
-      cms.view.editUsrs.hideMobile();
-    }
-
-    $('.main-contents').removeClass('is-active');
-
-    // クリックされたコンテンツにis-activeを付与
-    var target = '.main-contents--edit-usr'
-    $(target).addClass('is-active');
-
+    moveUserDetail( kid );
 
   };
 
@@ -570,6 +470,101 @@
 
   };
 
+  moveUserDetail = function ( kid ) {
+
+    // 編集画面の初期化
+    cms.view.editUsrs.clearView();
+
+    // 基本情報タブ　システム情報描画
+    cms.model.userBaseInfo.fetch( kid,
+      cms.view.userBaseInfo.makeSystemInfo
+    );
+
+    // 基本情報タブ　拠点情報作成描画
+    cms.model.userCustomer.fetch(kid,
+      cms.view.userBaseInfo.makeCustomerInfo
+    );
+
+    cms.model.userNetwork.fetch(kid, function () {
+
+      // ネットワークタブ描画
+      cms.model.userNetwork.find({'is_mobile':0},
+        cms.view.userNetwork.redrawTable
+      );
+
+      // モバイルfenicsテーブル描画
+      cms.model.userNetwork.find({is_mobile : 1},
+        cms.view.userMobile.drawTable
+      );
+
+    });
+
+    // クライアントテーブル描画
+    cms.model.clients.fetch(kid,
+      cms.view.userClient.redrawTable
+    );
+
+    // サービステーブル描画
+    cms.model.userLicense.fetch( kid,
+      cms.view.userService.setViewInfo
+    );
+
+    // パートナータブの描画
+    cms.model.userPartner.fetch( kid,
+      cms.view.userPartner.setInfo
+    );
+
+    // モバイルタブの描画
+    cms.model.userMobile.fetch( kid,
+      cms.view.userMobile.setInfo
+    );
+
+    // 履歴タブの描画
+    cms.model.userHistory.fetch( kid,
+      cms.view.userHistory.drawTable
+    );
+
+    // メモ一覧作成
+    cms.model.userMemo.fetch( kid,
+      cms.view.editUsrs.makeMemos
+    );
+
+    // ユニバ表示制御
+    if ( cms.model.userBaseInfo.getCache().has_fenics === 0 ) {
+      cms.view.userNetwork.hideFenics();
+    }
+    else {
+      cms.view.userNetwork.showFenics();
+    }
+
+    // ビジV表示制御
+    if ( cms.model.userBaseInfo.getCache().has_busiv === 0 ) {
+      cms.view.userNetwork.hideBusiv();
+    }
+    else {
+      cms.view.userNetwork.showBusiv();
+      cms.model.userBusiv.fetch(kid,
+        cms.view.userNetwork.setBusivInfo
+      );
+    }
+
+    // モバイル表示制御
+    if ( cms.model.userBaseInfo.getCache().has_mobile === 1 ) {
+      cms.view.editUsrs.showMobile();
+    }
+    else {
+      cms.view.editUsrs.hideMobile();
+    }
+
+    $('.main-contents').removeClass('is-active');
+
+    // クリックされたコンテンツにis-activeを付与
+    var target = '.main-contents--edit-usr'
+    $(target).addClass('is-active');
+
+
+  };
+
 
   initModule = function () {
     // table load
@@ -620,7 +615,7 @@
     regenerateTable : regenerateTable,
     refresh         : refresh,
     selectServer    : selectServer,
-    get             : _getSelectItem
+    moveUserDetail  : moveUserDetail
   };
 
 
