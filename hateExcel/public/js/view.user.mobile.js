@@ -7,40 +7,53 @@
   var
   // member
     view
+  , fenicsView
   , elements = {
-     'btn' : {
-        'cancel'        : '.btn--cancel',
-        'delete'        : '.btn--del',
-        'save'          : '.btn--save',
-        'edit'          : '.btn--edit',
-        'download'      : '.btn--download',
-        'close-dialog'  : '.btn--close',
-        'exec-download' : '.btn--exec'
-     },
-     'deivice_btn' : {
-        'minus'     : '.btn-minus-mobile',
-        'plus'      : '.btn-plus-mobile',
-     },
-     'download' : {
-        'csv' : '.download--mobile-fenics-csv',
-        'sh'  : '.download--mobile-sh'
-     },
-     'input' : {
-        'fenics_key'    : '.fenics_key',
-        'client_number' : '.client_number',
-        'admin_id'      : '.admin_id',
-        'admin_pw'      : '.admin_pw',
-        'city_cd'       : '.city_cd',
-        'office_cd'     : '.office_cd'
-     },
-     'site' : '.site .item-value',
-     'fenics-list' : '.fenics-list',
-     'checkbox' : '.mdl-checkbox',
-     'dialog' : {
-      'delete'   : '#confirm-delete-mobile-fenics-accounts',
-      'error'    : '#modal-mobile-save-alert',
-      'download' : '#dialog-mobile-download'
-     }
+      'base' : {
+        'btn' : {
+           'cancel'        : '.btn--cancel',
+           'delete'        : '.btn--del',
+           'save'          : '.btn--save',
+           'edit'          : '.btn--edit',
+           'download'      : '.btn--download',
+           'close-dialog'  : '.btn--close',
+           'exec-download' : '.btn--exec',
+        },
+        'deivice_btn' : {
+           'minus'     : '.btn-minus-mobile',
+           'plus'      : '.btn-plus-mobile',
+        },
+        'download' : {
+           'csv' : '.download--mobile-fenics-csv',
+           'sh'  : '.download--mobile-sh'
+        },
+        'input' : {
+           'fenics_key'    : '.fenics_key',
+           'client_number' : '.client_number',
+           'admin_id'      : '.admin_id',
+           'admin_pw'      : '.admin_pw',
+           'city_cd'       : '.city_cd',
+           'office_cd'     : '.office_cd'
+        },
+        'site' : '.site .item-value',
+        'fenics-list' : '.fenics-list',
+        'checkbox' : '.mdl-checkbox',
+        'dialog' : {
+         'delete'   : '#confirm-delete-mobile-fenics-accounts',
+         'error'    : '#modal-mobile-save-alert',
+         'download' : '#dialog-mobile-download'
+        }
+      },
+      'fenics' : {
+        'btn' : {
+          'edit'     : 'td.edit'
+        },
+        'list' : '.fenics-list',
+        'dialog' : {
+          'edit'   : '#edit-mobile-fenics',
+          'error'  : '#dialog-fenics-edit-error'
+        }
+      }
     }
   // private method
   , _validate
@@ -55,6 +68,7 @@
   , _makeFenicsSh
   , _increaseMobile
   , _decreaseMobile
+  , _openEditDialog
   // public method
   , setInfo
   , getInfo
@@ -282,6 +296,17 @@
     }
   };
 
+  _openEditDialog = function () {
+
+    var
+      fenics_id = $(this).parents('tr').attr('id')
+    , item = cms.model.fenics.find({ 'fenics_id' : fenics_id })[0];
+    ;
+
+    cms.view.dialogFenics.open(item);
+
+  };
+
   _makeFenicsSh = function () {
     var
       kid       =  cms.model.userBaseInfo.getCache().kid
@@ -341,13 +366,13 @@
     ;
 
     // 空にして
-    view.get('fenics-list').empty();
+    fenicsView.get('list').empty();
 
     // 詰めて
-    view.get('fenics-list').append( complied(data) );
+    fenicsView.get('list').append( complied(data) );
 
     // MDL表示用に更新
-    componentHandler.upgradeElement( view.get('fenics-list').find('table').get(0) );
+    componentHandler.upgradeElement( fenicsView.get('list').find('table').get(0) );
 
   };
 
@@ -401,8 +426,9 @@
   initModule = function () {
 
     view = new Controller('#usr-mobile-panel');
-
     view.wrap.append( customer.db.getHtml('template/user.mobile.html'));
+
+    fenicsView = new Controller('.mobile-fenics');
 
     util.alert({
       selector : view.top,
@@ -417,7 +443,8 @@
       yes      : _delete
     });
 
-    view.initElement( elements );
+    view.initElement( elements.base );
+    fenicsView.initElement( elements.fenics );
 
     view.addListener({
       'click btn__edit'          : _goEditMode,
@@ -430,7 +457,11 @@
       'click download__csv'       : _makeFenicsCSV,
       'click download__sh'       : _makeFenicsSh,
       'click deivice_btn__plus'  : _increaseMobile,
-      'click deivice_btn__minus' : _decreaseMobile
+      'click deivice_btn__minus' : _decreaseMobile,
+    });
+
+    fenicsView.addListener({
+      'click btn__edit' : _openEditDialog
     });
 
   };

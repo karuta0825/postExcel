@@ -130,6 +130,8 @@
 
   </div>
 
+<!-- 共通のダイアログ -->
+
 <!-- loading dialog -->
 <dialog class="mdl-dialog" id='dialog-loading'>
   <h6 class="mdl-dialog__title">サーバ通信</h6>
@@ -138,6 +140,47 @@
     <span>Loading</span>
   </div>
   <div class="mdl-dialog__actions"></div>
+</dialog>
+
+<!-- edit fenics dialog -->
+<dialog class="mdl-dialog" id='dialog-edit-fenics'>
+  <h6 class="mdl-dialog__title">FenicsIDの編集</h6>
+  <div class="mdl-dialog__content">
+
+    <ul class='input-list'>
+
+      <li class='fenics_id'>
+        <span class='input-name'>FenicsID</span>
+        <input class='input' type='text' disabled='disabled'></input>
+      </li>
+
+      <li class='password'>
+        <span class='input-name'>パスワード</span>
+        <input class='input' type='text' disabled='disabled'></input>
+      </li>
+
+      <li class='fenics_ip'>
+        <span class='input-name'>IP</span>
+        <input class='input' type='text'></input>
+      </li>
+
+      <li class='start_on'>
+        <span class='input-name'>開始日</span>
+        <input class='input' type='date' value=''></input>
+      </li>
+
+      <li class='end_on'>
+        <span class='input-name'>終了日</span>
+        <input class='input' type='date' value=''></input>
+      </li>
+
+    </ul>
+
+  </div>
+  <div class="mdl-dialog__actions">
+    <button type="button" class="btn btn--save mdl-button">保存</button>
+    <button type="button" class="btn btn--cancel mdl-button">キャンセル</button>
+  </div>
 </dialog>
 
   <!-- load javascript  -->
@@ -194,6 +237,7 @@
   <script src='./js/view.user.memo.js'></script>
   <script src='./js/view.setting.servers.js'></script>
   <script src='./js/view.setting.services.js'></script>
+  <script src='./js/view.dialog.fenics.js'></script>
   <!-- shell -->
   <script src='./js/shell.js' charset='utf-8'></script>
 </body>
