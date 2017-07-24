@@ -410,6 +410,27 @@ app.post('/isUniqueFenicsKey', function ( req, res ) {
 
 });
 
+app.post('/isUniqueUserKey', function ( req, res ) {
+
+  var userkey = req.body.userkey;
+
+  datas.select( userkey, 'is_unique_userkey_for_update', function ( result ) {
+    res.json( result );
+  });
+
+});
+
+app.post('/isUniqueDBPass', function ( req, res ) {
+
+  var db_password = req.body.db_password;
+
+  datas.select( db_password, 'is_unique_db_password_for_update', function ( result ) {
+    res.json( result );
+  });
+
+});
+
+
 app.post('/updateFenics', function (req, res) {
   var
     data = req.body.data

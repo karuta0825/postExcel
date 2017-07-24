@@ -212,6 +212,8 @@
     , has_busiv = getViewInfo('customer').has_busiv
     , has_fenics = getViewInfo('customer').has_fenics
     , has_mobile = getViewInfo('customer').has_mobile
+    , kid
+    , unique_err_number = 0
     ;
 
     // 拠点情報の入力チェック
@@ -226,9 +228,10 @@
       return;
     }
 
-    // 基本情報のユニークチェック
-    var kid = customer.db.select('/isUniqueFenicsKey',{ fenicsKey : getViewInfo('system').fenics_key } );
-    if ( kid[0] && kid[0] !== cms.model.userBaseInfo.getCache().kid ) {
+    // 重複チェック
+      // fenicskey
+    kid = customer.db.select('/isUniqueFenicsKey',{ fenicsKey : getViewInfo('system').fenics_key } );
+    if ( kid[0] && kid[0].kid !== cms.model.userBaseInfo.getCache().kid ) {
 
       // エラー画面をだす
       systemView.get('input__fenics_key')
@@ -236,13 +239,43 @@
       .addClass('is-error')
       ;
 
-      commonView.get('alert-unique').get(0).showModal();
+      unique_err_number += 1;
 
-      return;
     }
 
-    // userKeyの重複チェック
+      // userKey
+    kid = customer.db.select('/isUniqueUserKey',{ userkey : getViewInfo('system').userkey } );
+    if ( kid[0] && kid[0].kid !== cms.model.userBaseInfo.getCache().kid ) {
 
+      // エラー画面をだす
+      systemView.get('input__userkey')
+      .find('.item-value')
+      .addClass('is-error')
+      ;
+
+      unique_err_number += 1;
+
+    }
+
+    kid = customer.db.select('/isUniqueDBPass',{ db_password : getViewInfo('system').db_password} );
+    if ( kid[0] && kid[0].kid !== cms.model.userBaseInfo.getCache().kid ) {
+
+      // エラー画面をだす
+      systemView.get('input__db_password')
+      .find('.item-value')
+      .addClass('is-error')
+      ;
+
+      unique_err_number += 1;
+
+    }
+
+
+      // エラー表示
+    if ( unique_err_number > 0 ) {
+      commonView.get('alert-unique').get(0).showModal();
+      return;
+    }
 
     // ネットワーク情報による入力チェック
     if (  has_busiv === 0 && has_fenics === 0     ) {
@@ -569,6 +602,18 @@
     _.each( customerView.get('input'), function (v,k) {
       v.find('.item-value').val('');
     });
+
+    // 入力エラーの解除
+    // システム情報
+    _.each( systemView.get('input'), function (val, key){
+      val.find('.item-value').removeClass('is-error');
+    });
+
+    // 拠点情報
+    _.each( customerView.get('input'), function (val, key){
+      val.find('.item-value').removeClass('is-error');
+    });
+
 
   };
 
