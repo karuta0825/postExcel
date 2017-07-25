@@ -5,11 +5,14 @@
 ( function ( $, cms ) {
 
   var
+  // member
     view
+  , selectId
   , elements = {
       'btn' : {
         'save'     : '.btn--save',
-        'cancel'   : '.btn--cancel'
+        'cancel'   : '.btn--cancel',
+        'delete'   : '.btn--delete'
       },
       'input' : {
         'fenics_id' : '.fenics_id .input',
@@ -17,11 +20,16 @@
         'fenics_ip' : '.fenics_ip .input',
         'start_on'  : '.start_on .input',
         'end_on'    : '.end_on .input'
-      }
+      },
+      'confirm' : '#confirm-delete-fenics-account2'
+
     }
+  // private method
   , _setViewInfo
   , _showError
   , _save
+  , _delete
+  // public method
   , open
   , close
   , getViewInfo
@@ -54,6 +62,9 @@
       v.val( data[k] );
     });
 
+    // 編集対象のIDを設定
+    selectId = data.fenics_id;
+
   };
 
   /**
@@ -65,6 +76,13 @@
 
     cms.model.userNetwork.update( getViewInfo(), close, _showError );
 
+  };
+
+  /**
+   * アカウントの削除
+   */
+  _delete = function () {
+    cms.model.userNetwork.deleteFenics( selectId , close );
   };
 
   /**
@@ -121,11 +139,19 @@
 
     view = new Controller('#dialog-edit-fenics');
 
+    util.confirm({
+      selector : view.top,
+      id       : 'confirm-delete-fenics-account2',
+      msg      : '選択したユーザを削除しますか？',
+      yes      : _delete
+    });
+
     view.initElement(elements);
 
     view.addListener({
       'click btn__save'   : _save,
-      'click btn__cancel' : close
+      'click btn__cancel' : close,
+      'click btn__delete' : function() { view.get('confirm').get(0).showModal(); }
     });
 
   };

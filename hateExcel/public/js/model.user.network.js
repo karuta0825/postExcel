@@ -1,5 +1,7 @@
 /**
  * ネットワーク情報モデル
+ * TODO:名前をfenicsに変えよう
+ *       viewに縛られる必要はない
  */
 
 ( function ( $, cms ) {
@@ -22,6 +24,7 @@
   , makeFenicsDownloadMap
   , update
   , addFenicsAccount
+  , deleteFenics
   , registerFenicsAccount
   ;
 
@@ -141,6 +144,39 @@
 
   };
 
+  deleteFenics = function ( id, callback ) {
+
+    var
+      kid = cms.model.userBaseInfo.getCache().kid
+    , params = {
+        table : 'fenics',
+        data : [{ fenics_id : id }]
+      }
+    ;
+
+    cms.db.post('/delete', params )
+    .then( function (r) {
+      return cms.model.userNetwork.fetch( kid );
+    })
+    .then( function () {
+
+      // ネットワークタブ再描画
+      cms.model.userNetwork.find({'is_mobile' : 0},
+        cms.view.userNetwork.redrawTable
+      );
+
+      // モバイルfenicsテーブル再描画
+      cms.model.userNetwork.find({'is_mobile' : 1},
+        cms.view.userMobile.drawTable
+      );
+
+      callback();
+
+    });
+    ;
+
+  };
+
   /**
    * ユーザ登録時のFenicsアカウント作成関数
    * @param  {Object} map
@@ -161,6 +197,7 @@
     fetch                 : $.proxy( _model.fetchAsync, _model ),
     getCache              : $.proxy( _model.getCache, _model),
     delete                : $.proxy( _model.delete, _model ),
+    deleteFenics          : deleteFenics,
     find                  : $.proxy( _model.find, _model ),
     makeAccountMapList    : makeAccountMapList,
     addFenicsAccount      : addFenicsAccount,
