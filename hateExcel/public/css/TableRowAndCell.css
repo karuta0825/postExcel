@@ -468,10 +468,13 @@
   right: 5px;
   margin-top: 5px;
 }
+.events .body {
+  height: 100%;
+}
 
 .event-list {
   list-style: none;
-  height: 100%;
+  height: 80%;
   overflow-y: auto;
   padding : 0 0 0 20px;
 }
