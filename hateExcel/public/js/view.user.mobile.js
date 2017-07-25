@@ -12,7 +12,6 @@
       'base' : {
         'btn' : {
            'cancel'        : '.btn--cancel',
-           'delete'        : '.btn--del',
            'save'          : '.btn--save',
            'edit'          : '.btn--edit',
            'download'      : '.btn--download',
@@ -127,7 +126,6 @@
     view.get('btn__edit').addClass('is-hidden');
     view.get('btn__download').addClass('is-hidden');
     view.get('btn__cancel').removeClass('is-hidden');
-    view.get('btn__delete').removeClass('is-hidden');
     view.get('btn__save').removeClass('is-hidden');
 
   };
@@ -153,7 +151,6 @@
     view.get('btn__edit').removeClass('is-hidden');
     view.get('btn__download').removeClass('is-hidden');
     view.get('btn__cancel').addClass('is-hidden');
-    view.get('btn__delete').addClass('is-hidden');
     view.get('btn__save').addClass('is-hidden');
 
   };
