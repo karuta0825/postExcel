@@ -9,7 +9,6 @@
   , elements = {
       'btn' : {
         'cancel'   : '.btn--cancel',
-        'delete'   : '.btn--del',
         'save'     : '.btn--save',
         'edit'     : '.btn--edit',
         'download' : '.btn--download',
@@ -27,7 +26,6 @@
       'table'  : '.fenics-table',
       'dialog' : {
         'download' : '#modal-network-download',
-        'delete'   : '#confirm-delete-fenics-accounts'
       },
       'busiv-section' : {
         'self' : '.busiv-section',
@@ -111,7 +109,6 @@
     networkView.get('btn__edit').addClass('is-hidden');
     networkView.get('btn__download').addClass('is-hidden');
     networkView.get('btn__cancel').removeClass('is-hidden');
-    networkView.get('btn__delete').removeClass('is-hidden');
     networkView.get('btn__save').removeClass('is-hidden');
 
     // 日付変更可能
@@ -140,7 +137,6 @@
     networkView.get('btn__edit').removeClass('is-hidden');
     networkView.get('btn__download').removeClass('is-hidden');
     networkView.get('btn__cancel').addClass('is-hidden');
-    networkView.get('btn__delete').addClass('is-hidden');
     networkView.get('btn__save').addClass('is-hidden');
 
     // ユニバ情報
@@ -459,10 +455,12 @@
 
   showBusiv = function () {
     networkView.get('busiv-section__self').removeClass('is-hidden');
+    networkView.get('btn__edit').removeClass('is-hidden');
   };
 
   hideBusiv = function () {
     networkView.get('busiv-section__self').addClass('is-hidden');
+    networkView.get('btn__edit').addClass('is-hidden');
   };
 
   showFenics = function () {
@@ -498,20 +496,12 @@
       msg      : '入力に誤りがあります'
     });
 
-    util.confirm({
-      selector : '#usr-network-panel',
-      id       : 'confirm-delete-fenics-accounts',
-      msg      : '選択したユーザを削除しますか？',
-      yes      : _deleteFenicsAccounts
-    });
-
     networkView.initElement( elements );
 
     networkView.addListener({
       'click btn__download'     : _openDialog,
       'click btn__close'        : _closeDialog,
       'click btn__exec'         : _execDowload,
-      'click btn__delete'       : function () { networkView.get('dialog__delete').get(0).showModal(); },
       'click btn__edit'         : _goEditMode,
       'click btn__cancel'       : _cancel,
       'click btn__save'         : _save,
