@@ -8,14 +8,20 @@ html, body {
   color :#696969;
 }
 
+textarea {
+  font-family: "メイリオ", sans-serif;
+  color : #696969;
+}
 
 select {
+  font-family: "メイリオ", sans-serif;
   color : #696969;
   font-size :12.5px;
 }
 
 input, th
 {
+  font-family: "メイリオ", sans-serif;
   font-size: 10px;
 }
 

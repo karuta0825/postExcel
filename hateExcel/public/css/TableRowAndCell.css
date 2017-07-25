@@ -469,8 +469,26 @@
   margin-top: 5px;
 }
 
+.event-list {
+  list-style: none;
+  height: 100%;
+  overflow-y: auto;
+  padding : 0 0 0 20px;
+}
+
 .event-list .event-item {
+  width: 90%;
+  margin-top: 10px;
   cursor: pointer;
+}
+
+.event-list .event-item:hover {
+  background : #dedede;;
+}
+
+.event-item .start_on,
+.event-item .title {
+  display: block;
 }
 
 /* イベントダイアログ */
@@ -1124,26 +1142,26 @@
 }
 
 /* 編集モーダル画面*/
-#edit-fenics-item {
+#dialog-edit-fenics {
   width: 50%;
 }
 
-#edit-fenics-item .input-list {
+#dialog-edit-fenics .input-list {
   list-style: none;
   padding-left: 0px;
 }
 
-#edit-fenics-item li {
+#dialog-edit-fenics li {
   margin: 10px 0 0 10px;
 }
 
-#edit-fenics-item .input-name {
+#dialog-edit-fenics .input-name {
   display: inline-block;
   width:15%;
   margin-right: 20px;
 }
 
-#edit-fenics-item .input {
+#dialog-edit-fenics .input {
   width: 70%;
 }
 
