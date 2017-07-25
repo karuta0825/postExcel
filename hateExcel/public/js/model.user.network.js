@@ -155,7 +155,7 @@
     ;
 
     cms.db.post('/delete', params )
-    .then( function (r) {
+    .then( function () {
       return cms.model.userNetwork.fetch( kid );
     })
     .then( function () {
