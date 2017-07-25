@@ -22,8 +22,11 @@
       'download' : {
         'fenics'      : '.download--fenics',
       },
-      'fenics-section' : '.fenics-section',
-      'table'  : '.fenics-table',
+      'fenics-section' : {
+        'self'  : '.fenics-section',
+        'title' : '.fenics-section .user-list__section',
+        'body'  : '.fenics-section .body'
+      },
       'dialog' : {
         'download' : '#modal-network-download',
       },
@@ -405,18 +408,14 @@
     var
       data     = {
         list      : data,
-        is_redraw : true,
         clients   : cms.model.clients.find({ is_admin : 0 })
       }
-    , tmpl     = customer.db.getHtml('template/user.network.html')
+    , tmpl     = customer.db.getHtml('template/mobile.fenics.list.html')
     , complied = _.template( tmpl )
     ;
 
     networkView.get('fenics-section').empty();
     networkView.get('fenics-section').append( complied(data) );
-    componentHandler.upgradeElements( networkView.wrap );
-
-    networkView.updateElement({'table' : '.fenics-table'});
 
   };
 
@@ -425,14 +424,15 @@
     var
       data     = {
         list      : data,
-        is_redraw : false,
         clients   : cms.model.clients.find({ is_admin : 0 })
       }
-    , tmpl     = customer.db.getHtml('template/user.network.html')
+    , tmpl     = customer.db.getHtml('template/mobile.fenics.list.html')
     , complied = _.template( tmpl )
     ;
 
-    $('#usr-network-panel').append( complied(data) );
+    networkView.get('fenics-section__body').empty();
+    networkView.get('fenics-section__body').append( complied(data) );
+    componentHandler.upgradeElements( networkView.wrap );
 
   };
 
@@ -464,11 +464,11 @@
   };
 
   showFenics = function () {
-    networkView.get('fenics-section').removeClass('is-hidden');
+    networkView.get('fenics-section__self').removeClass('is-hidden');
   };
 
   hideFenics = function () {
-    networkView.get('fenics-section').addClass('is-hidden');
+    networkView.get('fenics-section__self').addClass('is-hidden');
   };
 
   refresh = function () {
@@ -486,9 +486,11 @@
 
   initModule = function () {
 
-    drawTable();
-
     networkView = new Controller('#usr-network-panel');
+
+    networkView.wrap.append(
+      customer.db.getHtml('template/user.network.html')
+    );
 
     util.alert({
       selector : networkView.top,
@@ -519,7 +521,7 @@
   // to public
   cms.view.userNetwork = {
     initModule          : initModule,
-    redrawTable         : redrawTable,
+    redrawTable         : drawTable,
     clear               : clear,
     showBusiv           : showBusiv,
     hideBusiv           : hideBusiv,
