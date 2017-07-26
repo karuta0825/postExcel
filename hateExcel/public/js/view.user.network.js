@@ -60,7 +60,6 @@
   , _downloadFile
   , _getSelectItem
   , _goEditMode
-  , _deleteFenicsAccounts
   , _save
   , _cancel
   , _selectChoice
@@ -241,38 +240,6 @@
 
   };
 
-
-  _deleteFenicsAccounts = function () {
-
-    var
-      list_accounts           = _getSelectItem()
-    , kid                     = cms.model.userBaseInfo.getCache().kid
-    , number_accounts_now     = cms.model.kids.find({kid : kid})[0].number_pc
-    , number_deleted_accounts
-    ;
-
-    if ( list_accounts && list_accounts.length > 0 ) {
-
-      number_deleted_accounts = list_accounts.length
-
-      // 端末削除
-      cms.model.userNetwork.delete( list_accounts, function () {
-
-        // 端末台数の変更
-        cms.model.kids.update({
-            'kid'       : kid,
-            'number_pc' : number_accounts_now - list_accounts.length
-          }, function () {
-            cms.view.userBaseInfo.refresh();
-            refresh();
-            _backMode();
-        });
-
-      });
-
-    }
-
-  };
 
   /**
    * ビジV情報を更新するために必要
@@ -455,15 +422,20 @@
     networkView.get('fenics-section__self').addClass('is-hidden');
   };
 
+  /**
+   * viewの更新
+   */
   refresh = function () {
 
-    if ( cms.model.userNetwork.getCache().length > 0 ) {
-      var kid = cms.model.userNetwork.getCache()[0].kid;
-      cms.model.userNetwork.fetch( kid , function () {
-        cms.model.userNetwork.find({'is_mobile' : 0}, drawTable);
-      });
-    }
+    var kid = cms.model.userNetwork.getCache()[0].kid;
 
+    // fenics tableの更新
+    cms.model.userNetwork.fetch( kid )
+    .then( function () {
+      cms.model.userNetwork.find({'is_mobile' : 0}, drawTable);
+    });
+
+    // busivの更新
     cms.model.userBusiv.getCache( setBusivInfo );
 
   };
