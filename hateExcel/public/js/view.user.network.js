@@ -403,22 +403,6 @@
 
   };
 
-  redrawTable = function ( data ) {
-
-    var
-      data     = {
-        list      : data,
-        clients   : cms.model.clients.find({ is_admin : 0 })
-      }
-    , tmpl     = customer.db.getHtml('template/mobile.fenics.list.html')
-    , complied = _.template( tmpl )
-    ;
-
-    networkView.get('fenics-section').empty();
-    networkView.get('fenics-section').append( complied(data) );
-
-  };
-
   drawTable = function ( data ) {
 
     var
@@ -476,7 +460,7 @@
     if ( cms.model.userNetwork.getCache().length > 0 ) {
       var kid = cms.model.userNetwork.getCache()[0].kid;
       cms.model.userNetwork.fetch( kid , function () {
-        cms.model.userNetwork.find({'is_mobile' : 0}, redrawTable);
+        cms.model.userNetwork.find({'is_mobile' : 0}, drawTable);
       });
     }
 
@@ -521,7 +505,7 @@
   // to public
   cms.view.userNetwork = {
     initModule          : initModule,
-    redrawTable         : drawTable,
+    drawTable           : drawTable,
     clear               : clear,
     showBusiv           : showBusiv,
     hideBusiv           : hideBusiv,

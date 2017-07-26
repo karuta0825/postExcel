@@ -489,7 +489,7 @@
 
       // ネットワークタブ描画
       cms.model.userNetwork.find({'is_mobile':0},
-        cms.view.userNetwork.redrawTable
+        cms.view.userNetwork.drawTable
       );
 
       // モバイルfenicsテーブル描画

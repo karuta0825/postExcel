@@ -59,7 +59,7 @@
           _model.fetchAsync( kid, function () {
 
             cms.model.userNetwork.find({is_mobile : 0},
-              cms.view.userNetwork.redrawTable
+              cms.view.userNetwork.drawTable
             );
 
             cms.model.userNetwork.find({is_mobile : 1},
@@ -137,7 +137,7 @@
       { data  : post },
        function () {
         customer.model.userNetwork.fetch( before.kid,
-          customer.view.userNetwork.redrawTable
+          customer.view.userNetwork.drawTable
         );
        }
     );
@@ -148,6 +148,7 @@
 
     var
       kid = cms.model.userBaseInfo.getCache().kid
+    , number_accounts_now = cms.model.kids.find({kid : kid})[0].number_pc
     , params = {
         table : 'fenics',
         data : [{ fenics_id : id }]
@@ -162,7 +163,7 @@
 
       // ネットワークタブ再描画
       cms.model.userNetwork.find({'is_mobile' : 0},
-        cms.view.userNetwork.redrawTable
+        cms.view.userNetwork.drawTable
       );
 
       // モバイルfenicsテーブル再描画
@@ -170,9 +171,19 @@
         cms.view.userMobile.drawTable
       );
 
-      callback();
+    })
+    .then( function () {
 
-    });
+      // 端末台数の変更
+      cms.model.kids.update({
+          'kid'       : kid,
+          'number_pc' : number_accounts_now - 1
+        }, function () {
+          cms.view.userBaseInfo.refresh();
+      });
+
+    })
+    .then( callback )
     ;
 
   };
