@@ -198,6 +198,39 @@
 
   };
 
+  Model.fn.search = function ( keyword, callback ) {
+
+    var
+      reg = new RegExp(keyword, 'i')
+    , ary = []
+    ;
+
+    _.each( this['_cache'], function (item,idx) {
+
+      var is_match = 0;
+
+      _.each( item, function (v,k) {
+        if ( String(v).match(reg) !== null ) {
+          is_match = 1;
+        }
+      });
+
+      if ( is_match === 1 ) {
+        ary.push(item);
+      }
+
+    });
+
+    if ( typeof callback  === 'function') {
+      this['_filterList'] = ary;
+      callback( ary );
+    }
+    else {
+      return ary;
+    }
+
+  };
+
 
   Model.fn.add = function ( item ) {
     this['_cache'].push(item);
