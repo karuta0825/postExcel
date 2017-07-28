@@ -78,13 +78,13 @@
         return false;
       }
 
-      // if ( cms.model.kids.find({'kid' : kid})[0].is_registered === 1 ) {
-      //   registerView.get('alert')
-      //     .find('.mdl-dialog__content')
-      //     .text('二度目の登録はできません')
-      //   registerView.get('alert').get(0).showModal();
-      //   return false;
-      // }
+      if ( cms.model.kids.find({'kid' : kid})[0].is_registered === 1 ) {
+        registerView.get('alert')
+          .find('.mdl-dialog__content')
+          .text('二度目の登録はできません')
+        registerView.get('alert').get(0).showModal();
+        return false;
+      }
 
       // データ作成
       uploadData = _makeUploadData( list_oneline, kid );
@@ -208,11 +208,18 @@
 
     // kids -端末数
     cms.model.kids.register({
-      kid           : kid,
-      register_on   : moment().format('YYYY-MM-DD'),
-      number_pc     : uploadData['kids']['number_pc'],
-      is_registered : 1 }
-    )
+      kid                      : kid,
+      user_name                : uploadData['kids']['user_name'],
+      kana                     : uploadData['kids']['kana'],
+      number_pc                : uploadData['kids']['number_pc'],
+      has_qa                   : ( uploadData['kids']['has_qa']                   === '1') ? '1' : '0',
+      is_new_contract          : ( uploadData['kids']['is_new_contract']          === '1') ? '1' : '0',
+      is_replaced_from_cj      : ( uploadData['kids']['is_replaced_from_cj']      === '1') ? '1' : '0',
+      is_replaced_from_wc      : ( uploadData['kids']['is_replaced_from_wc']      === '1') ? '1' : '0',
+      is_replaced_from_another : ( uploadData['kids']['is_replaced_from_another'] === '1') ? '1' : '0',
+      register_on              : moment().format('YYYY-MM-DD'),
+      is_registered            : 1
+    })
     // customers
     .then( function () {
       return cms.model.userCustomer.register( upload_data.customers );
