@@ -205,7 +205,7 @@
 
   initModule = function () {
     // 同期処理させる
-    $('.main-contents--settings-services').append( customer.db.getHtml('setting.services.html') );
+    $('.main-contents--settings-services').append( customer.db.getHtml('html/setting.services.html') );
 
     view['BASE'] = new Controller('.main-contents--settings-services');
     view['LM']   = new Controller('.setting--lm-services');

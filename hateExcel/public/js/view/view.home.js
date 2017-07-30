@@ -104,7 +104,7 @@
 
   initModule = function () {
 
-    $('.main-contents--home').append( customer.db.getHtml('home.html') );
+    $('.main-contents--home').append( customer.db.getHtml('/html/home.html') );
 
     homeView = new Controller('.main-contents--home');
     homeView.initElement( elements );

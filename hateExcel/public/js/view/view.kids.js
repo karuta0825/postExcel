@@ -568,7 +568,7 @@
 
   initModule = function () {
     // table load
-    $('.main-contents--view-usr').append( customer.db.getHtml('list.users.html') );
+    $('.main-contents--view-usr').append( customer.db.getHtml('html/list.users.html') );
 
     // ダイアログ作成
     util.confirm({

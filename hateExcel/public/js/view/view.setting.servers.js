@@ -307,7 +307,7 @@
   // initialize module
   initModule = function () {
     // 同期処理させる
-    $('.main-contents--settings-servers').append( customer.db.getHtml('setting.servers.html') );
+    $('.main-contents--settings-servers').append( customer.db.getHtml('html/setting.servers.html') );
 
     view   = {
       'BASE' : new Controller('.main-contents--settings-servers'),

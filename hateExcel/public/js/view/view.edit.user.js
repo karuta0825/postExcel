@@ -162,7 +162,7 @@
   initModule = function () {
 
     // コンテンツの挿入
-    $('.main-contents--edit-usr').append( customer.db.getHtml('edit.user.html'));
+    $('.main-contents--edit-usr').append( customer.db.getHtml('html/edit.user.html'));
 
     // ビュー管理インスタンス
     editView = new Controller('.main-contents--edit-usr');

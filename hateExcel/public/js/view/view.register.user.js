@@ -277,7 +277,7 @@
     $.event.props.push('dataTransfer');
 
     // コンテンツの挿入
-    $('.main-contents--reg-usr').append( customer.db.getHtml('register.user.html'));
+    $('.main-contents--reg-usr').append( customer.db.getHtml('html/register.user.html'));
 
     registerView = new Controller('.main-contents--reg-usr');
 

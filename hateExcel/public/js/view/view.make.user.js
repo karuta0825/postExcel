@@ -111,7 +111,7 @@
 
   initModule = function () {
 
-    $('.main-contents--mk-usr').append( customer.db.getHtml('make.user.html') );
+    $('.main-contents--mk-usr').append( customer.db.getHtml('html/make.user.html') );
 
     makeUserView = new Controller('.main-contents--mk-usr');
 
