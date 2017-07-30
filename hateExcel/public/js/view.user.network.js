@@ -9,7 +9,6 @@
   , elements = {
       'btn' : {
         'cancel'   : '.btn--cancel',
-        'delete'   : '.btn--del',
         'save'     : '.btn--save',
         'edit'     : '.btn--edit',
         'download' : '.btn--download',
@@ -23,11 +22,13 @@
       'download' : {
         'fenics'      : '.download--fenics',
       },
-      'fenics-section' : '.fenics-section',
-      'table'  : '.fenics-table',
+      'fenics-section' : {
+        'self'  : '.fenics-section',
+        'title' : '.fenics-section .user-list__section',
+        'body'  : '.fenics-section .body'
+      },
       'dialog' : {
         'download' : '#modal-network-download',
-        'delete'   : '#confirm-delete-fenics-accounts'
       },
       'busiv-section' : {
         'self' : '.busiv-section',
@@ -59,7 +60,6 @@
   , _downloadFile
   , _getSelectItem
   , _goEditMode
-  , _deleteFenicsAccounts
   , _save
   , _cancel
   , _selectChoice
@@ -111,7 +111,6 @@
     networkView.get('btn__edit').addClass('is-hidden');
     networkView.get('btn__download').addClass('is-hidden');
     networkView.get('btn__cancel').removeClass('is-hidden');
-    networkView.get('btn__delete').removeClass('is-hidden');
     networkView.get('btn__save').removeClass('is-hidden');
 
     // 日付変更可能
@@ -140,7 +139,6 @@
     networkView.get('btn__edit').removeClass('is-hidden');
     networkView.get('btn__download').removeClass('is-hidden');
     networkView.get('btn__cancel').addClass('is-hidden');
-    networkView.get('btn__delete').addClass('is-hidden');
     networkView.get('btn__save').addClass('is-hidden');
 
     // ユニバ情報
@@ -242,38 +240,6 @@
 
   };
 
-
-  _deleteFenicsAccounts = function () {
-
-    var
-      list_accounts           = _getSelectItem()
-    , kid                     = cms.model.userBaseInfo.getCache().kid
-    , number_accounts_now     = cms.model.kids.find({kid : kid})[0].number_pc
-    , number_deleted_accounts
-    ;
-
-    if ( list_accounts && list_accounts.length > 0 ) {
-
-      number_deleted_accounts = list_accounts.length
-
-      // 端末削除
-      cms.model.userNetwork.delete( list_accounts, function () {
-
-        // 端末台数の変更
-        cms.model.kids.update({
-            'kid'       : kid,
-            'number_pc' : number_accounts_now - list_accounts.length
-          }, function () {
-            cms.view.userBaseInfo.refresh();
-            refresh();
-            _backMode();
-        });
-
-      });
-
-    }
-
-  };
 
   /**
    * ビジV情報を更新するために必要
@@ -404,39 +370,20 @@
 
   };
 
-  redrawTable = function ( data ) {
-
-    var
-      data     = {
-        list      : data,
-        is_redraw : true,
-        clients   : cms.model.clients.find({ is_admin : 0 })
-      }
-    , tmpl     = customer.db.getHtml('template/user.network.html')
-    , complied = _.template( tmpl )
-    ;
-
-    networkView.get('fenics-section').empty();
-    networkView.get('fenics-section').append( complied(data) );
-    componentHandler.upgradeElements( networkView.wrap );
-
-    networkView.updateElement({'table' : '.fenics-table'});
-
-  };
-
   drawTable = function ( data ) {
 
     var
       data     = {
         list      : data,
-        is_redraw : false,
         clients   : cms.model.clients.find({ is_admin : 0 })
       }
-    , tmpl     = customer.db.getHtml('template/user.network.html')
+    , tmpl     = customer.db.getHtml('template/mobile.fenics.list.html')
     , complied = _.template( tmpl )
     ;
 
-    $('#usr-network-panel').append( complied(data) );
+    networkView.get('fenics-section__body').empty();
+    networkView.get('fenics-section__body').append( complied(data) );
+    componentHandler.upgradeElements( networkView.wrap );
 
   };
 
@@ -459,50 +406,52 @@
 
   showBusiv = function () {
     networkView.get('busiv-section__self').removeClass('is-hidden');
+    networkView.get('btn__edit').removeClass('is-hidden');
   };
 
   hideBusiv = function () {
     networkView.get('busiv-section__self').addClass('is-hidden');
+    networkView.get('btn__edit').addClass('is-hidden');
   };
 
   showFenics = function () {
-    networkView.get('fenics-section').removeClass('is-hidden');
+    networkView.get('fenics-section__self').removeClass('is-hidden');
   };
 
   hideFenics = function () {
-    networkView.get('fenics-section').addClass('is-hidden');
+    networkView.get('fenics-section__self').addClass('is-hidden');
   };
 
+  /**
+   * viewの更新
+   */
   refresh = function () {
 
-    if ( cms.model.userNetwork.getCache().length > 0 ) {
-      var kid = cms.model.userNetwork.getCache()[0].kid;
-      cms.model.userNetwork.fetch( kid , function () {
-        cms.model.userNetwork.find({'is_mobile' : 0}, redrawTable);
-      });
-    }
+    var kid = cms.model.userNetwork.getCache()[0].kid;
 
+    // fenics tableの更新
+    cms.model.userNetwork.fetch( kid )
+    .then( function () {
+      cms.model.userNetwork.find({'is_mobile' : 0}, drawTable);
+    });
+
+    // busivの更新
     cms.model.userBusiv.getCache( setBusivInfo );
 
   };
 
   initModule = function () {
 
-    drawTable();
-
     networkView = new Controller('#usr-network-panel');
+
+    networkView.wrap.append(
+      customer.db.getHtml('template/user.network.html')
+    );
 
     util.alert({
       selector : networkView.top,
       id       : 'modal-userBusiv-alert',
       msg      : '入力に誤りがあります'
-    });
-
-    util.confirm({
-      selector : '#usr-network-panel',
-      id       : 'confirm-delete-fenics-accounts',
-      msg      : '選択したユーザを削除しますか？',
-      yes      : _deleteFenicsAccounts
     });
 
     networkView.initElement( elements );
@@ -511,7 +460,6 @@
       'click btn__download'     : _openDialog,
       'click btn__close'        : _closeDialog,
       'click btn__exec'         : _execDowload,
-      'click btn__delete'       : function () { networkView.get('dialog__delete').get(0).showModal(); },
       'click btn__edit'         : _goEditMode,
       'click btn__cancel'       : _cancel,
       'click btn__save'         : _save,
@@ -529,7 +477,7 @@
   // to public
   cms.view.userNetwork = {
     initModule          : initModule,
-    redrawTable         : redrawTable,
+    drawTable           : drawTable,
     clear               : clear,
     showBusiv           : showBusiv,
     hideBusiv           : hideBusiv,

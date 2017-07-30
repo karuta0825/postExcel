@@ -1,84 +1,10 @@
 
-
-<% if ( !is_redraw ) { %>
   <!-- アクション -->
-  <div class='user-edit-header__action'>
-    <button class='btn btn--cancel mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect is-hidden' href='#edit-usr'>キャンセル</button>
-    <button class='btn btn--del mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect is-hidden' href='#edit-usr'>削除</button>
-    <button class='btn btn--save mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect is-hidden' href='#edit-usr'>保存</button>
-    <button class='btn btn--edit mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect' href='#edit-usr'>編集</button>
-    <button class='btn btn--download mdl-button mdl-js-button mdl-button--raised mdl-button--accent'>ダウンロード</button>
-  </div>
-
-  <!-- ダウンロード用ダイアログ -->
-  <dialog class="mdl-dialog" id="modal-network-download">
-      <h5 class="mdl-dialog__title">ファイル選択</h5>
-      <div class="mdl-dialog__content">
-
-        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-fenics-csv">
-          <input type="checkbox" id="checkbox-fenics-csv" class="mdl-checkbox__input">
-          <span class="mdl-checkbox__label">fenicsアカウント作成CSV</span>
-          <a class='download--fenics is-hidden' href="#">ダウンロード</a>
-        </label>
-
-      </div>
-      <div class="mdl-dialog__actions">
-          <button type="button" class="mdl-button btn--exec">実行</button>
-          <button type="button" class="mdl-button btn--close">閉じる</button>
-      </div>
-  </dialog>
-
-<div class='fenics-section'>
-
-<% } %>
-
-  <h6 class='user-list__section'>Fenics情報</h6>
-  <table class='fenics-table mdl-data-table mdl-js-data-table mdl-data-table--selectable'>
-
-    <thead>
-      <th class='mdl-data-table__cell--non-numeric fenics_id'>Fenics ID</th>
-      <th class='mdl-data-table__cell--non-numeric password'>パスワード</th>
-      <th class='mdl-data-table__cell--non-numeric fenics_ip'>ip</th>
-      <th class='mdl-data-table__cell--non-numeric start_on'>開始日</th>
-      <th class='mdl-data-table__cell--non-numeric end_on'>終了日</th>
-      <th class='mdl-data-table__cell--non-numeric create_on'>作成日</th>
-      <th class='mdl-data-table__cell--non-numeric edit'>編集</th>
-    </thead>
-
-    <tbody>
-
-      <% _.each( list, function ( item, num ) { %>
-        <tr id='<%- item.fenics_id %>'>
-          <td class='mdl-data-table__cell--non-numeric fenics_id'>
-            <%- item.fenics_id %>
-          </td>
-          <td class='mdl-data-table__cell--non-numeric password'>
-            <%- item.password %>
-          </td>
-          <td class='mdl-data-table__cell--non-numeric fenics_ip'>
-            <%- item.fenics_ip %></td>
-          <td class='mdl-data-table__cell--non-numeric start_on'>
-            <%- item.start_on %>
-          </td>
-          <td class='mdl-data-table__cell--non-numeric end_on'>
-            <%- item.end_on %>
-          </td>
-          <td class='mdl-data-table__cell--non-numeric create_on'><%- item.create_on %></td>
-          <td class='mdl-data-table__cell--non-numeric edit'>
-            <button class="mdl-button mdl-js-button mdl-button--icon">
-              <i class="material-icons">edit</i>
-            </button>
-          </td>
-        </tr>
-      <% }); %>
-
-    </tbody>
-
-  </table>
-
-
-
-<% if ( !is_redraw ) { %>
+<div class='user-edit-header__action'>
+  <button class='btn btn--cancel mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect is-hidden' href='#edit-usr'>キャンセル</button>
+  <button class='btn btn--save mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect is-hidden' href='#edit-usr'>保存</button>
+  <button class='btn btn--edit mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect is-hidden' href='#edit-usr'>編集</button>
+  <button class='btn btn--download mdl-button mdl-js-button mdl-button--raised mdl-button--accent'>ダウンロード</button>
 </div>
 
 <div class='busiv-section'>
@@ -175,6 +101,28 @@
 
 </div>
 
-<% } %>
+<div class='fenics-section'>
+  <h6 class='user-list__section'>Fenics情報</h6>
+  <div class='body'></div>
+</div>
+
+<!-- ダウンロード用ダイアログ -->
+<dialog class="mdl-dialog" id="modal-network-download">
+    <h5 class="mdl-dialog__title">ファイル選択</h5>
+    <div class="mdl-dialog__content">
+
+      <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-fenics-csv">
+        <input type="checkbox" id="checkbox-fenics-csv" class="mdl-checkbox__input">
+        <span class="mdl-checkbox__label">fenicsアカウント作成CSV</span>
+        <a class='download--fenics is-hidden' href="#">ダウンロード</a>
+      </label>
+
+    </div>
+    <div class="mdl-dialog__actions">
+        <button type="button" class="mdl-button btn--exec">実行</button>
+        <button type="button" class="mdl-button btn--close">閉じる</button>
+    </div>
+</dialog>
+
 
 

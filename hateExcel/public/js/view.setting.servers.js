@@ -357,7 +357,6 @@
   // to public
   cms.view.servers = {
     initModule : initModule,
-    redrawTable : redrawTable,
     validate   : _validate
   };
 
