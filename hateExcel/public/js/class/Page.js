@@ -16,11 +16,11 @@
       throw new Error('two aruguments need.');
     }
 
-    this['idx'] = 1;
-    this['list'] = list;
-    this['length'] = list.length;
+    this['idx']                 = 1;
+    this['list']                = list;
+    this['length']              = list.length;
     this['visible_item_number'] = item_per_page;
-    this['max_page'] = Math.ceil( this.length / item_per_page );
+    this['max_page']            = this.length && Math.ceil( this.length / item_per_page ) || 1;
 
   };
 
@@ -33,6 +33,7 @@
     , end = start + this['visible_item_number']
     ;
 
+    console.log( page_number > this['max_page'] );
     if ( page_number > this['max_page'] || page_number < 1 ) {
       throw new Error('インデックスエラー');
     }
