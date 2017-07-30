@@ -33,7 +33,6 @@
     , end = start + this['visible_item_number']
     ;
 
-    console.log( page_number > this['max_page'] );
     if ( page_number > this['max_page'] || page_number < 1 ) {
       throw new Error('インデックスエラー');
     }

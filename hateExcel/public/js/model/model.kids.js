@@ -20,6 +20,7 @@
       }
     }
   , _model = new Model( config )
+  , _page
   , _headerMap = {}
   , _condition = {
       system_type : 'all',
@@ -29,10 +30,13 @@
       has_busiv   : 'all',
       has_fenics  : 'all'
     }
-    /*private method*/
   , _sortOrder = 1
+  , MAX_VISIBLE_NUMBER = 30
+    /*private method*/
     /*public  method*/
   , sortByCol
+  , getCache
+  , find
   , setCondition
   , getCondition
   , getHeader
@@ -69,14 +73,63 @@
 
   };
 
-  getCondition = function ( callback ) {
+
+  /**
+   * [getCache description]
+   * @override
+   * @param  {Function} callback
+   * @return {[type]}
+   */
+  getCache = function ( callback ) {
+
+    _page = new Page( _model.getCache(), MAX_VISIBLE_NUMBER );
 
     if ( typeof callback === 'function' ) {
-      _model.find( _condition, callback );
+      callback( _page.current() );
     }
     else {
-      return _model.find( _condition );
+      return _page.current();
     }
+
+  };
+
+  /**
+   * 指定した条件でのフィルターを行う
+   * @override
+   * @param  {Object}   condition
+   * @param  {Function} callback
+   */
+  find = function ( condition, callback ) {
+
+    _page = new Page( _model.find( condition ), MAX_VISIBLE_NUMBER );
+
+    if ( typeof callback === 'function' ) {
+      callback( _page.current() );
+    }
+    else {
+      return _page.current();
+    }
+
+  };
+
+  getCondition = function ( callback ) {
+
+    // if ( typeof callback === 'function' ) {
+    //   _model.find( _condition, callback );
+    // }
+    // else {
+    //   return _model.find( _condition );
+    // }
+
+    _page = new Page( _model.find( _condition ), MAX_VISIBLE_NUMBER );
+
+    if ( typeof callback === 'function' ) {
+      callback( _page.current() );
+    }
+    else {
+      return _page.current();
+    }
+
 
   };
 
@@ -86,7 +139,16 @@
       _condition[key] = val;
     });
 
-    _model.find( _condition, callback );
+    // _model.find( _condition, callback );
+
+    _page = new Page( _model.find( _condition ), MAX_VISIBLE_NUMBER );
+
+    if ( typeof callback === 'function') {
+      callback( _page.current() );
+    }
+    else {
+      return _page.current();
+    }
 
   };
 
@@ -219,8 +281,10 @@
   cms.model.kids = {
     initModule   : initModule,
     fetch        : $.proxy( _model.fetch,    _model ),
-    getData      : $.proxy( _model.getCache, _model ),
-    find         : $.proxy( _model.find,     _model ),
+    // getData      : $.proxy( _model.getCache, _model ),
+    getData      : getCache,
+    // find         : $.proxy( _model.find,     _model ),
+    find         : find,
     delete       : $.proxy( _model.delete,   _model ),
     getCondition : getCondition,
     setCondition : setCondition,
