@@ -42,6 +42,8 @@
   , getHeader
   , register
   , initModule
+  , nextPage
+  , prevPage
   ;
 
   /**
@@ -114,14 +116,25 @@
 
   getCondition = function ( callback ) {
 
-    // if ( typeof callback === 'function' ) {
-    //   _model.find( _condition, callback );
-    // }
-    // else {
-    //   return _model.find( _condition );
-    // }
-
     _page = new Page( _model.find( _condition ), MAX_VISIBLE_NUMBER );
+
+    if ( typeof callback === 'function' ) {
+      callback( _page.current() );
+    }
+    else {
+      return _page.current();
+    }
+
+
+  };
+
+  /**
+   * 検索メソッド
+   * @override
+   */
+  search = function ( keyword, callback ) {
+
+    _page = new Page( _model.search( keyword ), MAX_VISIBLE_NUMBER );
 
     if ( typeof callback === 'function' ) {
       callback( _page.current() );
@@ -138,8 +151,6 @@
     _.each( obj, function (val, key) {
       _condition[key] = val;
     });
-
-    // _model.find( _condition, callback );
 
     _page = new Page( _model.find( _condition ), MAX_VISIBLE_NUMBER );
 
@@ -276,6 +287,28 @@
 
   };
 
+  nextPage = function ( callback ) {
+
+    if ( typeof callback === 'function' ) {
+      callback( _page.next() );
+    }
+    else {
+      return _page.next();
+    }
+
+  };
+
+  prevPage = function ( callback ) {
+
+    if ( typeof callback === 'function' ) {
+      callback( _page.prev() );
+    }
+    else {
+      return _page.prev();
+    }
+
+  };
+
 
   /*public method*/
   cms.model.kids = {
@@ -292,7 +325,10 @@
     getHeader    : getHeader,
     update       : $.proxy( _model.update, _model ),
     check        : $.proxy( _model._checkWhatsUpdated, _model ),
-    register     : $.proxy( _model.initUpdate, _model )
+    register     : $.proxy( _model.initUpdate, _model ),
+    nextPage     : nextPage,
+    prevPage     : prevPage,
+    search       : search
   };
 
 }( jQuery, customer ));

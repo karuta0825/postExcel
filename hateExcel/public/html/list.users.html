@@ -7,6 +7,18 @@
   </div>
   <div class='filter__body'>
 
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable
+                mdl-textfield--floating-label mdl-textfield--align-right">
+      <label class="mdl-button mdl-js-button mdl-button--icon"
+             for="fixed-header-drawer-exp">
+        <i class="material-icons">search</i>
+      </label>
+      <div class="mdl-textfield__expandable-holder">
+        <input class="mdl-textfield__input search" type="text" name="sample"
+               id="fixed-header-drawer-exp">
+      </div>
+    </div>
+
     <!-- システム環境 -->
     <div class='filter-item system'>
       <div class='filter-item__title'>
@@ -79,8 +91,13 @@
 <div class='users-table'>
 
   <div class='users-table__action'>
+
+    <button class='prev'>prev</button>
+    <button class='next'>next</button>
+
     <button class='btn--del mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect' href='#edit-usr'>削除</button>
     <a class='btn--download mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored' href='#'>ダウンロード</a>
+
   </div>
 
   <!-- テーブル -->

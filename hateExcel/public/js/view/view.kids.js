@@ -81,7 +81,11 @@
       jqueryMap.btnDialogOk = content.find('dialog .btn--exec');
       jqueryMap.btnDialogCancel = content.find('dialog .btn--cancel');
 
-      jqueryMap.btnDel     = content.find('.btn--del');
+      jqueryMap.btnPrev     = content.find('.prev');
+      jqueryMap.btnNext     = content.find('.next');
+      jqueryMap.search      = filter.find('.search');
+
+      jqueryMap.btnDel      = content.find('.btn--del');
       jqueryMap.btnDownload = content.find('.btn--download');
       jqueryMap.table       = table;
       jqueryMap.thead       = table.find('thead');
@@ -443,6 +447,10 @@
    */
   regenerateTable = function ( data ) {
 
+    if ( data === null ) {
+      return;
+    }
+
     var body = "<table class='mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp'>";
     body += "<thead></thead><tbody></tbody></table>"
 
@@ -605,6 +613,14 @@
     jqueryMap.btnVersion.on( 'click', _selectVertion );
     jqueryMap.btnNetwork.on('click', _selectNetwork );
     jqueryMap.btnMobile.on( 'click', _selectMobileAvailable );
+
+    jqueryMap.btnPrev.on('click', function () { cms.model.kids.prevPage( regenerateTable ); });
+    jqueryMap.btnNext.on('click', function () { cms.model.kids.nextPage( regenerateTable ); });
+
+    jqueryMap.search.on('change', function () {
+      var keyword = $(this).val();
+      cms.model.kids.search( keyword, regenerateTable );
+    });
 
   };
 
