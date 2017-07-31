@@ -136,6 +136,7 @@
   };
 
   _hideCol = function () {
+    jqueryMap.col['kana'         ].addClass('is-hidden');
     jqueryMap.col['license'      ].addClass('is-hidden');
     jqueryMap.col['system_type'  ].addClass('is-hidden');
     jqueryMap.col['version'      ].addClass('is-hidden');
@@ -144,6 +145,18 @@
     jqueryMap.col['has_fenics'   ].addClass('is-hidden');
     jqueryMap.col['is_registered'].addClass('is-hidden');
     jqueryMap.col['register_on'  ].addClass('is-hidden');
+    jqueryMap.col['sa_company'   ].addClass('is-hidden');
+    jqueryMap.col['sa_name'      ].addClass('is-hidden');
+    jqueryMap.col['sa_tel'       ].addClass('is-hidden');
+    jqueryMap.col['sa_email'     ].addClass('is-hidden');
+    jqueryMap.col['se_company'   ].addClass('is-hidden');
+    jqueryMap.col['se_name'      ].addClass('is-hidden');
+    jqueryMap.col['se_tel'       ].addClass('is-hidden');
+    jqueryMap.col['se_email'     ].addClass('is-hidden');
+    jqueryMap.col['em_company'   ].addClass('is-hidden');
+    jqueryMap.col['em_name'      ].addClass('is-hidden');
+    jqueryMap.col['em_tel'       ].addClass('is-hidden');
+    jqueryMap.col['em_email'     ].addClass('is-hidden');
   };
 
   _onClickColumn = function () {
