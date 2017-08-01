@@ -24,6 +24,7 @@
   , _deleteUser
   // public
   , initModule
+  , makePageButton
   , moveUserDetail
   , drawTable
   , redrawTable
@@ -83,8 +84,7 @@
 
       jqueryMap.btnPrev     = content.find('.prev');
       jqueryMap.btnNext     = content.find('.next');
-      jqueryMap.btnFirst    = content.find('.min_page');
-      jqueryMap.btnLast     = content.find('.max_page');
+      jqueryMap.pageList    = content.find('.page_list');
       jqueryMap.search      = filter.find('.search');
 
 
@@ -428,6 +428,36 @@
     // _closeDialog();
   };
 
+  /**
+   * ページ番号のボタンや..を作る
+   * @param  {Array} list - 表示するページ番号リスト
+   */
+  makePageButton = function ( list ) {
+
+    var el;
+
+    jqueryMap.pageList.empty();
+
+    _.each( list, function (number,idx) {
+
+      if ( number === '' ) {
+        el = $('<span>', { 'class' : 'page', 'text': '..'} );
+      }
+      else {
+
+        el = $('<button>', {
+          'class' : 'page btn mdl-button',
+          'text': number
+        });
+
+      }
+
+      jqueryMap.pageList.append(el);
+
+    });
+
+  };
+
   drawTable = function () {
     _drawHead( customer.model.kids.getHeader() );
     _drawBody( customer.model.kids.getData()   );
@@ -634,8 +664,6 @@
     jqueryMap.btnPrev.on('click', function () { cms.model.kids.prevPage( regenerateTable ); });
     jqueryMap.btnNext.on('click', function () { cms.model.kids.nextPage( regenerateTable ); });
 
-    jqueryMap.btnFirst.on('click', function () { cms.model.kids.firstPage( regenerateTable ); });
-    jqueryMap.btnLast.on('click', function () { cms.model.kids.lastPage( regenerateTable ); });
 
     jqueryMap.search.on('change', function () {
       var keyword = $(this).val();
