@@ -20,7 +20,7 @@
       }
     }
   , _model = new Model( config )
-  , _page
+  , _page = new Page([],1)
   , _headerMap = {}
   , _condition = {
       system_type : 'all',
@@ -311,28 +311,15 @@
 
   };
 
-  firstPage = function ( callback ) {
+  getPageList = function ( callback ) {
 
     if ( typeof callback === 'function' ) {
-      callback( _page.first() );
+      callback( _page.getPageList() );
     }
     else {
-      return _page.first();
+      return _page.getPageList();
     }
-
   };
-
-  lastPage = function ( callback ) {
-
-    if ( typeof callback === 'function' ) {
-      callback( _page.last() );
-    }
-    else {
-      return _page.last();
-    }
-
-  };
-
 
   /*public method*/
   cms.model.kids = {
@@ -352,9 +339,8 @@
     register     : $.proxy( _model.initUpdate, _model ),
     nextPage     : nextPage,
     prevPage     : prevPage,
-    firstPage    : firstPage,
-    lastPage     : lastPage,
-    search       : search
+    search       : search,
+    getPageList  : getPageList
   };
 
 }( jQuery, customer ));

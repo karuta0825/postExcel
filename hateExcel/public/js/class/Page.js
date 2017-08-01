@@ -21,6 +21,7 @@
     this['length']              = list.length;
     this['visible_item_number'] = item_per_page;
     this['max_page']            = this.length && Math.ceil( this.length / item_per_page ) || 1;
+    this['stock']               = 3;
 
   };
 
@@ -83,6 +84,34 @@
 
   Page.fn.getMaxPage = function () {
     return this['max_page'];
+  };
+
+  Page.fn.getPageList = function () {
+
+    var
+      i     = this['idx']
+    , max   = this['max_page']
+    , stock = this['stock']
+    ;
+
+    // 最大ページ数が表示可能ページ数より少ないとき
+    if ( max <= 5 ) {
+      return _.range(1,max+1);
+    }
+
+    // 次のページを読み込む必要がない
+    if ( i <= 3 ) {
+      return [1,2,3,4,'',max];
+    }
+
+    // 次ページが存在しない時
+    if ( i >= max - 2 ) {
+      return [1,'',max-3, max-2, max-1, max];
+    }
+
+    return [1,'',i-1,i,i+1,'',max];
+
+
   };
 
 }( jQuery, this)) ;
