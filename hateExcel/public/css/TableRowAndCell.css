@@ -724,19 +724,19 @@
 .users-table__action .first_layer {
   position: absolute;
   right: 0;
-  padding: 15px 20px 0 0;
+  padding: 18px 20px 0 0;
 }
 
 .users-table__action .second_layer {
   position: absolute;
   right: 0;
-  top: 62px;
+  top: 65px;
   padding: 0 20px 0 0;
 }
 
 .users-table__body {
   height: 88%;
-  margin-top: 100px;
+  margin-top: 103px;
   overflow:scroll;
 }
 
