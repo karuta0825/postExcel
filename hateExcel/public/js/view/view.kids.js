@@ -83,7 +83,10 @@
 
       jqueryMap.btnPrev     = content.find('.prev');
       jqueryMap.btnNext     = content.find('.next');
+      jqueryMap.btnFirst    = content.find('.min_page');
+      jqueryMap.btnLast     = content.find('.max_page');
       jqueryMap.search      = filter.find('.search');
+
 
       jqueryMap.btnDel      = content.find('.btn--del');
       jqueryMap.btnDownload = content.find('.btn--download');
@@ -91,6 +94,7 @@
       jqueryMap.thead       = table.find('thead');
       jqueryMap.tbody       = table.find('tbody');
       jqueryMap.row         = table.find('tr');
+
 
       jqueryMap.header = table.find('th.mdl-data-table__cell--non-numeric');
       jqueryMap.body   = {};
@@ -629,6 +633,9 @@
 
     jqueryMap.btnPrev.on('click', function () { cms.model.kids.prevPage( regenerateTable ); });
     jqueryMap.btnNext.on('click', function () { cms.model.kids.nextPage( regenerateTable ); });
+
+    jqueryMap.btnFirst.on('click', function () { cms.model.kids.firstPage( regenerateTable ); });
+    jqueryMap.btnLast.on('click', function () { cms.model.kids.lastPage( regenerateTable ); });
 
     jqueryMap.search.on('change', function () {
       var keyword = $(this).val();

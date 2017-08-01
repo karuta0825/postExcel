@@ -44,6 +44,8 @@
   , initModule
   , nextPage
   , prevPage
+  , firstPage
+  , lastPage
   ;
 
   /**
@@ -309,6 +311,28 @@
 
   };
 
+  firstPage = function ( callback ) {
+
+    if ( typeof callback === 'function' ) {
+      callback( _page.first() );
+    }
+    else {
+      return _page.first();
+    }
+
+  };
+
+  lastPage = function ( callback ) {
+
+    if ( typeof callback === 'function' ) {
+      callback( _page.last() );
+    }
+    else {
+      return _page.last();
+    }
+
+  };
+
 
   /*public method*/
   cms.model.kids = {
@@ -328,6 +352,8 @@
     register     : $.proxy( _model.initUpdate, _model ),
     nextPage     : nextPage,
     prevPage     : prevPage,
+    firstPage    : firstPage,
+    lastPage     : lastPage,
     search       : search
   };
 

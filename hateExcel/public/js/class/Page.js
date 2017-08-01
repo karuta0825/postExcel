@@ -65,6 +65,14 @@
 
   };
 
+  Page.fn.first = function () {
+    return this.get(1);
+  };
+
+  Page.fn.last = function () {
+    return this.get( this['max_page'] );
+  };
+
   Page.fn.current = function () {
     return this.get(this['idx']);
   };
