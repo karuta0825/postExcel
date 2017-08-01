@@ -734,6 +734,10 @@
   padding: 0 20px 0 0;
 }
 
+.users-table__action .second_layer .page_list {
+  display: inline-block;
+}
+
 .users-table__body {
   height: 88%;
   margin-top: 103px;

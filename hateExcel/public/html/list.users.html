@@ -97,16 +97,9 @@
     </div>
 
     <div class='second_layer'>
-      <button class='btn min_page mdl-button'>
-        <i class="material-icons">fast_rewind</i>
-        最初
-      </button>
       <button class='btn prev mdl-button'>前の30件</button>
+      <div class='page_list'></div>
       <button class='btn next mdl-button'>次の30件</button>
-      <button class='btn max_page mdl-button'>
-        最後
-        <i class="material-icons">fast_forward</i>
-      </button>
     </div>
 
   </div>
@@ -121,4 +114,38 @@
 
 </div>
 </div>
+
+<!-- ダウンロード用ダイアログ -->
+<dialog class="mdl-dialog" id="modal-kids-download">
+    <h5 class="mdl-dialog__title">ダウンロード種類を選択</h5>
+    <div class="mdl-dialog__content">
+
+      <p>
+      <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1">
+        <input type="radio" id="option-1" class="mdl-radio__button" name="options" value="1">
+        <span class="mdl-radio__label">チェック対象のみ</span>
+      </label>
+      </p>
+
+      <p>
+      <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-2">
+        <input type="radio" id="option-2" class="mdl-radio__button" name="options" value="2">
+        <span class="mdl-radio__label">フィルター対象全て</span>
+      </label>
+      </p>
+
+      <p>
+      <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-3">
+        <input type="radio" id="option-3" class="mdl-radio__button" name="options" value="3">
+        <span class="mdl-radio__label">全て</span>
+      </label>
+      </p>
+      <a class='download--kids is-hidden' href="#">ダウンロード</a>
+
+    </div>
+    <div class="mdl-dialog__actions">
+        <button type="button" class="mdl-button btn--exec">ダウンロード</button>
+        <button type="button" class="mdl-button btn--close">閉じる</button>
+    </div>
+</dialog>
 
