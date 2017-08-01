@@ -297,7 +297,7 @@
 
     var
       fenics_id = $(this).parents('tr').attr('id')
-    , item = cms.model.fenics.find({ 'fenics_id' : fenics_id })[0];
+    , item = cms.model.userNetwork.find({ 'fenics_id' : fenics_id })[0];
     ;
 
     cms.view.dialogFenics.open(item);
