@@ -103,3 +103,8 @@ tbody, input {
 .mdl-layout__content .material-icons {
   font-size: 1em;
 }
+
+.accent-font {
+  color : #ff4081;
+  font-weight: 500;
+}

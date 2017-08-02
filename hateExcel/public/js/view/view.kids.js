@@ -23,6 +23,7 @@
   , _getSelectItem
   , _deleteUser
   , _selectPage
+  , _highlightIndexPage
   // public
   , initModule
   , makePageButton
@@ -429,6 +430,16 @@
     // _closeDialog();
   };
 
+  _highlightIndexPage = function ( page_index ) {
+
+    _.each( jqueryMap.pageList.find('.page'), function (v,k) {
+      if ( Number($(v).text()) === page_index  ) {
+        $(v).addClass('accent-font');
+      }
+    });
+
+  };
+
   _selectPage = function (e) {
 
     var
@@ -534,6 +545,7 @@
     jqueryMap.header.on( 'click', _onClickColumn );
 
     cms.model.kids.getPageList( makePageButton );
+    _highlightIndexPage( cms.model.kids.getPageIndex() );
 
   };
 
@@ -654,8 +666,9 @@
     _setJqueryMap();
 
     drawTable();
-
     cms.model.kids.getPageList( makePageButton );
+    _highlightIndexPage( cms.model.kids.getPageIndex() );
+
 
     // サーバー選択肢作成
     selectServer( 'all' );

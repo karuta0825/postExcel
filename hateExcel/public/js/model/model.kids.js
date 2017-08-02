@@ -44,7 +44,8 @@
   , initModule
   , nextPage
   , prevPage
-  , getPage
+  , getPageList
+  , getPageIndex
   ;
 
   /**
@@ -331,6 +332,10 @@
     }
   };
 
+  getPageIndex = function () {
+    return _page.getIndex();
+  };
+
   /*public method*/
   cms.model.kids = {
     initModule   : initModule,
@@ -351,7 +356,8 @@
     prevPage     : prevPage,
     getPage      : getPage,
     search       : search,
-    getPageList  : getPageList
+    getPageList  : getPageList,
+    getPageIndex : getPageIndex
   };
 
 }( jQuery, customer ));
