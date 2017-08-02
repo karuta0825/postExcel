@@ -149,6 +149,7 @@
     var
       kid = cms.model.userBaseInfo.getCache().kid
     , number_accounts_now = cms.model.kids.find({kid : kid})[0].number_pc
+    , is_mobile = _model.find({'fenics_id' : id })[0].is_mobile
     , params = {
         table : 'fenics',
         data : [{ fenics_id : id }]
@@ -174,13 +175,18 @@
     })
     .then( function () {
 
-      // 端末台数の変更
-      cms.model.kids.update({
-          'kid'       : kid,
-          'number_pc' : number_accounts_now - 1
-        }, function () {
-          cms.view.userBaseInfo.refresh();
-      });
+      // ここがモバイルかどうかで分岐の必要あり
+      if ( !is_mobile ) {
+
+        // 端末台数の変更
+        cms.model.kids.update({
+            'kid'       : kid,
+            'number_pc' : number_accounts_now - 1
+          }, function () {
+            cms.view.userBaseInfo.refresh();
+        });
+
+      }
 
     })
     .then( callback )
