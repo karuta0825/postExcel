@@ -187,6 +187,9 @@
         });
 
       }
+      else {
+        cms.model.userMobile.fetch(kid, cms.view.userMobile.setInfo )
+      }
 
     })
     .then( callback )

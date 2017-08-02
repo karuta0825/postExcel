@@ -207,45 +207,6 @@
 
   };
 
-  _delete = function () {
-
-    var
-      list_accounts           = _getSelectItem()
-    , kid                     = cms.model.userBaseInfo.getCache().kid
-    , number_accounts_now     = cms.model.userMobile.getCache()[0].client_number
-    , number_deleted_accounts
-    , diff
-    ;
-
-    if ( list_accounts && list_accounts.length > 0 ) {
-
-      number_deleted_accounts = list_accounts.length
-
-      // 差分がマイナスになる場合、0にする
-      diff = number_accounts_now - list_accounts.length;
-
-      diff = ( diff < 0 ) ? 0 : diff;
-
-      // 端末削除
-      cms.model.userNetwork.delete( list_accounts, function () {
-
-        // 端末台数の変更
-        cms.model.userMobile.update({
-            'kid'           : kid,
-            'client_number' : diff
-          }, function () {
-            refresh();
-        });
-
-      });
-
-      _goViewMode();
-
-    }
-
-
-  };
-
   _execDownload = function () {
 
     // ダウンロード

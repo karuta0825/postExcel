@@ -63,7 +63,8 @@
   addMobile = function ( value ) {
 
     var
-      diff = value - _model.getCache()[0].client_number
+      kid  = _model.getCache()[0].kid
+    , diff = value - _model.getCache()[0].client_number
     , params
     ;
 
@@ -73,7 +74,7 @@
 
     params = {
       data : {
-        kid                 : _model.getCache()[0].kid,
+        kid                 : kid,
         fenics_key          : _model.getCache()[0].fenics_key,
         number_client_added : diff
       }
@@ -81,12 +82,14 @@
 
     return cms.db.post('/addMobileClient', params)
     .then( function () {
-
-      cms.model.userNetwork.fetch( _model.getCache()[0].kid,
+      cms.model.userNetwork.fetch( kid,
       function () {
         cms.model.userNetwork.find( {is_mobile : 1}, cms.view.userMobile.drawTable );
       });
 
+    })
+    .then( function () {
+      cms.model.userMobile.fetch(kid, cms.view.userMobile.setInfo );
     });
 
   };
