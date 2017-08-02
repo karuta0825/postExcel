@@ -44,8 +44,7 @@
   , initModule
   , nextPage
   , prevPage
-  , firstPage
-  , lastPage
+  , getPage
   ;
 
   /**
@@ -311,6 +310,17 @@
 
   };
 
+  getPage = function ( number, callback  ) {
+
+    if ( typeof callback === 'function' ) {
+      callback( _page.get(number) );
+    }
+    else {
+      return _page.get(number);
+    }
+
+  };
+
   getPageList = function ( callback ) {
 
     if ( typeof callback === 'function' ) {
@@ -339,6 +349,7 @@
     register     : $.proxy( _model.initUpdate, _model ),
     nextPage     : nextPage,
     prevPage     : prevPage,
+    getPage      : getPage,
     search       : search,
     getPageList  : getPageList
   };
