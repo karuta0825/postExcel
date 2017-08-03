@@ -97,25 +97,6 @@
 
   };
 
-  /**
-   * 指定した条件でのフィルターを行う
-   * @override
-   * @param  {Object}   condition
-   * @param  {Function} callback
-   */
-  find = function ( condition, callback ) {
-
-    _page = new Page( _model.find( condition ), MAX_VISIBLE_NUMBER );
-
-    if ( typeof callback === 'function' ) {
-      callback( _page.current() );
-    }
-    else {
-      return _page.current();
-    }
-
-  };
-
   getCondition = function ( callback ) {
 
     _page = new Page( _model.find( _condition ), MAX_VISIBLE_NUMBER );
@@ -342,8 +323,7 @@
     fetch        : $.proxy( _model.fetch,    _model ),
     // getData      : $.proxy( _model.getCache, _model ),
     getData      : getCache,
-    // find         : $.proxy( _model.find,     _model ),
-    find         : find,
+    find         : $.proxy( _model.find,     _model ),
     delete       : $.proxy( _model.delete,   _model ),
     getCondition : getCondition,
     setCondition : setCondition,
