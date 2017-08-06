@@ -83,11 +83,11 @@
 
       // 再描画
       if ( typeof callback === 'function' ) {
-        callback( this.fetch( this['_cache'][0]['kid']) );
+        callback( this.fetch( this['_cache'][0]['kids_id']) );
       }
 
       // 履歴テーブルの再描画
-      customer.model.userHistory.fetch( this['_cache'][0]['kid'],
+      customer.model.userHistory.fetch( this['_cache'][0]['kids_id'],
         customer.view.userHistory.drawTable
       );
 
@@ -97,7 +97,7 @@
 
   // to public
   cms.model.userBusiv = {
-    fetch    : $.proxy( _model.fetch, _model ),
+    fetch    : $.proxy( _model.fetchAsync, _model ),
     getCache : $.proxy( _model.getCache, _model),
     update   : $.proxy( _model.update, _model ),
     check    : validate

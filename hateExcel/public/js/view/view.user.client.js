@@ -333,8 +333,8 @@
   refresh = function () {
 
     if ( cms.model.clients.getCache().length > 0 ) {
-      var kid = cms.model.clients.getCache()[0].kid;
-      cms.model.clients.fetch( kid , redrawTable );
+      var kids_id = cms.model.clients.getCache()[0].kids_id;
+      cms.model.clients.fetch( kids_id , redrawTable );
     }
 
   };

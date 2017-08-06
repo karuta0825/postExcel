@@ -173,9 +173,9 @@
 
   _onClickKid = function () {
 
-    var kid = $(this).text().trim();
+    var kids_id = $(this).parents('tr').attr('id');
 
-    cms.view.editUsrs.open(kid);
+    cms.view.editUsrs.open(kids_id);
 
   };
 
@@ -492,7 +492,7 @@
 
     jqueryMap.row.each( function ( key, val ) {
       // idだけは個別処理
-        $(val).attr('id', data[key].kid );
+        $(val).attr('id', data[key].id );
 
       // 各々の列の値をクリアしてソートした値をセット
       _.each( headerMap, function ( v, k ) {

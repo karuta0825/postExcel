@@ -41,9 +41,9 @@
 
   };
 
-  fetch = function ( kid, callback  ) {
+  fetch = function ( kids_id, callback  ) {
 
-    _cache = _.clone( customer.model.kids.find( {'kid' : kid } )[0] );
+    _cache = _.clone( customer.model.kids.find( {'id' : Number(kids_id) } )[0] );
 
     // 端末IDの
     _cache.start_id = _cache.range_id && Number(_cache.range_id.split('-')[0]) || 0;
@@ -71,20 +71,20 @@
     var diff = view_client_number - _cache['client_number'];
 
     if ( diff < 1 ) {
-      cms.model.clients.fetch( _cache['kid'], cms.view.userClient.redrawTable );
+      cms.model.clients.fetch( _cache['id'], cms.view.userClient.redrawTable );
       return ;
     }
 
     var params = {
       data : {
-        kid                 : _cache['kid'],
+        kids_id             : _cache['id'],
         userkey             : _cache['userkey'],
         number_client_added : diff
       }
     };
 
     cms.db.insert('/addClient', params, function () {
-      cms.model.clients.fetch( _cache['kid'], cms.view.userClient.redrawTable );
+      cms.model.clients.fetch( _cache['id'], cms.view.userClient.redrawTable );
     });
 
     var history_info = {
@@ -101,7 +101,7 @@
       table : 'historys'
     })
     .then( function () {
-      customer.model.userHistory.fetch( _cache['kid'],
+      customer.model.userHistory.fetch( _cache['id'],
         customer.view.userHistory.drawTable
       );
       customer.view.homeGraph.refresh();

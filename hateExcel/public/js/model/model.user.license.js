@@ -20,20 +20,21 @@
       // データの更新
       customer.db.update('/update', {
         data      : view_data,
-        condition : {'kid' : this['_cache'][0]['kid']},
+        condition : {'kids_id' : this['_cache'][0]['kids_id']},
         table     : this['config']['table']
       });
+
 
       // 履歴の更新
       this._updateHistory( this._diffUpdated( update_data ) );
 
       // 再描画
       if ( typeof callback === 'function' ) {
-        callback( this.fetch( this['_cache'][0]['kid']) );
+        callback( this.fetch( this['_cache'][0]['kids_id']) );
       }
 
       // 履歴テーブルの再描画
-      customer.model.userHistory.fetch( this['_cache'][0]['kid'],
+      customer.model.userHistory.fetch( this['_cache'][0]['kids_id'],
         customer.view.userHistory.drawTable
       );
 
@@ -64,7 +65,7 @@
       }
 
       list_history.push({
-        kid          : cache['kid'],
+        kids_id      : cache['kids_id'],
         type         : msg.type,
         content_name : 'サービス',
         item_name    : i,

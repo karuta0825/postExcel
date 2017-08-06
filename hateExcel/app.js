@@ -199,6 +199,7 @@ app.post('/insert', function ( req, res ) {
         }
 
         idx++;
+        console.log(table);
         console.log('idx increment');
         console.log(idx);
 
@@ -378,7 +379,6 @@ app.post('/update', function ( req, res ) {
   // ライセンステーブル以外の更新処理
   datas.update( data, condition, table, function ( err ) {
     if  ( err ) {
-      // res.json(err)
       // logger['error'].error("Something went wrong:", err );
       res.status(500).send({ error: err });
       return;

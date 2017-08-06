@@ -427,10 +427,10 @@
    */
   refresh = function () {
 
-    var kid = cms.model.userNetwork.getCache()[0].kid;
+    var kids_id = cms.model.userBaseInfo.getCache().id;
 
     // fenics tableの更新
-    cms.model.userNetwork.fetch( kid )
+    cms.model.userNetwork.fetch( kids_id )
     .then( function () {
       cms.model.userNetwork.find({'is_mobile' : 0}, drawTable);
     });

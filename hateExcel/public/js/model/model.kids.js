@@ -169,7 +169,7 @@
 
     var
      result = {},
-     before = this.find({ 'kid' : view_data['kid'] })[0]
+     before = this.find({ 'id' : view_data['id'] })[0]
     ;
 
     // 端末開始IDを端末ID範囲から求める
@@ -196,9 +196,9 @@
    * @param  {[type]} update_data
    * @return {[type]}
    */
-  _model._diffUpdated = function ( kid, update_data ) {
+  _model._diffUpdated = function ( kids_id, update_data ) {
     var
-      before = _model.find({'kid' : kid})[0]
+      before = _model.find({'id' : kids_id})[0]
     , after  = {}
     , list_history = []
     ;
@@ -206,7 +206,7 @@
     for ( var i in update_data ) {
 
       list_history.push({
-        kid          : kid,
+        kids_id      : kids_id,
         type         : '更新',
         content_name : this['config']['tab_name'],
         item_name    : this['config']['item_name_map'][i],
@@ -242,7 +242,7 @@
       // データの更新
       customer.db.update('/update', {
         data      : update_data,
-        condition : {'kid' : view_data['kid']},
+        condition : {'id' : view_data['id']},
         table     : this['config']['table']
       });
 
@@ -252,19 +252,19 @@
     if ( _.keys(historyData).length > 0 ) {
 
       // 履歴の更新
-      this._updateHistory( this._diffUpdated( view_data['kid'], historyData ) );
+      this._updateHistory( this._diffUpdated( view_data['id'], historyData ) );
 
       // 再描画
       if ( typeof callback === 'function' ) {
         cms.view.home.refresh();
         cms.view.kids.refresh();
-        callback(cms.model.userBaseInfo.fetch(view_data['kid']));
+        callback(cms.model.userBaseInfo.fetch(view_data['id']));
         // callback( this.find( { 'kid' : view_data['kid'] } )[0] );
       }
     }
 
     // 履歴テーブルの再描画
-    customer.model.userHistory.fetch( view_data['kid'],
+    customer.model.userHistory.fetch( view_data['id'],
       customer.view.userHistory.drawTable
     );
 
@@ -321,7 +321,7 @@
   cms.model.kids = {
     initModule   : initModule,
     fetch        : $.proxy( _model.fetch,    _model ),
-    // getData      : $.proxy( _model.getCache, _model ),
+    getCache      : $.proxy( _model.getCache, _model ),
     getData      : getCache,
     find         : $.proxy( _model.find,     _model ),
     delete       : $.proxy( _model.delete,   _model ),
@@ -337,7 +337,8 @@
     getPage      : getPage,
     search       : search,
     getPageList  : getPageList,
-    getPageIndex : getPageIndex
+    getPageIndex : getPageIndex,
+    getFilter    : function ()  { return _model.getFiltered(); }
   };
 
 }( jQuery, customer ));

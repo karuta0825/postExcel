@@ -6,7 +6,7 @@
 %>
 
 <% _.each( list , function ( item ) { %>
-  <tr id='<%- item.kid %>' >
+  <tr id='<%- item.id %>' >
 <%   for ( i = 1; i<len; i+=1 ){ %>
 <!-- 入力内容が数値以外のとき左寄せ -->
 <%     if ( typeof item[keys[i]] === 'number') { %>

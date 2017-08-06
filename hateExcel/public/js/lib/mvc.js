@@ -153,10 +153,10 @@
 
   Model.fn = Model.prototype;
 
-  Model.fn.fetch = function ( kid, callback ) {
+  Model.fn.fetch = function ( kids_id, callback ) {
 
      this['_cache'] = customer.db.select('/select', {
-      'condition' : [kid],
+      'condition' : [kids_id],
       'table'     : this['config']['table']
     });
 
@@ -171,7 +171,7 @@
 
   };
 
-  Model.fn.fetchAsync = function ( kid, callback ) {
+  Model.fn.fetchAsync = function ( kids_id, callback ) {
 
     var
       context = this
@@ -179,7 +179,7 @@
     ;
 
     promise = customer.db.post('/select', {
-      'condition' : [kid],
+      'condition' : [kids_id],
       'table'     : this['config']['table']
     });
 
@@ -193,6 +193,8 @@
       if ( typeof callback === 'function' ) {
         callback( result );
       }
+
+      return result;
 
     });
 
@@ -275,8 +277,9 @@
       result = this.findOneCondition( conditions );
     }
 
+    this['_filterList'] = result;
+
     if ( typeof callback === 'function' ) {
-      this['_filterList'] = result;
       callback( result );
     }
     else {
@@ -392,7 +395,7 @@
     for ( var i in update_data ) {
 
       list_history.push({
-        kid          : this['_cache'][0]['kid'],
+        kids_id      : this['_cache'][0]['kids_id'],
         type         : '更新',
         content_name : this['config']['tab_name'],
         item_name    : this['config']['item_name_map'][i],
@@ -432,7 +435,7 @@
       // データの更新
       customer.db.update('/update', {
         data      : update_data,
-        condition : {'kid' : this['_cache'][0]['kid']},
+        condition : {'kids_id' : this['_cache'][0]['kids_id']},
         table     : this['config']['table']
       });
 
@@ -441,11 +444,11 @@
 
       // 再描画
       if ( typeof callback === 'function' ) {
-        callback( this.fetch( this['_cache'][0]['kid']) );
+        callback( this.fetch( this['_cache'][0]['kids_id']) );
       }
 
       // 履歴テーブルの再描画
-      customer.model.userHistory.fetch( this['_cache'][0]['kid'],
+      customer.model.userHistory.fetch( this['_cache'][0]['kids_id'],
         customer.view.userHistory.drawTable
       );
 
@@ -461,7 +464,7 @@
     });
 
     if ( typeof callback === 'function' ) {
-      callback( this.fetch( this['_cache'][0]['kid']) );
+      callback( this.fetch( this['_cache'][0]['kids_id']) );
     }
 
   };
@@ -500,12 +503,12 @@
 
   Model.fn.initUpdate = function ( obj, callback ) {
 
-    var kid = obj.kid;
-    delete obj.kid;
+    var kids_id = obj.kids_id;
+    delete obj.kids_id;
 
     return customer.db.post('/update', {
       data  : obj,
-      condition : { 'kid' : kid },
+      condition : { 'kids_id' : kids_id },
       table : this['config']['table']
     });
 

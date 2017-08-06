@@ -11,7 +11,7 @@
       'table' : 'fenics'
     })
   , vl = new util.Validate({
-      'kid'        : 'noCheck',
+      'kids_id'    : 'noCheck',
       'fenics_id'  : 'isAlphaNum',
       'password'   : 'isAlphaNum',
       'fenics_ip'  : 'isIp',
@@ -147,8 +147,9 @@
   deleteFenics = function ( id, callback ) {
 
     var
-      kid = cms.model.userBaseInfo.getCache().kid
-    , number_accounts_now = cms.model.kids.find({kid : kid})[0].number_pc
+      kids_id = cms.model.userBaseInfo.getCache().id
+    // , number_accounts_now = cms.model.kids.find({kids_id : kids_id})[0].number_pc
+    , number_accounts_now = cms.model.userBaseInfo.getCache().number_pc
     , is_mobile = _model.find({'fenics_id' : id })[0].is_mobile
     , params = {
         table : 'fenics',
@@ -158,7 +159,7 @@
 
     cms.db.post('/delete', params )
     .then( function () {
-      return cms.model.userNetwork.fetch( kid );
+      return cms.model.userNetwork.fetch( kids_id );
     })
     .then( function () {
 

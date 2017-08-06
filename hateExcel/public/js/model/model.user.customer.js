@@ -49,7 +49,7 @@
    */
   update = function ( view_date, callback ) {
 
-    _customerModel.update( view_date, callback);
+    _customerModel.update( view_date, callback );
 
     cms.view.kids.refresh();
 

@@ -26,6 +26,7 @@
         },
         'kid'              : '.kid',
         'input' : {
+          'kid'            : '.kid',
           'user_name'      : '.user_name',
           'server'         : '.server',
           'userkey'        : '.userkey',
@@ -97,6 +98,7 @@
     list_key = _.without( list_key, 'has_busiv');
     list_key = _.without( list_key, 'has_fenics');
     list_key = _.without( list_key, 'has_mobile');
+    list_key = _.without( list_key, 'kids_id');
 
     if ( list_key.length !== 0 ) {
 
@@ -415,6 +417,7 @@
     ;
 
     result.system = {
+      'id'            : customer.model.userBaseInfo.getCache().id,
       'kid'           : systemView.get('kid'                        ).find('.item-value').val(),
       'user_name'     : systemView.get('input__user_name'           ).find('.item-value').val(),
       'server'        : systemView.get('input__server'              ).find('.item-value').val(),
@@ -428,7 +431,7 @@
     };
 
     result.customer = {
-      'kid'           : systemView.get('kid'                ).find('.item-value').val(),
+      'kids_id'       : customer.model.userBaseInfo.getCache().id,
       'postal_cd'     : customerView.get('input__postal_cd' ).find('.item-value').val(),
       'address'       : customerView.get('input__address'   ).find('.item-value').val(),
       'affliation'    : customerView.get('input__affliation').find('.item-value').val(),
@@ -524,8 +527,6 @@
     if ( _.isArray( data ) ) {
       data = data[0];
     }
-
-    systemView.get('kid').find('.item-value').val(data['kid']);
 
     _.each( customerView.get('input'), function (v,k) {
       v.find('.item-value').val(data[k]);

@@ -763,9 +763,9 @@ datas.getAddInfo = function ( month, callback ) {
  * @param  {Function} callback
  * @return {Object}
  */
-datas.getLicense = function ( kid, callback ) {
+datas.getLicense = function ( kids_id, callback ) {
   datas.select(
-    [kid],
+    [kids_id],
     'get_version_by_kid',
     function ( result ) {
       // ライセンス文字列からオブジェクトに変換
@@ -778,7 +778,7 @@ datas.getLicense = function ( kid, callback ) {
         }
 
         // 使用ライセンスのフラグ立て
-        datas.select(kid, 'licenses',function ( result ) {
+        datas.select(kids_id, 'licenses',function ( result ) {
           var
             str_licenses = result[0].services || ''
           , list_licenses = []
@@ -797,7 +797,7 @@ datas.getLicense = function ( kid, callback ) {
             obj[list_licenses[i]] = 1;
           }
 
-          obj.kid = result[0].kid;
+          obj.kids_id = result[0].kids_id;
 
           if ( typeof callback === 'function' ){
             callback([obj]);
