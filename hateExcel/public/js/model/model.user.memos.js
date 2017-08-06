@@ -32,7 +32,7 @@
 
   makeMemo = function ( data, callback ) {
 
-    data['kid'] = cms.model.userBaseInfo.getCache().kid;
+    data['kids_id'] = cms.model.userBaseInfo.getCache().id;
 
     cms.db.insert('/makeMemo', {
       'data'     : data,

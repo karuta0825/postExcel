@@ -349,7 +349,7 @@ var makeNewFenicsIp = function ( data, callback ) {
 /**
  * [makeNewFenicsId description]
  * @param  {Object}   data
- * @param  {Object}   data.kid         - kid
+ * @param  {Object}   data.kids_id     - kids_id
  * @param  {Object}   data.fenics_key  - fenics_key
  * @param  {Function} callback
  * @return {String}
@@ -357,7 +357,7 @@ var makeNewFenicsIp = function ( data, callback ) {
 var makeNewFenicsId = function ( data, callback ) {
 
   datas.select(
-    [data.kid],
+    [data.kids_id],
     'find_last_fenics_id',
     function ( result ) {
       if ( result.length === 0 ) {
@@ -374,14 +374,14 @@ var makeNewFenicsId = function ( data, callback ) {
 /**
  * [makeNewClient description]
  * @param  {Object}   data
- * @param  {String}   data.kid
+ * @param  {String}   data.kids_id
  * @param  {String}   data.user_key
  * @param  {Function} callback
  */
 var makeNewClientId = function ( data, callback ) {
 
   datas.select(
-    [data.kid],
+    [data.kids_id],
     'find_last_client_id',
     function ( result ) {
       console.log(result);
@@ -429,7 +429,7 @@ var makeFenicsAccount = function ( input_map, idx, callback ) {
   ], function (err, results) {
     if ( err ) { console.log( err ); }
 
-    fenics_account['kid']        = input_map.kid;
+    fenics_account['kids_id']    = input_map.kids_id;
     fenics_account['fenics_id']  = results[0];
     fenics_account['password']   = results[0];
     fenics_account['fenics_ip']  = results[1];
@@ -473,7 +473,7 @@ var makeClient = function ( input_map, idx, callback ) {
   ], function ( err, results ) {
     if ( err ) { console.log(err); }
 
-    client['kid']            = input_map.kid
+    client['kids_id']        = input_map.kids_id
     client['client_id']      = results[0];
     client['client_pass']    = results[0];
     client['create_on']      = new Date();
@@ -542,7 +542,7 @@ var makeNewMobileFenicsId = function ( data, callback ) {
 
   return new Promise( function (res,rej) {
       datas.select(
-      [data.kid],
+      [data.kids_id],
       'find_last_mobile_fenics_id',
       function ( result ) {
         if ( result.length === 0 ) {
@@ -590,7 +590,7 @@ var makeMobileUser = function ( input_map, idx, cb_resolve ) {
   ]).
   then( function (results) {
 
-    fenics_account['kid']        = input_map.kid;
+    fenics_account['kids_id']    = input_map.kids_id;
     fenics_account['fenics_id']  = results[0];
     fenics_account['password']   = results[0];
     fenics_account['fenics_ip']  = results[1];

@@ -122,8 +122,8 @@
     };
 
     cms.model.userMemo.makeMemo( data, function () {
-      var kid = cms.model.userBaseInfo.getCache().kid
-      cms.model.userMemo.fetch( kid,
+      var kids_id = cms.model.userBaseInfo.getCache().id
+      cms.model.userMemo.fetch( kids_id,
         cms.view.editUsrs.makeMemos
       );
       cms.view.editUsrs.clearMemoFilter();

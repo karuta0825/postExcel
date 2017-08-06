@@ -31,8 +31,8 @@
   update = function ( view_data, cb_success, cb_fail ) {
 
     var
-      errs = vl.validate( view_data )
-    , kid  = cms.model.userBaseInfo.getCache().kid
+      errs    = vl.validate( view_data )
+    , kids_id = cms.model.userBaseInfo.getCache().id
     ;
 
     if ( errs && errs.length > 0 ) {
@@ -56,7 +56,7 @@
         .then( function () {
 
           // 再取得してテーブル更新
-          _model.fetchAsync( kid, function () {
+          _model.fetchAsync( kids_id, function () {
 
             cms.model.userNetwork.find({is_mobile : 0},
               cms.view.userNetwork.drawTable
@@ -128,7 +128,7 @@
     }
 
     var post = {
-      kid             : before.kid,
+      kids_id         : before.id,
       fenics_key      : before.fenics_key,
       number_pc_added : diff
     }
@@ -136,7 +136,7 @@
     customer.db.insert('/addFenicsAccounts',
       { data  : post },
        function () {
-        customer.model.userNetwork.fetch( before.kid,
+        customer.model.userNetwork.fetch( before.id,
           customer.view.userNetwork.drawTable
         );
        }
@@ -144,16 +144,16 @@
 
   };
 
-  deleteFenics = function ( id, callback ) {
+  deleteFenics = function ( fenics_id, callback ) {
 
     var
       kids_id = cms.model.userBaseInfo.getCache().id
     // , number_accounts_now = cms.model.kids.find({kids_id : kids_id})[0].number_pc
     , number_accounts_now = cms.model.userBaseInfo.getCache().number_pc
-    , is_mobile = _model.find({'fenics_id' : id })[0].is_mobile
+    , is_mobile = _model.find({'fenics_id' : fenics_id })[0].is_mobile
     , params = {
         table : 'fenics',
-        data : [{ fenics_id : id }]
+        data : [{ 'fenics_id' : fenics_id }]
       }
     ;
 
@@ -181,7 +181,7 @@
 
         // 端末台数の変更
         cms.model.kids.update({
-            'kid'       : kid,
+            'kids_id'   : kids_id,
             'number_pc' : number_accounts_now - 1
           }, function () {
             cms.view.userBaseInfo.refresh();
@@ -189,7 +189,7 @@
 
       }
       else {
-        cms.model.userMobile.fetch(kid, cms.view.userMobile.setInfo )
+        cms.model.userMobile.fetch(kids_id, cms.view.userMobile.setInfo )
       }
 
     })

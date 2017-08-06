@@ -88,7 +88,7 @@
     });
 
     var history_info = {
-      kid          : _cache['kid'],
+      kids_id      : _cache['id'],
       type         : '更新',
       content_name : '基本情報',
       item_name    : 'クライアント数',
