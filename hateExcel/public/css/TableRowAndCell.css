@@ -278,8 +278,11 @@
 }
 
 .article-notice__item--body {
-  /*height: 80px;*/
   border-bottom: 1px solid #dedcdc;
+}
+
+.article-notice__item--body:hover {
+  background :#e4e4e4;
 }
 
 .notice-item__footer {
