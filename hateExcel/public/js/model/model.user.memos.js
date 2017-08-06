@@ -10,7 +10,7 @@
     })
   , vl = new util.Validate({
       'id'          : 'noCheck',
-      'kid'         : 'noCheck',
+      'kids_id'     : 'noCheck',
       'priority_id' : 'noCheck',
       'title'       : 'isEmpty',
       'message'     : 'isEmpty'
@@ -45,7 +45,7 @@
     var clone = _.clone( data );
 
     delete clone.id;
-    delete clone.kid;
+    delete clone.kids_id;
 
     var param = {
       data      : clone,
@@ -54,7 +54,7 @@
     };
 
     cms.db.update('/update', param, function () {
-      _model.fetch( data.kid, cms.view.editUsrs.makeMemos );
+      _model.fetch( data.kids_id, cms.view.editUsrs.makeMemos );
     });
 
   };
@@ -67,7 +67,7 @@
     };
 
     cms.db.remove('/delete', param, function () {
-      _model.fetch( data.kid, cms.view.editUsrs.makeMemos );
+      _model.fetch( data.kids_id, cms.view.editUsrs.makeMemos );
     });
 
   };

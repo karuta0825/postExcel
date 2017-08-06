@@ -75,8 +75,8 @@
     };
 
     if ( memoView.wrap.attr('data-memo-id') ) {
-        result.id = Number( memoView.wrap.attr('data-memo-id') );
-        result.kid = cms.model.userBaseInfo.getCache().kid;
+        result.id      = Number( memoView.wrap.attr('data-memo-id') );
+        result.kids_id = cms.model.userBaseInfo.getCache().id;
     };
 
     return result;
