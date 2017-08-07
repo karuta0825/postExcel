@@ -6,14 +6,14 @@ DELIMITER $$
 CREATE TRIGGER kids_delete AFTER DELETE ON kids FOR EACH ROW
  BEGIN
 
-	delete from licenses where kid = old.kid;
-    delete from customers where kid = old.kid;
-    delete from partners where kid = old.kid;
-    delete from fenics where kid = old.kid;    
-    delete from clients where kid = old.kid;
-    delete from historys where kid = old.kid;
-    delete from busivs where kid = old.kid;
-    delete from mobiles where kid = old.kid;
+	delete from licenses where kids_id = old.id;
+    delete from customers where kids_id = old.id;
+    delete from partners where kids_id = old.id;
+    delete from fenics where kids_id = old.id;    
+    delete from clients where kids_id = old.id;
+    delete from historys where kids_id = old.id;
+    delete from busivs where kids_id = old.id;
+    delete from mobiles where kids_id = old.id;
    
  END;
 $$

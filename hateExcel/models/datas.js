@@ -218,7 +218,7 @@ var findNewDbPass = function ( data, callback ) {
 
   datas.select(
     db_pass,
-    'db_password',
+    'find_new_db_password',
     function ( result ) {
       if ( result.length !== 0 ) {
         console.log('not unique');
@@ -239,7 +239,7 @@ var findNewUserkey = function ( data, callback ) {
 
   datas.select(
     userkey,
-    'userkey',
+    'find_new_userkey',
     function ( result ) {
       if ( result.length !== 0 ) {
         console.log('not unique');
@@ -258,7 +258,7 @@ var findNewKid = function ( data, callback ) {
 
   datas.select(
     [data],
-    'kid',
+    'find_new_kid',
     function ( result ) {
       var kid = Number(result[0].kid.slice(3)) + 1;
       if ( typeof callback === 'function') {
@@ -272,7 +272,6 @@ var findNewKid = function ( data, callback ) {
 var findNewFenicsKey = function ( data, callback ) {
 
   var fenics_key = data || makeFenicsKey(4);
-
   datas.select(
     fenics_key,
     'is_unique_fenicskey',
@@ -654,7 +653,7 @@ datas.makeUser = function ( input_map, callback ) {
         findNewFenicsKey(null, callback);
       }
   ], function(err, results) {
-
+      if ( err ) { console.log( err ); }
 
       set['kid']            = results[0];
       set['userkey']        = results[1];
@@ -665,13 +664,13 @@ datas.makeUser = function ( input_map, callback ) {
       set['create_user_id'] = input_map['create_user_id'];
       set['create_on']      = new Date();
 
-
-      datas.insert( set, 'make_user', function ( result ) {
+      datas.insert( set, 'make_user', function ( err, result ) {
         // 連続insertでKIDが重複していた場合、再作成
-        if ( result && result.errno === 1062 ){
+        if ( err && err.errno === 1062 ){
           datas.make_user( input_map );
         }
         else {
+          set['kids_id'] = result.insertId;
           callback(set);
         }
       });
@@ -679,17 +678,24 @@ datas.makeUser = function ( input_map, callback ) {
 };
 
 
-var findLastBaseId = function ( kid ) {
+var findLastBaseId = function ( kids_id ) {
   return new Promise( function ( res, rej ) {
-    datas.select( kid, 'find_last_base_id', function (r) {
+    datas.select( kids_id, 'find_last_base_id', function (r) {
+      console.log(r);
       res( r[0].base_id );
     });
   });
 };
 
+/**
+ * 指定した拠点idをもつレコードをbusivとmobilesに追加する
+ * @param  {[type]}   input_map
+ * @param  {Function} callback
+ * @return {[type]}
+ */
 datas.makeBase = function ( input_map, callback ) {
 
-  findLastBaseId(input_map.kid)
+  findLastBaseId(input_map.kids_id)
   .then( function (r) {
     input_map['base_id'] = r;
     datas.insert( input_map, 'make_busiv', function ( err ,result ) {

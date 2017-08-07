@@ -256,10 +256,9 @@ app.post('/makeUser', function ( req, res ) {
   data.create_user_id = req.session.uid;
 
   // urlからダイレクトにされたときのために入力チェックする
-
   datas.makeUser( data, function ( result ) {
 
-    datas.makeBase({kid : result.kid}, function () {
+    datas.makeBase({kids_id : result.kids_id}, function () {
       res.json(result);
     })
 
