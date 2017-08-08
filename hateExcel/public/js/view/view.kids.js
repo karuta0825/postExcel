@@ -79,7 +79,7 @@
       jqueryMap.btnMobileOnOff = filter.find('.btn--mon-off')
       jqueryMap.btnMobile = filter.find('.mobile .filter-item__body');
 
-      jqueryMap.dialog = content.find('dialog');
+      jqueryMap.dialog = content.find('#modal-delete-user');
       jqueryMap.btnDialogOk = content.find('dialog .btn--exec');
       jqueryMap.btnDialogCancel = content.find('dialog .btn--cancel');
 
@@ -391,7 +391,7 @@
 
     // まずい指定が弱い
     var ids = _.map( $('.is-selected'), function (val,key){
-      return { 'kid' : $(val).attr('id') } ;
+      return { 'id' : $(val).attr('id') } ;
     });
 
     if ( ids.length === 0 ) {
@@ -551,6 +551,7 @@
     // ダイアログ作成
     util.confirm({
       selector : '.main-contents--view-usr',
+      id       : 'modal-delete-user',
       msg      : '選択したユーザーを削除しますか?',
       yes      : _deleteUser
     });
@@ -605,7 +606,8 @@
     redrawTable     : redrawTable,
     regenerateTable : regenerateTable,
     refresh         : refresh,
-    selectServer    : selectServer
+    selectServer    : selectServer,
+    tmp             : _getSelectItem
   };
 
 
