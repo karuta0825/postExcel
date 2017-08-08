@@ -181,7 +181,7 @@
 
         // 端末台数の変更
         cms.model.kids.update({
-            'kids_id'   : kids_id,
+            'id'        : kids_id,
             'number_pc' : number_accounts_now - 1
           }, function () {
             cms.view.userBaseInfo.refresh();
@@ -192,7 +192,9 @@
         cms.model.userMobile.fetch(kids_id, cms.view.userMobile.setInfo )
       }
 
+
     })
+    // なんとか動いてるcallbackだ！
     .then( callback )
     ;
 

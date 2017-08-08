@@ -168,8 +168,8 @@
   _model._checkWhatsUpdated = function ( view_data ) {
 
     var
-     result = {},
-     before = this.find({ 'id' : view_data['id'] })[0]
+      result = {}
+    , before = this.find({ 'id' : view_data['id'] })[0]
     ;
 
     // 端末開始IDを端末ID範囲から求める
@@ -258,8 +258,8 @@
       if ( typeof callback === 'function' ) {
         cms.view.home.refresh();
         cms.view.kids.refresh();
+        // 個々何してるの？
         callback(cms.model.userBaseInfo.fetch(view_data['id']));
-        // callback( this.find( { 'kid' : view_data['kid'] } )[0] );
       }
     }
 

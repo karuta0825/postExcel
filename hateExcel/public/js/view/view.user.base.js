@@ -619,9 +619,9 @@
   };
 
   refresh = function () {
-    var kid = cms.model.userBaseInfo.getCache().kid;
-    cms.model.userBaseInfo.fetch(kid, makeSystemInfo);
-    cms.model.userCustomer.fetch( kid, makeCustomerInfo );
+    var kids_id = cms.model.userBaseInfo.getCache().id;
+    cms.model.userBaseInfo.fetch(kids_id, makeSystemInfo);
+    cms.model.userCustomer.fetch( kids_id, makeCustomerInfo );
   };
 
   initModule = function () {
