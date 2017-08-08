@@ -255,12 +255,10 @@
       this._updateHistory( this._diffUpdated( view_data['id'], historyData ) );
 
       // 再描画
-      if ( typeof callback === 'function' ) {
-        cms.view.home.refresh();
-        cms.view.kids.refresh();
-        // 個々何してるの？
-        callback(cms.model.userBaseInfo.fetch(view_data['id']));
-      }
+      cms.view.home.refresh();
+      cms.view.kids.refresh();
+      cms.view.userBaseInfo.refresh();
+
     }
 
     // 履歴テーブルの再描画
@@ -338,7 +336,8 @@
     search       : search,
     getPageList  : getPageList,
     getPageIndex : getPageIndex,
-    getFilter    : function ()  { return _model.getFiltered(); }
+    getFilter    : function ()  { return _model.getFiltered(); },
+    tmp          : $.proxy( _page.getPageList, _page )
   };
 
 }( jQuery, customer ));

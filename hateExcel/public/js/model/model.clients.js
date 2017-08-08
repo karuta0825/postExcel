@@ -57,7 +57,7 @@
     var
       base = cms.model.userBaseInfo.getCache()
     , history_info = {
-        kid          : base['kid'],
+        kids_id      : base['id'],
         type         : '削除',
         content_name : '基本情報',
         item_name    : 'クライアント数',
@@ -71,16 +71,22 @@
       table : 'historys'
     })
     .then( function () {
-      customer.model.userHistory.fetch( base['kid'],
+      customer.model.userHistory.fetch( base['id'],
         customer.view.userHistory.drawTable
       );
     })
     .then( function () {
-      _model.delete( data, callback );
+      // deleteがsync処理だから、後続のthenに影響しないのか。。。
+      _model.delete( data );
     })
     .then( function () {
-      customer.view.homeGraph.refresh();
-    });
+      cms.view.home.refresh();
+      cms.view.homeGraph.refresh();
+      cms.view.kids.refresh();
+      cms.view.userBaseInfo.refresh();
+      cms.view.userClient.refresh();
+    })
+    .then( callback );
 
   };
 

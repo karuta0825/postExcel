@@ -159,6 +159,8 @@
 
     cms.db.post('/delete', params )
     .then( function () {
+      // TODO: ネットワークタブのviewをfenics/busivで分離できたらもっと簡単にできるはず
+      // このreturnがないと再描画できない
       return cms.model.userNetwork.fetch( kids_id );
     })
     .then( function () {
@@ -174,27 +176,28 @@
       );
 
     })
+    // PC用のとき
     .then( function () {
 
-      // ここがモバイルかどうかで分岐の必要あり
       if ( !is_mobile ) {
 
         // 端末台数の変更
         cms.model.kids.update({
-            'id'        : kids_id,
-            'number_pc' : number_accounts_now - 1
-          }, function () {
-            cms.view.userBaseInfo.refresh();
+          'id'        : kids_id,
+          'number_pc' : number_accounts_now - 1
         });
 
       }
-      else {
+
+    })
+    // モバイル用のとき
+    .then( function () {
+
+      if ( is_mobile ) {
         cms.model.userMobile.fetch(kids_id, cms.view.userMobile.setInfo )
       }
 
-
     })
-    // なんとか動いてるcallbackだ！
     .then( callback )
     ;
 
