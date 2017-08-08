@@ -86,7 +86,7 @@ update memos     T, kids K set T.kid = K.id where T.kid = K.kid;
 update historys  T, kids K set T.kid = K.id where T.kid = K.kid;
 
 -- 定義変更
-ALTER TABLE `customer`.`customers` CHANGE COLUMN `kid` `kids_id` VARCHAR(9) NOT NULL ;
+-- kid -> kids_id
 ALTER TABLE `customer`.`customers` CHANGE COLUMN `kid` `kids_id` VARCHAR(9) NOT NULL ;
 ALTER TABLE `customer`.`licenses`  CHANGE COLUMN `kid` `kids_id` VARCHAR(9) NOT NULL ;
 ALTER TABLE `customer`.`clients`   CHANGE COLUMN `kid` `kids_id` VARCHAR(9) NOT NULL ;
@@ -96,6 +96,18 @@ ALTER TABLE `customer`.`partners`  CHANGE COLUMN `kid` `kids_id` VARCHAR(9) NOT 
 ALTER TABLE `customer`.`mobiles`   CHANGE COLUMN `kid` `kids_id` VARCHAR(9) NOT NULL ;
 ALTER TABLE `customer`.`memos`     CHANGE COLUMN `kid` `kids_id` VARCHAR(9) NOT NULL ;
 ALTER TABLE `customer`.`historys`  CHANGE COLUMN `kid` `kids_id` VARCHAR(9) NOT NULL ;
+
+-- 型変更
+-- varchar -> INT
+ALTER TABLE `customer`.`customers` CHANGE COLUMN `kids_id` `kids_id` INT(11) NOT NULL ;
+ALTER TABLE `customer`.`licenses`  CHANGE COLUMN `kids_id` `kids_id` INT(11) NOT NULL ;
+ALTER TABLE `customer`.`clients`   CHANGE COLUMN `kids_id` `kids_id` INT(11) NOT NULL ;
+ALTER TABLE `customer`.`fenics`    CHANGE COLUMN `kids_id` `kids_id` INT(11) NOT NULL ;
+ALTER TABLE `customer`.`busivs`    CHANGE COLUMN `kids_id` `kids_id` INT(11) NOT NULL ;
+ALTER TABLE `customer`.`partners`  CHANGE COLUMN `kids_id` `kids_id` INT(11) NOT NULL ;
+ALTER TABLE `customer`.`mobiles`   CHANGE COLUMN `kids_id` `kids_id` INT(11) NOT NULL ;
+ALTER TABLE `customer`.`memos`     CHANGE COLUMN `kids_id` `kids_id` INT(11) NOT NULL ;
+ALTER TABLE `customer`.`historys`  CHANGE COLUMN `kids_id` `kids_id` INT(11) NOT NULL ;
 
 -- test
 customer.model.userBase.fetch('123').then(function(r) {console.log(r);})
