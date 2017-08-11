@@ -37,15 +37,13 @@
   , sortByCol
   , getCache
   , find
+  , search
   , setCondition
   , getCondition
   , getHeader
   , register
   , initModule
-  , nextPage
-  , prevPage
   , getPageList
-  , getPageIndex
   ;
 
   /**
@@ -86,7 +84,7 @@
    */
   getCache = function ( callback ) {
 
-    _page = new Page( _model.getCache(), MAX_VISIBLE_NUMBER );
+    _page.initialize( _model.getCache(), MAX_VISIBLE_NUMBER );
 
     if ( typeof callback === 'function' ) {
       callback( _page.current() );
@@ -99,7 +97,7 @@
 
   getCondition = function ( callback ) {
 
-    _page = new Page( _model.find( _condition ), MAX_VISIBLE_NUMBER );
+    _page.initialize( _model.find( _condition ), MAX_VISIBLE_NUMBER );
 
     if ( typeof callback === 'function' ) {
       callback( _page.current() );
@@ -117,7 +115,7 @@
    */
   search = function ( keyword, callback ) {
 
-    _page = new Page( _model.search( keyword ), MAX_VISIBLE_NUMBER );
+    _page.initialize( _model.search( keyword ), MAX_VISIBLE_NUMBER );
 
     if ( typeof callback === 'function' ) {
       callback( _page.current() );
@@ -135,7 +133,7 @@
       _condition[key] = val;
     });
 
-    _page = new Page( _model.find( _condition ), MAX_VISIBLE_NUMBER );
+    _page.initialize( _model.find( _condition ), MAX_VISIBLE_NUMBER );
 
     if ( typeof callback === 'function') {
       callback( _page.current() );
@@ -268,39 +266,6 @@
 
   };
 
-  nextPage = function ( callback ) {
-
-    if ( typeof callback === 'function' ) {
-      callback( _page.next() );
-    }
-    else {
-      return _page.next();
-    }
-
-  };
-
-  prevPage = function ( callback ) {
-
-    if ( typeof callback === 'function' ) {
-      callback( _page.prev() );
-    }
-    else {
-      return _page.prev();
-    }
-
-  };
-
-  getPage = function ( number, callback  ) {
-
-    if ( typeof callback === 'function' ) {
-      callback( _page.get(number) );
-    }
-    else {
-      return _page.get(number);
-    }
-
-  };
-
   getPageList = function ( callback ) {
 
     if ( typeof callback === 'function' ) {
@@ -311,18 +276,15 @@
     }
   };
 
-  getPageIndex = function () {
-    return _page.getIndex();
-  };
-
   /*public method*/
   cms.model.kids = {
     initModule   : initModule,
     fetch        : $.proxy( _model.fetch,    _model ),
-    getCache      : $.proxy( _model.getCache, _model ),
+    getCache     : $.proxy( _model.getCache, _model ),
     getData      : getCache,
     find         : $.proxy( _model.find,     _model ),
     delete       : $.proxy( _model.delete,   _model ),
+    getFilter    : function ()  { return _model.getFiltered(); },
     getCondition : getCondition,
     setCondition : setCondition,
     sortByCol    : sortByCol,
@@ -330,13 +292,12 @@
     update       : $.proxy( _model.update, _model ),
     check        : $.proxy( _model._checkWhatsUpdated, _model ),
     register     : $.proxy( _model.initUpdate, _model ),
-    nextPage     : nextPage,
-    prevPage     : prevPage,
-    getPage      : getPage,
     search       : search,
+    nextPage     : $.proxy( _page.next, _page ),
+    prevPage     : $.proxy( _page.prev, _page ),
+    getPage      : $.proxy( _page.get, _page ),
+    getPageIndex : $.proxy( _page.getIndex, _page ),
     getPageList  : getPageList,
-    getPageIndex : getPageIndex,
-    getFilter    : function ()  { return _model.getFiltered(); },
     tmp          : $.proxy( _page.getPageList, _page )
   };
 

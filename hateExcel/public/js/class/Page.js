@@ -16,22 +16,19 @@
       throw new Error('two aruguments need.');
     }
 
-    this['idx']                 = 1;
-    this['list']                = list;
-    this['length']              = list.length;
-    this['visible_item_number'] = item_per_page;
-    this['max_page']            = this.length && Math.ceil( this.length / item_per_page ) || 1;
-    this['stock']               = 3;
+    this['stock'] = 3;
+    this.initialize(list, item_per_page);
 
   };
 
   Page.fn = Page.prototype;
 
-  Page.fn.get = function ( page_number ) {
+  Page.fn.get = function ( page_number, callback ) {
 
     var
       start =  this['visible_item_number'] * (page_number-1)
     , end = start + this['visible_item_number']
+    , result
     ;
 
     if ( page_number > this['max_page'] || page_number < 1 ) {
@@ -39,30 +36,56 @@
     }
 
     this['idx'] = page_number;
+    result = this['list'].slice( start, end );
 
-    return this['list'].slice( start, end );
+    if ( typeof callback === 'function' ) {
+      callback( result );
+    }
+    else {
+      return result;
+    }
 
   };
 
-  Page.fn.next = function () {
+  Page.fn.initialize = function ( list, item_per_page ) {
+
+    this['idx']                 = 1;
+    this['list']                = list;
+    this['length']              = list.length;
+    this['visible_item_number'] = item_per_page;
+    this['max_page']            = this.length && Math.ceil( this.length / item_per_page ) || 1;
+
+  };
+
+  Page.fn.next = function ( callback ) {
 
     if ( this['idx'] === this['max_page'] ) {
       return null;
     }
 
     this['idx'] += 1;
-    return this.get(this['idx']);
+    if ( typeof callback === 'function' ) {
+      callback( this.get(this['idx']) );
+    }
+    else {
+      return this.get( this['idx'] );
+    }
 
   };
 
-  Page.fn.prev = function () {
+  Page.fn.prev = function ( callback ) {
 
     if ( this['idx'] === 1 ) {
       return null;
     }
 
     this['idx'] -= 1;
-    return this.get(this['idx']);
+    if ( typeof callback === 'function' ) {
+      callback( this.get(this['idx']) );
+    }
+    else {
+      return this.get( this['idx'] );
+    }
 
   };
 
@@ -86,7 +109,7 @@
     return this['max_page'];
   };
 
-  Page.fn.getPageList = function () {
+  Page.fn.getPageList = function ( callback ) {
 
     var
       i     = this['idx']
