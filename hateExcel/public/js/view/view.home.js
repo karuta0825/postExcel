@@ -61,8 +61,12 @@
 
   _goUserView = function () {
 
-    var kid = $(this).text().match(/^KID\d{5}/)[0];
-    cms.view.kids.moveUserDetail( kid );
+    var
+      kid = $(this).text().match(/^KID\d{5}/)[0]
+    , id  = cms.model.kids.find({kid : kid})[0].id
+    ;
+
+    cms.view.editUsrs.open( id );
 
   };
 
