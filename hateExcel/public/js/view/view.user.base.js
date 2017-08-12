@@ -232,7 +232,7 @@
 
       // kid
     kid = customer.db.select('/isUnique/kid',{kid: getViewInfo('system').kid} )
-    if ( kid[0] && kid[0].kid ) {
+    if ( kid[0] && kid[0].kid !== cms.model.userBaseInfo.getCache().kid.slice(3) ) {
 
       systemView.get('input__kid')
       .find('.item-value')
@@ -243,7 +243,7 @@
 
       // fenicskey
     kid = customer.db.select('/isUniqueFenicsKey',{ fenicsKey : getViewInfo('system').fenics_key } );
-    if ( kid[0] && kid[0].kid !== cms.model.userBaseInfo.getCache().kid ) {
+    if ( kid[0] && kid[0].kid !== cms.model.userBaseInfo.getCache().kid.slice(3) ) {
 
       // エラー画面をだす
       systemView.get('input__fenics_key')
@@ -257,7 +257,7 @@
 
       // userKey
     kid = customer.db.select('/isUniqueUserKey',{ userkey : getViewInfo('system').userkey } );
-    if ( kid[0] && kid[0].kid !== cms.model.userBaseInfo.getCache().kid ) {
+    if ( kid[0] && kid[0].kid !== cms.model.userBaseInfo.getCache().kid.slice(3)) {
 
       // エラー画面をだす
       systemView.get('input__userkey')
@@ -270,7 +270,7 @@
     }
 
     kid = customer.db.select('/isUniqueDBPass',{ db_password : getViewInfo('system').db_password} );
-    if ( kid[0] && kid[0].kid !== cms.model.userBaseInfo.getCache().kid ) {
+    if ( kid[0] && kid[0].kid !== cms.model.userBaseInfo.getCache().kid.slice(3)) {
 
       // エラー画面をだす
       systemView.get('input__db_password')
@@ -470,6 +470,8 @@
    */
   makeSystemInfo = function ( data ) {
 
+    var data = _.clone(data);
+
     // 先頭のKIDを削除
     data.kid = data.kid.slice(3);
 
@@ -560,13 +562,8 @@
 
     systemView.get('kid').find('.item-value').val(systemInfo.kid);
 
-    _.each( systemView.get('input'), function (v,k) {
-      v.find('.item-value').val(systemInfo[k])
-    });
-
-    _.each( customerView.get('input'), function (v,k) {
-      v.find('.item-value').val(customerInfo[k])
-    });
+    makeSystemInfo( systemInfo );
+    makeCustomerInfo( customerInfo );
 
     // ビジVの状態
     if ( customerInfo.has_busiv === 1 ) {
