@@ -448,6 +448,8 @@ app.post('/updateFenics', function (req, res) {
 
     item.end_on = ( data[i].end_on ) ? data[i].end_on : null;
 
+    item.pc_name = data[i].pc_name  || '';
+
     if ( data[i].fenics_ip ) {
       item.fenics_ip = inet_aton(data[i].fenics_ip);
     }

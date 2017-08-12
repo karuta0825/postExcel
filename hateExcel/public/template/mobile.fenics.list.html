@@ -2,6 +2,7 @@
   <thead>
     <th class='mdl-data-table__cell--non-numeric fenics_id'>Fenics ID</th>
     <th class='mdl-data-table__cell--non-numeric password'>パスワード</th>
+    <th class='mdl-data-table__cell--non-numeric pc_name'>コンピュータ名</th>
     <th class='mdl-data-table__cell--non-numeric fenics_ip'>ip</th>
     <th class='mdl-data-table__cell--non-numeric start_on'>開始日</th>
     <th class='mdl-data-table__cell--non-numeric end_on'>終了日</th>
@@ -19,6 +20,10 @@
 
         <td class='mdl-data-table__cell--non-numeric password'>
           <%- item.password %>
+        </td>
+
+        <td class='mdl-data-table__cell--non-numeric pc_name'>
+          <%- item.pc_name %>
         </td>
 
         <td class='mdl-data-table__cell--non-numeric fenics_ip'>

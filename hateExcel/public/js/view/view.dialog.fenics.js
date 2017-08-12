@@ -17,6 +17,7 @@
       'input' : {
         'fenics_id' : '.fenics_id .input',
         'password'  : '.password .input',
+        'pc_name'   : '.pc_name .input',
         'fenics_ip' : '.fenics_ip .input',
         'start_on'  : '.start_on .input',
         'end_on'    : '.end_on .input'

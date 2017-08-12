@@ -14,6 +14,7 @@
       'kids_id'    : 'noCheck',
       'fenics_id'  : 'isAlphaNum',
       'password'   : 'isAlphaNum',
+      'pc_name'    : 'isAlphaNum',
       'fenics_ip'  : 'isIp',
       'start_on'   : 'noCheck',
       'end_on'     : 'noCheck',
