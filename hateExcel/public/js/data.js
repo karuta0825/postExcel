@@ -64,21 +64,21 @@ customer.db = ( function (){
    */
   post = function ( url, data ) {
 
-    var dfd = $.Deferred();
-    $.ajax({
-      dataType: 'json',
-      type    : 'post',
-      url     : url,
-      data    : data,
-    })
-    .done( function ( result ) {
-      dfd.resolve(result);
-    })
-    .fail( function ( err ) {
-      dfd.reject(err);
-    });
+    return new Promise( function (res, rej ) {
+      $.ajax({
+        dataType: 'json',
+        type    : 'post',
+        url     : url,
+        data    : data,
+      })
+      .done( function ( result ) {
+        res(result);
+      })
+      .fail( function ( err ) {
+        rej(err);
+      });
 
-    return dfd.promise();
+    });
 
   };
 
