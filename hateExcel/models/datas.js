@@ -667,7 +667,7 @@ datas.makeUser = function ( input_map, callback ) {
       datas.insert( set, 'make_user', function ( err, result ) {
         // 連続insertでKIDが重複していた場合、再作成
         if ( err && err.errno === 1062 ){
-          datas.make_user( input_map );
+          datas.makeUser( input_map );
         }
         else {
           set['kids_id'] = result.insertId;
