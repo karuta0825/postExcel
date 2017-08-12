@@ -18,9 +18,11 @@
       select : {
         system  : '.select-system',
         version : '.select-version',
-        server  : '.select-server'
+        server  : '.select-server',
+        kid     : '.select-kid'
       },
       'server-title' : '.select-name.server',
+      'kid-title'    : '.select-name.kid',
       'dialog' : {
         confirm  : '#make-usr-confirm',
         complete : '#complete-make-user',
@@ -34,6 +36,7 @@
   , _makeSelectServer
   , _selectSystem
   , _makeUser
+  , _clear
   , initModule
   ;
 
@@ -65,10 +68,18 @@
      if ( $(this).val() ===  'onpre' ) {
       makeUserView.get('select__server').addClass('is-hidden');
       makeUserView.get('server-title').addClass('is-hidden');
+
+      makeUserView.get('select__kid').removeClass('is-hidden');
+      makeUserView.get('kid-title').removeClass('is-hidden');
+
      }
      else {
       makeUserView.get('select__server').removeClass('is-hidden');
       makeUserView.get('server-title').removeClass('is-hidden');
+
+      makeUserView.get('select__kid').addClass('is-hidden');
+      makeUserView.get('kid-title').addClass('is-hidden');
+
      }
   };
 
@@ -81,7 +92,8 @@
   _makeUser = function () {
 
     var
-      system_type = makeUserView.get('select__system').val()
+      kid         = makeUserView.get('select__kid').val()
+    , system_type = makeUserView.get('select__system').val()
     , version     = makeUserView.get('select__version').val()
     , server      = makeUserView.get('select__server').val()
     , env_id      = customer.model.environments.find({
@@ -95,8 +107,18 @@
       server = '';
     }
 
+    if ( kid === '' ) {
+      kid = null;
+    }
+
+    if ( !kid.match(/^[0-9]+$/)  ) {
+      makeUserView.get('select__kid').addClass('is-error');
+      return;
+    }
+
     param = {
       data : {
+        kid            : ( kid === '') ? null : kid,
         system_type    : system_type,
         version        : version,
         environment_id : env_id,
@@ -107,6 +129,14 @@
     // KID, Userkey, DB Passwordを決める
     customer.db.insert( '/makeUser', param,  _openCompleteDialog );
 
+    _clear();
+
+  };
+
+  _clear = function () {
+    _.each( makeUserView.get('select'), function ( val, key ) {
+      $(val).removeClass('is-error');
+    });
   };
 
   initModule = function () {

@@ -261,7 +261,6 @@ var findNewKid = function ( data, callback ) {
     'find_new_kid',
     function ( result ) {
       var kid = Number(result[0].kid) + 1;
-      console.log(kid);
       if ( typeof callback === 'function') {
         callback( null,  kid );
       }
@@ -656,7 +655,7 @@ datas.makeUser = function ( input_map, callback ) {
   ], function(err, results) {
       if ( err ) { console.log( err ); }
 
-      set['kid']            = results[0];
+      set['kid']            = input_map.kid || results[0];
       set['userkey']        = results[1];
       set['db_password']    = results[2];
       set['fenics_key']     = results[3];
@@ -665,10 +664,13 @@ datas.makeUser = function ( input_map, callback ) {
       set['create_user_id'] = input_map['create_user_id'];
       set['create_on']      = new Date();
 
+      console.log(set);
+
       datas.insert( set, 'make_user', function ( err, result ) {
         // 連続insertでKIDが重複していた場合、再作成
         if ( err && err.errno === 1062 ){
-          datas.makeUser( input_map );
+          delete input_map.kid;
+          datas.makeUser( input_map, callback );
         }
         else {
           set['kids_id'] = result.insertId;

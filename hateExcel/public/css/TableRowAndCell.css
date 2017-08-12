@@ -554,6 +554,11 @@
   height: 40px;
 }
 
+.input-to-make .select-kid {
+  width: 90%;
+  margin : 0 0 0 35px;
+}
+
 .input-to-make .btn--ok {
   margin : 70px 36px 30px auto ;
   width: 100px;
