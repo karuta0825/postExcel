@@ -101,6 +101,7 @@
         'version'     : version
       })[0].id
     , param
+    , check_kid
     ;
 
     if ( system_type === 'onpre' ) {
@@ -111,10 +112,19 @@
       kid = null;
     }
 
+    // KID入力内容のチェック
     if ( !kid.match(/^[0-9]+$/)  ) {
       makeUserView.get('select__kid').addClass('is-error');
       return;
     }
+
+    // 重複KIDチェック
+    check_kid = customer.db.select('/isUnique/kid',{ kid: kid } );
+    if ( check_kid[0] && check_kid[0].kid === kid ) {
+      makeUserView.get('select__kid').addClass('is-error');
+      return;
+    }
+
 
     param = {
       data : {
