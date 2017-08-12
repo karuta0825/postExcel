@@ -229,6 +229,18 @@
     }
 
     // 重複チェック
+
+      // kid
+    kid = customer.db.select('/isUnique/kid',{kid: getViewInfo('system').kid} )
+    if ( kid[0] && kid[0].kid ) {
+
+      systemView.get('input__kid')
+      .find('.item-value')
+      .addClass('is-error')
+
+      return;
+    }
+
       // fenicskey
     kid = customer.db.select('/isUniqueFenicsKey',{ fenicsKey : getViewInfo('system').fenics_key } );
     if ( kid[0] && kid[0].kid !== cms.model.userBaseInfo.getCache().kid ) {
@@ -457,6 +469,9 @@
    * システム情報にデータ表示
    */
   makeSystemInfo = function ( data ) {
+
+    // 先頭のKIDを削除
+    data.kid = data.kid.slice(3);
 
     // 該当サーバの検索
     var list_option = customer.model.servers.find({

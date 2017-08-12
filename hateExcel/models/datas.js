@@ -260,9 +260,10 @@ var findNewKid = function ( data, callback ) {
     [data],
     'find_new_kid',
     function ( result ) {
-      var kid = Number(result[0].kid.slice(3)) + 1;
+      var kid = Number(result[0].kid) + 1;
+      console.log(kid);
       if ( typeof callback === 'function') {
-        callback( null, 'KID' + kid );
+        callback( null,  kid );
       }
     }
   );

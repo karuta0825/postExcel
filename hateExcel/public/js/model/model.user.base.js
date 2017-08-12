@@ -7,7 +7,17 @@
   var
     _cache
   , vl = new util.Validate({
-
+    'id'            : 'noCheck',
+    'kid'           : "isId",
+    'user_name'     : "noCheck",
+    'userkey'       : "isAlpha",
+    'db_password'   : "isAlphaNum",
+    'client_number' : 'noCheck',
+    'fenics_key'    : 'isAlpha',
+    'number_id'     : 'noCheck',
+    'number_pc'     : 'noCheck',
+    'server'        : 'noCheck',
+    'start_id'      : 'noCheck'
    })
   , fetch
   , getCache
@@ -18,7 +28,7 @@
 
   validate = function ( view_data, has_busiv ) {
 
-    var result = [];
+    var result = vl.validate(view_data);
 
     if ( view_data['client_number'] < getCache().client_number ) {
       result.push('client_number');

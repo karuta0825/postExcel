@@ -388,6 +388,14 @@ app.post('/update', function ( req, res ) {
 
 });
 
+app.post('/isUnique/kid', function (req, res) {
+  var kid = req.body.kid;
+  console.log(kid);
+  datas.select( kid, 'is_unique_kid_for_update', function ( result ) {
+    res.json(result);
+  });
+});
+
 app.post('/isUniqueIp', function (req, res) {
   var ip = req.body.ip;
 
