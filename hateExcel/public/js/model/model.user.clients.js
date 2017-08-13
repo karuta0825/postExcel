@@ -43,11 +43,11 @@
       params = {
         data : _model.find( _updateInfo )
       }
-    , kid = _model.getCache()[0].kid
+    , kids_id = _model.getCache()[0].kids_id
     ;
 
     cms.db.update('/updateClient', params, function () {
-      _model.fetch( kid, cms.view.userClient.redrawTable );
+      _model.fetch( kids_id, cms.view.userClient.redrawTable );
     });
 
   };
@@ -125,14 +125,15 @@
 
     var
       list_clients  = _model.find( list_checked )
-    , fenicskey     = cms.model.userBaseInfo.getCache().fenics_key
-    , honame_prefix = fenicskey && fenicskey.toUpperCase()
+    , fenics_account
     ;
 
     return  _.map( list_clients, function ( val, key ) {
 
+      fenics_account = cms.model.userNetwork.find({ 'fenics_id' : val.fenics_id })[0];
+
       return {
-        'hostname'        : val.fenics_id && honame_prefix + val.fenics_id.match(/\d+/)[0] || '',
+        'hostname'        : fenics_account.pc_name || '',
         'fenics_id'       : val.fenics_id && 'hopecl-' + val.fenics_id || '',
         'password'        : val.fenics_id || '',
         'client_id'       : val.client_id,
@@ -153,14 +154,15 @@
 
     var
       list_clients  = _model.find( list_checked )
-    , fenicskey     = cms.model.userBaseInfo.getCache().fenics_key
-    , honame_prefix = fenicskey && fenicskey.toUpperCase()
+    , fenics_account
     ;
 
     return  _.map( list_clients, function ( val, key ) {
 
+      fenics_account = cms.model.userNetwork.find({ 'fenics_id' : val.fenics_id })[0];
+
       return {
-        'hostname'        : val.fenics_id && honame_prefix + val.fenics_id.match(/\d+/)[0] || '',
+        'hostname'        : fenics_account.pc_name || '',
         'fenics_id'       : val.fenics_id && 'hopecl-' + val.fenics_id || '',
         'password'        : val.fenics_id || '',
         'client_id'       : val.client_id,
