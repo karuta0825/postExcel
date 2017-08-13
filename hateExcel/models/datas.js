@@ -431,6 +431,7 @@ var makeFenicsAccount = function ( input_map, idx, callback ) {
     fenics_account['kids_id']    = input_map.kids_id;
     fenics_account['fenics_id']  = results[0];
     fenics_account['password']   = results[0];
+    fenics_account['pc_name']    = results[0].toUpperCase();
     fenics_account['fenics_ip']  = results[1];
     fenics_account['start_on']   = new Date();
     fenics_account['create_on']  = new Date();
