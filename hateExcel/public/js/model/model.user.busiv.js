@@ -48,25 +48,23 @@
       'auth_server_ip'         : 'isIp'
     })
   , _model = new Model( config )
-  , validate
   ;
 
-  validate = function ( data ) {
-
-    var
-      diff = _model._checkWhatsUpdated(data)
-    , result = vl.validate(diff)
-    ;
-    return result;
-
-  };
 
   /**
    * @override
    */
-  _model.update = function ( view_data, callback ) {
+  _model.update = function ( view_data, cb_success, cb_fail ) {
 
-    var update_data = this._checkWhatsUpdated( view_data );
+    var
+      update_data = this._checkWhatsUpdated( view_data )
+    , errs = vl.validate( update_data );
+    ;
+
+    if ( errs && errs.length > 0 ) {
+      cb_fail(errs);
+      return;
+    }
 
     // updateする対象が存在する場合
     if ( _.keys(update_data).length > 0 ) {
@@ -82,8 +80,8 @@
       this._updateHistory( this._diffUpdated( update_data ) );
 
       // 再描画
-      if ( typeof callback === 'function' ) {
-        callback( this.fetch( this['_cache'][0]['kids_id']) );
+      if ( typeof cb_success === 'function' ) {
+        cb_success( this.fetch( this['_cache'][0]['kids_id']) );
       }
 
       // 履歴テーブルの再描画

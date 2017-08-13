@@ -298,15 +298,21 @@
     // データ操作 update
     if (  has_busiv === 0 && has_fenics === 1     ) {
       _update(true);
+      cms.view.userNetwork.showFenics();
+      cms.view.userNetwork.hideBusiv();
     }
 
     // 両方使用してる場合、fenics追加かどうか尋ねる
     if ( has_busiv === 1 && has_fenics === 1 ) {
       commonView.get('confirm').get(0).showModal();
+      cms.view.userNetwork.showFenics();
+      cms.view.userNetwork.showBusiv();
     }
 
     if ( has_busiv === 1 && has_fenics === 0 ) {
       _update(false);
+      cms.view.userNetwork.showBusiv();
+      cms.view.userNetwork.hideFenics();
     }
 
     // モバイル表示制御

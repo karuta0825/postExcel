@@ -107,7 +107,7 @@
 
       // ネットワークタブ描画
       cms.model.userNetwork.find({'is_mobile':0},
-        cms.view.userNetwork.drawTable
+        cms.view.userFenics.drawTable
       );
 
       // モバイルfenicsテーブル描画
@@ -162,7 +162,7 @@
     else {
       cms.view.userNetwork.showBusiv();
       cms.model.userBusiv.fetch(kid,
-        cms.view.userNetwork.setBusivInfo
+        cms.view.userBusiv.setViewInfo
       );
     }
 
