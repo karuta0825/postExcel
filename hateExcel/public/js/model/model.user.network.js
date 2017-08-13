@@ -60,7 +60,7 @@
           _model.fetchAsync( kids_id, function () {
 
             cms.model.userNetwork.find({is_mobile : 0},
-              cms.view.userNetwork.drawTable
+              cms.view.userFenics.drawTable
             );
 
             cms.model.userNetwork.find({is_mobile : 1},
@@ -73,7 +73,7 @@
         .then ( function (result) {
           cb_success();
         })
-        .fail( function (err) {
+        .catch( function (err) {
           throw Error(err);
         });
 
