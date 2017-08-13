@@ -187,10 +187,6 @@
 
   };
 
-  _downloadSpla = function () {
-
-  };
-
   _getSelectItem = function () {
 
     var ids = _.map( $('.is-selected', clientView.top ), function (val,key){
