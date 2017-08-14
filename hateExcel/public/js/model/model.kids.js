@@ -34,6 +34,7 @@
   , MAX_VISIBLE_NUMBER = 30
     /*private method*/
     /*public  method*/
+  , fetch
   , sortByCol
   , getCache
   , find
@@ -45,6 +46,14 @@
   , initModule
   , getPageList
   ;
+
+  fetch = function ( condition, callback ) {
+    return _model.fetchAsync(null)
+    .then(function (r) {
+      _page.initialize(r, MAX_VISIBLE_NUMBER);
+      callback(r);
+    });
+  };
 
   /**
    * データソート
@@ -153,7 +162,7 @@
 
 
   initModule = function () {
-    _model.fetch();
+    // _model.fetch();
     _headerMap = customer.db.selectAll('/tableHeader')[0];
   };
 
@@ -279,7 +288,8 @@
   /*public method*/
   cms.model.kids = {
     initModule   : initModule,
-    fetch        : $.proxy( _model.fetch,    _model ),
+    // fetch        : $.proxy( _model.fetch,    _model ),
+    fetch        : fetch,
     getCache     : $.proxy( _model.getCache, _model ),
     getData      : getCache,
     find         : $.proxy( _model.find,     _model ),

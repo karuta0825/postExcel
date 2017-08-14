@@ -16,7 +16,6 @@ $(function(){
   customer.model.homeServerTable.initModule();
   customer.model.homeGraph.initModule();
   customer.model.environments.initModule();
-  customer.model.kids.initModule();
 
   // viewの初期化
   _.each( customer.view, function ( val, key ) {
