@@ -37,14 +37,17 @@
         }
       },
       'btn' : {
-        'delete'    : '.btn--del',
-        'download'  : '.btn--download',
-        'nextPage'  : '.next',
-        'prevPage'  : '.prev',
-        'listPage'  : '.page_list'
+        'delete'        : '.btn--del',
+        'download'      : '.btn--download',
+        'nextPage'      : '.next',
+        'prevPage'      : '.prev',
+        'listPage'      : '.page_list',
+        'closeDownload' : '.btn--close',
+        'execDownload'  : '.btn--exec'
       },
+      'download' : '.download--kids',
       'dialog' : {
-        'download' : '',
+        'download' : '#modal-kids-download',
         'delete'   : '#modal-delete-user'
       },
       'table' : {
@@ -145,17 +148,34 @@
 
   _onClickDownload = function () {
     // 確認ダイアログを表示させる
+    var
+      type = view.get('dialog__download').find('.is-checked').attr('for')
+    , filename
+    , header
+    , data
+    , Blob
+    ;
 
-    // 対象を取得
-    var ids = _getSelectItem();
+    switch ( type ) {
+      case 'only-checked' :
+          data = customer.model.kids.find( _getSelectItem() );
+        break;
+      case 'filtered' :
+          data = customer.model.kids.getFilter();
+        break;
+      case 'all' :
+          data = customer.model.kids.getCache();
+      default :
+        break;
+    }
 
-    var filename = new moment().format('YYYYMMDD') + '_KID_List.csv';
-    var header = 'id,';
-    var data = customer.model.kids.find( ids );
+    filename = new moment().format('YYYYMMDD') + '_KID_List.csv';
+    header = 'id,';
     header += _.values( customer.model.kids.getHeader() ).join(',');
-    var Blob = util.convertMap2Blob( data, header );
+    Blob = util.convertMap2Blob( data, header );
     // ダウンロード
-    util.downloadFile( this, Blob, filename );
+    util.downloadFile( view.get('download'), Blob, filename );
+    view.get('download').get(0).click();
 
   };
 
@@ -542,10 +562,12 @@
     view.addListener({
       'change filter__server'       : function () { customer.model.kids.setCondition( { server : $(this).val() }, drawTable );},
       'click btn__delete'           : function () { view.get('dialog__delete').get(0).showModal(); },
-      'click btn__download'         : _onClickDownload,
+      'click btn__download'         : function () { view.get('dialog__download').get(0).showModal(); },
       'click btn__nextPage'         : function () { cms.model.kids.nextPage( drawTable ); },
       'click btn__prevPage'         : function () { cms.model.kids.prevPage( drawTable ); },
       'click btn__listPage'         : _selectPage,
+      'click btn__closeDownload'    : function () { view.get('dialog__download').get(0).close(); },
+      'click btn__execDownload'     : _onClickDownload,
       'change filter__search'       : _search,
       'click filter__system__wrap'  : _selectSystem,
       'click filter__version__wrap' : _selectVertion,
