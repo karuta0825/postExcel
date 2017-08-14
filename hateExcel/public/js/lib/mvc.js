@@ -85,29 +85,58 @@
   };
 
   Controller.fn.addElement = function ( map_element ) {
-    _.each( map_element, function ( val, key ) {
-      if ( !this.get(key) ) {
-        this['_el'][key] = this.$(val);
-      }
-    },this);
-  };
 
-  Controller.fn.updateElement = function ( map_element ) {
+    var
+      list_key
+    , local = this['_el']
+    , k
+    ;
+
     _.each( map_element, function ( val, key ) {
-      var list_key = key.split('__');
-      var local = this['_el'];
-      var k = _.last( list_key );
+      list_key = key.split('__');
+      local = this['_el'];
+      k = _.last( list_key );
 
       if ( list_key.length === 1 ) {
         this['_el'][key] = this.$(val);
       }
       else {
         for ( var i = 0; i< list_key.length-1; i+=1 ) {
-          local = local[list_key[i]];
+          if ( local.hasOwnProperty(list_key[i]) ) {
+            local = local[list_key[i]];
+          }
+          else {
+            local[list_key[i]] = {};
+            local = local[list_key[i]];
+          }
         }
         local[k] = this.$(val);
       }
     },this);
+
+
+  };
+
+  Controller.fn.updateElement = function ( map_element ) {
+
+    var obj = {};
+
+    // 文字列ならば既存の再登録
+    if ( _.isString(map_element) ) {
+      obj[map_element] = this.getSelector( map_element );
+    }
+    else {
+      obj = map_element;
+    }
+
+    // 存在しない場合
+    if ( _.isString(map_element) && !obj[map_element] ) {
+      throw new Error('存在しないセレクタの更新です. addElementを使用してください.');
+      return;
+    }
+
+    this.addElement( obj );
+
   };
 
   /**
