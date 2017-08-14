@@ -192,10 +192,10 @@
     ;
 
     if ( version === 'LM' ) {
-      licenseView.updateElement({ 'select-table' : licenseView.get('table__lm')} );
+      licenseView.updateElement({ 'select-table' : '.lm-service-table' } );
     }
     else {
-      licenseView.updateElement({ 'select-table' : licenseView.get('table__es')} );
+      licenseView.updateElement({ 'select-table' : '.es-service-table' } );
     }
 
     delete clone.kid;

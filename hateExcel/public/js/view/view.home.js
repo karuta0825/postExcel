@@ -81,7 +81,7 @@
     homeView.get('notice__items').remove();
     homeView.get('notice__list').append( complied(data) );
 
-    homeView.updateElement({'notice__items' : '.article-notice__item--body'});
+    homeView.updateElement('notice__items');
 
   };
 
@@ -115,7 +115,7 @@
 
     drawNews( customer.model.historys.getCache() );
 
-    homeView.updateElement({ 'notice__items' : '.article-notice__item--body'});
+    homeView.updateElement('notice__items');
 
     homeView.addListener({
       'click notice__btnMore' : getMoreHistory,
