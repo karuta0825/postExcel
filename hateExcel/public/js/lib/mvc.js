@@ -218,6 +218,7 @@
 
     return promise.then( function (result) {
       context['_cache'] = result;
+      context['_filterList'] = result;
 
       if ( typeof callback === 'function' ) {
         callback( result );

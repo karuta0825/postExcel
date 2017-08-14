@@ -50,9 +50,9 @@
       'table' : {
         'wrap'   : '.users-table__body',
         'self'   : '.users-table__body table',
-        'header' : '.usersers-table__body thead',
+        'header' : '.users-table__body th.mdl-data-table__cell--non-numeric',
         'body'   : '.users-table__body tbody',
-        'row'    : '.users-table__body tr'
+        'row'    : '.users-table__body tbody tr'
       }
     }
   // private
@@ -470,6 +470,7 @@
     view.updateElement('table__self');
     view.updateElement('table__header');
     view.updateElement('table__body');
+    view.updateElement('table__row');
     _setColInfo();
 
     componentHandler.upgradeElement( view.get('table__self').get(0) );
@@ -491,7 +492,7 @@
 
     delete headerMap.uid;
 
-    jqueryMap.row.each( function ( key, val ) {
+    _.each( view.get('table__row'), function ( val, key) {
       // idだけは個別処理
         $(val).attr('id', data[key].id );
 
@@ -545,7 +546,8 @@
       'click filter__version__wrap' : _selectVertion,
       'click filter__network__wrap' : _selectNetwork,
       'click filter__mobile__wrap'  : _selectMobileAvailable,
-      'click table__body'           : _onClickKid
+      'click table__body'           : _onClickKid,
+      'click table__header'         : _onClickColumn
     });
 
   };
@@ -556,6 +558,7 @@
     drawTable       : drawTable,
     refresh         : refresh,
     selectServer    : selectServer,
+    tmp             : function () { return view; }
   };
 
 
