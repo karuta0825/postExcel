@@ -24,15 +24,15 @@
         },
         'server' : '.select-servers',
         'network' : {
-          'wrap' : '.network .filter-item__body',
+          'wrap'  : '.network .filter-item__body',
           'busiv' : '.btn--busiv',
           'univ'  : '.btn--univ',
           'both'  : '.btn--busivUniv'
         },
         'mobile' : {
           'wrap' : '.mobile .filter-item__body',
-          'on' : '.btn--mon',
-          'off' : '.btn--moff',
+          'on'   : '.btn--mon',
+          'off'  : '.btn--moff',
           'both' : '.btn--mon-off'
         }
       },
@@ -503,12 +503,17 @@
 
     });
 
+    cms.model.kids.getPage(1);
+    cms.model.kids.getPageList( makePageButton );
+    _highlightIndexPage(cms.model.kids.getPageIndex());
+
   };
 
   refresh = function () {
 
-    cms.model.kids.fetch( null );
-    cms.model.kids.getCondition( cms.view.kids.drawTable );
+    cms.model.kids.fetch( null, function () {
+      cms.model.kids.getCondition( drawTable );
+    });
 
   };
 

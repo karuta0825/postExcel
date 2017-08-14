@@ -53,7 +53,8 @@
 
   fetch = function ( kids_id, callback  ) {
 
-    _cache = _.clone( customer.model.kids.find( {'id' : Number(kids_id) } )[0] );
+    // 苦肉の策
+    _cache = _.clone( _.where(customer.model.kids.getCache(), {'id' : Number(kids_id)})[0] );
 
     // 端末IDの
     _cache.start_id = _cache.range_id && Number(_cache.range_id.split('-')[0]) || 0;
