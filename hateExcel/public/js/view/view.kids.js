@@ -533,6 +533,7 @@
 
     cms.model.kids.fetch( null, function () {
       cms.model.kids.getCondition( drawTable );
+      cms.view.userBaseInfo.refresh();
     });
 
   };

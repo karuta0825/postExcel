@@ -16,7 +16,8 @@
         'client_number' : 'クライアント数',
         'number_pc'     : '端末台数',
         'number_id'     : '端末id収容数',
-        'start_id'      : '開始端末id'
+        'start_id'      : '開始端末id',
+        'has_qa'        : '業務QA'
       }
     }
   , _model = new Model( config )
@@ -264,7 +265,6 @@
       // 再描画
       cms.view.home.refresh();
       cms.view.kids.refresh();
-      cms.view.userBaseInfo.refresh();
 
     }
 
