@@ -180,14 +180,21 @@
     , before = this.find({ 'id' : view_data['id'] })[0]
     ;
 
-    // 端末開始IDを端末ID範囲から求める
-    before['start_id'] = before['range_id'] && Number(before['range_id'].split('-')[0]) || 0;
-    delete before['range_id'];
-
+    // 前回がないなら処理終了
     if ( !before ) {
       return;
     }
 
+    // 前処理1
+    // 端末開始IDを端末ID範囲から求める
+    before['start_id'] = before['range_id'] && Number(before['range_id'].split('-')[0]) || 0;
+    delete before['range_id'];
+
+    // 前処理2
+    // viewは数値のみ, modelは、KIDが先頭につくという差をなくす
+    view_data['kid'] = 'KID' + view_data['kid'];
+
+    // 差分を求める
     for ( var i in view_data ) {
       if ( view_data[i] !== '' && view_data[i] !== before[i] ) {
         result[i] = view_data[i];
