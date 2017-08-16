@@ -35,18 +35,20 @@
           'client_number'  : '.client_number',
           'number_pc'      : '.number_pc',
           'number_id'      : '.number_id',
-          'start_id'       : '.start_id'
+          'start_id'       : '.start_id',
+          'qa'             : '.qa'
         },
         'choice' : {
           'busiv'          : '.busiv',
           'fenics'         : '.univ',
-          'mobile'         : '.has_mobile'
+          'mobile'         : '.has_mobile',
+          'has_qa'         : '.has_qa'
         },
         'environment' : {
           'system_type'    : '.system_type',
           'version'        : '.version',
           'network'        : '.network',
-          'mobile'         : '.mobile'
+          'mobile'         : '.mobile',
         }
       },
       'customer' : {
@@ -120,6 +122,9 @@
 
   _validateSystem = function ( list_key ) {
 
+    // 除外
+    list_key = _.without( list_key, 'has_qa' );
+
     // エラーviewの初期化
     _.each( systemView.get('input'), function (val, key){
       val.find('.item-value').removeClass('is-error');
@@ -142,6 +147,13 @@
 
   };
 
+  /**
+   * input配下のキーの編集状態を切り替える
+   * @param  {Object} view_property
+   * @param  {[type]} can_edit
+   * @param  {[type]} view
+   * @return {[type]}
+   */
   _toggleEditMode = function ( view_property, can_edit, view ) {
     if ( can_edit ) {
       view.get(view_property).find('.item-value').addClass('is-edit');
@@ -153,6 +165,10 @@
     }
   };
 
+  /**
+   * オンプレユーザーのときは、不要な項目を非表示にする
+   * @param  {Boolean} is_onpre
+   */
   _hiddenItem = function ( is_onpre ) {
     if ( is_onpre === 'onpre' ) {
       systemView.get('input__userkey').addClass('is-hidden');
@@ -164,14 +180,18 @@
   _goViewMode = function () {
     // 編集不可
     _.each( systemView.get('input'), function ( v,k ) {
-      _toggleEditMode('input__' +k , false, systemView, systemView );
+      _toggleEditMode('input__' +k , false, systemView );
     });
 
     _.each( customerView.get('input'), function ( v,k ) {
       _toggleEditMode('input__' +k , false, customerView );
     });
 
+    // 選択形式の状態を戻す
     systemView.get('environment__network').removeClass('is-edit');
+    systemView.get('environment__mobile').removeClass('is-edit');
+    systemView.get('input__qa').removeClass('is-edit');
+
 
     _.each( systemView.get('btn'), function (v,k) {
       systemView.get('btn__' + k).addClass('is-hidden');
@@ -348,10 +368,12 @@
       _toggleEditMode('input__' + k , true, customerView );
     });
 
-    // セレクトボックス
+    // 選択形式の入力制御
     systemView.get('environment__network').addClass('is-edit');
 
     systemView.get('environment__mobile').addClass('is-edit');
+
+    systemView.get('input__qa').addClass('is-edit');
 
     // ボタン状態制御
     _.each( systemView.get('btn'), function (v,k) {
@@ -420,6 +442,17 @@
 
   }
 
+  _selectHasQa = function ( event ) {
+
+    if ( $(event.target).parent('li').hasClass('is-edit') ) {
+
+      systemView.get('choice__has_qa').toggleClass('choice--on');
+
+    }
+
+  };
+
+
   /**
    * 画面からデータ取得
    * @param  {String} section - 画面のセクション名
@@ -443,7 +476,8 @@
       'client_number' : Number(systemView.get('input__client_number').find('.item-value').val() ),
       'number_pc'     : Number(systemView.get('input__number_pc'    ).find('.item-value').val() ),
       'number_id'     : Number(systemView.get('input__number_id'    ).find('.item-value').val() ),
-      'start_id'      : Number(systemView.get('input__start_id'     ).find('.item-value').val() )
+      'start_id'      : Number(systemView.get('input__start_id'     ).find('.item-value').val() ),
+      'has_qa'        : systemView.get('choice__has_qa').hasClass('choice--on') ? 1 : 0
     };
 
     result.customer = {
@@ -531,10 +565,20 @@
     }
 
     if ( data.has_mobile === 1 )  {
+      // こちらのほうがわかりやすい
+      // systemView.get('choice__mobile').addClass('choice--on');
       systemView.get('environment__mobile').find('.has_mobile').addClass('choice--on');
     }
     else {
+      // systemView.get('choice__mobile').removeClass('choice--on');
       systemView.get('environment__mobile').find('.has_mobile').removeClass('choice--on');
+    }
+
+    if ( data.has_qa === 1 ) {
+      systemView.get('choice__has_qa').addClass('choice--on');
+    }
+    else {
+      systemView.get('choice__has_qa').removeClass('choice--on');
     }
 
 
@@ -691,7 +735,8 @@
      'click btn__plusPC'       : _increasePC,
      'click btn__minusPC'      : _decreasePC,
      'click environment__network' : _selectNetwork,
-     'click environment__mobile' : _selectHasMobile
+     'click environment__mobile'  : _selectHasMobile,
+     'click input__qa'            : _selectHasQa
     });
 
   };
