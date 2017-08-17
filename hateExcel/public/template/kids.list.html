@@ -1,44 +1,96 @@
 <table class='mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp'>
 
   <thead>
-    <% _.each( list.header, function ( val, key ){ %>
-      <th class='mdl-data-table__cell--non-numeric <%- key %>' >
-        <%- val  %>
-        <!-- <i class="material-icons">arrow_drop_up</i> -->
-      </th>
-    <% }); %>
+    <tr>
+      <th class="mdl-data-table__cell--non-numeric kid">KID</th>
+      <th class="mdl-data-table__cell--non-numeric user_name">顧客名</th>
+      <th class="mdl-data-table__cell--non-numeric kana is-hidden">フリガナ</th>
+      <th class="mdl-data-table__cell--non-numeric server">サーバ</th>
+      <th class="mdl-data-table__cell--non-numeric userkey">ユーザキー</th>
+      <th class="mdl-data-table__cell--non-numeric db_password">DBパスワード</th>
+      <th class="mdl-data-table__cell--non-numeric fenics_key">fenicsキー</th>
+      <th class="mdl-data-table__cell--non-numeric number_pc">端末台数</th>
+      <th class="mdl-data-table__cell--non-numeric client_number">クライアント数</th>
+      <th class="mdl-data-table__cell--non-numeric license is-hidden">ライセンス</th>
+      <th class="mdl-data-table__cell--non-numeric number_id">端末id収容数</th>
+      <th class="mdl-data-table__cell--non-numeric range_id">端末id範囲</th>
+      <th class="mdl-data-table__cell--non-numeric creater">作成者</th>
+      <th class="mdl-data-table__cell--non-numeric update_on">更新日</th>
+      <th class="mdl-data-table__cell--non-numeric system_type is-hidden">システム環境</th>
+      <th class="mdl-data-table__cell--non-numeric version is-hidden">バージョン</th>
+      <th class="mdl-data-table__cell--non-numeric has_busiv is-hidden">ビジVあり</th>
+      <th class="mdl-data-table__cell--non-numeric has_fenics is-hidden">ユニバあり</th>
+      <th class="mdl-data-table__cell--non-numeric has_mobile is-hidden">モバイル有無</th>
+      <th class="mdl-data-table__cell--non-numeric mobile_number">モバイル数</th>
+      <th class="mdl-data-table__cell--non-numeric is_registered is-hidden">初期登録済</th>
+      <th class="mdl-data-table__cell--non-numeric register_on is-hidden">登録日</th>
+      <th class="mdl-data-table__cell--non-numeric sa_company is-hidden">SA会社名</th>
+      <th class="mdl-data-table__cell--non-numeric sa_name is-hidden">SA担当者名</th>
+      <th class="mdl-data-table__cell--non-numeric sa_tel is-hidden">SA電話番号</th>
+      <th class="mdl-data-table__cell--non-numeric sa_email is-hidden">SAメール</th>
+      <th class="mdl-data-table__cell--non-numeric se_company is-hidden">SE会社名</th>
+      <th class="mdl-data-table__cell--non-numeric se_name is-hidden">SE担当者名</th>
+      <th class="mdl-data-table__cell--non-numeric se_tel is-hidden">SE電話番号</th>
+      <th class="mdl-data-table__cell--non-numeric se_email is-hidden">SEメール</th>
+      <th class="mdl-data-table__cell--non-numeric em_company is-hidden">緊急連絡先社名</th>
+      <th class="mdl-data-table__cell--non-numeric em_name is-hidden">緊急連絡先担当者名</th>
+      <th class="mdl-data-table__cell--non-numeric em_tel is-hidden">緊急連絡先電話番号</th>
+      <th class="mdl-data-table__cell--non-numeric em_email is-hidden">緊急連絡先メール</th>
+    </tr>
   </thead>
 
   <tbody>
 
-    <% var keys = Object.keys( list.header ),
-      len = keys.length,
-      i;
-    %>
-
     <% _.each( list.body , function ( item ) { %>
-      <tr id='<%- item.id %>' >
-    <%   for ( i = 0; i<len; i+=1 ){ %>
-    <!-- 入力内容が数値以外のとき左寄せ -->
-    <%     if ( typeof item[keys[i]] === 'number') { %>
-             <td class='<%- keys[i] %>'> <%- item[keys[i]] %> </td>
-    <%     } else { %>
-    <!-- ビジVユーザーのとき不要な値は表示しない -->
-      <%    if ( item['is_busiv'] === 1 && (
-                  keys[i] === 'fenics_key'  ||
-                  keys[i] === 'db_password' ||
-                  keys[i] === 'userkey'
-                  )
-                ) {  %>
-             <td class='mdl-data-table__cell--non-numeric <%- keys[i] %>'></td>
-      <%     } else {  %>
-             <td class='mdl-data-table__cell--non-numeric <%- keys[i] %>'> <%- item[keys[i]]  %>   </td>
-      <%     } %>
-    <%     } %>
-    <%   } %>
+      <tr id="<%- item.id %>">
+        <td class="mdl-data-table__cell--non-numeric kid"> <%- item.kid %> </td>
+        <td class="mdl-data-table__cell--non-numeric user_name"> <%- item.user_name %> </td>
+        <td class="mdl-data-table__cell--non-numeric kana is-hidden"> <%- item.kana %> </td>
+        <td class="mdl-data-table__cell--non-numeric server"> <%- item.server %> </td>
+        <td class="mdl-data-table__cell--non-numeric userkey">
+          <% if ( item.system_type !== 'onpre' ) { %>
+            <%- item.userkey %>
+          <% } %>
+        </td>
+        <td class="mdl-data-table__cell--non-numeric db_password">
+          <% if ( item.system_type !== 'onpre' ) { %>
+            <%- item.db_password %>
+          <% } %>
+        </td>
+        <td class="mdl-data-table__cell--non-numeric fenics_key">
+          <% if ( item.system_type !== 'onpre' ) { %>
+            <%- item.fenics_key %>
+          <% } %>
+        </td>
+        <td class="number_pc"> <%- item.number_pc %> </td>
+        <td class="client_number"> <%- item.client_number %> </td>
+        <td class="mdl-data-table__cell--non-numeric license is-hidden"> <%- item.license %> </td>
+        <td class="number_id"> <%- item.number_id %> </td>
+        <td class="mdl-data-table__cell--non-numeric range_id"> <%- item.range_id %> </td>
+        <td class="mdl-data-table__cell--non-numeric creater"> <%- item.creater %> </td>
+        <td class="mdl-data-table__cell--non-numeric update_on"> <%- item.update_on %> </td>
+        <td class="mdl-data-table__cell--non-numeric system_type is-hidden"> <%- item.system_type %> </td>
+        <td class="mdl-data-table__cell--non-numeric version is-hidden"> <%- item.version %> </td>
+        <td class="has_busiv is-hidden"> <%- item.has_busiv %> </td>
+        <td class="has_fenics is-hidden"> <%- item.has_fenics %> </td>
+        <td class="has_mobile is-hidden"> <%- item.hs_mobile %> </td>
+        <td class="mobile_number"> <%- item.mobile_number %> </td>
+        <td class="is_registered is-hidden"> <%- item.is_registered %> </td>
+        <td class="mdl-data-table__cell--non-numeric register_on is-hidden"> <%- item.register_on %> </td>
+        <td class="mdl-data-table__cell--non-numeric sa_company is-hidden"> <%- item.sa_company %> </td>
+        <td class="mdl-data-table__cell--non-numeric sa_name is-hidden"> <%- item.sa_name %> </td>
+        <td class="mdl-data-table__cell--non-numeric sa_tel is-hidden"> <%- item.sa_tel %> </td>
+        <td class="mdl-data-table__cell--non-numeric sa_email is-hidden"> <%- item.sa_email %> </td>
+        <td class="mdl-data-table__cell--non-numeric se_company is-hidden"> <%- item.se_company %> </td>
+        <td class="mdl-data-table__cell--non-numeric se_name is-hidden"> <%- item.se_name %> </td>
+        <td class="mdl-data-table__cell--non-numeric se_tel is-hidden"> <%- item.se_tel %> </td>
+        <td class="mdl-data-table__cell--non-numeric se_email is-hidden"> <%- item.se_email %> </td>
+        <td class="mdl-data-table__cell--non-numeric em_company is-hidden"> <%- item.em_company %> </td>
+        <td class="mdl-data-table__cell--non-numeric em_name is-hidden"> <%- item.em_name %> </td>
+        <td class="mdl-data-table__cell--non-numeric em_tel is-hidden"> <%- item.em_tel %> </td>
+        <td class="mdl-data-table__cell--non-numeric em_email is-hidden"> <%- item.em_email %> </td>
       </tr>
     <% }); %>
-
 
   </tbody>
 
