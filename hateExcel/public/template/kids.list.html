@@ -2,6 +2,7 @@
 
   <thead>
     <tr>
+      <th class="mdl-data-table__cell--non-numeric is_marked"></th>
       <th class="mdl-data-table__cell--non-numeric kid">KID</th>
       <th class="mdl-data-table__cell--non-numeric user_name">顧客名</th>
       <th class="mdl-data-table__cell--non-numeric kana is-hidden">フリガナ</th>
@@ -21,7 +22,7 @@
       <th class="mdl-data-table__cell--non-numeric has_busiv is-hidden">ビジVあり</th>
       <th class="mdl-data-table__cell--non-numeric has_fenics is-hidden">ユニバあり</th>
       <th class="mdl-data-table__cell--non-numeric has_mobile is-hidden">モバイル有無</th>
-      <th class="mdl-data-table__cell--non-numeric mobile_number">モバイル数</th>
+      <th class="mdl-data-table__cell--non-numeric mobile_number is-hidden">モバイル数</th>
       <th class="mdl-data-table__cell--non-numeric is_registered is-hidden">初期登録済</th>
       <th class="mdl-data-table__cell--non-numeric register_on is-hidden">登録日</th>
       <th class="mdl-data-table__cell--non-numeric sa_company is-hidden">SA会社名</th>
@@ -43,6 +44,11 @@
 
     <% _.each( list.body , function ( item ) { %>
       <tr id="<%- item.id %>">
+        <td class="is_marked">
+          <% if ( item.is_marked === '1' ) { %>
+            <i class="material-icons">star</i>
+          <% } %>
+        </td>
         <td class="mdl-data-table__cell--non-numeric kid"> <%- item.kid %> </td>
         <td class="mdl-data-table__cell--non-numeric user_name"> <%- item.user_name %> </td>
         <td class="mdl-data-table__cell--non-numeric kana is-hidden"> <%- item.kana %> </td>
@@ -74,7 +80,7 @@
         <td class="has_busiv is-hidden"> <%- item.has_busiv %> </td>
         <td class="has_fenics is-hidden"> <%- item.has_fenics %> </td>
         <td class="has_mobile is-hidden"> <%- item.hs_mobile %> </td>
-        <td class="mobile_number"> <%- item.mobile_number %> </td>
+        <td class="mobile_number is-hidden"> <%- item.mobile_number %> </td>
         <td class="is_registered is-hidden"> <%- item.is_registered %> </td>
         <td class="mdl-data-table__cell--non-numeric register_on is-hidden"> <%- item.register_on %> </td>
         <td class="mdl-data-table__cell--non-numeric sa_company is-hidden"> <%- item.sa_company %> </td>
