@@ -26,6 +26,7 @@ CREATE TABLE `columns` (
   `uid` int(11) NOT NULL,
   `kid` varchar(45) DEFAULT '1',
   `user_name` varchar(45) DEFAULT '1',
+  `kana` varchar(45) DEFAULT NULL,
   `server` varchar(45) DEFAULT '1',
   `userkey` varchar(45) DEFAULT '1',
   `db_password` varchar(45) DEFAULT '1',
@@ -42,8 +43,21 @@ CREATE TABLE `columns` (
   `has_busiv` varchar(45) DEFAULT NULL,
   `has_fenics` varchar(45) DEFAULT NULL,
   `has_mobile` varchar(45) DEFAULT NULL,
+  `mobile_number` varchar(45) DEFAULT NULL,
   `is_registered` varchar(45) DEFAULT NULL,
   `register_on` varchar(45) DEFAULT NULL,
+  `sa_company` varchar(45) DEFAULT NULL,
+  `sa_name` varchar(45) DEFAULT NULL,
+  `sa_tel` varchar(45) DEFAULT NULL,
+  `sa_email` varchar(45) DEFAULT NULL,
+  `se_company` varchar(45) DEFAULT NULL,
+  `se_name` varchar(45) DEFAULT NULL,
+  `se_tel` varchar(45) DEFAULT NULL,
+  `se_email` varchar(45) DEFAULT NULL,
+  `em_company` varchar(45) DEFAULT NULL,
+  `em_name` varchar(45) DEFAULT NULL,
+  `em_tel` varchar(45) DEFAULT NULL,
+  `em_email` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`uid`),
   UNIQUE KEY `user_id_UNIQUE` (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -55,7 +69,7 @@ CREATE TABLE `columns` (
 
 LOCK TABLES `columns` WRITE;
 /*!40000 ALTER TABLE `columns` DISABLE KEYS */;
-INSERT INTO `columns` VALUES (0,'KID','顧客名','サーバ','ユーザキー','DBパスワード','fenicsキー','端末台数','クライアント数','ライセンス','端末id収容数','端末id範囲','作成者','更新日','システム環境','バージョン','ビジVあり','ユニバあり','モバイル有無','初期登録済','登録日'),(1,'1','1','1','1','1','1','1','1','0','1','1','1','1','0','0','0',NULL,'0','0','0');
+INSERT INTO `columns` VALUES (0,'KID','顧客名','フリガナ','サーバ','ユーザキー','DBパスワード','fenicsキー','端末台数','クライアント数','ライセンス','端末id収容数','端末id範囲','作成者','更新日','システム環境','バージョン','ビジVあり','ユニバあり','モバイル有無','モバイル数','初期登録済','登録日','SA会社名','SA担当者名','SA電話番号','SAメール','SE会社名','SE担当者名','SE電話番号','SEメール','緊急連絡先社名','緊急連絡先担当者名','緊急連絡先電話番号','緊急連絡先メール'),(1,'1','1','0','1','1','1','1','1','1','0','1','1','1','1','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0');
 /*!40000 ALTER TABLE `columns` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -68,4 +82,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-07-23 22:28:45
+-- Dump completed on 2017-08-17 22:43:14
