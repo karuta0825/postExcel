@@ -39,6 +39,8 @@
     })
     .then( function () {
       callback();
+    })
+    .then( function () {
       // 個別対応の場合、星マークをつける必要あるため
       cms.view.kids.refresh();
     })
@@ -62,7 +64,10 @@
 
     cms.db.post('/update', param )
     .then( function () {
-      return _model.fetchAsync( data.kids_id, cms.view.editUsrs.makeMemos )
+      return _model.fetchAsync( data.kids_id );
+    })
+    .then( function (r) {
+      cms.view.editUsrs.makeMemos(r);
     })
     .then( function () {
       cms.view.kids.refresh();
@@ -77,8 +82,15 @@
       table : 'memos'
     };
 
-    cms.db.remove('/delete', param, function () {
-      _model.fetch( data.kids_id, cms.view.editUsrs.makeMemos );
+    cms.db.post('/delete', param )
+    .then( function () {
+      return _model.fetchAsync( data.kids_id );
+    })
+    .then( function (r) {
+      cms.view.editUsrs.makeMemos(r);
+    })
+    .then( function () {
+      cms.view.kids.refresh();
     });
 
   };
