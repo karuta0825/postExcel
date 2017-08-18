@@ -835,8 +835,8 @@
   background: #ffb600;
 }
 
-.memo-item__status.reminder {
-  /*background: #7575ff;*/
+.memo-item__status.special {
+  background: #673ab7;
 }
 
 

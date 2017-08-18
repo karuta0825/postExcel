@@ -34,9 +34,16 @@
 
     data['kids_id'] = cms.model.userBaseInfo.getCache().id;
 
-    cms.db.insert('/makeMemo', {
+    cms.db.post('/makeMemo', {
       'data'     : data,
-    }, callback );
+    })
+    .then( function () {
+      callback();
+      // 個別対応の場合、星マークをつける必要あるため
+      cms.view.kids.refresh();
+    })
+    ;
+
 
   };
 
@@ -53,8 +60,12 @@
       table     : 'memos'
     };
 
-    cms.db.update('/update', param, function () {
-      _model.fetch( data.kids_id, cms.view.editUsrs.makeMemos );
+    cms.db.post('/update', param )
+    .then( function () {
+      return _model.fetchAsync( data.kids_id, cms.view.editUsrs.makeMemos )
+    })
+    .then( function () {
+      cms.view.kids.refresh();
     });
 
   };

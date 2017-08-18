@@ -16,7 +16,8 @@
       'choice' : {
         'emergency' : '.emergency',
         'important' : '.important',
-        'reminder'  : '.reminder'
+        'reminder'  : '.reminder',
+        'special'   : '.special',
       },
       'input' : {
         'title'         : '.memo__title .title-value',
@@ -49,16 +50,25 @@
         memoView.get('choice__emergency').addClass('choice--on');
         memoView.get('choice__important').removeClass('choice--on');
         memoView.get('choice__reminder').removeClass('choice--on');
+        memoView.get('choice__special').removeClass('choice--on');
         break;
       case 'important' :
         memoView.get('choice__emergency').removeClass('choice--on');
         memoView.get('choice__important').addClass('choice--on');
         memoView.get('choice__reminder').removeClass('choice--on');
+        memoView.get('choice__special').removeClass('choice--on');
         break;
       case 'reminder' :
         memoView.get('choice__emergency').removeClass('choice--on');
         memoView.get('choice__important').removeClass('choice--on');
         memoView.get('choice__reminder').addClass('choice--on');
+        memoView.get('choice__special').removeClass('choice--on');
+        break;
+      case 'special' :
+        memoView.get('choice__emergency').removeClass('choice--on');
+        memoView.get('choice__important').removeClass('choice--on');
+        memoView.get('choice__reminder').removeClass('choice--on');
+        memoView.get('choice__special').addClass('choice--on');
         break;
       default :
         break;
@@ -189,6 +199,7 @@
     memoView.get('choice__emergency').addClass('choice--on');
     memoView.get('choice__important').removeClass('choice--on');
     memoView.get('choice__reminder').removeClass('choice--on');
+    memoView.get('choice__special').removeClass('choice--on');
 
     changeEditMode(false);
 
