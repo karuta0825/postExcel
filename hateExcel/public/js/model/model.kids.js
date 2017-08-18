@@ -52,7 +52,7 @@
     return _model.fetchAsync(null)
     .then(function (r) {
       _page.initialize(r, MAX_VISIBLE_NUMBER);
-      callback(r);
+      callback(_page.get(1));
     });
   };
 
