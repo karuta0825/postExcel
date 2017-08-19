@@ -26,9 +26,9 @@
 
   find = function ( condition, callback ) {
 
-    _model.find( condition, callback);
-
     setSelectedItem(condition.id);
+
+    return _model.find( condition, callback );
 
   };
 
