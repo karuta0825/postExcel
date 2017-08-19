@@ -183,7 +183,7 @@
   };
 
    _delete = function () {
-      cms.model.memoTemplate.remove( refresh );
+      cms.model.memoTemplate.remove( _setTemplate );
    };
 
    _update = function () {
@@ -252,6 +252,7 @@
 
   cms.view.memoTemplate = {
     initModule : initModule,
+    refresh    : refresh,
     tmp : function () { return view }
   };
 

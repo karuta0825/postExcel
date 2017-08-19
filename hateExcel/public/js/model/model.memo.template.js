@@ -92,7 +92,15 @@
 
     cms.db.post('/delete', params )
     .then( function () {
-      callback();
+      cms.view.memoTemplate.refresh();
+    })
+    .then( function () {
+
+      if ( _model.getCache().length > 0 ) {
+        callback(_model.getCache()[0])
+        setSelectedItem( _model.getCache()[0].id );
+      }
+
     })
     ;
 
