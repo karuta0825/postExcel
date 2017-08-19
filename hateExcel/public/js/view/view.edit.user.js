@@ -147,6 +147,10 @@
       cms.view.editUsrs.makeMemos
     );
 
+    cms.model.memoTemplate.getCache(
+      cms.view.userMemo.makeTemplateOption
+    );
+
     // ユニバ表示制御
     if ( cms.model.userBaseInfo.getCache().has_fenics === 0 ) {
       cms.view.userNetwork.hideFenics();

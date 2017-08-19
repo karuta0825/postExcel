@@ -24,11 +24,15 @@
         'memo-priority' : '.memo__priority',
         'message'       : '.memo__content .content-value'
       },
+      'template' : {
+        'select' : '.memo__template select',
+      },
       'dialog'  : '#modal-delete-memo',
       'alert'   : '#modal-alert-memo'
     }
   , _inputError
   , _selectPriority
+  , _selectTemplate
   , _getViewInfo
   , _clear
   , _save
@@ -36,6 +40,7 @@
   , _update
   , _delete
   , changeEditMode
+  , makeTemplateOption
   , reset
   , makeViewInfo
   , initModule
@@ -76,6 +81,17 @@
 
   };
 
+  _selectTemplate = function () {
+
+    var
+      template_id = Number($(this).val())
+    , template = cms.model.memoTemplate.find({id : template_id})[0].msg
+    ;
+
+    memoView.get('input__message').val( template );
+
+  };
+
   _getViewInfo = function () {
 
     var result =  {
@@ -93,6 +109,7 @@
 
   };
 
+
   _clear = function () {
 
     memoView.get('input__title').val('');
@@ -103,6 +120,21 @@
     memoView.get('choice__reminder').removeClass('choice--on');
 
     changeEditMode(false);
+
+  };
+
+  makeTemplateOption = function ( list ) {
+
+    var option;
+
+    memoView.get('template__select').empty();
+
+    _.each( list, function (item, idx) {
+
+      option = $('<option>', { 'value' : item.id, 'text' : item.title });
+      memoView.get('template__select').append(option);
+
+    });
 
   };
 
@@ -259,7 +291,8 @@
       'click btn__cancel' : _cancel,
       'click btn__update' : _update,
       'click btn__delete' : function () { memoView.get('dialog').get(0).showModal(); },
-      'click input__memo-priority' : _selectPriority
+      'click input__memo-priority' : _selectPriority,
+      'change template__select' : _selectTemplate
     });
 
   };
@@ -270,6 +303,7 @@
     makeViewInfo : makeViewInfo,
     changeEditMode : changeEditMode,
     reset        : reset,
+    makeTemplateOption : makeTemplateOption,
     tmp : _getViewInfo
   };
 
