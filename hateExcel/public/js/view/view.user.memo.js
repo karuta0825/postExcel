@@ -85,10 +85,11 @@
 
     var
       template_id = Number($(this).val())
-    , template = cms.model.memoTemplate.find({id : template_id})[0].msg
+    , template = cms.model.memoTemplate.find({id : template_id})[0]
     ;
 
-    memoView.get('input__message').val( template );
+    memoView.get('input__title').val( template.title );
+    memoView.get('input__message').val( template.msg );
 
   };
 
