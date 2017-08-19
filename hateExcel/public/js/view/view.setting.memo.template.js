@@ -8,7 +8,6 @@
   , elements = {
       'btn' : {
         'create' : '.btn--create',
-        'cancel' : '.btn--cancel',
         'save'   : '.btn--save',
         'delete' : '.btn--delete',
         'update' : '.btn--update'
@@ -41,11 +40,11 @@
   , _clear
     // event method
   , _create
-  , _cancel
   , _save
   , _delete
   , _update
   // public method
+  , refresh
   , initModule
   ;
 
@@ -68,7 +67,6 @@
 
   _goNeweMode = function () {
 
-    view.get('btn__cancel').addClass('is-hidden');
     view.get('btn__delete').addClass('is-hidden');
     view.get('btn__update').addClass('is-hidden');
     view.get('btn__save').removeClass('is-hidden');
@@ -78,7 +76,6 @@
 
   _goEditMode = function () {
 
-    view.get('btn__cancel').removeClass('is-hidden');
     view.get('btn__delete').removeClass('is-hidden');
     view.get('btn__update').removeClass('is-hidden');
     view.get('btn__save').addClass('is-hidden');
@@ -87,11 +84,13 @@
 
   /**
    * テンプレート詳細画面に選択されたテンプレート内容を表示
-   * @param {Object} data
-   * @param {String} data.title - タイトル
-   * @param {String} data.msg   - 内容
+   * @param {Array} data
+   * @param {String} data[0].title - タイトル
+   * @param {String} data[0].msg   - 内容
    */
   _setTemplate = function ( data ) {
+
+    data = ( _.isArray(data) ) ? data[0] : data;
 
     view.get('content__input__title').val( data.title );
     view.get('content__input__msg').val( data.msg );
@@ -114,7 +113,7 @@
   };
 
   /**
-   * テンプレート一覧に情報を表示
+   * テンプレート一覧情報を作成
    * @param  {Array} datas
    */
   _makeList = function ( datas ) {
@@ -140,7 +139,7 @@
 
     if ( !id ) { return; }
 
-    // cms.model.memoTempalte.find({id : id}, _setTemplate);
+    cms.model.memoTemplate.find({id : Number(id)}, _setTemplate);
 
     _goEditMode();
 
@@ -170,15 +169,40 @@
 
   };
 
-   _create = function () {};
+   _save   = function () {
 
-   _cancel = function () {};
+    cms.model.memoTemplate.insert(
+      _getViewInfo(),
+      refresh,
+      _showError
+    );
 
-   _save   = function () {};
+    _goEditMode();
 
-   _delete = function () {};
+  };
 
-   _update = function () {};
+   _delete = function () {
+      cms.model.memoTemplate.remove( refresh );
+   };
+
+   _update = function () {
+
+      cms.model.memoTemplate.update(
+        _getViewInfo(),
+        refresh,
+        _showError
+      );
+
+   };
+
+   refresh = function () {
+
+    cms.model.memoTemplate.fetch()
+    .then( function (r) {
+      _makeList(r);
+    });
+
+   };
 
   initModule = function () {
 
@@ -202,9 +226,20 @@
 
     view.initElement(elements);
 
+    cms.model.memoTemplate.fetch()
+    .then( function (r) {
+
+      // データが存在するならばはじめのデータを初期表示にする
+      if ( r.length > 0 ) {
+        _setTemplate(r[0]);
+      }
+
+      _makeList(r);
+
+    });
+
     view.addListener({
       'click btn__create' : _goNeweMode,
-      'click btn__cancel' : _cancel,
       'click btn__save'   : _save,
       'click btn__update' : _update,
       'click btn__delete' : function () { view.get('dialog__delete-memo-template').get(0).showModal(); },
