@@ -173,11 +173,12 @@
 
     cms.model.memoTemplate.insert(
       _getViewInfo(),
-      refresh,
+      function () {
+        refresh();
+        _goNeweMode();
+      },
       _showError
     );
-
-    _goEditMode();
 
   };
 
