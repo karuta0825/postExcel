@@ -1,0 +1,7 @@
+
+<% _.each( list, function (item, idx) { %>
+  <div class='item' data-memo-template-id='<%- item.id %>'>
+    <p class='item__title'><%- item.title %></p>
+    <p class='item__short-msg'><%- item.short_msg %></p>
+  </div>
+<% }); %>

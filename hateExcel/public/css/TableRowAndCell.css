@@ -1206,3 +1206,75 @@
    setting services
 ---------------------- */
 
+/* -------------------
+   setting memo template
+---------------------- */
+
+.memo-template {
+  display: flex;
+  display: -webkit-flex;
+  width: 90%;
+  height: 95%;
+  margin : 20px auto;
+  background: white;
+}
+
+.memo-template__list {
+  flex : 0.25;
+  border-right: 1px solid #dedcdc;
+}
+
+.memo-template__list .header {
+  height: 5.5%;
+  border-bottom: 1px solid #dedcdc;
+  text-align: right;
+}
+
+.memo-template__list .btn--create {
+  margin-top: 5px;
+}
+
+.memo-template__list .body {
+  height: 94.5%;
+  overflow-y: scroll;
+}
+
+.memo-template__list .item {
+  border-bottom : 1px solid #dedcdc;
+}
+
+.memo-template__list .item__short-msg {
+  padding-left: 10px;
+}
+
+.memo-template__content {
+  flex : 1;
+}
+
+.memo-template__content .header__title {
+  width : 95%;
+  margin: 10px auto 0 auto;
+}
+
+.memo-template__content .header__action {
+  text-align: right;
+  margin : 5px 0 0 0;
+}
+
+.memo-template__content .body {
+  width: 95%;
+  height: 95%;
+  margin: 20px auto;
+}
+
+.memo-template__content .input-area {
+  width: 100%;
+  height: 80%;
+  resize: none;
+  border: 1px solid #dedcdc;
+}
+
+.memo-template__content .body .input-enabled-number {
+  width: 10%;
+  margin : 20px 0 0 auto;
+}
