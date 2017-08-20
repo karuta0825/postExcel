@@ -135,9 +135,15 @@
    */
   _selectItem = function (e) {
 
-    var id = $(e.target).parents('.item').attr('data-memo-template-id');
+    var
+      item = $(e.target).parents('.item')
+    , id = item.attr('data-memo-template-id')
+    ;
 
     if ( !id ) { return; }
+
+    view.get('list__body').find('.item').removeClass('is-selected');
+    item.addClass('is-selected');
 
     cms.model.memoTemplate.find({id : Number(id)}, _setTemplate);
 
@@ -162,6 +168,8 @@
     _.each( view.get('content__input'), function (val,key) {
       $(val).removeClass('is-error');
     });
+
+    view.get('list__body').find('.item').removeClass('is-selected');
 
     view.get('content__input__title').val('');
     view.get('content__input__msg').val('');

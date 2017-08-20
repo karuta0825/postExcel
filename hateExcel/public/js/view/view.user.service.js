@@ -8,9 +8,10 @@
     licenseView
   , elements = {
       'btn' : {
-        'edit'   : '.btn--edit',
-        'cancel' : '.btn--cancel',
-        'save'   : '.btn--save',
+        'edit'    : '.btn--edit',
+        'cancel'  : '.btn--cancel',
+        'save'    : '.btn--save',
+        'oneline' : '.btn--oneline-edit',
       },
       'table' : {
         'es' : '.es-service-table',
@@ -19,19 +20,31 @@
       'select_table' : '',
       'th_checkbox' : 'th .mdl-checkbox',
       'td_checkbox' : 'td .mdl-checkbox',
-      'checkbox' : '.mdl-checkbox'
+      'checkbox' : '.mdl-checkbox',
+      'dialog' : {
+        'btn'     : {
+          'save'   : '.btn--dialog-save',
+          'cancel' : '.btn--dialog-cancel'
+        },
+        'input'   : '#oneline-edit-license .oneline-input',
+        'oneline' : '#oneline-edit-license'
+      }
     }
   , _checked
   , _unchecked
   , _selected
   , _unselected
   , _selectVersion
+  , _getUpdateObj
+  , _cancelOnelineInput
+  , _editOnelineInput
   , setViewInfo
   , setChecked
   , makeServiceTable
   , getViewInfo
   , cancel
   , save
+  , onelineSave
   , edit
   , clear
   , reset
@@ -92,6 +105,38 @@
     else {
       licenseView.get('table__lm').addClass('is-hidden');
     }
+  };
+
+  _getUpdateObj = function () {
+
+    var
+      result = {}
+    , obj = licenseView.get('select-table').find('tbody').find('tr')
+    ;
+
+    _.each( obj, function ( val, key ) {
+
+      result[ $(val).attr('class').split(' ')[0] ] = 0;
+
+    });
+
+    return result;
+
+  };
+
+  _cancelOnelineInput = function () {
+
+      var license = cms.model.userBaseInfo.getCache().license;
+      licenseView.get('dialog__input').val(license);
+      licenseView.get('dialog__oneline').get(0).close();
+
+  };
+
+  _editOnelineInput = function () {
+
+    cancel();
+    licenseView.get('dialog__oneline').get(0).showModal();
+
   };
 
   makeServiceTable = function ( data, version ) {
@@ -162,6 +207,30 @@
 
   };
 
+  onelineSave = function () {
+
+    var
+      obj    = _getUpdateObj()
+    , input  = licenseView.get('dialog__input').val()
+    , length = input.length
+    , i
+    ;
+
+    for ( i = 0; i < length; i+=2 ) {
+      if ( obj.hasOwnProperty( input.substr(i,2) ) ) {
+        obj[input.substr(i,2)] = 1;
+      }
+    }
+
+    // 入力チェックが必要
+    // 存在しないkeyがあるかもしれないから
+
+    cms.model.userLicense.update(obj, setViewInfo);
+
+    licenseView.get('dialog__oneline').get(0).close();
+
+  };
+
   edit = function () {
 
     // モデルから現在サービスにチェックをつける
@@ -176,6 +245,8 @@
     licenseView.get('btn__edit').addClass('is-hidden');
     licenseView.get('btn__cancel').removeClass('is-hidden');
     licenseView.get('btn__save').removeClass('is-hidden');
+    // テキスト入力ボタン
+    licenseView.get('btn__oneline').addClass('is-hidden');
 
   };
 
@@ -189,6 +260,7 @@
     var
       clone = _.extend( {}, data[0] )
     , version = cms.model.userBaseInfo.getCache().version
+    , oneline = ''
     ;
 
     if ( version === 'LM' ) {
@@ -210,7 +282,15 @@
         _unselected( licenseView.get('select-table').find('.' + key) );
       }
 
+      if ( val === 1 ) {
+        _selected( licenseView.get('select-table').find('.' + key) );
+        oneline += key;
+      }
+
     });
+
+    // テキスト入力画面の設定
+    licenseView.get('dialog__input').val(oneline);
 
   };
 
@@ -235,6 +315,7 @@
     licenseView.get('btn__edit').removeClass('is-hidden');
     licenseView.get('btn__cancel').addClass('is-hidden');
     licenseView.get('btn__save').addClass('is-hidden');
+    licenseView.get('btn__oneline').removeClass('is-hidden');
 
   };
 
@@ -248,9 +329,12 @@
     licenseView.initElement( elements );
 
     licenseView.addListener({
-      'click btn__edit'   : edit,
-      'click btn__cancel' : cancel,
-      'click btn__save'   : save
+      'click btn__edit'    : edit,
+      'click btn__cancel'  : cancel,
+      'click btn__save'    : save,
+      'click btn__oneline' : _editOnelineInput,
+      'click dialog__btn__cancel' : _cancelOnelineInput,
+      'click dialog__btn__save' : onelineSave
     });
 
     licenseView.get('checkbox').addClass('is-hidden');
