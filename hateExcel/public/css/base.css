@@ -94,6 +94,10 @@ tbody, input {
   background: #ffeaf1 !important;
 }
 
+.is-selected {
+  background: #e4e4e4;
+}
+
 .is-over {
   background : #ff5b94 !important;
   color : white !important;

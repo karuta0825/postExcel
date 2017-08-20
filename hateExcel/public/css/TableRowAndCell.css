@@ -489,7 +489,7 @@
 }
 
 .event-list .event-item:hover {
-  background : #dedede;;
+  background : #e4e4e4;
 }
 
 .event-item .start_on,
@@ -1243,7 +1243,16 @@
   border-bottom : 1px solid #dedcdc;
 }
 
+.memo-template__list .item:hover {
+  background: #e4e4e4;
+}
+
+.memo-template__list .item__title {
+  margin: 0;
+}
+
 .memo-template__list .item__short-msg {
+  margin: 0;
   padding-left: 10px;
 }
 
