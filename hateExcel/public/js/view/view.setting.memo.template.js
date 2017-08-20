@@ -142,6 +142,11 @@
 
     if ( !id ) { return; }
 
+    // 既存のエラーを消す
+    _.each( view.get('content__input'), function (val,key) {
+      $(val).removeClass('is-error');
+    });
+
     view.get('list__body').find('.item').removeClass('is-selected');
     item.addClass('is-selected');
 
