@@ -74,10 +74,12 @@
       tr              = $('<tr>',     { 'data-id' : 'c' + idx })
     , td_service_id   = $('<td>',     { class : 'service_id'} )
     , td_service_name = $('<td>',     { class : 'service_name' } )
+    , td_sales_id     = $('<td>',     { class : 'sales_id' } )
     , td_del          = $('<td>',     { align : 'center', class : 'del' } )
     , input_id        = $('<input>',  { type  : 'text', maxlength : 2 } )
     , input_name      = $('<input>',  { type  : 'text', maxlength : 20 } )
-    , button          = $('<button>', { class : 'btn btn--del mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect'} )
+    , input_sales_id  = $('<input>',  { type  : 'text', maxlength : 20 } )
+    , button          = $('<button>', { class : 'btn btn--del mdl-button mdl-js-button mdl-button--icon'} )
     , icon            = $('<i>'     , { class : 'material-icons', text : 'delete_forever'})
     ;
 
@@ -85,10 +87,12 @@
 
     td_service_id.append(   input_id  );
     td_service_name.append( input_name );
+    td_sales_id.append( input_sales_id );
     td_del.append( button.append(icon) );
 
     tr.append(td_service_id)
       .append(td_service_name)
+      .append(td_sales_id)
       .append(td_del)
       ;
 

@@ -10,11 +10,12 @@
   , list_es = new Model()
   , list_lm = new Model()
   , vl = new util.Validate({
-      'id'          : 'noCheck',
-      'sales_id'    : 'noCheck',
-      'service_id'  : 'isEmpty',
-      'service_name': 'isEmpty',
-      'version'     : 'noCheck',
+      'id'            : 'noCheck',
+      'sales_id'      : 'noCheck',
+      'service_id'    : 'isEmpty',
+      'service_name'  : 'isEmpty',
+      'version'       : 'noCheck',
+      'is_setup_info' : 'noCheck'
     })
   , validate
   , initModule
