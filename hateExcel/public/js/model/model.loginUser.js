@@ -2,7 +2,7 @@
 (function ( $, cms ) {
 
   var
-    _model = new Model({'table' : 'login_users'})
+    _model = new Model({'table' : 'login_user'})
   , _vl = new util.Validate({
       name  : 'isEmpty',
       pass1 : 'isEmpty',
@@ -47,7 +47,7 @@
   cms.model.loginUser = {
     fetch    : $.proxy( _model.fetchAsync, _model ),
     getCache : $.proxy( _model.getCache, _model ),
-    update   : update,
+    update   : update
   };
 
 }( jQuery, customer ));

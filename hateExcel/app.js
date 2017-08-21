@@ -132,7 +132,7 @@ app.post('/select', function ( req, res ) {
     return;
   }
 
-  if ( table === 'login_users' ) {
+  if ( table === 'login_user' ) {
     datas.select( {id : req.session.uid }, table, function ( result ) {
       res.json( result );
     });
