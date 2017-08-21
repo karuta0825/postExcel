@@ -15,23 +15,30 @@
         }
       },
       'authority' : {
+        'self' : '.authority',
         'btn' : {
           'update' : '.authority .btn--update',
           'close'  : '.authority .btn--close'
         },
         'dialog' : '#modal-authority',
-        'users'  : '.authority .body'
+        'users'  : '.authority .body',
+        'status' : {
+          'admin'        : '[for="admin"]',
+          'normal'       : '[for="normal"]',
+          'non-register' : '[for="non-register"]'
+        },
       },
       'dialog' : {
         'error' : '#input-error-login-user-info'
       }
     }
-  , _showError
-  , _saveLogin
-  , _updateAuth
+  , _showUserError
+  , _getUserInfo
   , _setUserInfo
   , _makeUsersList
   , _selectUser
+  , _saveLogin
+  , _updateAuth
   , initModule
   ;
 
@@ -85,8 +92,56 @@
 
   _selectUser = function ( e ) {
 
-    var user = $(e.target).parents('.item');
+    var
+      id = $(e.target).closest('.item').attr('data-login-id')
+    , user
+    ;
+
+    if ( !id ) { return; }
+
+    cms.model.loginUsers.setUser(id);
+
+    user = cms.model.loginUsers.find({ id : Number(id) })[0];
+
+    switch ( user.status ) {
+      case '未登録' :
+        view.get('authority__status__non-register').get(0).click();
+        break;
+      case '一般' :
+        view.get('authority__status__normal').get(0).click();
+        break;
+      case '管理者' :
+        view.get('authority__status__admin').get(0).click();
+        break;
+      default :
+        break;
+    }
+
     view.get('authority__dialog').get(0).showModal();
+
+  };
+
+  _makeUsersList = function (datas) {
+
+    var
+      data     = { list : datas }
+    , tmpl     = customer.db.getHtml('template/login.list.html')
+    , complied = _.template( tmpl )
+    ;
+
+    view.get('authority__users').empty();
+    view.get('authority__users').append( complied(data) );
+
+  };
+
+  _updateAuth = function () {
+
+    var status = view.get('authority__dialog').find('.is-checked').attr('for');
+
+    cms.model.loginUsers.update( status, function ( data ) {
+      _makeUsersList(data);
+      view.get('authority__dialog').get(0).close();
+    });
 
   };
 
@@ -108,12 +163,23 @@
     cms.model.loginUser.fetch()
     .then( function (r) {
       _setUserInfo(r);
+      return r;
     })
+    .then( function (r) {
+      if ( r[0].is_admin === 1 ) {
+        view.get('authority__self').removeClass('is-hidden');
+        return cms.model.loginUsers.fetch();
+      }
+    })
+    .then( function (r) {
+      _makeUsersList(r);
+    });
 
     view.addListener({
       'click user__btn__update' : _saveLogin,
       'click authority__users'  : _selectUser,
-      'click authority__btn__close' : function () { view.get('authority__dialog').get(0).close(); }
+      'click authority__btn__close' : function () { view.get('authority__dialog').get(0).close(); },
+      'click authority__btn__update'  : _updateAuth
     });
 
   };

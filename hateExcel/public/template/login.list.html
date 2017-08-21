@@ -1,0 +1,8 @@
+
+<% _.each( list, function (item, idx) { %>
+  <div class='item' data-login-id='<%- item.id %>'>
+    <i class="material-icons item__part">person</i>
+    <span class='name item__part'><%- item.name %></span>
+    <span class='level item__part'><%- item.status %></span>
+  </div>
+<% }); %>
