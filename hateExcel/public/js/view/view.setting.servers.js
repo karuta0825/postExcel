@@ -144,14 +144,16 @@
     , td_name     = $('<td>',     { class : 'name' } )
     , td_ip       = $('<td>',     { class : 'ip' } )
     , td_con_db   = $('<td>',     { class : 'connect_db' } )
+    , td_capacity = $('<td>',     { class : 'capacity' } )
     , td_del      = $('<td>',     { align : 'center', class : 'del' } )
     , input       = $('<input>',  { type  : 'text' } )
+    , input_num   = $('<input>',  { type  : 'number' } )
     , select_type = $('<select>', { class : 'select-type'})
     , select_db   = $('<select>', { class : 'select-db'})
     , opt_ap      = $('<option>', { value : 'AP', text : 'AP'} )
     , opt_db      = $('<option>', { value : 'DB', text : 'DB'} )
     , opt_web     = $('<option>', { value : 'WEB', text : 'WEB'} )
-    , button      = $('<button>', { class : 'btn btn--del mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect'} )
+    , button      = $('<button>', { class : 'btn btn--del mdl-button mdl-js-button mdl-button--icon'} )
     , icon        = $('<i>'     , { class : 'material-icons', text : 'delete_forever'})
     , list_db     = cms.model.servers.find({'version' : version, 'type' : 'DB'})
     ;
@@ -173,12 +175,14 @@
     td_name.append( $(input).clone(true) );
     td_ip.append(   $(input).clone(true) );
     td_con_db.append( select_db );
+    td_capacity.append( input_num );
     td_del.append( button.append(icon) );
 
     tr.append(td_type)
       .append(td_name)
       .append(td_ip)
       .append(td_con_db)
+      .append(td_capacity)
       .append(td_del)
       ;
 
