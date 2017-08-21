@@ -88,6 +88,8 @@
     , template = cms.model.memoTemplate.find({id : template_id})[0]
     ;
 
+    if ( !template ) { return; }
+
     memoView.get('input__title').val( template.title );
     memoView.get('input__message').val( template.msg );
 
@@ -129,6 +131,9 @@
     var option;
 
     memoView.get('template__select').empty();
+
+    option = $('<option>', { 'value' : '', 'text' : 'なし' });
+    memoView.get('template__select').append(option);
 
     _.each( list, function (item, idx) {
 
