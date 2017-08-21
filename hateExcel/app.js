@@ -132,6 +132,13 @@ app.post('/select', function ( req, res ) {
     return;
   }
 
+  if ( table === 'login_users' ) {
+    datas.select( {id : req.session.uid }, table, function ( result ) {
+      res.json( result );
+    });
+    return;
+  }
+
   if ( condition ) {
     datas.select( condition, table, function ( results ) {
       res.json( results );
@@ -563,85 +570,28 @@ app.post('/master', function ( req, res ) {
 });
 
 
-/**
- * マスタデータの更新
- * @param  {[type]} req
- * @param  {[type]} res ) {  var    data
- * @return {[type]}
- */
-app.post('/m_update', function ( req, res ) {
+app.post('/updateLogin', function ( req, res ) {
 
   var
     data = req.body.data
-  , query = req.body.query
-  , item
-  , condition
-  , len = 0
+  , condition = ( data.id ) ? { id : data.id } : { id : req.session.uid };
   ;
 
-  // クラス作成
-  // 引数に何かを渡すと、それに応じて特定の処理をしてくれる
-  if ( Object.prototype.toString.call( data ) === '[object Array]' ) {
+  delete data.id;
 
-    for ( var i = 0; i < data.length; i+= 1 ) {
+  console.log(data);
+  console.log(condition);
 
-      item = data[i];
-      condition = data[i].id;
-      delete item.id;
-      delete item.version;
+  datas.update( data, condition, 'login_user_info', function (err) {
 
-      datas.update( item, condition, query, function ( err ) {
-        // insert時のエラー処理
-        if (err) {
-          console.log(err);
-          res.json({ result : 'fail', err : err });
-        }
-        else {
-          len += 1;
-          if ( len === data.length ) {
-            res.json({'result' : 'success', 'number' : len });
-          }
-        }
-
-      });
+    if ( err ) {
+      res.status(500).send({ result : 'fail ', err : err});
+      return;
     }
-  } else {
-    res.status(500).send('argument is not Array.');
-  }
 
-});
+    res.json({ result : 'success' });
 
-
-app.post('/m_server_add', function (req, res) {
-
-  var
-    data = req.body.data
-  , table = req.body.table
-  , idx = 0
-  ;
-
-  // dataがArrayであることが前提だね
-  if ( Object.prototype.toString.call( data ) === '[object Array]' ) {
-    for ( var i = 0; i < data.length; i+= 1 ) {
-
-      datas.insert( data[i], table, function ( err ) {
-        // insert時のエラー処理
-        if (err) {
-          console.log(err);
-          res.status( 500 ).send( err.message );
-          return;
-        }
-
-        idx++;
-
-        if ( idx === data.length ) {
-          console.log('end');
-          res.json({'result' : 'ok'});
-        }
-
-      });
-    }
-  }
+  });
 
 });
 
