@@ -28,6 +28,7 @@ CREATE TABLE `login_users` (
   `name` varchar(10) NOT NULL,
   `password` varchar(15) NOT NULL,
   `newadd` tinyint(1) NOT NULL,
+  `is_admin` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_id_UNIQUE` (`uid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
@@ -39,7 +40,7 @@ CREATE TABLE `login_users` (
 
 LOCK TABLES `login_users` WRITE;
 /*!40000 ALTER TABLE `login_users` DISABLE KEYS */;
-INSERT INTO `login_users` VALUES (1,'aka','赤鬼','aka',0),(2,'ao','青鬼','ao',0),(3,'kiro','黄鬼','kiro',0),(4,'afafa','name','pass',1),(5,'akaaa','akaka','akakka',1),(6,'test','login','login',1),(7,'taka','テスト太郎','taka',0);
+INSERT INTO `login_users` VALUES (1,'aka','大赤鬼','aka',0,1),(2,'ao','青鬼','ao',0,1),(3,'kiro','黄鬼','yello',0,0),(4,'afafa','name','pass',1,0),(5,'akaaa','akaka','akakka',1,0),(6,'test','login','login',1,0),(7,'taka','テスト太郎','taka',0,0);
 /*!40000 ALTER TABLE `login_users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -52,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-07-23 22:28:45
+-- Dump completed on 2017-08-21 23:26:23
