@@ -679,9 +679,15 @@
   };
 
   refresh = function () {
-    var kids_id = cms.model.userBaseInfo.getCache().id;
-    cms.model.userBaseInfo.fetch(kids_id, makeSystemInfo);
-    cms.model.userCustomer.fetch( kids_id, makeCustomerInfo );
+
+    if ( cms.model.userBaseInfo.getCache() ) {
+
+      var kids_id = cms.model.userBaseInfo.getCache().id;
+      cms.model.userBaseInfo.fetch(kids_id, makeSystemInfo);
+      cms.model.userCustomer.fetch( kids_id, makeCustomerInfo );
+
+    }
+
   };
 
   initModule = function () {
