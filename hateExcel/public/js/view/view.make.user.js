@@ -113,7 +113,7 @@
     }
 
     // KID入力内容のチェック
-    if ( !kid.match(/^[0-9]+$/)  ) {
+    if ( kid && !kid.match(/^[0-9]+$/)  ) {
       makeUserView.get('select__kid').addClass('is-error');
       return;
     }
@@ -144,6 +144,10 @@
   };
 
   _clear = function () {
+
+    // 入力されたKIDを消す
+    makeUserView.get('select__kid').val('');
+
     _.each( makeUserView.get('select'), function ( val, key ) {
       $(val).removeClass('is-error');
     });
