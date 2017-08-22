@@ -122,6 +122,8 @@
     memoView.get('choice__important').removeClass('choice--on');
     memoView.get('choice__reminder').removeClass('choice--on');
 
+    memoView.get('template__select').val('');
+
     changeEditMode(false);
 
   };
