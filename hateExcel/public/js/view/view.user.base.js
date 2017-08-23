@@ -172,6 +172,7 @@
   _hiddenItem = function ( is_onpre ) {
     if ( is_onpre === 'onpre' ) {
       systemView.get('input__userkey').addClass('is-hidden');
+      systemView.get('input__fenics_key').addClass('is-hidden');
       systemView.get('input__server').addClass('is-hidden');
       systemView.get('input__db_password').addClass('is-hidden');
     }
