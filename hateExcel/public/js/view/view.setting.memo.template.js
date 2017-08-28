@@ -30,7 +30,7 @@
     }
   // private method
   , _showError
-  , _goNeweMode
+  , _goNewMode
   , _goEditMode
   , _setTemplate
   , _getViewInfo
@@ -65,7 +65,7 @@
 
   };
 
-  _goNeweMode = function () {
+  _goNewMode = function () {
 
     view.get('btn__delete').addClass('is-hidden');
     view.get('btn__update').addClass('is-hidden');
@@ -160,7 +160,7 @@
 
     var length = view.get('content__input__msg').val().length;
 
-    view.get('content__available-number').text(300-length);
+    view.get('content__available-number').text(500-length);
 
   };
 
@@ -178,7 +178,7 @@
 
     view.get('content__input__title').val('');
     view.get('content__input__msg').val('');
-    view.get('content__available-number').text('300');
+    view.get('content__available-number').text('500');
 
   };
 
@@ -188,7 +188,7 @@
       _getViewInfo(),
       function () {
         refresh();
-        _goNeweMode();
+        _goNewMode();
       },
       _showError
     );
@@ -196,7 +196,10 @@
   };
 
    _delete = function () {
-      cms.model.memoTemplate.remove( _setTemplate );
+      cms.model.memoTemplate.remove( function ( datas ) {
+        _makeList(datas);
+        _setTemplate( datas[0] );
+      });
    };
 
    _update = function () {
@@ -213,7 +216,14 @@
 
     cms.model.memoTemplate.fetch()
     .then( function (r) {
+
       _makeList(r);
+
+      if ( r.length === 0 ) {
+        _setTemplate({'title' : '', 'msg' : ''});
+        _goNewMode();
+      }
+
     });
 
    };
@@ -246,6 +256,8 @@
       // データが存在するならばはじめのデータを初期表示にする
       if ( r.length > 0 ) {
         _setTemplate(r[0]);
+        _goEditMode();
+        cms.model.memoTemplate.setSelectedItem( r[0].id );
       }
 
       _makeList(r);
@@ -253,7 +265,7 @@
     });
 
     view.addListener({
-      'click btn__create' : _goNeweMode,
+      'click btn__create' : _goNewMode,
       'click btn__save'   : _save,
       'click btn__update' : _update,
       'click btn__delete' : function () { view.get('dialog__delete-memo-template').get(0).showModal(); },
@@ -265,8 +277,7 @@
 
   cms.view.memoTemplate = {
     initModule : initModule,
-    refresh    : refresh,
-    tmp : function () { return view }
+    refresh    : refresh
   };
 
 } ( jQuery, customer ));
