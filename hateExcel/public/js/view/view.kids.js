@@ -161,7 +161,7 @@
           data = customer.model.kids.find( _getSelectItem() );
         break;
       case 'filtered' :
-          data = customer.model.kids.getFilter();
+          data = customer.model.kids.getConditionAll();
         break;
       case 'all' :
           data = customer.model.kids.getCache();

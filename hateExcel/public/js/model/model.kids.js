@@ -42,6 +42,7 @@
   , search
   , setCondition
   , getCondition
+  , getConditionAll
   , getHeader
   , register
   , initModule
@@ -117,6 +118,10 @@
     }
 
 
+  };
+
+  getConditionAll = function () {
+    return _model.find( _condition );
   };
 
   /**
@@ -318,7 +323,8 @@
     prevPage     : $.proxy( _page.prev, _page ),
     getPage      : $.proxy( _page.get, _page ),
     getPageIndex : $.proxy( _page.getIndex, _page ),
-    getPageList  : getPageList
+    getPageList  : getPageList,
+    getConditionAll : getConditionAll
   };
 
 }( jQuery, customer ));
