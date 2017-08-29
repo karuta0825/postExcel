@@ -756,8 +756,7 @@
     reset        : reset,
     clear        : clear,
     refresh      : refresh,
-    getViewInfo  : getViewInfo,
-    get : function () { return customerView;}
+    getViewInfo  : getViewInfo
   };
 
 

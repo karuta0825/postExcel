@@ -300,7 +300,6 @@
   /*public method*/
   cms.model.kids = {
     initModule   : initModule,
-    // fetch        : $.proxy( _model.fetch,    _model ),
     fetch        : fetch,
     getCache     : $.proxy( _model.getCache, _model ),
     getData      : getCache,
@@ -319,8 +318,7 @@
     prevPage     : $.proxy( _page.prev, _page ),
     getPage      : $.proxy( _page.get, _page ),
     getPageIndex : $.proxy( _page.getIndex, _page ),
-    getPageList  : getPageList,
-    tmp          : $.proxy( _page.getPageList, _page )
+    getPageList  : getPageList
   };
 
 }( jQuery, customer ));
