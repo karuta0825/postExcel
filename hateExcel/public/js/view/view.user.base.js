@@ -259,6 +259,9 @@
       systemView.get('input__kid')
       .find('.item-value')
       .addClass('is-error')
+      ;
+
+      commonView.get('alert').get(0).showModal();
 
       return;
     }
