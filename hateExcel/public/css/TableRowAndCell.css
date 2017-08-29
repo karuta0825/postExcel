@@ -1262,6 +1262,7 @@
 .memo-template__list .item__short-msg {
   margin: 0;
   padding-left: 10px;
+  font-size: 10px;
 }
 
 .memo-template__content {
