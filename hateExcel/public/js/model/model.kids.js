@@ -178,6 +178,7 @@
     var
       result = {}
     , before = this.find({ 'id' : view_data['id'] })[0]
+    , clone = _.clone(view_data)
     ;
 
     // 前回がないなら処理終了
@@ -250,6 +251,10 @@
 
     // クライアント・PC数はテーブルにないため削除
     delete update_data.client_number;
+
+    if ( update_data.hasOwnProperty('kid') ) {
+      update_data.kid = update_data.kid.substr(-5,5);
+    }
 
     // updateする対象が存在する場合
     if ( _.keys(update_data).length > 0 ) {
