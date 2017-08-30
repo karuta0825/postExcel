@@ -1325,7 +1325,6 @@
 .login-info__content .body {
   max-height: 90%;
   margin-top: 10px;
-  overflow-y: scroll;
   background: white;
 }
 
@@ -1344,6 +1343,10 @@
 }
 .login-info .user-info .action {
   margin : 10px 0 0 170px;
+}
+
+.login-info .authority .body {
+  overflow-y: scroll;
 }
 
 .login-info .authority .item {
