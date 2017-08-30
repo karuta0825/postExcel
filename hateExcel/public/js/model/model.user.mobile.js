@@ -30,6 +30,7 @@
   // public method
   , validate
   , addMobile
+  , register
   ;
 
   /**
@@ -94,6 +95,46 @@
 
   };
 
+  register = function ( obj ) {
+
+    var params = {};
+
+    if ( obj.number < 1 ) {
+      return;
+    }
+
+    return _model.fetchAsync(obj['kids_id'])
+    .then(function (r) {
+      // パラメータの設定
+      params['data'] = {
+        kids_id             : obj.kids_id,
+        fenics_key          : r[0].fenics_key,
+        number_client_added : obj.number
+      };
+
+    })
+    .then( function () {
+      // 追加
+      cms.db.post('/addMobileClient', params );
+
+    })
+    .then( function () {
+      // リスト更新
+      cms.model.userNetwork.fetch( obj.kids_id,
+      function () {
+        cms.model.userNetwork.find( {is_mobile : 1}, cms.view.userMobile.drawTable );
+      });
+
+    })
+    .then( function () {
+      // 台数の更新
+      cms.model.userMobile.fetch( obj.kids_id, cms.view.userMobile.setInfo );
+
+    })
+    ;
+
+  };
+
   // to public
   cms.model.userMobile = {
     fetch     : $.proxy( _model.fetchAsync, _model ),
@@ -101,7 +142,8 @@
     find      : $.proxy( _model.find, _model ),
     update    : $.proxy( _model.update, _model ),
     validate  : validate,
-    addMobile : addMobile
+    addMobile : addMobile,
+    register  : register
   };
 
 }( jQuery, customer ));

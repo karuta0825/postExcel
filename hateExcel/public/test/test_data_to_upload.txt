@@ -1,5 +1,7 @@
 ﻿#kid
-KID98375
+KID98397
+kids__user_name:B訪問看護ステーション
+kids__has_qa:1
 
 #partners table
 # sa
@@ -33,7 +35,6 @@ partners__em_tel:090-333-3333
 partners__em_email:em@mail.com
 
 #customers table
-customers__user_name:B訪問看護ステーション
 customers__postal_cd:12341111
 customers__address:東京都太田区北千束1-2-3
 customers__owner:介護オーナー
@@ -51,7 +52,7 @@ licenses__BA3:1
 licenses__BA4:0
 #on user
 licenses__BA5:4
-licenses__BA6:0
+licenses__BA6:5
 licenses__BA7:0
 licenses__AU1:1
 licenses__AU2:1

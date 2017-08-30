@@ -24,8 +24,22 @@
   , _makeUploadData
   , _makeSetUpInfo
   , _getLineList
+  , _alertDialog
   , initModule
   ;
+
+  _alertDialog = function ( text ) {
+
+    msg = ( text ) ? text : '入力に誤りがあります';
+
+    registerView.get('alert')
+      .find('.mdl-dialog__content')
+      .text(msg)
+      ;
+
+    registerView.get('alert').get(0).showModal();
+
+  };
 
   _onClickUpload = function () {
     // upload処理
@@ -72,22 +86,25 @@
       // 1行目はKID
       kid = list_oneline.shift();
 
-      // 入力チェック
+      // 存在しないKIDは登録できない
       if ( cms.model.kids.find({'kid' : kid}).length === 0 )  {
-        registerView.get('alert').get(0).showModal();
+        _alertDialog('KIDが存在しません。作成してください')
         return false;
       }
 
+      // 上書き登録はできない
       if ( cms.model.kids.find({'kid' : kid})[0].is_registered === 1 ) {
-        registerView.get('alert')
-          .find('.mdl-dialog__content')
-          .text('二度目の登録はできません')
-        registerView.get('alert').get(0).showModal();
+        _alertDialog('二度目の登録はできません');
         return false;
       }
 
       // データ作成
-      uploadData = _makeUploadData( list_oneline, kid );
+      try {
+        uploadData = _makeUploadData( list_oneline, kid );
+      } catch (e) {
+        _alertDialog( e.msg );
+        return;
+      }
 
       // check
       console.log(uploadData);
@@ -130,12 +147,12 @@
       field = key.split('__')[1].trim();
 
       if ( !map_result.hasOwnProperty(table) ){
-        map_result[table] = { 'kid' : kid };
+        throw Error( '存在しないテーブル(' + table + ')があるため失敗しました' );
       }
 
       if ( table === 'licenses') {
         var item = cms.model.services.find({ 'version' : version, 'sales_id' : field })[0];
-        _makeSetUpInfo(item, map_result, val);
+        _makeSetUpInfo(item, map_result, val );
       }
       else {
         map_result[table][field] = val.trim();
@@ -194,7 +211,6 @@
         map['mobiles']['number'] = value;
       }
 
-
     }
 
   };
@@ -210,21 +226,20 @@
     // kids -端末数
     cms.model.kids.register({
       kid                      : kid,
-      user_name                : uploadData['kids']['user_name'],
-      kana                     : uploadData['kids']['kana'],
-      number_pc                : uploadData['kids']['number_pc'],
-      has_qa                   : ( uploadData['kids']['has_qa']                   === '1') ? '1' : '0',
-      is_new_contract          : ( uploadData['kids']['is_new_contract']          === '1') ? '1' : '0',
-      is_replaced_from_cj      : ( uploadData['kids']['is_replaced_from_cj']      === '1') ? '1' : '0',
-      is_replaced_from_wc      : ( uploadData['kids']['is_replaced_from_wc']      === '1') ? '1' : '0',
-      is_replaced_from_another : ( uploadData['kids']['is_replaced_from_another'] === '1') ? '1' : '0',
+      user_name                : upload_data['kids']['user_name'],
+      kana                     : upload_data['kids']['kana'],
+      number_pc                : upload_data['kids']['number_pc'],
+      has_qa                   : ( upload_data['kids']['has_qa']                   === '1') ? '1' : '0',
+      is_new_contract          : ( upload_data['kids']['is_new_contract']          === '1') ? '1' : '0',
+      is_replaced_from_cj      : ( upload_data['kids']['is_replaced_from_cj']      === '1') ? '1' : '0',
+      is_replaced_from_wc      : ( upload_data['kids']['is_replaced_from_wc']      === '1') ? '1' : '0',
+      is_replaced_from_another : ( upload_data['kids']['is_replaced_from_another'] === '1') ? '1' : '0',
       register_on              : moment().format('YYYY-MM-DD'),
       is_registered            : 1
     })
     // customers
     .then( function () {
       return cms.model.userCustomer.register( upload_data.customers );
-
     })
     // licenses
     .then( function () {
@@ -233,17 +248,12 @@
     // partners
     .then( function () {
       return cms.model.userPartner.register( upload_data.partners );
-
-    })
-    // mobiles
-    .then( function () {
-      //
     })
     // クライアント - ユーザー数
     .then( function () {
       // kid , userkey が必要
       return cms.model.userBaseInfo.registerClient({
-        kid                 : kid,
+        kids_id             : upload_data['kids']['id'],
         userkey             : cms.model.kids.find({'kid' : kid})[0].userkey,
         number_client_added : upload_data['clients']['number']
       });
@@ -251,21 +261,25 @@
     })
     // ネットワーク - クライアント数
     .then( function () {
-      if ( uploadData['customers']['has_fenics'] === 1 ) {
+      if ( upload_data['customers']['has_fenics'] === 1 ) {
         return cms.model.userNetwork.registerFenicsAccount({
-          kid             : kid,
+          kids_id         : upload_data['kids']['id'],
           fenics_key      : cms.model.kids.find({'kid' : kid})[0].fenics_key,
           number_pc_added : upload_data['kids']['number_pc']
         });
       }
+    })
+    // mobiles
+    .then( function () {
+      return cms.model.userMobile.register( upload_data.mobiles );
     })
     // all refresh
     .then( function () {
       cms.view.kids.refresh();
       registerView.get('finish').get(0).showModal();
     })
-    .fail( function (err) {
-      throw err.responseJSON;
+    .catch( function (err) {
+      _alertDialog(err.message);
     })
     ;
 

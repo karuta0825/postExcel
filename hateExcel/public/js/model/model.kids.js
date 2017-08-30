@@ -302,6 +302,21 @@
     }
   };
 
+  register = function ( obj ) {
+
+    var kids_id = _model.find({ kid : obj.kid })[0].id;
+
+    // 先頭のKIDを取り除く
+    obj.kid = obj.kid.substr(-5,5);
+
+    return customer.db.post('/update', {
+      data  : obj,
+      condition : { 'id' : kids_id },
+      table : 'kids'
+    });
+
+  };
+
   /*public method*/
   cms.model.kids = {
     initModule   : initModule,
@@ -317,7 +332,7 @@
     getHeader    : getHeader,
     update       : $.proxy( _model.update, _model ),
     check        : $.proxy( _model._checkWhatsUpdated, _model ),
-    register     : $.proxy( _model.initUpdate, _model ),
+    register     : register,
     search       : search,
     nextPage     : $.proxy( _page.next, _page ),
     prevPage     : $.proxy( _page.prev, _page ),
