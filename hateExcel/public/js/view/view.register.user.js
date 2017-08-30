@@ -102,14 +102,15 @@
   _makeUploadData = function ( list_oneline, kid ) {
 
       var
-        version = cms.model.kids.find({'kid':kid})[0].version
+        id = cms.model.kids.find({'kid' : kid})[0].id
+      , version = cms.model.kids.find({'kid':kid})[0].version
       , map_result = {
-          'kids'      : { 'kid' : kid, 'number_pc' : 1 },
-          'clients'   : { 'kid' : kid, 'number' : 1 },
-          'customers' : { 'kid' : kid },
-          'licenses'  : { 'kid' : kid },
-          'partners'  : { 'kid' : kid },
-          'mobiles'   : { 'kid' : kid, 'number' : 1 }
+          'kids'      : { 'id' : id, 'number_pc' : 1 },
+          'clients'   : { 'kids_id' : id, 'number' : 1 },
+          'customers' : { 'kids_id' : id },
+          'licenses'  : { 'kids_id' : id },
+          'partners'  : { 'kids_id' : id },
+          'mobiles'   : { 'kids_id' : id, 'number' : 1 }
         }
       , delimiter_position
       , key
