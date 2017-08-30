@@ -252,6 +252,7 @@
       'name'         : '',
       'ip'           : '',
       'connect_db'   : '',
+      'environment_id' : (version === 'LM') ? 4 : 3,
       'version'      : version
     });
 
@@ -286,6 +287,7 @@
     // 初期化
     view[version].get('table').find('.name input').removeClass('is-error');
     view[version].get('table').find('.ip input').removeClass('is-error');
+    view[version].get('table').find('.capacity input').removeClass('is-error');
 
 
     if ( list.length !== 0 ) {
