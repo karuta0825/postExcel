@@ -171,7 +171,7 @@
 
     var
       kid          =  cms.model.userBaseInfo.getCache().kid
-    , file_name    = new moment().format('YYYYMMDD') + '_' + kid + '_makeUserData.bat'
+    , file_name    = 'UserName_' + kid + '.ini'
     , downloadMap
     , csv_header
     , blob
@@ -184,10 +184,6 @@
 
     // ダウンロード
     util.downloadFile( this, blob, file_name );
-
-  };
-
-  _downloadSpla = function () {
 
   };
 
@@ -247,13 +243,8 @@
 
     if ( list_clients && list_clients.length > 0 ) {
       customer.model.clients.delete( list_clients, function () {
-        // 画面更新
-        cms.view.kids.refresh();
-        cms.view.home.refresh();
-        cms.view.userBaseInfo.refresh();
-        refresh();
         _backMode();
-      } );
+      });
     }
 
   };
@@ -332,10 +323,8 @@
 
   refresh = function () {
 
-    if ( cms.model.clients.getCache().length > 0 ) {
-      var kid = cms.model.clients.getCache()[0].kid;
-      cms.model.clients.fetch( kid , redrawTable );
-    }
+    var kids_id = cms.model.userBaseInfo.getCache().id;
+    cms.model.clients.fetch( kids_id , redrawTable );
 
   };
 
