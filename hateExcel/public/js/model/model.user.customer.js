@@ -15,6 +15,7 @@
         'owner'         : '担当者',
         'tel'           : '電話番号',
         'fax'           : 'FAX',
+        'email'         : 'メールアドレス',
         'has_busiv'     : 'ビジV利用',
         'has_fenics'    : 'ユニバ利用',
         'has_mobile'    : 'モバイル利用'
@@ -28,7 +29,8 @@
       'affliation'    : 'noCheck',
       'owner'         : 'noCheck',
       'tel'           : 'isTEL',
-      'fax'           : 'isTEL'
+      'fax'           : 'isTEL',
+      'email'         : 'isMailAddress'
     })
   , validate
   , getCache
