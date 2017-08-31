@@ -171,7 +171,7 @@
 
     var
       kid          =  cms.model.userBaseInfo.getCache().kid
-    , file_name    = new moment().format('YYYYMMDD') + '_' + kid + '_makeUserData.bat'
+    , file_name    = 'UserName_' + kid + '.ini'
     , downloadMap
     , csv_header
     , blob
