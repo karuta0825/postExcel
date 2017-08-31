@@ -59,7 +59,8 @@
           'affliation'     : '.affliation',
           'owner'          : '.owner',
           'tel'            : '.tel',
-          'fax'            : '.fax'
+          'fax'            : '.fax',
+          'email'          : '.email'
         }
       }
     }
@@ -493,6 +494,7 @@
       'owner'         : customerView.get('input__owner'     ).find('.item-value').val(),
       'tel'           : customerView.get('input__tel'       ).find('.item-value').val(),
       'fax'           : customerView.get('input__fax'       ).find('.item-value').val(),
+      'email'         : customerView.get('input__email'     ).find('.item-value').val(),
       'has_busiv'     : systemView.get('choice__busiv').hasClass('choice--on') ? 1 :0 ,
       'has_fenics'    : systemView.get('choice__fenics').hasClass('choice--on') ? 1 :0,
       'has_mobile'    : systemView.get('choice__mobile').hasClass('choice--on') ? 1 : 0
