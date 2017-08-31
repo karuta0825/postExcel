@@ -202,6 +202,7 @@
     ;
 
     return {
+      '[USER]'   : '',
       'DBName='  : db || '',
       'User='    : base.userkey || '',
       'Password=' : base.db_password || ''
