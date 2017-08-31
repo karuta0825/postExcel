@@ -169,9 +169,17 @@
         break;
     }
 
+    var order = [
+    'kid','user_name','server','userkey','db_password',
+    'fenics_key','client_number','number_pc','number_id','range_id',
+    'license','has_qa','has_busiv','mobile_number', 'register_on', 'creater',
+    'sa_company', 'sa_name','sa_tel', 'sa_email',
+    'se_company','se_name', 'se_tel','se_email',
+    'em_company','em_name','em_tel','em_email'];
+
     filename = new moment().format('YYYYMMDD') + '_KID_List.csv';
-    header = 'id,';
-    header += _.values( customer.model.kids.getHeader() ).join(',');
+    header = _.chain( customer.model.kids.getHeader() ).pick(order).values().value();
+    data   = _.map( data, function (v,k) { return _.pick(v, order ) } );
     Blob = util.convertMap2Blob( data, header );
     // ダウンロード
     util.downloadFile( view.get('download'), Blob, filename );
