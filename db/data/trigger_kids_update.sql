@@ -17,7 +17,8 @@ CREATE TRIGGER kids_update AFTER update ON kids FOR EACH ROW
 	if new.fenics_key != old.fenics_key then
 		update fenics F
 			set F.fenics_id = Concat( new.fenics_key, right(fenics_id,5) ), 
-				F.password = Concat( new.fenics_key, right(fenics_id,5) ) 
+				F.password = Concat( new.fenics_key, right(fenics_id,5) ) ,
+                F.pc_name = Concat( upper(new.fenics_key), right(fenics_id,5) ) 
 			where kids_id = old.id and is_mobile = 0;
     end if;
 
