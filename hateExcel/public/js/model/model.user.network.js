@@ -149,18 +149,21 @@
 
     var
       kids_id = cms.model.userBaseInfo.getCache().id
-    // , number_accounts_now = cms.model.kids.find({kids_id : kids_id})[0].number_pc
     , number_accounts_now = cms.model.userBaseInfo.getCache().number_pc
     , is_mobile = _model.find({'fenics_id' : fenics_id })[0].is_mobile
     , params = {
         table : 'fenics',
         data : [{ 'fenics_id' : fenics_id }]
       }
+    , number_mobile_accounts_now
     ;
+
+    if (is_mobile) {
+      number_mobile_accounts_now = cms.model.userMobile.getCache()[0].client_number;
+    }
 
     cms.db.post('/delete', params )
     .then( function () {
-      // TODO: ネットワークタブのviewをfenics/busivで分離できたらもっと簡単にできるはず
       // このreturnがないと再描画できない
       return cms.model.userNetwork.fetch( kids_id );
     })
@@ -195,7 +198,24 @@
     .then( function () {
 
       if ( is_mobile ) {
-        cms.model.userMobile.fetch(kids_id, cms.view.userMobile.setInfo )
+
+        cms.model.userMobile.fetch(kids_id, cms.view.userMobile.setInfo );
+
+        cms.db.post('/insert', {
+          data : [{
+            kids_id      : kids_id,
+            type         : '更新',
+            content_name : 'モバイル',
+            item_name    : 'デバイス数',
+            before       : number_mobile_accounts_now,
+            after        : number_mobile_accounts_now-1
+          }],
+          table : 'historys'
+        })
+        .then( function () {
+          cms.model.userHistory.fetch( kids_id, cms.view.userHistory.drawTable);
+        });
+
       }
 
     })
