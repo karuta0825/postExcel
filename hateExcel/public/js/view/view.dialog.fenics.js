@@ -26,7 +26,6 @@
         'delete' : '#confirm-delete-fenics-account2',
         'error'  : '#input-error-fenics-account'
       }
-
     }
   // private method
   , _setViewInfo
