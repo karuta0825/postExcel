@@ -198,7 +198,9 @@
 
     // 前処理2
     // viewは数値のみ, modelは、KIDが先頭につくという差をなくす
-    view_data['kid'] = 'KID' + view_data['kid'];
+    if ( view_data.hasOwnProperty('kid') ) {
+      view_data['kid'] = 'KID' + view_data['kid'];
+    }
 
     // 差分を求める
     for ( var i in view_data ) {

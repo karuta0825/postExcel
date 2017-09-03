@@ -168,7 +168,7 @@
 
       // ネットワークタブ再描画
       cms.model.userNetwork.find({'is_mobile' : 0},
-        cms.view.userNetwork.drawTable
+        cms.view.userFenics.drawTable
       );
 
       // モバイルfenicsテーブル再描画
