@@ -204,9 +204,16 @@
 
     // 差分を求める
     for ( var i in view_data ) {
-      if ( view_data[i] !== '' && view_data[i] !== before[i] ) {
-        result[i] = view_data[i];
+
+      if (
+        ( before[i] && before[i] !== '' ) ||
+        ( view_data[i] && view_data[i] !== '' )
+      ) {
+        if ( view_data[i] !== before[i] ) {
+          result[i] = view_data[i];
+        }
       }
+
     }
 
     return result;
