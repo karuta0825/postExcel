@@ -22,7 +22,10 @@
         'start_on'  : '.start_on .input',
         'end_on'    : '.end_on .input'
       },
-      'confirm' : '#confirm-delete-fenics-account2'
+      'dialog'  : {
+        'delete' : '#confirm-delete-fenics-account2',
+        'error'  : '#input-error-fenics-account'
+      }
 
     }
   // private method
@@ -48,7 +51,7 @@
     });
 
     // エラーダイアログの表示
-    // view.get('dialog__error').get(0).showModal();
+    view.get('dialog__error').get(0).showModal();
 
   };
 
@@ -72,8 +75,6 @@
    * 保存する
    */
   _save = function () {
-
-    console.log('saved');
 
     cms.model.userNetwork.update( getViewInfo(), close, _showError );
 
@@ -147,12 +148,18 @@
       yes      : _delete
     });
 
+    util.alert({
+      selector : view.top,
+      id       : 'input-error-fenics-account',
+      msg      : '入力に誤りがあります'
+    })
+
     view.initElement(elements);
 
     view.addListener({
       'click btn__save'   : _save,
       'click btn__cancel' : close,
-      'click btn__delete' : function() { view.get('confirm').get(0).showModal(); }
+      'click btn__delete' : function() { view.get('dialog__delete').get(0).showModal(); }
     });
 
   };
