@@ -218,7 +218,7 @@
   makeFenicsSelectBox = function () {
 
     var
-      data = cms.model.userNetwork.getCache()
+      data = cms.model.userNetwork.find({'is_mobile':0})
     , option
     ;
 
