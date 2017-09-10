@@ -16,11 +16,11 @@ describe('Controllerクラス', () => {
       assert( c.hasOwnProperty('wrap') === true );
     });
 
-    it('_elプロパティがある', () => {
+    it('_elプロパティが{}で初期化', () => {
       assert.deepEqual( c['_el'] , {} );
     });
 
-    it('topプロパティがある', () => {
+    it('topプロパティに引数が格納', () => {
       assert( c.top === '.top' );
     });
 
@@ -48,20 +48,21 @@ describe('Controllerクラス', () => {
       var obj = c.deep(el);
       assert( obj.hasOwnProperty('floor1') === true );
 
-
     });
 
   });
 
   describe('initElementメソッド', () => {
 
-  });
+    it('selectorプロパティに引数と同じオブジェクトが格納されている');
 
-  describe('constructorメソッド', () => {
+    it('_elプロパティにjQuery変換されたオブジェクトが格納されている');
 
   });
 
   describe('$メソッド', () => {
+
+    it('DOM探索範囲が親のだけに絞れている');
 
   });
 

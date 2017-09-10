@@ -30,11 +30,20 @@
     return vl.validate( view_data );
   };
 
+  /**
+   * メモを作成する
+   * @param  {Object}   data
+   * @param  {String}   data.title
+   * @param  {Number}   data.priority_id
+   * @param  {String}   data.message
+   * @param  {Function} callback
+   * @return {Promise}
+   */
   makeMemo = function ( data, callback ) {
 
     data['kids_id'] = cms.model.userBaseInfo.getCache().id;
 
-    cms.db.post('/makeMemo', {
+    return cms.db.post('/makeMemo', {
       'data'     : data,
     })
     .then( function () {
@@ -62,7 +71,7 @@
       table     : 'memos'
     };
 
-    cms.db.post('/update', param )
+    return cms.db.post('/update', param )
     .then( function () {
       return _model.fetchAsync( data.kids_id );
     })
@@ -82,7 +91,7 @@
       table : 'memos'
     };
 
-    cms.db.post('/delete', param )
+    return cms.db.post('/delete', param )
     .then( function () {
       return _model.fetchAsync( data.kids_id );
     })

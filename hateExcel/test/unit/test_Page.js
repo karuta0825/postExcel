@@ -153,7 +153,7 @@ describe('Pageクラス', () => {
       assert( p.prev() === null );
     });
 
-    it('現在ページが1以外のときは、現在ページの一つ前のページ件数を返す', () => {
+    it('現在ページが2以上のときは、現在ページの一つ前のページ件数を返す', () => {
       p.get(3);
       assert.deepEqual( p.prev(), p.get(2) );
     });
@@ -214,11 +214,11 @@ describe('Pageクラス', () => {
 
   describe('getPageListメソッド', () => {
 
-    it('最大ページ数が表示可能ページ数より少ない時は、1から最大ページ数を返す', () => {
+    it('最大ページ数が5より小さい時は、1から最大ページ数を返す', () => {
       assert.deepEqual( p.getPageList(), _.range(1,5) );
     });
 
-    it('次のページを読み込む必要がない時は,1,2,3,4,"",Maxを返す', () => {
+    it('現在のページが1~3のとき時は、1,2,3,4,"",Maxを返す', () => {
       p = new Page( _.range(1,401), 30 );
       p.get(2);
       assert.deepEqual( p.getPageList(), [1,2,3,4,'',p.getMaxPage()]);

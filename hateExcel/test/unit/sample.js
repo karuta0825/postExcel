@@ -2,6 +2,7 @@ import assert from 'power-assert';
 import _ from 'underscore';
 import sinon from 'sinon';
 import Fake from '../fixtures/server/memos';
+import data from '../fixtures/data/memos';
 
 describe('学習テスト', function () {
 
@@ -107,10 +108,11 @@ describe('学習テスト', function () {
     it('import fakeServer', () => {
 
       var fake = new Fake();
+      fake.setFetch();
 
       return customer.model.userMemo.fetch(1)
       .then( function (r) {
-        assert.deepEqual( r[0], {"id":1,"kids_id":"1","title":"タイトル１","priority_id":1,"priority":"emergency", "message":"メッセージ１", "short_msg":"メッセージ１", "create_on":"2017/08/19","name":"大赤鬼"} );
+        assert.deepEqual( r[0], data.fetch.out[0] );
         fake.destroy();
       });
 
@@ -119,19 +121,15 @@ describe('学習テスト', function () {
     it('fetch & find', () => {
 
       var fake = new Fake();
+      fake.setFetch();
 
       return customer.model.userMemo.fetch(1)
       .then( function (r) {
 
-        assert( customer.model.userMemo.find({id:1})[0] === {});
+        assert.deepEqual( customer.model.userMemo.find({id:1})[0], data.fetch.out[0] );
         fake.destroy();
 
       });
-
-
-    });
-
-    it('validate', () => {
 
 
     });

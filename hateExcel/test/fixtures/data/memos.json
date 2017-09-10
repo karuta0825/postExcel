@@ -8,12 +8,168 @@
     "in"  : [1],
     "out" :
     [
-      {"id":
-      1,"kids_id":"1","title":"タイトル１","priority_id":1,"priority":"emergency","message":"メッセージ１","short_msg":"メッセージ１","create_on":"2017/08/19","name":"大赤鬼"},
-      {"id":2,"kids_id":"1","title":"タイトル２","priority_id":2,"priority":"important","message":"メッセージ２","short_msg":"メッセージ２","create_on":"2017/08/18","name":"大赤鬼"},
-      {"id":3,"kids_id":"1","title":"タイトル３","priority_id":3,"priority":"reminder","message":"メッセージ３","short_msg":"メッセージ３","create_on":"2017/08/18","name":"大赤鬼"},
-      {"id":4,"kids_id":"1","title":"タイトル４","priority_id":4,"priority":"special","message":"メッセージ４","short_msg":"メッセージ４","create_on":"2017/08/18","name":"大赤鬼"}
+      {
+        "id"          : 1,
+        "kids_id"     : "1",
+        "title"       : "タイトル１",
+        "priority_id" : 1,
+        "priority"    : "emergency",
+        "message"     : "メッセージ１",
+        "short_msg"   : "メッセージ１",
+        "create_on"   : "2017/08/19",
+        "name"        : "大赤鬼"
+      },
+      {
+        "id"          : 2,
+        "kids_id"     : "1",
+        "title"       : "タイトル２",
+        "priority_id" : 2,
+        "priority"    : "important",
+        "message"     : "メッセージ２",
+        "short_msg"   : "メッセージ２",
+        "create_on"   : "2017/08/18",
+        "name"        : "大赤鬼"
+      },
+      {
+        "id"          : 3,
+        "kids_id"     : "1",
+        "title"       : "タイトル３",
+        "priority_id" : 3,
+        "priority"    : "reminder",
+        "message"     : "メッセージ３",
+        "short_msg"   : "メッセージ３",
+        "create_on"   : "2017/08/18",
+        "name"        : "大赤鬼"
+      },
+      {
+        "id"          : 4,
+        "kids_id"     : "1",
+        "title"       : "タイトル４",
+        "priority_id" : 4,
+        "priority"    : "special",
+        "message"     : "メッセージ４",
+        "short_msg"   : "メッセージ４",
+        "create_on"   : "2017/08/18",
+        "name"        : "大赤鬼"
+      }
     ]
+  },
+
+  "update" : "updateメソッド用のテストデータ",
+  "update" : {
+    "in" : {
+      "data" : {"title" : "タイトル１変更", "message" : "メッセージ１変更"},
+      "condition" : { "id" : 1 },
+      "table" : "memos"
+    },
+    "refetch" : {
+      "in" : [1],
+      "out" : [
+        {
+          "id"          : 1,
+          "kids_id"     : "1",
+          "title"       : "タイトル１変更",
+          "priority_id" : 1,
+          "priority"    : "emergency",
+          "message"     : "メッセージ１変更",
+          "short_msg"   : "メッセージ１",
+          "create_on"   : "2017/08/19",
+          "name"        : "大赤鬼"
+        },
+        {
+          "id"          : 2,
+          "kids_id"     : "1",
+          "title"       : "タイトル２",
+          "priority_id" : 2,
+          "priority"    : "important",
+          "message"     : "メッセージ２",
+          "short_msg"   : "メッセージ２",
+          "create_on"   : "2017/08/18",
+          "name"        : "大赤鬼"
+        },
+        {
+          "id"          : 3,
+          "kids_id"     : "1",
+          "title"       : "タイトル３",
+          "priority_id" : 3,
+          "priority"    : "reminder",
+          "message"     : "メッセージ３",
+          "short_msg"   : "メッセージ３",
+          "create_on"   : "2017/08/18",
+          "name"        : "大赤鬼"
+        },
+        {
+          "id"          : 4,
+          "kids_id"     : "1",
+          "title"       : "タイトル４",
+          "priority_id" : 4,
+          "priority"    : "special",
+          "message"     : "メッセージ４",
+          "short_msg"   : "メッセージ４",
+          "create_on"   : "2017/08/18",
+          "name"        : "大赤鬼"
+        }
+      ]
+    }
+  },
+
+  "remove" : "removeメソッドの検証用データ",
+  "remove" : {
+    "in" : {
+      "data" : [{ "id":1 }],
+      "table" : "memos"
+    },
+    "refetch" : {
+      "in" : [1],
+      "out" : [
+        {
+          "id"          : 2,
+          "kids_id"     : "1",
+          "title"       : "タイトル２",
+          "priority_id" : 2,
+          "priority"    : "important",
+          "message"     : "メッセージ２",
+          "short_msg"   : "メッセージ２",
+          "create_on"   : "2017/08/18",
+          "name"        : "大赤鬼"
+        },
+        {
+          "id"          : 3,
+          "kids_id"     : "1",
+          "title"       : "タイトル３",
+          "priority_id" : 3,
+          "priority"    : "reminder",
+          "message"     : "メッセージ３",
+          "short_msg"   : "メッセージ３",
+          "create_on"   : "2017/08/18",
+          "name"        : "大赤鬼"
+        },
+        {
+          "id"          : 4,
+          "kids_id"     : "1",
+          "title"       : "タイトル４",
+          "priority_id" : 4,
+          "priority"    : "special",
+          "message"     : "メッセージ４",
+          "short_msg"   : "メッセージ４",
+          "create_on"   : "2017/08/18",
+          "name"        : "大赤鬼"
+        }
+      ]
+    }
+
+  },
+
+  "makeMemo" : "メモ作成用データ",
+  "makeMemo" : {
+    "in" : {
+      "data" : {
+        "kids_id"      : 1,
+        "title"        : "newタイトル",
+        "priority_id"  : 1,
+        "message"      : "newメッセージ"
+      }
+    }
   }
 
 }
