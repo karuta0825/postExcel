@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import FakeServer from '../fixtures/server/memos';
 import DATA from '../fixtures/data/memos';
 
-describe('model.user.memosモジュールのテスト', () => {
+describe('model.user.memosモジュール', () => {
 
   describe('fetchメソッド', () => {
 
@@ -100,6 +100,34 @@ describe('model.user.memosモジュールのテスト', () => {
 
     });
 
+    it('入力データがチェック対象のプロパティを持たない場合、存在するプロパティでのみチェックされる', () => {
+
+      var data = {
+        'kids_id'     : '',
+        'priority_id' : '',
+        'title'       : 'title',
+        'message'     : 'msg'
+      };
+
+      assert.deepEqual( customer.model.userMemo.validate(data), [] );
+
+    });
+
+    it('入力データがチェック対象外のプロパティを持つ場合、対象外のプロパティを要素にもつ配列を返す', () => {
+
+      var data = {
+        'no_exist_prop' : '',
+        'kids_id'       : '',
+        'priority_id'   : '',
+        'title'         : 'title',
+        'message'       : 'msg'
+      };
+
+      assert.deepEqual( customer.model.userMemo.validate(data), ['no_exist_prop'] );
+
+    });
+
+
   });
 
   describe('updateメソッド', () => {
@@ -187,6 +215,7 @@ describe('model.user.memosモジュールのテスト', () => {
       , data = {}
       ;
 
+      fs.setMakeMemo();
       stubViewKids = sinon.stub( customer.view.kids, 'refresh' );
       stubModelUserBaseInfo = sinon.stub( customer.model.userBaseInfo, 'getCache' )
       .callsFake( () => {
@@ -194,8 +223,6 @@ describe('model.user.memosモジュールのテスト', () => {
           id : 1
         };
       });
-
-      fs.setMakeMemo();
 
       data = {
         "title"        : "newタイトル",
@@ -205,15 +232,13 @@ describe('model.user.memosモジュールのテスト', () => {
 
       return customer.model.userMemo.makeMemo( data, spy )
       .then( () => {
-
         assert( spy.called === true );
-
-        fs.destroy();
-        stubViewKids.restore();
-        stubModelUserBaseInfo.restore();
-        spy.restore();
       });
 
+      fs.destroy();
+      stubViewKids.restore();
+      stubModelUserBaseInfo.restore();
+      spy.restore();
 
     });
 
