@@ -47,10 +47,8 @@ export default class FakeMemosModel {
 
   setMakeMemo () {
 
-    console.log(data.makeMemo.in);
-
     this.server
-    .withArgs('/setMakeMemo', data.makeMemo.in )
+    .withArgs('/makeMemo', data.makeMemo.in )
     .returns( Promise.resolve() )
     ;
 
