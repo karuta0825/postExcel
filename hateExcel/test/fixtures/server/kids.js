@@ -1,5 +1,6 @@
 import sinon from 'sinon';
 import DATA from '../data/kids';
+import _ from 'underscore';
 
 export default class FakeServer {
 
@@ -9,13 +10,16 @@ export default class FakeServer {
 
   setFetch () {
 
+    // クローン化しないと、他のメソッドに影響与える
+    var clone = _.map( DATA.fetch.list.out, _.clone );
+
     // ユーザーデータ
     this.server
     .withArgs('/select', {
       condition : [null],
       table     : 'kids'
     })
-    .returns( Promise.resolve( DATA.fetch.list.out ) )
+    .returns( Promise.resolve( clone ) )
     ;
 
   }
