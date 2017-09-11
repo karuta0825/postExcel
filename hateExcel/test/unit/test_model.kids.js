@@ -4,6 +4,7 @@ import sinon from 'sinon';
 import FakeServer from '../fixtures/server/kids';
 import FakeServerHeader from '../fixtures/server/header';
 import DATA from '../fixtures/data/kids';
+import DATA_HEADER from '../fixtures/data/kids.header';
 
 
 describe('model.kidsモジュール', () => {
@@ -12,10 +13,13 @@ describe('model.kidsモジュール', () => {
   describe('initModule & getHeaderメソッド', () => {
 
     it('サーバーより取得したヘッダー情報を返す', () => {
+
       var fs = new FakeServerHeader( customer.db, 'selectAll' );
       fs.setFetch();
 
-      assert.deepEqual( customer.db.selectAll(), [] );
+      customer.model.kids.initModule();
+
+      assert.deepEqual( customer.model.kids.getHeader(), DATA_HEADER.fetch.out[0] );
 
       fs.destroy();
 
@@ -119,7 +123,7 @@ describe('model.kidsモジュール', () => {
 
   });
 
-  describe('getFilter', () => {
+  describe('getFilterメソッド', () => {
 
     var fs, spy;
 
@@ -356,9 +360,8 @@ describe('model.kidsモジュール', () => {
       var spy2 = sinon.spy();
 
       customer.model.kids.getPageList(spy2);
-      // 呼ばれたかどうか
+
       assert( spy2.called === true );
-      // 引数にページ一覧が指定されているか
       assert.deepEqual( spy2.getCall(0).args[0], [1,2] );
 
 

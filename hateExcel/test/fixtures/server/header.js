@@ -9,7 +9,10 @@ export default class HeaderModel extends FakeServer {
   }
 
   setFetch () {
-    super.setFetch();
+    this.server
+    .withArgs('/tableHeader')
+    .returns( DATA.fetch.out )
+    ;
   }
 
 }
