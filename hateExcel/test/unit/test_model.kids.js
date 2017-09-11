@@ -38,17 +38,21 @@ describe('model.kidsモジュール', () => {
 
   describe('getDataメソッド', () => {
 
+    var fs, spy;
+
+    beforeEach( () => {
+      fs = new FakeServer();
+      spy = sinon.spy();
+      fs.setFetch();
+    });
+
+    afterEach( () => {
+      fs.destory();
+    });
+
     it('メモリキャッシュに保存した全ユーザーデータでページオブジェクトを初期化して、現在のページを返す', () => {
 
-      var fs = new FakeServer();
-      var spy = sinon.spy();
-
-      fs.setFetch();
-
       return customer.model.kids.fetch( null, spy )
-      .then( () => {
-        fs.destory();
-      })
       .then( () => {
         assert.deepEqual( customer.model.kids.getData(), DATA.fetch.list.out.slice( 0, 30 ) );
       });
@@ -57,16 +61,9 @@ describe('model.kidsモジュール', () => {
 
     it('メモリキャッシュに保存した全ユーザーデータでページオブジェクトを初期化して、現在のページを引数にコールバック関数を実行', () => {
 
-      var fs = new FakeServer();
-      var spy = sinon.spy();
       var spy2 = sinon.spy();
 
-      fs.setFetch();
-
       return customer.model.kids.fetch( null, spy )
-      .then( () => {
-        fs.destory();
-      })
       .then( () => {
         customer.model.kids.getData( spy2 )
       })
@@ -82,17 +79,21 @@ describe('model.kidsモジュール', () => {
 
   describe('findメソッド', () => {
 
+    var fs, spy;
+
+    beforeEach( () => {
+      fs = new FakeServer();
+      spy = sinon.spy();
+      fs.setFetch();
+    });
+
+    afterEach( () => {
+      fs.destory();
+    });    
+
     it('id=1で検索した結果を取得', () => {
 
-      var fs = new FakeServer();
-      var spy = sinon.spy();
-
-      fs.setFetch();
-
       return customer.model.kids.fetch( null, spy )
-      .then( () => {
-        fs.destory();
-      })
       .then( () => {
         assert.deepEqual( customer.model.kids.find({id:1})[0], DATA.fetch.list.out[0] )
       })
@@ -102,37 +103,19 @@ describe('model.kidsモジュール', () => {
 
     it('kid="KID55001"で検索した結果を返す', () => {
 
-      var fs = new FakeServer();
-      var spy = sinon.spy();
-
-      fs.setFetch();
-
       return customer.model.kids.fetch( null, spy )
       .then( () => {
-        fs.destory();
-      })
-      .then( () => {
         assert.deepEqual( customer.model.kids.find({kid:"KID55001"})[0], DATA.fetch.list.out[0] )
-      })
-      ;
+      });
 
     });
 
     it('server="AP1-1"で検索した結果を返す', () => {
 
-      var fs = new FakeServer();
-      var spy = sinon.spy();
-
-      fs.setFetch();
-
       return customer.model.kids.fetch( null, spy )
       .then( () => {
-        fs.destory();
-      })
-      .then( () => {
         assert.deepEqual( customer.model.kids.find({server:"AP1-1"})[0], DATA.fetch.list.out[0] )
-      })
-      ;
+      });
 
     });
 
@@ -198,7 +181,7 @@ describe('model.kidsモジュール', () => {
     });
 
     afterEach( () => {
-      customer.model.kids.setCondition({system:'all'});
+
       fs.destory();
     });
 
@@ -285,8 +268,6 @@ describe('model.kidsモジュール', () => {
     });
 
     afterEach( () => {
-      // フィルター条件を元に戻す
-      customer.model.kids.setCondition({system:'all'});
       fs.destory();
     });
 
