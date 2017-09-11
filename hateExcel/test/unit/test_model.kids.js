@@ -2,6 +2,7 @@ import assert from 'power-assert';
 import _ from 'underscore';
 import sinon from 'sinon';
 import FakeServer from '../fixtures/server/kids';
+import FakeServerHeader from '../fixtures/server/header';
 import DATA from '../fixtures/data/kids';
 
 
@@ -10,7 +11,15 @@ describe('model.kidsモジュール', () => {
 
   describe('initModule & getHeaderメソッド', () => {
 
-    it('サーバーより取得したヘッダー情報を返す');
+    it('サーバーより取得したヘッダー情報を返す', () => {
+      var fs = new FakeServerHeader( customer.db, 'selectAll' );
+      fs.setFetch();
+
+      assert.deepEqual( customer.db.selectAll(), [] );
+
+      fs.destroy();
+
+    });
 
   });
 
