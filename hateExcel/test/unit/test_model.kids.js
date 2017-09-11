@@ -2,7 +2,7 @@ import assert from 'power-assert';
 import _ from 'underscore';
 import sinon from 'sinon';
 import FakeServer from '../fixtures/server/kids';
-import FakeServerHeader from '../fixtures/server/header';
+import FakeServerHeader from '../fixtures/server/kids.header';
 import DATA from '../fixtures/data/kids';
 import DATA_HEADER from '../fixtures/data/kids.header';
 
