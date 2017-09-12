@@ -1,4 +1,5 @@
 import sinon from 'sinon';
+import _ from 'underscore';
 
 export default class FakeServer {
 
@@ -9,14 +10,20 @@ export default class FakeServer {
   setFetch ( args, returnValue = [] ) {
 
     if ( args ) {
-      this.server
-      .withArgs(args)
-      .returns(returnValue);
-      return;
+      this.server.withArgs(args);
     }
 
-    this.server
-    .returns(returnValue);
+    this.server.returns( returnValue );
+
+  }
+
+  setFetchAsync( args, returnValue = [] ) {
+
+    if ( args ) {
+      this.server.withArgs(args);
+    }
+
+    this.server.returns( Promise.resolve(returnValue) );
 
   }
 

@@ -6,6 +6,7 @@ export default class FakeServer {
 
   constructor () {
     this.server = sinon.stub( customer.db, 'post' );
+    this.update = sinon.stub( customer.db, 'update');
   }
 
   setFetch () {
@@ -24,12 +25,22 @@ export default class FakeServer {
 
   }
 
-  setUpdate () {
+  setUpdate ( assertion ) {
+
+    var stock;
+
+    this.update
+    .withArgs('/update')
+    .callsFake( (url,data) => {
+      assertion(data);
+    })
+    ;
 
   }
 
   destory () {
     this.server.restore();
+    this.update.restore();
   }
 
 
