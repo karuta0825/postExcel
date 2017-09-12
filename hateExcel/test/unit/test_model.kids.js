@@ -289,7 +289,31 @@ describe('model.kidsモジュール', () => {
 
   describe('update', () => {
 
-    it('id=1のユーザーのserverをAP1-1に変更する');
+    var fs;
+
+    beforeEach( () => {
+      fs = new FakeServer();
+    });
+
+    afterEach( () => {
+      fs.destory();
+    });
+
+    // it('id=1のユーザーのserverをAP1-1に変更する', () => {
+
+    //   var expect = {
+    //     data : { kid : "44001"},
+    //     condition : { id : 1 },
+    //     table : 'kids'
+    //   };
+
+    //   fs.setUpdate( (actual) => {
+    //     assert.deepEqual( expect, actual );
+    //   });
+
+    //   customer.model.kids.update({id : 1, kid:'KID44001'});
+
+    // });
 
   });
 
