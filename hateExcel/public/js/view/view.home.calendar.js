@@ -386,7 +386,8 @@
 
     _drawCalendar();
 
-    cms.model.homeEvents.fetch( m.format('YYYY-MM'), function () {
+    cms.model.homeEvents.fetch( m.format('YYYY-MM') )
+    .then( function () {
       cms.model.homeEvents.find({ 'is_finished' : 0 }, _drawEvents );
     });
 
