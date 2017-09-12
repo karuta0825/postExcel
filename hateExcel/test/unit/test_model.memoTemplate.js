@@ -61,19 +61,52 @@ describe('model.memoTemplateモジュール', () => {
 
     });
 
+
   });
 
   describe('find', () => {
 
     var fs;
 
+    // メモテンプレート一覧をクライアント側で読み込む
     beforeEach( () => {
-      fs = new FakeServer( customer.db, 'post' );
-      fs.setFetch();
+      fs = sinon.stub( customer.db, 'post');
+      fs
+      .withArgs('/select', {
+        condition : [null],
+        table : 'memo_templates'
+      })
+      .returns( Promise.resolve( DATA.fetch.out ) );
+      return customer.model.memoTemplate.fetch();
     });
 
     afterEach( () => {
-      fs.destroy();
+      fs.restore();
+    });
+
+    it('id:1を引数にすると選択されたテンプレートがid:1となる', () => {
+
+      customer.model.memoTemplate.find({id:1});
+
+      assert( customer.model.memoTemplate.getSelectedItem() === 1 );
+
+    });
+
+    it('id:1を引数にするとid:1のテンプレートを返す', () => {
+
+      assert.deepEqual( customer.model.memoTemplate.find({id:1})[0], DATA.fetch.out[0] );
+
+    });
+
+    it('id:1を引数にしてコールバック関数を渡すと、id:1のテンプレートを引数にコールバック関数が実行される', () => {
+
+      var spy = sinon.spy();
+
+      customer.model.memoTemplate.find({id:1}, spy );
+
+      assert( spy.called === true );
+      assert.deepEqual( spy.getCall(0).args[0][0], DATA.fetch.out[0] );
+
     });
 
   });
@@ -83,13 +116,24 @@ describe('model.memoTemplateモジュール', () => {
     var fs;
 
     beforeEach( () => {
-      fs = new FakeServer( customer.db, 'post' );
-      fs.setFetch();
+      fs = sinon.stub( customer.db, 'post');
+      fs
+      .withArgs()
+      .returns( Promise.resolve( DATA.fetch.out ) );
+      return customer.model.memoTemplate.fetch();
     });
 
     afterEach( () => {
-      fs.destroy();
+      fs.restore();
     });
+
+    it('title,messageをプロパティにもつオブジェクトを渡すと、サーバにデータが送られる');
+
+    it('title,messageをプロパティにもつオブジェクトを渡すと、成功時のコールバック関数が呼び出される');
+
+    it('空白のtitleを渡すと、失敗時のコールバック関数が呼び出される');
+
+    it('空白のmessageを渡すと、失敗時のコールバック関数が呼び出される');
 
   });
 
@@ -105,6 +149,8 @@ describe('model.memoTemplateモジュール', () => {
     afterEach( () => {
       fs.destroy();
     });
+
+
   });
 
   describe('update', () => {
@@ -122,33 +168,16 @@ describe('model.memoTemplateモジュール', () => {
 
   });
 
-  describe('setSelectedItem', () => {
+  describe('set & get SelectedItem', () => {
 
-    var fs;
+    it('id=1をsetしてgetすると、id=1を受け取る', () => {
 
-    beforeEach( () => {
-      fs = new FakeServer( customer.db, 'post' );
-      fs.setFetch();
-    });
+      customer.model.memoTemplate.setSelectedItem(1);
 
-    afterEach( () => {
-      fs.destroy();
-    });
+      assert( customer.model.memoTemplate.getSelectedItem() === 1);
 
-  });
+    })
 
-  describe('getSelectedItem', () => {
-
-    var fs;
-
-    beforeEach( () => {
-      fs = new FakeServer( customer.db, 'post' );
-      fs.setFetch();
-    });
-
-    afterEach( () => {
-      fs.destroy();
-    });
 
   });
 

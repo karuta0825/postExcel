@@ -2,7 +2,12 @@
   "readme" : "",
 
   "fetch" : {
-    "out" : []
+    "out" : [
+      {"id":1,"title":"タイトル１","msg":"dddd",     "short_msg":"dddd"},
+      {"id":2,"title":"タイトル２","msg":"ddd",      "short_msg":"ddd"},
+      {"id":3,"title":"タイトル３","msg":"タイトル３","short_msg":"タイトル３"},
+      {"id":4,"title":"タイトル４","msg":"\nｄ\n",   "short_msg":"\nｄ\n"}
+    ]
   },
 
   "update" : {
