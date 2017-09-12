@@ -10,11 +10,11 @@ CREATE TRIGGER kids_insert AFTER INSERT ON kids FOR EACH ROW
 	INSERT INTO licenses (kids_id) values( new.id );
 
 
-  if new.environemnt_id = '1' || new.environemnt_id = '2' then
+  if new.environment_id = '1' || new.environment_id = '2' then
     INSERT INTO customers (kids_id, has_busiv, has_fenics, has_mobile ) values( new.id, 1, 0, 1 );
   else
   	INSERT INTO customers (kids_id) values( new.id );
-  end if
+  end if;
 
 
 	INSERT INTO partners (kids_id) values( new.id );
