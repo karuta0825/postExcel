@@ -44,6 +44,23 @@ describe('model.memoTemplateモジュール', () => {
       fs.destroy();
     });
 
+    it('test', () => {
+
+      fs
+      .when('/select', { table : 'kid' })
+      .returns({result:'success'});
+      ;
+
+      fs
+      .when('/url')
+      .returns([]);
+      ;
+
+      assert( customer.db.post('/select', {table : 'kid'}) === { result : 'success'} );
+      assert( customer.db.post('/url') === [] );
+
+    });
+
   });
 
   describe('find', () => {

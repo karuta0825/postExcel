@@ -27,6 +27,12 @@ export default class FakeServer {
 
   }
 
+  when () {
+
+    return sinon.stub().withArgs.apply(this.server, arguments );
+ 
+  }
+
   destroy () {
     this.server.restore();
   }
