@@ -1,0 +1,20 @@
+{
+  "readme" : "",
+
+  "fetch" : {
+    "out" : []
+  },
+
+  "update" : {
+    "out" : {"result" : "ok"}
+  },
+
+  "insert" : {
+    "out" : {"result" : "ok"}
+  },
+
+  "delete" : {
+    "out" : {"result" : "ok"}
+  }
+
+}
