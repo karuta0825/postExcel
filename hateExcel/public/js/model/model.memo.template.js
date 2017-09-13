@@ -39,9 +39,9 @@
     if ( errs && errs.length > 0 ) {
       cb_fail(errs);
       return;
-    };
+    }
 
-    cms.db.post('/insert', {
+    return cms.db.post('/insert', {
       'data'  : [data],
       'table' : 'memo_templates'
     })
