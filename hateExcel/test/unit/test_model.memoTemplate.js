@@ -1,70 +1,70 @@
 import assert from 'power-assert';
 import sinon from 'sinon';
 import _ from 'underscore';
-import FakeServer from '../fixtures/server/MemoTemplate';
 import DATA from '../fixtures/data/memo.template';
 
 
-describe('model.memoTemplateモジュール', () => {
+describe('■model.memoTemplateモジュール', () => {
 
-  describe('fetch', () => {
+  describe('fetchメソッド', () => {
 
     var fs;
 
     beforeEach( () => {
-      fs = new FakeServer( customer.db, 'post' );
-      fs.setFetch();
+      fs = sinon.stub( customer.db, 'post');
+      fs
+      .withArgs('/select', {
+        condition : [undefined],
+        table : 'memo_templates'
+      })
+      .returns( Promise.resolve( DATA.fetch.out ) );
     });
 
     afterEach( () => {
-      fs.destroy();
+      fs.restore();
     });
 
-    it('fetch', () => {
+    it('サーバーから全テンプレートを取得する', () => {
 
       return customer.model.memoTemplate.fetch()
       .then( (r) => {
-        assert.deepEqual( r, [{}]);
+        assert.deepEqual( r, DATA.fetch.out );
       });
 
     });
 
   });
 
-  describe('getCache', () => {
+  describe('getCacheメソッド', () => {
+
 
     var fs;
 
     beforeEach( () => {
-      fs = new FakeServer( customer.db, 'post' );
-      fs.setFetch();
+      fs = sinon.stub( customer.db, 'post');
+      fs
+      .withArgs('/select', {
+        condition : [undefined],
+        table : 'memo_templates'
+      })
+      .returns( Promise.resolve( DATA.fetch.out ) );
+      return customer.model.memoTemplate.fetch();
     });
 
     afterEach( () => {
-      fs.destroy();
+      fs.restore();
     });
 
-    it('test', () => {
+    it('サーバーから取得しメモリ内に保存した全テンプレートを取得する', () => {
 
-      fs
-      .when('/select', { table : 'kid' })
-      .returns({result:'success'});
-      ;
-
-      fs
-      .when('/url')
-      .returns([]);
-      ;
-
-      assert( customer.db.post('/select', {table : 'kid'}) === { result : 'success'} );
-      assert( customer.db.post('/url') === [] );
+      assert.deepEqual( customer.model.memoTemplate.getCache(), DATA.fetch.out );
 
     });
 
 
   });
 
-  describe('find', () => {
+  describe('findメソッド', () => {
 
     var fs;
 
@@ -73,7 +73,7 @@ describe('model.memoTemplateモジュール', () => {
       fs = sinon.stub( customer.db, 'post');
       fs
       .withArgs('/select', {
-        condition : [null],
+        condition : [undefined],
         table : 'memo_templates'
       })
       .returns( Promise.resolve( DATA.fetch.out ) );
@@ -111,60 +111,132 @@ describe('model.memoTemplateモジュール', () => {
 
   });
 
-  describe('insert', () => {
+  describe('insertメソッド', () => {
 
     var fs;
 
     beforeEach( () => {
       fs = sinon.stub( customer.db, 'post');
-      fs
-      .withArgs()
-      .returns( Promise.resolve( DATA.fetch.out ) );
-      return customer.model.memoTemplate.fetch();
     });
 
     afterEach( () => {
       fs.restore();
     });
 
-    it('title,messageをプロパティにもつオブジェクトを渡すと、サーバにデータが送られる');
+    it('title,messageをプロパティにもつオブジェクトを渡すと、サーバにデータが送られる', () => {
 
-    it('title,messageをプロパティにもつオブジェクトを渡すと、成功時のコールバック関数が呼び出される');
+      var data = { title : 'タイトル', msg : 'メッセージ'};
 
-    it('空白のtitleを渡すと、失敗時のコールバック関数が呼び出される');
+      fs
+      .withArgs('/insert', { 'data' : [data], table : 'memo_templates'})
+      .callsFake( (url, post) => {
+        assert.deepEqual( post, { 'data' : [data], table : 'memo_templates'} );
+        return Promise.resolve({"result" : "ok"});
+      });
 
-    it('空白のmessageを渡すと、失敗時のコールバック関数が呼び出される');
+    });
+
+    it('title,messageをプロパティにもつオブジェクトを渡すと、成功時のコールバック関数が呼び出される', () => {
+
+      var
+        data = { title : 'タイトル', msg : 'メッセージ'}
+      , spy_success = sinon.spy()
+      , spy_fail = sinon.spy()
+      ;
+
+      fs
+      .withArgs('/insert', { 'data' : [data], table : 'memo_templates'})
+      .returns( Promise.resolve({ "result" : "ok"}) );
+
+      return customer.model.memoTemplate.insert( data, spy_success, spy_fail )
+      .then( () => {
+        assert( spy_success.called === true );
+      });
+
+    });
+
+    it('空白のtitleを渡すと、失敗時のコールバック関数が呼び出され、コールバックの引数は["title"]である', () => {
+
+      var
+        data = { title : '', msg : 'メッセージ' }
+      , spy_success = sinon.spy()
+      , spy_fail = sinon.spy()
+      ;
+
+      fs
+      .withArgs('/insert', { 'data' : [data], table : 'memo_templates'})
+      .returns( Promise.resolve({ "result" : "ok"}) );
+
+      customer.model.memoTemplate.insert( data, spy_success, spy_fail );
+
+      assert( spy_fail.called === true );
+      assert.deepEqual( spy_fail.getCall(0).args[0], ['title']);
+
+
+    });
+
+    it('空白のmessageを渡すと、失敗時のコールバック関数が呼び出され、コールバックの引数は["message"]である', () => {
+
+      var
+        data = { title : 'タイトル', msg : '' }
+      , spy_success = sinon.spy()
+      , spy_fail = sinon.spy()
+      ;
+
+      fs
+      .withArgs('/insert', { 'data' : [data], table : 'memo_templates'})
+      .returns( Promise.resolve({ "result" : "ok"}) );
+
+      customer.model.memoTemplate.insert( data, spy_success, spy_fail );
+
+      assert( spy_fail.called === true );
+      assert.deepEqual( spy_fail.getCall(0).args[0], ['msg']);
+
+    });
 
   });
 
-  describe('update', () => {
+  describe('updateメソッド', () => {
+
+    var fs;
+
+    beforeEach( () => {
+      fs = sinon.stub( customer.db, 'post');
+    });
+
+    afterEach( () => {
+      fs.restore();
+    });
+
+    it('id,title,messageをプロパティにもつオブジェクトを渡すと、サーバにデータが送られる');
+
+    it('id,title,messageをプロパティにもつオブジェクトを渡すと、成功時のコールバック関数が呼び出される');
+
+    it('空白のtitleを渡すと、失敗時のコールバック関数が呼び出され、コールバックの引数は["title"]である');
+
+    it('空白のmessageを渡すと、失敗時のコールバック関数が呼び出され、コールバックの引数は["message"]である');
+
+
+
+  });
+
+  describe('removeメソッド', () => {
 
     var fs;
 
     beforeEach( () => {
       fs = new FakeServer( customer.db, 'post' );
-      fs.setFetch();
+      customer.model.memoTemplate.setSelectedItem(1);
     });
 
     afterEach( () => {
       fs.destroy();
     });
 
+    it('setされたid:1のテンプレートを削除し、テンプレートを再取得し1つでも存在すれば0番目を選択テンプレートに設定する');
 
-  });
+    it('コールバックを引数に指定して、削除後に再取得したテンプレートが１つでも存在すると、実行される');
 
-  describe('update', () => {
-
-    var fs;
-
-    beforeEach( () => {
-      fs = new FakeServer( customer.db, 'post' );
-      fs.setFetch();
-    });
-
-    afterEach( () => {
-      fs.destroy();
-    });
 
   });
 
@@ -176,7 +248,7 @@ describe('model.memoTemplateモジュール', () => {
 
       assert( customer.model.memoTemplate.getSelectedItem() === 1);
 
-    })
+    });
 
 
   });
