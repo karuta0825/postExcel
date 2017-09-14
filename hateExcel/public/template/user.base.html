@@ -61,8 +61,18 @@
     <input class='item-value' type='text' value='' disabled='disabled' maxlength='4'></input>
   </li>
 
+
+  <li class='user-list__item client_number'>
+    <span class='item-key'>ユーザ数(CitrixID数)</span>
+    <input class='item-value' type='number' min='1' value='0' disabled='disabled'></input>
+    <div class='item-action'>
+      <button class='btn btn-minus-account is-hidden mdl-button mdl-js-button mdl-button--raised'>-</button>
+      <button class='btn btn-plus-account is-hidden mdl-button mdl-js-button mdl-button--raised mdl-button--colored'>+</button>
+    </div>
+  </li>
+
   <li class='user-list__item number_pc'>
-    <span class='item-key'>端末台数</span>
+    <span class='item-key'>クライアント数(FENICSID数)</span>
     <input class='item-value' type='number' min='1' value='0' disabled='disabled'></input>
     <div class='item-action'>
       <button class='btn btn-minus-pc is-hidden mdl-button mdl-js-button mdl-button--raised'>-</button>
@@ -70,15 +80,6 @@
     </div>
   </li>
 
-
-  <li class='user-list__item client_number'>
-    <span class='item-key'>クライアント数</span>
-    <input class='item-value' type='number' min='1' value='0' disabled='disabled'></input>
-    <div class='item-action'>
-      <button class='btn btn-minus-account is-hidden mdl-button mdl-js-button mdl-button--raised'>-</button>
-      <button class='btn btn-plus-account is-hidden mdl-button mdl-js-button mdl-button--raised mdl-button--colored'>+</button>
-    </div>
-  </li>
 
   <li class='user-list__item number_id'>
     <span class='item-key'>端末id収容数</span>
