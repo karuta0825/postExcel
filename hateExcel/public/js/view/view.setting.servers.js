@@ -38,10 +38,10 @@
   , _onClickSave
   , _onClickDel
   , _drawTable
-  , _redrawTable
   , _makeRow
   , _validate
   // public method
+  , redrawTable
   , initModule
   ;
 
@@ -206,7 +206,7 @@
 
   };
 
-  _redrawTable = function ( version ) {
+  redrawTable = function ( version ) {
 
     view[version].get('body').empty();
     _drawTable( customer.model.servers.find( {'version' : version } ) );
@@ -234,7 +234,7 @@
 
   _onClickCancel = function ( evt ) {
     var version = $(evt.target).parents('.setting').data('version')
-    _redrawTable( version );
+    redrawTable( version );
     _setConnectDBValue( version );
     cms.model.servers.resetItems();
   };
@@ -253,6 +253,7 @@
       'ip'           : '',
       'connect_db'   : '',
       'environment_id' : (version === 'LM') ? 4 : 3,
+      'capacity'     : '',
       'version'      : version
     });
 
@@ -363,7 +364,8 @@
   // to public
   cms.view.servers = {
     initModule : initModule,
-    validate   : _validate
+    validate   : _validate,
+    redrawTable : redrawTable
   };
 
 }(jQuery, customer ));
