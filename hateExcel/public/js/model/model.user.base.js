@@ -98,27 +98,6 @@
       cms.model.clients.fetch( _cache['id'], cms.view.userClient.redrawTable );
     });
 
-    var history_info = {
-      kids_id      : _cache['id'],
-      type         : '更新',
-      content_name : '基本情報',
-      item_name    : 'クライアント数',
-      before       : _cache['client_number'],
-      after        : view_client_number
-    };
-
-    customer.db.post('/insert', {
-      data  : [history_info],
-      table : 'historys'
-    })
-    .then( function () {
-      customer.model.userHistory.fetch( _cache['id'],
-        customer.view.userHistory.drawTable
-      );
-      customer.view.homeGraph.refresh();
-    });
-
-
   };
 
   /**
