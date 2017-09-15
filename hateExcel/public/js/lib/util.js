@@ -329,37 +329,71 @@
       },
       instructions : '自然数だけやで'
     },
+    isOverZero : {
+      validate : function ( value ) {
+        if ( ! value ) { return false; }
+        var v = Number(value);
+        return v >= 0;
+      },
+      instructions : '0以上の正数だけや'
+    },
+    isConmmaAlpa : {
+      validate : function ( value ) {
+        return _.chain( value.split(','))
+        .map( function (v,i) {
+          return v !== '' && !(!/[^a-uw-zA-UW-Z]+/).test(v);
+        })
+        .every( function (v,i) {
+          return v === true;
+        })
+        .value();
+      },
+      instructions : 'カンマ区切りでV以外のアルファベットを入力してくれ'
+    },
+    isConmmaOverZero : {
+      validate : function ( value ) {
+        return _.chain( value.split(',') )
+        .map( function (v,i) {
+          return Number(v) > 0;
+        })
+        .every( function (v,i) {
+          return v === true;
+        })
+        .value();
+      },
+      instructions : 'カンマ区切りで数値を入力してくれ'
+    },
     isAlpha : {
       validate : function ( value ) {
-        if ( value === '' ) { return true }
+        if ( value === '' ) { return true; }
         return (value.match(/^[a-zA-Z]+$/)) ? true : false;
       },
       instructions : 'アルファベットだけや'
     },
     isAlphaNum : {
       validate : function ( value ) {
-        if ( value === '' ) { return true }
+        if ( value === '' ) { return true; }
         return (value.match(/^[0-9a-zA-Z]+$/)) ? true : false;
       },
       instructions : 'アルファベットと数値だけでんがな'
     },
     isMailAddress : {
       validate : function ( value ) {
-        if ( value === '' ) { return true }
+        if ( value === '' ) { return true; }
         return ( value.match(/^[0-9a-zA-Z-_@\.]+$/) ) ? true : false;
       },
       instructions : 'メールアドレスの入力やで'
     },
     isBoolean : {
       validate : function ( value ) {
-        if ( value === '' ) { return true }
+        if ( value === '' ) { return true; }
         return _.isBoolean(value);
       },
       instructions : '論理値だけやで'
     },
     isIp      : {
       validate : function ( value ) {
-        if ( value === '' ) { return true }
+        if ( value === '' ) { return true; }
         return value.match(/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/);
       },
       instructions : 'IPアドレスをいれるんやで'
@@ -373,7 +407,7 @@
     },
     isTEL      : {
       validate : function ( value ) {
-        if ( value === '' ) { return true }
+        if ( value === '' ) { return true; }
         return (value.match(/^[0-9-]+$/)) ? true : false;
       },
       instructions : 'IPアドレスをいれるんやで'
