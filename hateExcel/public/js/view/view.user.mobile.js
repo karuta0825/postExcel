@@ -32,7 +32,9 @@
            'admin_id'      : '.admin_id',
            'admin_pw'      : '.admin_pw',
            'city_cd'       : '.city_cd',
-           'office_cd'     : '.office_cd'
+           'office_cd'     : '.office_cd',
+           'disk_name'     : '.disk_name',
+           'disk_size'     : '.disk_size'
         },
         'site' : '.site .item-value',
         'fenics-list' : '.fenics-list',
@@ -112,7 +114,7 @@
 
     // 画面入力制御
     _.each( view.get('input'), function ( v,k ) {
-      if ( k !== 'client_number' &&  k !== 'fenics_key' ) {
+      if ( k !== 'client_number') {
         v.find('.item-value').addClass('is-edit');
         v.find('.item-value').prop('disabled', false);
       }
