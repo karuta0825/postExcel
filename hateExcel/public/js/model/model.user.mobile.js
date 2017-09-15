@@ -9,29 +9,50 @@
       table : 'mobiles',
       tab_name : 'モバイル',
       item_name_map : {
-        // 'fenics_key'    : 'FENICSキー',
+        'fenics_key'    : 'FENICSキー',
         'client_number' : 'モバイル台数',
         'admin_id'      : '管理者ID',
         'admin_pw'      : '管理者パスワード',
         'city_cd'       : '市町村コード',
-        'office_cd'     : '事業者コード'
+        'office_cd'     : '事業者コード',
+        'disk_name'    : '追加ディスク名',
+        'disk_size'    : 'ディスク容量'
       }
     }
   , _model = new Model(config)
   , vl = new util.Validate({
-      // 'fenics_key'    : 'isAlphaNum',
+      'fenics_key'    : 'isAlphaNum',
       'client_number' : 'isNatural',
       'admin_id'      : 'isAlphaNum',
       'admin_pw'      : 'isAlphaNum',
       'city_cd'       : 'isId',
-      'office_cd'     : 'isId'
+      'office_cd'     : 'isId',
+      'disk_name'     : 'isConmmaAlpa',
+      'disk_size'     : 'isConmmaOverZero'
     })
   // private
+  , _isUniqueFenicsKey
   // public method
+  , update
   , validate
   , addMobile
   , register
   ;
+
+
+  /**
+   * fenics_keyが重複しているかどうか判定する
+   * @param   {String}  fenics_key
+   * @return  {Boolean}
+   * @private
+   */
+  _isUniqueFenicsKey = function ( fenics_key ) {
+
+    var id = customer.model.userBaseInfo.getCache().id;
+
+    return cms.db.select('/isUniqueFenicsKey', { fenicsKey : fenics_key, kids_id : id }).result;
+
+  };
 
   /**
    * 入力チェック。違反のキーのリストを返す
@@ -53,9 +74,17 @@
 
     }
 
+    if ( diff.fenics_key ) {
+      if (!_isUniqueFenicsKey(view_data.fenics_key) ) {
+        result.push('fenics_key');
+      }
+
+    }
+
     return result;
 
   };
+
 
   /**
    * モバイル使用クライアントのFenics追加
