@@ -21,7 +21,7 @@ var app = express();
 // };
 
 // all environments
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 8080);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
@@ -417,6 +417,23 @@ app.post('/isUniqueFenicsKey', function ( req, res ) {
 
   datas.select( fenicsKey, 'is_unique_fenicskey_for_update', function ( result ) {
     res.json( result );
+  });
+
+});
+
+app.post('/isUniqueMobileFenicsKey', function ( req, res ) {
+
+  var kids_id = req.body.kids_id;
+  var fenicsKey = req.body.fenicsKey;
+
+  datas.select( [fenicsKey, kids_id], 'is_unique_mobile_fenicskey_for_update', function ( result ) {
+
+    if ( result.length > 0 ) {
+      res.json({ 'result' : false });
+    }
+    else {
+      res.json({ 'result' : true});
+    }
   });
 
 });
