@@ -8,7 +8,7 @@
     "fenics"                          : "SELECT kids_id, fenics_id, `password`, inet_ntoa(fenics_ip) as fenics_ip, pc_name, DATE_FORMAT( create_on, '%Y/%m/%d') as create_on, DATE_FORMAT( start_on, '%Y-%m-%d') as start_on, DATE_FORMAT( end_on, '%Y-%m-%d') as end_on, is_mobile FROM customer.fenics WHERE kids_id = ?;",
     "busivs"                          : "select * from busivs where kids_id = ?;",
     "partners"                        : "SELECT * FROM partners WHERE kids_id = ?;",
-    "mobiles"                         : "SELECT M.kids_id, M.base_id, M.fenics_key, IFNULL(S.client_number, 0) AS client_number, M.admin_id, M.admin_pw, M.city_cd, M.office_cd FROM mobiles M LEFT JOIN (SELECT kids_id, COUNT(kids_id) AS client_number FROM fenics WHERE is_mobile = 1 GROUP BY kids_id) S ON M.kids_id = S.kids_id WHERE M.kids_id = ?;",
+    "mobiles"                         : "SELECT M.kids_id, M.base_id, M.fenics_key, IFNULL(S.client_number, 0) AS client_number, M.admin_id, M.admin_pw, M.city_cd, M.office_cd, M.disk_name, M.disk_size FROM mobiles M LEFT JOIN (SELECT kids_id, COUNT(kids_id) AS client_number FROM fenics WHERE is_mobile = 1 GROUP BY kids_id) S ON M.kids_id = S.kids_id WHERE M.kids_id = ?;",
     "memos"                           : "SELECT M.id, kids_id, title, priority_id, CASE priority_id WHEN 1 THEN 'emergency' WHEN 2 THEN 'important' WHEN 3 THEN 'reminder' WHEN 4 THEN 'special' ELSE '' END AS priority, message, case when CHAR_LENGTH(message) > 10 then CONCAT( LEFT(message, 10), '...') else message end as short_msg, date_format( ifnull( update_on, create_on ), '%Y/%m/%d') as create_on, L.name FROM memos M left join login_users L on ifnull( M.update_user_id, M.create_user_id ) = L.id where kids_id = ? order by create_on desc, id desc;",
     "usrHistorys"                     : "SELECT type, content_name, item_name, `before`, `after`, CASE WHEN type = '更新' THEN CASE WHEN (`before` = '' or `before` is null) and ( `after` != '' or `after` != null )THEN CONCAT(`after`, 'に設定されました') WHEN (`before` != '' or `before` != null) and (`after` = '' or `after` is null )THEN CONCAT(`before`, 'が削除されました') ELSE CONCAT(`before`, 'から', `after`, 'に更新されました') END WHEN type = '削除' THEN CONCAT(`item_name`, 'が削除されました') WHEN type = '追加' then concat(item_name, 'が追加されました') ELSE NULL END AS msg, DATE_FORMAT(create_on, '%Y-%m-%d %H:%i:%s') AS create_on, L.name AS creater FROM HISTORYS H LEFT JOIN login_users L ON H.create_user_id = L.id WHERE kids_id = ? ORDER BY create_on DESC;",
 
@@ -28,6 +28,7 @@
     "find_environment_id"             : "select id from environments where system_type = ? and version = ?;",
     "is_unique_fenicskey"             : "SELECT fenics_key FROM kids WHERE fenics_key = ?;",
     "is_unique_fenicskey_for_update"  : "SELECT kid FROM kids WHERE fenics_key = ?;",
+    "is_unique_mobile_fenicskey_for_update" : "select kids_id from mobiles where fenics_key = ? and kids_id not in (?);",
     "is_unique_userkey_for_update"    : "SELECT kid FROM kids WHERE userkey = ?;",
     "is_unique_db_password_for_update": "SELECT kid FROM kids WHERE db_password = ?;",
     "is_unique_kid_for_update"        : "SELECT kid FROM kids WHERE kid = ?;",
