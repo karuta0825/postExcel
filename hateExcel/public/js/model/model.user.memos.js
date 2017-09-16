@@ -58,6 +58,15 @@
 
   };
 
+  /**
+   * メモを更新する
+   * @param  {Object}   data
+   * @param  {String}   data.id          - メモID
+   * @param  {String}   data.title       - メモタイトル
+   * @param  {Number}   data.priority_id - 優先度ID
+   * @param  {String}   data.message     - メモ内容
+   * @return {Promise}
+   */
   update = function ( data ) {
 
     var clone = _.clone( data );
@@ -84,6 +93,15 @@
 
   };
 
+  /**
+   * メモを削除する
+   * @param  {Object}   data
+   * @param  {String}   data.id          - メモID
+   * @param  {String}   data.title       - メモタイトル
+   * @param  {Number}   data.priority_id - 優先度ID
+   * @param  {String}   data.message     - メモ内容
+   * @return {Promise}
+   */
   remove = function ( data ) {
 
     var param = {
