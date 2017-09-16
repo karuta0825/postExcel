@@ -31,7 +31,7 @@
   };
 
   /**
-   * 対応FenicsIDを更新
+   * Citrixユーザー情報の更新
    */
   update = function () {
 
@@ -46,8 +46,12 @@
     , kids_id = _model.getCache()[0].kids_id
     ;
 
-    cms.db.update('/updateClient', params, function () {
-      _model.fetch( kids_id, cms.view.userClient.redrawTable );
+    cms.db.post('/updateClient', params )
+    .then(function() {
+      return _model.fetch( kids_id );
+    })
+    .then(function (r) {
+      cms.view.userClient.redrawTable(r);
     });
 
   };
@@ -58,9 +62,9 @@
       base = cms.model.userBaseInfo.getCache()
     , history_info = {
         kids_id      : base['id'],
-        type         : '削除',
+        type         : '更新',
         content_name : '基本情報',
-        item_name    : 'クライアント数',
+        item_name    : 'ユーザ数(CitrixID数)',
         before       : base['client_number'],
         after        : base['client_number'] - data.length
       }
@@ -71,12 +75,12 @@
       table : 'historys'
     })
     .then( function () {
-      customer.model.userHistory.fetch( base['id'],
-        customer.view.userHistory.drawTable
-      );
+      return customer.model.userHistory.fetch( base['id'] );
+    })
+    .then( function (r) {
+      customer.view.userHistory.drawTable(r);
     })
     .then( function () {
-      // deleteがsync処理だから、後続のthenに影響しないのか。。。
       _model.delete( data );
     })
     .then( function () {
@@ -121,73 +125,45 @@
    * @return {Array}
    * TODO:
    */
-  _makeOpenNoticeMapList = function ( list_checked ) {
+  _makeOpenNoticeMapList = function ( list_checked, is_add ) {
 
     var
       list_clients  = _model.find( list_checked )
     , fenics_account
+    , result
     ;
 
     return  _.map( list_clients, function ( val, key ) {
 
       fenics_account = cms.model.userNetwork.find({ 'fenics_id' : val.fenics_id })[0];
 
-      return {
-        'hostname'        : fenics_account.pc_name || '',
+      result = {
+        'hostname'        : fenics_account && fenics_account.pc_name || '',
         'fenics_id'       : val.fenics_id && 'hopecl-' + val.fenics_id || '',
         'password'        : val.fenics_id || '',
         'client_id'       : val.client_id,
         'client_password' : val.client_pass
       };
-    });
 
-  };
+      if( is_add ) {
+        result['comment'] = moment().format('YYYY/MM/DD') + ' 追加分';
+      }
 
+      return result;
 
-  /**
-   * 選択したクライアントの開通通知用の行情報取得
-   * @param  {Array} list_checked
-   * @return {Array}
-   * TODO:
-   */
-  _makeOpenNoticeMapListForAdd = function ( list_checked ) {
-
-    var
-      list_clients  = _model.find( list_checked )
-    , fenics_account
-    ;
-
-    return  _.map( list_clients, function ( val, key ) {
-
-      fenics_account = cms.model.userNetwork.find({ 'fenics_id' : val.fenics_id })[0];
-
-      return {
-        'hostname'        : fenics_account.pc_name || '',
-        'fenics_id'       : val.fenics_id && 'hopecl-' + val.fenics_id || '',
-        'password'        : val.fenics_id || '',
-        'client_id'       : val.client_id,
-        'client_password' : val.client_pass,
-        'comment'         : moment().format('YYYY/MM/DD') + ' 追加分'
-      };
     });
 
   };
 
   makeOpenNotice = function ( list_checked, is_add ) {
 
-    var content;
-
-    if ( is_add ) {
-      content = _makeOpenNoticeMapListForAdd(list_checked);
-    }
-    else {
-      content = _makeOpenNoticeMapList(list_checked);
-    }
+    var content = _makeOpenNoticeMapList(list_checked, is_add );
 
     return {
       header :  _makeOpenNoticeHeader(),
       body   :  content
-    }
+    };
+
   };
 
   /**
