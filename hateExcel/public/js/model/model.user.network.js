@@ -46,38 +46,31 @@
 
       // 重複で更新不可
       if ( result.length > 0 && result[0]['fenics_id'] !== view_data['fenics_id']) {
-
         cb_fail( ['fenics_ip'] );
-
+        return;
       }
-      // 更新可能
-      else {
 
-        cms.db.post('/updateFenics', { data : [view_data] })
-        .then( function () {
+      cms.db.post('/updateFenics', { data : [view_data] })
+      .then( function () {
+        return _model.fetchAsync( kids_id );
+      })
+      .then( function () {
 
-          // 再取得してテーブル更新
-          _model.fetchAsync( kids_id, function () {
+        cms.model.userNetwork.find({is_mobile : 0},
+          cms.view.userFenics.drawTable
+        );
 
-            cms.model.userNetwork.find({is_mobile : 0},
-              cms.view.userFenics.drawTable
-            );
+        cms.model.userNetwork.find({is_mobile : 1},
+          cms.view.userMobile.drawTable
+        );
 
-            cms.model.userNetwork.find({is_mobile : 1},
-              cms.view.userMobile.drawTable
-            );
-
-          });
-
-        })
-        .then ( function (result) {
-          cb_success();
-        })
-        .catch( function (err) {
-          throw Error(err);
-        });
-
-      }
+      })
+      .then ( function (result) {
+        cb_success();
+      })
+      .catch( function (err) {
+        throw Error(err);
+      });
 
     });
 
@@ -116,7 +109,7 @@
 
   /**
    * 追加した数を取得
-   * @param {[type]} view_data
+   * @param {Object} view_data
    */
   addFenicsAccount = function ( view_data ) {
 
@@ -134,14 +127,15 @@
       number_pc_added : diff
     }
 
-    customer.db.insert('/addFenicsAccounts',
-      { data  : post },
-       function () {
-        customer.model.userNetwork.fetch( before.id,
-          customer.view.userNetwork.drawTable
-        );
-       }
-    );
+    return customer.db.post('/addFenicsAccounts', { data  : post } )
+    .then( function () {
+      return customer.model.userNetwork.fetch( before.id );
+    })
+    .then( function (r) {
+      cms.model.userNetwork.find( {is_mobile:0},
+        customer.view.userFenics.drawTable
+      );
+    });
 
   };
 
@@ -162,13 +156,11 @@
       number_mobile_accounts_now = cms.model.userMobile.getCache()[0].client_number;
     }
 
-    cms.db.post('/delete', params )
+    return cms.db.post('/delete', params )
     .then( function () {
-      // このreturnがないと再描画できない
       return cms.model.userNetwork.fetch( kids_id );
     })
     .then( function () {
-
       // ネットワークタブ再描画
       cms.model.userNetwork.find({'is_mobile' : 0},
         cms.view.userFenics.drawTable
@@ -178,19 +170,16 @@
       cms.model.userNetwork.find({'is_mobile' : 1},
         cms.view.userMobile.drawTable
       );
-
     })
     // PC用のとき
     .then( function () {
 
       if ( !is_mobile ) {
-
         // 端末台数の変更
         cms.model.kids.update({
           'id'        : kids_id,
           'number_pc' : number_accounts_now - 1
         });
-
       }
 
     })
@@ -198,7 +187,6 @@
     .then( function () {
 
       if ( is_mobile ) {
-
         cms.model.userMobile.fetch(kids_id, cms.view.userMobile.setInfo );
 
         cms.db.post('/insert', {
@@ -215,7 +203,6 @@
         .then( function () {
           cms.model.userHistory.fetch( kids_id, cms.view.userHistory.drawTable);
         });
-
       }
 
     })

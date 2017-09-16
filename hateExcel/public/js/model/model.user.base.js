@@ -94,9 +94,13 @@
       }
     };
 
-    cms.db.insert('/addClient', params, function () {
-      cms.model.clients.fetch( _cache['id'], cms.view.userClient.redrawTable );
-    });
+    return cms.db.post('/addClient', params )
+    .then(function () {
+      return cms.model.clients.fetch( _cache['id'] );
+    })
+    .then(function (r){
+      cms.view.userClient.redrawTable(r);
+    })
 
   };
 

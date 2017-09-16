@@ -14,31 +14,30 @@
 
     var update_data = this._checkWhatsUpdated( view_data );
 
-    // updateする対象が存在する場合
-    if ( _.keys(update_data).length > 0 ) {
-
-      // データの更新
-      customer.db.update('/update', {
-        data      : view_data,
-        condition : {'kids_id' : this['_cache'][0]['kids_id']},
-        table     : this['config']['table']
-      });
-
-
-      // 履歴の更新
-      this._updateHistory( this._diffUpdated( update_data ) );
-
-      // 再描画
-      if ( typeof callback === 'function' ) {
-        callback( this.fetch( this['_cache'][0]['kids_id']) );
-      }
-
-      // 履歴テーブルの再描画
-      customer.model.userHistory.fetch( this['_cache'][0]['kids_id'],
-        customer.view.userHistory.drawTable
-      );
-
+    // updateする対象が存在しなければ終了
+    if ( _.keys(update_data).length <= 0 ) {
+      return;
     }
+
+    // データの更新
+    customer.db.update('/update', {
+      data      : view_data,
+      condition : {'kids_id' : this['_cache'][0]['kids_id']},
+      table     : this['config']['table']
+    });
+
+    // 履歴の更新
+    this._updateHistory( this._diffUpdated( update_data ) );
+
+    // 再描画
+    if ( typeof callback === 'function' ) {
+      callback( this.fetch( this['_cache'][0]['kids_id']) );
+    }
+
+    // 履歴テーブルの再描画
+    customer.model.userHistory.fetch( this['_cache'][0]['kids_id'],
+      customer.view.userHistory.drawTable
+    );
 
   };
 

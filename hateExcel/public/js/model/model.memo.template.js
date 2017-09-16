@@ -72,7 +72,7 @@
       table     : 'memo_templates'
     };
 
-    cms.db.post('/update', params )
+    return cms.db.post('/update', params )
     .then( function () {
       cb_success();
     })
@@ -90,7 +90,7 @@
       table : 'memo_templates'
     };
 
-    cms.db.post('/delete', params )
+    return cms.db.post('/delete', params )
     .then( function () {
       return _model.fetch();
     })

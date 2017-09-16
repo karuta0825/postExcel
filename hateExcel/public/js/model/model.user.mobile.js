@@ -67,18 +67,15 @@
 
     // クライアント数の差分を減少することはできない
     if ( diff.client_number ) {
-
       if ( view_data.client_number - _model.getCache()[0].client_number < 0 ) {
         result.push('client_number');
       }
-
     }
 
     if ( diff.fenics_key ) {
       if (!_isUniqueFenicsKey(view_data.fenics_key) ) {
         result.push('fenics_key');
       }
-
     }
 
     return result;
@@ -112,11 +109,10 @@
 
     return cms.db.post('/addMobileClient', params)
     .then( function () {
-      cms.model.userNetwork.fetch( kids_id,
-      function () {
-        cms.model.userNetwork.find( {is_mobile : 1}, cms.view.userMobile.drawTable );
-      });
-
+      return cms.model.userNetwork.fetch( kids_id );
+    })
+    .then( function () {
+      cms.model.userNetwork.find({is_mobile : 1}, cms.view.userMobile.drawTable);
     })
     .then( function () {
       cms.model.userMobile.fetch(kids_id, cms.view.userMobile.setInfo );
@@ -134,31 +130,23 @@
 
     return _model.fetchAsync(obj['kids_id'])
     .then(function (r) {
-      // パラメータの設定
       params['data'] = {
         kids_id             : obj.kids_id,
         fenics_key          : r[0].fenics_key,
         number_client_added : obj.number
       };
-
     })
     .then( function () {
-      // 追加
       cms.db.post('/addMobileClient', params );
-
     })
     .then( function () {
-      // リスト更新
-      cms.model.userNetwork.fetch( obj.kids_id,
-      function () {
-        cms.model.userNetwork.find( {is_mobile : 1}, cms.view.userMobile.drawTable );
-      });
-
+      return cms.model.userNetwork.fetch( obj.kids_id );
     })
     .then( function () {
-      // 台数の更新
+      cms.model.userNetwork.find({is_mobile : 1}, cms.view.userMobile.drawTable );
+    })
+    .then( function () {
       cms.model.userMobile.fetch( obj.kids_id, cms.view.userMobile.setInfo );
-
     })
     ;
 

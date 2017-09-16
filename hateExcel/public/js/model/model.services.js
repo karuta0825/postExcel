@@ -136,10 +136,10 @@
       });
     }
 
-    console.log(params);
-
-    cms.db.insert('/master', params, function ( result ) {
-      console.log(result);
+    cms.db.post('/master', params )
+    .then(function (){
+      initModule();
+      cms.view.services.redrawTable(version);
     });
 
   };

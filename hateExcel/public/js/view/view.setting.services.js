@@ -30,11 +30,11 @@
   , _onClickCancel
   , _onClickSave
   , _drawTable
-  , _redrawTable
   , _makeRow
   , _validate
   // public method
   , initModule
+  , redrawTable
   ;
 
   _changeValue = function ( evt ) {
@@ -144,12 +144,6 @@
 
   };
 
-  _redrawTable = function ( version ) {
-
-    view[version].get('body').empty();
-    _drawTable( customer.model.services.find( {'version' : version, 'is_setup_info' : 0} ) );
-
-  };
 
   // Listeners
   _onClickSave = function ( evt ) {
@@ -169,7 +163,7 @@
 
   _onClickCancel = function ( evt ) {
     var version = $(evt.target).parents('.setting').data('version')
-    _redrawTable( version );
+    redrawTable( version );
     cms.model.services.resetItems();
   };
 
@@ -206,6 +200,12 @@
 
   };
 
+  redrawTable = function ( version ) {
+
+    view[version].get('body').empty();
+    _drawTable( customer.model.services.find( {'version' : version, 'is_setup_info' : 0} ) );
+
+  };
 
   initModule = function () {
     // 同期処理させる
@@ -253,7 +253,8 @@
 
   // to public
   cms.view.services = {
-    initModule : initModule
+    initModule : initModule,
+    redrawTable : redrawTable
   };
 
 }(jQuery, customer));
