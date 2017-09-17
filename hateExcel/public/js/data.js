@@ -74,10 +74,12 @@ customer.db = ( function (){
       .done( function ( result ) {
         res(result);
       })
-      .fail( function ( err ) {
+      .fail( function ( err, msg ) {
+        if ( err.responseJSON.result === 'expired' ) {
+          location.href = '/login';
+        }
         rej(err);
       });
-
     });
 
   };

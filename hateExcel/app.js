@@ -89,7 +89,7 @@ app.post('/makeLoginAccount', function (req, res) {
 
 app.get('/', function ( req, res ) {
   if ( !req.session.pass ) {
-    res.redirect('/login');
+    res.redirect('/login_user');
     return;
   }
   else {
@@ -112,6 +112,11 @@ app.post('/select', function ( req, res ) {
     condition = req.body.condition
   , table = req.body.table
   ;
+
+  if ( !req.session.pass ) {
+    res.json(404, {result:'expired', message:'your session is expired.'});
+    return;
+  }
 
   res.header("Content-Type", "application/json; charset=utf-8");
 
