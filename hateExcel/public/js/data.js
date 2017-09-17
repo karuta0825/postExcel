@@ -75,11 +75,22 @@ customer.db = ( function (){
         res(result);
       })
       .fail( function ( err, msg ) {
-        if ( err.responseJSON.result === 'expired' ) {
-          location.href = '/login';
-        }
         rej(err);
       });
+    })
+    .catch(function(err){
+      // セッション切れのとき
+      if ( err.responseJSON.result === 'expired' ) {
+
+        customer.view.dialogAlert.onClose( function () {
+          location.href = '/login';
+        });
+
+        customer.view.dialogAlert.open( err.responseJSON.message );
+
+        return Promise.reject();
+
+      }
     });
 
   };

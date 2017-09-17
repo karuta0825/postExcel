@@ -11,12 +11,18 @@
       'msg' : '.dialog-message'
     }
   , defaultMsg = '入力に誤りがあります'
+  , funcsAtClose = []
   , viewMsg
+  , _initFuncsAtClose
   , close
   , open
+  , onClose
   , initModule
   ;
 
+  _initFuncsAtClose = function () {
+    funcsAtClose = [];
+  };
 
   open = function ( msg ) {
 
@@ -27,12 +33,33 @@
       view.get('msg').text(defaultMsg);
     }
 
+    // すでに開いていれば終了
+    if ( view.wrap.attr('open') ) {
+      return;
+    }
+
     view.wrap.get(0).showModal();
 
   };
 
   close = function () {
+
     view.wrap.get(0).close();
+
+    _.each( funcsAtClose, function (v) {
+      v();
+    });
+
+    _initFuncsAtClose();
+
+  };
+
+  onClose = function ( func ) {
+
+    if ( typeof func === 'function') {
+      funcsAtClose.push(func);
+    }
+
   };
 
   initModule = function () {
@@ -51,8 +78,9 @@
 
   cms.view.dialogAlert = {
     initModule : initModule,
-    open  : open,
-    close : close
+    open    : open,
+    close   : close,
+    onClose : onClose
   };
 
 }( jQuery, customer ));

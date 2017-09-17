@@ -137,9 +137,13 @@
     };
 
     // KID, Userkey, DB Passwordを決める
-    customer.db.insert( '/makeUser', param,  _openCompleteDialog );
-
-    _clear();
+    customer.db.post('/makeUser', param )
+    .then( function (r) {
+      _openCompleteDialog(r);
+    })
+    .then(function(){
+      _clear();
+    })
 
   };
 
@@ -151,6 +155,7 @@
     _.each( makeUserView.get('select'), function ( val, key ) {
       $(val).removeClass('is-error');
     });
+
   };
 
   initModule = function () {

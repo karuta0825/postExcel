@@ -89,7 +89,7 @@ app.post('/makeLoginAccount', function (req, res) {
 
 app.get('/', function ( req, res ) {
   if ( !req.session.pass ) {
-    res.redirect('/login_user');
+    res.redirect('/login');
     return;
   }
   else {
@@ -114,7 +114,7 @@ app.post('/select', function ( req, res ) {
   ;
 
   if ( !req.session.pass ) {
-    res.json(404, {result:'expired', message:'your session is expired.'});
+    res.json(440, {result:'expired', message:'セッションが切れました。ログインからやり直してください。'});
     return;
   }
 
@@ -193,6 +193,11 @@ app.post('/insert', function ( req, res ) {
   , idx = 0
   ;
 
+  if ( !req.session.pass ) {
+    res.json(440, {result:'expired', message:'セッションが切れました。ログインからやり直してください。'});
+    return;
+  }
+
   // dataがArrayであることが前提だね
   if ( Object.prototype.toString.call( data ) === '[object Array]' ) {
     for ( var i = 0; i < data.length; i+= 1 ) {
@@ -228,6 +233,12 @@ app.post('/insert', function ( req, res ) {
 app.post('/addFenicsAccounts', function ( req, res ) {
 
   var data = req.body.data;
+
+  if ( !req.session.pass ) {
+    res.json(440, {result:'expired', message:'セッションが切れました。ログインからやり直してください。'});
+    return;
+  }
+
   data.create_user_id = req.session.uid;
 
   datas.makeFenicsList( data, data.number_pc_added, function () {
@@ -239,6 +250,12 @@ app.post('/addFenicsAccounts', function ( req, res ) {
 app.post('/addClient', function ( req, res ) {
 
   var data = req.body.data;
+
+  if ( !req.session.pass ) {
+    res.json(440, {result:'expired', message:'セッションが切れました。ログインからやり直してください。'});
+    return;
+  }
+
   data.create_user_id = req.session.uid;
 
   datas.makeClientList( data, data.number_client_added, function () {
@@ -250,6 +267,12 @@ app.post('/addClient', function ( req, res ) {
 app.post('/addMobileClient', function ( req, res ) {
 
   var data = req.body.data;
+
+  if ( !req.session.pass ) {
+    res.json(440, {result:'expired', message:'セッションが切れました。ログインからやり直してください。'});
+    return;
+  }
+
   data.create_user_id = req.session.uid;
 
   datas.makeMobileList( data, data.number_client_added, function (err) {
@@ -261,6 +284,11 @@ app.post('/addMobileClient', function ( req, res ) {
 app.post('/makeUser', function ( req, res ) {
 
   var data = req.body.data;
+
+  if ( !req.session.pass ) {
+    res.json(440, {result:'expired', message:'セッションが切れました。ログインからやり直してください。'});
+    return;
+  }
 
   data.create_user_id = req.session.uid;
 
@@ -279,6 +307,11 @@ app.post('/addBase', function ( req, res ) {
 
   var kid = req.body.kid;
 
+  if ( !req.session.pass ) {
+    res.json(440, {result:'expired', message:'セッションが切れました。ログインからやり直してください。'});
+    return;
+  }
+
   datas.makeBase({kid:kid}, function (err) {
     if ( err ) {
       res.status(500).send({error : err});
@@ -294,6 +327,11 @@ app.post('/addBase', function ( req, res ) {
 app.post('/makeMemo', function ( req, res ) {
 
   var data = req.body.data;
+
+  if ( !req.session.pass ) {
+    res.json(440, {result:'expired', message:'セッションが切れました。ログインからやり直してください。'});
+    return;
+  }
 
   data.create_user_id = req.session.uid;
   data.create_on = new Date();
@@ -317,6 +355,11 @@ app.post('/delete', function ( req, res ) {
   , table = req.body.table
   , len = 0
   ;
+
+  if ( !req.session.pass ) {
+    res.json(440, {result:'expired', message:'セッションが切れました。ログインからやり直してください。'});
+    return;
+  }
 
   // dataがArrayであることが前提だね
   if ( Object.prototype.toString.call( data ) === '[object Array]' ) {
@@ -352,6 +395,11 @@ app.post('/update', function ( req, res ) {
   , condition = req.body.condition
   , table     = req.body.table
   ;
+
+  if ( !req.session.pass ) {
+    res.json(440, {result:'expired', message:'セッションが切れました。ログインからやり直してください。'});
+    return;
+  }
 
   // TODO: table内容で分岐させるクラスをつくる
   if ( table === 'memos' ) {
@@ -399,7 +447,6 @@ app.post('/update', function ( req, res ) {
 
 app.post('/isUnique/kid', function (req, res) {
   var kid = req.body.kid;
-  console.log(kid);
   datas.select( kid, 'is_unique_kid_for_update', function ( result ) {
     res.json(result);
   });
@@ -407,8 +454,6 @@ app.post('/isUnique/kid', function (req, res) {
 
 app.post('/isUniqueIp', function (req, res) {
   var ip = req.body.ip;
-
-  console.log(ip);
 
   datas.select( ip, 'is_unique_fenics_ip', function ( result ) {
     res.json( result );
@@ -472,6 +517,11 @@ app.post('/updateFenics', function (req, res) {
   , len = 0
   ;
 
+  if ( !req.session.pass ) {
+    res.json(440, {result:'expired', message:'セッションが切れました。ログインからやり直してください。'});
+    return;
+  }
+
   for ( var i = 0; i < data.length; i++ ) {
 
     console.log(data[i]);
@@ -518,6 +568,11 @@ app.post('/updateClient', function (req, res) {
   , len = 0
   ;
 
+  if ( !req.session.pass ) {
+    res.json(440, {result:'expired', message:'セッションが切れました。ログインからやり直してください。'});
+    return;
+  }
+
   for ( var i = 0; i < data.length; i++ ) {
 
 
@@ -551,6 +606,11 @@ app.post('/master', function ( req, res ) {
   , table   = req.body.table
   , version = list[0].version
   ;
+
+  if ( !req.session.pass ) {
+    res.json(440, {result:'expired', message:'セッションが切れました。ログインからやり直してください。'});
+    return;
+  }
 
   // delete
   datas.delete( version, table, function ( err ) {
@@ -598,8 +658,10 @@ app.post('/updateLogin', function ( req, res ) {
 
   delete data.id;
 
-  console.log(data);
-  console.log(condition);
+  if ( !req.session.pass ) {
+    res.json(440, {result:'expired', message:'セッションが切れました。ログインからやり直してください。'});
+    return;
+  }
 
   datas.update( data, condition, 'login_user_info', function (err) {
 
