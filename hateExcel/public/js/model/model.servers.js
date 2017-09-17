@@ -144,7 +144,7 @@
       });
     }
 
-    cms.db.post('/master', params )
+    return cms.db.post('/master', params )
     .then( function () {
 
       // モデルの更新

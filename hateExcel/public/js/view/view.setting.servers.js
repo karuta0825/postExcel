@@ -220,15 +220,20 @@
   _onClickSave = function ( evt ) {
 
     var version = $(evt.target).parents('.setting').data('version');
-
     var list = customer.model.servers.validate(version);
+
+    // 保存終了まで連続でボタンクリックできないように
+    view[version].get('btn__save').prop('disabled', true);
 
     if ( !_validate(list,version) ) {
       view['BASE'].get('alert').get(0).showModal();
       return;
     }
 
-    cms.model.servers.sendServer(version);
+    cms.model.servers.sendServer(version)
+    .then(function(){
+      view[version].get('btn__save').prop('disabled', false);
+    });
 
   };
 

@@ -149,15 +149,20 @@
   _onClickSave = function ( evt ) {
 
     var version = $(evt.target).parents('.setting').data('version')
-
     var list = customer.model.services.validate(version);
+
+    // 処理完了まで連続クリックを防止
+    view[version].get('btn__save').prop('disabled', true);
 
     if ( !_validate(list,version) ) {
       view['BASE'].get('alert').get(0).showModal();
       return;
     }
 
-    cms.model.services.sendServer(version);
+    cms.model.services.sendServer(version)
+    .then(function() {
+      view[version].get('btn__save').prop('disabled', false);
+    });
 
   };
 

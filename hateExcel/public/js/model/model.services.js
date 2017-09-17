@@ -136,7 +136,7 @@
       });
     }
 
-    cms.db.post('/master', params )
+    return cms.db.post('/master', params )
     .then(function (){
       initModule();
       cms.view.services.redrawTable(version);
