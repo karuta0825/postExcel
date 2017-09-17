@@ -526,7 +526,19 @@
 
       // 各々の列の値をクリアしてソートした値をセット
       _.each( headerMap, function ( v, k ) {
+
+        if ( k === 'is_marked') {
+          if ( data[key][k] === '0' ) {
+            $(val).find('.' + k).empty();
+          }
+          else {
+            $(val).find('.' + k).empty().html('<i class="material-icons">star</i>');
+          }
+          return;
+        }
+
         $(val).find('.' + k).empty().append( data[key][k] );
+
       });
 
     });
