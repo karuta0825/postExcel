@@ -53,7 +53,6 @@ datas.makeLoginAccount = function ( data, callback ) {
         return
       }
       callback(null);
-      return;
     }
   );
 
@@ -67,6 +66,7 @@ datas.selectAll = function ( table, callback ) {
       if ( err ) {
         console.log(err);
         callback(err);
+        return;
       }
       callback( results );
     }
@@ -82,8 +82,8 @@ datas.select = function ( condition, access, callback ) {
       db.end();
       if ( err ) {
         console.log(err);
-        // エラーもオブジェクトなのでそのまま返す
         callback(err);
+        return;
       }
       callback(results);
     }
@@ -116,14 +116,11 @@ datas.insert = function ( data, table, callback ) {
       db.end();
       // エラー時
       if ( err ) {
-        // console.log(err);
+        console.log(err);
         callback( err );
         return;
       }
-      // 正常時
-      else {
-        callback( null, results );
-      }
+      callback( null, results );
     }
   );
 };
@@ -136,13 +133,11 @@ datas.delete = function ( data, query, callback ) {
      function ( err, results, fields ) {
       db.end();
       if ( err ) {
-        console.log('delete error');
+        console.log(err);
         callback( err );
         return;
       }
-      else {
-        callback( null );
-      }
+      callback( null );
      }
   );
 };

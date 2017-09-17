@@ -81,8 +81,8 @@ datas.select = function ( condition, access, callback ) {
       db.end();
       if ( err ) {
         console.log(err);
-        // エラーもオブジェクトなのでそのまま返す
         callback(err);
+        return;
       }
       callback(results);
     }
@@ -139,9 +139,7 @@ datas.delete = function ( data, query, callback ) {
         callback( err );
         return;
       }
-      else {
-        callback( null );
-      }
+      callback( null );
      }
   );
 };
@@ -159,7 +157,7 @@ datas.update = function ( data, condition, table, callback ) {
         callback( err );
         return;
       }
-      callback(null);
+      callback( null );
     }
   );
 };
