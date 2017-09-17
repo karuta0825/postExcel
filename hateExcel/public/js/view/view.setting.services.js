@@ -156,6 +156,7 @@
 
     if ( !_validate(list,version) ) {
       view['BASE'].get('alert').get(0).showModal();
+      view[version].get('btn__save').prop('disabled', false);
       return;
     }
 
