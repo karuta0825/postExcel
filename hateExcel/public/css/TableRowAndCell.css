@@ -128,7 +128,7 @@
 
 .icon-name-super {
   margin-left: 3px;
-  font-size: 0.5em;
+  font-size: 0.8em;
 }
 
 .icon-name-middle {
@@ -646,13 +646,21 @@
   font-size: 15px;
 }
 
+.filter__body {
+  overflow-y: scroll;
+}
+
 .filter-item {
   margin-top : 20px;
-  margin-left : 20px;
+  margin-left : 15px;
 }
 
 .filter-item__title {
   font-weight: 600;
+}
+
+.filter-item__title .icon-name-super {
+  font-size: 0.6em;
 }
 
 .filter-item__body {
