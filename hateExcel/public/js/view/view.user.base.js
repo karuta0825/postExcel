@@ -223,7 +223,7 @@
     // usekeyが更新されることがあるため更新
     cms.view.userNetwork.refresh();
     cms.view.userClient.refresh();
-    cms.view.home.refresh();
+    cms.view.homeNotices.refresh();
 
   };
 

@@ -47,7 +47,7 @@
   _openCompleteDialog = function ( data ) {
 
     // 画面更新
-    cms.view.home.refresh();
+    cms.view.homeNotices.refresh();
     cms.view.kids.refresh();
 
     _setInfoDialog(data);

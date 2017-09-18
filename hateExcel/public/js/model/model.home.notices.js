@@ -90,7 +90,7 @@
   };
 
   // to public
-  cms.model.historys = {
+  cms.model.homeNotices = {
     initModule : initModule,
     fetch      : function () { return makeNews( _model.fetch() ); },
     getMore    : getMore,

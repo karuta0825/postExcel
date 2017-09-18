@@ -289,7 +289,7 @@
       this._updateHistory( this._diffUpdated( view_data['id'], historyData ) );
 
       // 再描画
-      cms.view.home.refresh();
+      cms.view.homeNotices.refresh();
       cms.view.kids.refresh();
 
     }

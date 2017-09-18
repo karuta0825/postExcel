@@ -410,9 +410,7 @@
     }
 
     cms.view.kids.refresh();
-    cms.view.home.refresh();
-
-    // _closeDialog();
+    cms.view.homeNotices.refresh();
 
   };
 

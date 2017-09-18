@@ -84,7 +84,7 @@
       _model.delete( data );
     })
     .then( function () {
-      cms.view.home.refresh();
+      cms.view.homeNotices.refresh();
       cms.view.homeGraph.refresh();
       cms.view.kids.refresh();
       cms.view.userBaseInfo.refresh();

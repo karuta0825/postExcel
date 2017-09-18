@@ -55,7 +55,7 @@
       break
     }
 
-    cms.model.historys.find({ type : condition }, drawNews );
+    cms.model.homeNotices.find({ type : condition }, drawNews );
 
   };
 
@@ -88,9 +88,9 @@
   getMoreHistory = function () {
 
     // モデルの更新
-    cms.model.historys.getMore( drawNews );
+    cms.model.homeNotices.getMore( drawNews );
 
-    if ( cms.model.historys.isEnd() ) {
+    if ( cms.model.homeNotices.isEnd() ) {
       hideFooter();
     }
 
@@ -103,7 +103,7 @@
   };
 
   refresh = function () {
-    drawNews(customer.model.historys.fetch() );
+    drawNews(customer.model.homeNotices.fetch() );
   };
 
   initModule = function () {
@@ -113,7 +113,7 @@
     homeView = new Controller('.main-contents--home');
     homeView.initElement( elements );
 
-    drawNews( customer.model.historys.getCache() );
+    drawNews( customer.model.homeNotices.getCache() );
 
     homeView.updateElement('notice__items');
 
@@ -125,7 +125,7 @@
 
   };
 
-  cms.view.home = {
+  cms.view.homeNotices = {
     initModule : initModule,
     hideFooter : hideFooter,
     drawNews   : drawNews,
