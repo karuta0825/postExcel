@@ -132,7 +132,6 @@
 
 .icon-name-super {
   margin-left: 3px;
-  vertical-align: super;
   font-size: 0.9em;
 }
 
@@ -646,7 +645,7 @@
 
 .filter__title {
   border-bottom: 1px solid rgba(0,0,0,0.12);
-  padding: 15px;
+  padding: 10px;
   text-align: center;
   font-size: 15px;
 }
@@ -695,6 +694,10 @@
   background: #673ab7;
   border: 1px solid #673ab7;
   color: white;
+}
+
+.filter-item input.search {
+  width: 90%;
 }
 
 .filter-item .select-servers {
