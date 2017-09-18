@@ -341,7 +341,7 @@
       validate : function ( value ) {
         return _.chain( value.split(','))
         .map( function (v,i) {
-          return v !== '' && !(!/[^a-uw-zA-UW-Z]+/).test(v);
+          return v !== '' && !(/[^a-uw-zA-UW-Z]+/).test(v);
         })
         .every( function (v,i) {
           return v === true;
