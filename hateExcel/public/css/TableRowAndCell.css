@@ -128,7 +128,7 @@
 
 .icon-name-super {
   margin-left: 3px;
-  font-size: 0.9em;
+  font-size: 0.5em;
 }
 
 .icon-name-middle {
@@ -652,7 +652,6 @@
 }
 
 .filter-item__title {
-  font-size:12px;
   font-weight: 600;
 }
 

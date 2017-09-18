@@ -105,7 +105,8 @@ tbody, input {
 }
 
 .mdl-layout__content .material-icons {
-  font-size: 1.4em;
+  font-size: 1em;
+  vertical-align: middle;
 }
 
 .accent-font {
