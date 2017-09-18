@@ -51,13 +51,9 @@
   height: 40px;
 }
 
-.login-user .login-user__icon {
-  display: inline-block;
-  background-image: url(../imgs/girls.png);
-  width            : 40px;
-  height           : 40px;
-  background-size  : 40px 40px;
-  background       : white;
+.login-user .name {
+  display: block;
+  margin-top: 10px;
 }
 
 

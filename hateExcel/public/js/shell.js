@@ -44,7 +44,6 @@ $(function(){
       if ( target === '.main-contents--home' ) {
         customer.view.homeGraph.pushThisMonth();
       }
-
   };
 
   /* events */
@@ -55,25 +54,10 @@ $(function(){
     $(this).children('.arrow').toggleClass('arrow--rotate');
   });
 
+  // ログアウト
   $('.mdl-menu--bottom-right .logout').on('click', function () {
     window.location.href = '/logout';
   });
-
-  // urlルーティング設定
-  // $.uriAnchor.setAnchor( { clients : 'close' } );
-
-  // $(window).on( 'hashchange', function () {
-  //   var hash = $.uriAnchor.makeAnchorMap();
-
-  //   if ( hash.clients === 'close' ) {
-  //     customer.view.table.showTable();
-  //     customer.view.clients.hideTable();
-  //   }
-  //   else if ( hash.clients === 'open' ) {
-  //     customer.view.table.hideTable();
-  //     customer.view.clients.showTable();
-  //   }
-  // });
 
   customer.shell = {
     manageMainView : manageMainView

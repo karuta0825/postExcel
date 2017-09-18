@@ -76,6 +76,9 @@
     view.get('user__input__pass1').val('');
     view.get('user__input__pass2').val('');
 
+    // ナビゲーションバーのユーザー名変更
+    $('.login-user .name').text(data.name + 'さん' );
+
   };
 
   _saveLogin = function () {
