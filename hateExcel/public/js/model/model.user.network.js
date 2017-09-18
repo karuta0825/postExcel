@@ -46,7 +46,9 @@
 
       // 重複で更新不可
       if ( result.length > 0 && result[0]['fenics_id'] !== view_data['fenics_id']) {
-        cb_fail( ['fenics_ip'] );
+        cb_fail( ['fenics_ip'], function () {
+          cms.view.dialogAlert.open('FenicsIPが重複してます');
+        });
         return;
       }
 

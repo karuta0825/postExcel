@@ -39,7 +39,12 @@
   , initModule
   ;
 
-  _showError = function ( list_err_key ) {
+  /**
+   * 入力エラーを部分を赤くし、ダイアログを表示する
+   * @param  {Array}   list_err_key
+   * @param  {Function} callback
+   */
+  _showError = function ( list_err_key, callback ) {
 
     _.each( view.get('input'), function (val, key){
       val.find('.item-value').removeClass('is-error');
@@ -50,6 +55,11 @@
     });
 
     // エラーダイアログの表示
+    if ( typeof callback === 'function') {
+      callback();
+      return;
+    }
+
     view.get('dialog__error').get(0).showModal();
 
   };
