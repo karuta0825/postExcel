@@ -157,8 +157,8 @@
 */
 
 .setting__action {
-  width: 60%;
-  min-width : 60%;
+  /*width: 60%;*/
+  /*min-width : 60%;*/
   margin: 20px auto;
   text-align: right;
 }
@@ -1215,6 +1215,21 @@
    setting servers
 ---------------------- */
 
+.setting-master {
+  max-width: 65%;
+  min-width: 750px;
+  margin: 0 auto;
+}
+
+.setting-master .select-version {
+  position: absolute;
+  width: 60px;
+  font-size: 1em;
+}
+
+.setting-master .setting__body .mdl-data-table {
+  width: 100%;
+}
 
 /* -------------------
    setting services
