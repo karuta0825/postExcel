@@ -163,6 +163,7 @@
     cms.model.services.sendServer(version)
     .then(function() {
       view[version].get('btn__save').prop('disabled', false);
+      cms.view.dialogAlert.open('保存完了しました');
     });
 
   };
