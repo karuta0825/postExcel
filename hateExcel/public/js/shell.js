@@ -12,7 +12,6 @@ $(function(){
   // modelの初期化
   customer.model.servers.initModule();
   customer.model.services.initModule();
-  customer.model.homeNotices.initModule();
   customer.model.homeServerTable.initModule();
   customer.model.homeGraph.initModule();
   customer.model.environments.initModule();

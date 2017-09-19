@@ -113,9 +113,12 @@
     homeView = new Controller('.main-contents--home');
     homeView.initElement( elements );
 
-    drawNews( customer.model.homeNotices.getCache() );
+    customer.model.homeNotices.fetch()
+    .then(function (r){
+      drawNews(r);
+      homeView.updateElement('notice__items');
+    });
 
-    homeView.updateElement('notice__items');
 
     homeView.addListener({
       'click notice__btnMore' : getMoreHistory,

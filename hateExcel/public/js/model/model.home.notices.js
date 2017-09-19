@@ -10,42 +10,13 @@
     })
   , _is_end = false
   , initModule
-  , makeNews
   , getMore
   ;
 
-  initModule = function () {
-    _model.fetch();
-  };
-
-  makeNews = function ( list_item ) {
-
-    return _.map( list_item, function ( val, key ) {
-
-      if ( val.type === '新規') {
-        val.className = 'state state--primary'
-        val.msg = val.kid + 'が作成されました';
-      }
-      else if ( val.type === '追加') {
-        val.className = 'state state--info'
-        val.msg = val.kid + 'に' + val.item_name + 'が追加されました'
-      }
-      else if ( val.type === '削除') {
-        val.className = 'state state--danger'
-        val.msg = val.kid + 'の' + val.item_name + 'が削除されました'
-      }
-      else {
-        val.className = 'state state--warning'
-        val.msg = val.kid + 'の' + val.item_name + 'が' + val.after + 'に更新されました'
-      }
-
-      return val;
-
-    });
-  };
-
   /**
-   * 次があるかどうかわからないよ
+   * お知らせ情報を10件をさらに読み込む
+   * @param  {Function} callback
+   * @return {Promise}
    */
   getMore = function ( callback ) {
 
@@ -56,48 +27,38 @@
 
     var last_id = _.last( _model.getCache(), 1)[0].id;
 
-    var list = customer.db.select('/select', {
+    return customer.db.post('/select', {
       'condition' : [ last_id ],
       'table' : 'moreHistorys'
-    });
+    })
+    .then(function(r){
 
-    if ( list.length < 11 ) {
-      _is_end = true;
+      if ( r.length < 11 ) {
+        _is_end = true;
+      }
+
       if ( typeof callback === 'function' ) {
         // 追加
-        _model.union( list );
-        callback( makeNews( _model.getCache() ) ) ;
+        _model.union( r );
+        callback( _model.getCache() ) ;
       }
       else {
         // 追加
-        _model.union( list );
+        _model.union( r );
         return _model.getCache();
       }
-    }
-    else {
-      if ( typeof callback === 'function' ) {
-        // 追加
-        _model.union( list.slice(0,10));
-        callback( makeNews( _model.getCache() ) );
-      }
-      else {
-        // 追加
-        _model.union( list.slice(0,10) );
-        return _model.getCache();
-      }
-    }
+
+    });
 
   };
 
   // to public
   cms.model.homeNotices = {
-    initModule : initModule,
-    fetch      : function () { return makeNews( _model.fetch() ); },
+    fetch      : $.proxy( _model.fetchAsync, _model ),
+    getCache   : $.proxy( _model.getCache, _model ),
+    find       : $.proxy( _model.find, _model ),
     getMore    : getMore,
-    getCache   : function () { return makeNews( _model.getCache() );},
-    isEnd      : function () { return _is_end; },
-    makeNews   : makeNews,
-    find       : $.proxy( _model.find, _model )
+    isEnd      : function () { return _is_end; }
   };
 
 } ( jQuery, customer ))
