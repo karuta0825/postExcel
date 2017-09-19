@@ -9,9 +9,18 @@
       table : 'historys'
     })
   , _is_end = false
+  , _filter_type
+  , filter
   , initModule
   , getMore
   ;
+
+  filter = function ( type, callback ) {
+
+    _filter_type = type;
+    return _model.find( { type : type }, callback );
+
+  };
 
   /**
    * お知らせ情報を10件をさらに読み込む
@@ -40,12 +49,12 @@
       if ( typeof callback === 'function' ) {
         // 追加
         _model.union( r );
-        callback( _model.getCache() ) ;
+        callback( _model.find({ type : _filter_type }) ) ;
       }
       else {
         // 追加
         _model.union( r );
-        return _model.getCache();
+        return _model.find({ type : _filter_type });
       }
 
     });
@@ -58,6 +67,7 @@
     getCache   : $.proxy( _model.getCache, _model ),
     find       : $.proxy( _model.find, _model ),
     getMore    : getMore,
+    filter     : filter,
     isEnd      : function () { return _is_end; }
   };
 

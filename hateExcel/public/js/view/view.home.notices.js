@@ -52,10 +52,11 @@
         condition = '削除';
       break
       default :
+        condition = 'all'
       break
     }
 
-    cms.model.homeNotices.find({ type : condition }, drawNews );
+    cms.model.homeNotices.filter( condition , drawNews );
 
   };
 
@@ -93,8 +94,6 @@
     if ( cms.model.homeNotices.isEnd() ) {
       hideFooter();
     }
-
-    homeView.get('notice__filter').val('all');
 
   };
 
