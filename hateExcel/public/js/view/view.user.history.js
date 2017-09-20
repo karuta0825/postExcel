@@ -6,9 +6,12 @@
 ( function ( $, cms ) {
 
   var
-    historyView
+    view
   , elements = {
-
+      filter : {
+        self : '.filter'
+      },
+      table  : '.body'
     }
   , _drawTable
   , initModule
@@ -21,13 +24,18 @@
     , complied = _.template( tmpl )
     ;
 
-    $('#user-edit').find('#usr-history-panel').find('table').remove();
-    $('#user-edit').find('#usr-history-panel').append( complied(data) );
+    view.get('table').empty().append( complied(data) );
 
   };
 
 
   initModule = function () {
+
+    view = new Controller('#usr-history-panel');
+
+    view.wrap.append( customer.db.getHtml('html/user.history.html') );
+
+    view.initElement( elements );
 
   };
 
