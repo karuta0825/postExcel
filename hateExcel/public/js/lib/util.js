@@ -115,6 +115,18 @@
   };
 
   /**
+   * テキストをSJISのBlobに変換して返す
+   * @param  {String} text
+   * @return {[type]}
+   */
+  util.makeTxt2Blob = function ( text ) {
+
+    var output = convertStr2UnicodeList( text );
+    return new Blob( output, {'type': 'text/plain'});
+
+  };
+
+  /**
    * TODO: CSV,json,txtなど一元管理する
    * @param  {DOM}    element
    * @param  {Blob}   Blob
