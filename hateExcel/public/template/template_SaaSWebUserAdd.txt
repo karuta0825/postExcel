@@ -1,0 +1,48 @@
+﻿set AppCmd=%SystemRoot%\System32\inetsrv\AppCmd.exe
+set AspNetRegiis=%SystemRoot%\Microsoft.NET\Framework\v4.0.30319\aspnet_regiis.exe
+set DefSite=Default Web Site
+set AppPool=WincareAppPool
+
+REM ####################################################################################
+REM 以下の項目をメンテナンスして実行してください。
+REM set InstallDrive=<インストールドライブ（例 D）>
+REM set Server=<AP Server IP Address>
+REM set userName=<AP Server ユーザー名:wincare\administrator>
+REM set password=<AP Server ユーザーパスワード:1AJNQJ>
+REM set WinUser=<WINCARE ユーザ名※Dドライブのユーザフォルダ名　例：KENSYU>
+REM set SqlServer=<SQL Server(DB) IP Address>
+REM set SqlUser=<SQLサーバのユーザ名　例：uKENSYU>
+REM set SqlPassword=<SQLサーバのユーザパスワード　例：U53RK3N5YU>
+REM ####################################################################################
+
+set InstallDrive=D
+set Server=<%- data.server %>
+set userName=WINCARE\Administrator
+set password=1AJNQJ
+set WinUser=<%- data.userkey %>
+set SqlServer=<%- data.server %>
+set SqlUser=<%- "u" +  data.userkey %>
+set SqlPassword=<%- data.db_password %>
+
+set InstallRoot=%InstallDrive%:\WINCARE
+set Site=wwwroot
+set AppName=WINCARE
+set timeOut=90
+
+%AppCmd% delete VDIR "%DefSite%/%AppName%/%WinUser%"
+%AppCmd% delete VDIR "%DefSite%/%AppName%/%WinUser%/FileManagement"
+%AppCmd% delete VDIR "%DefSite%/%AppName%/%WinUser%/Portrait"
+%AppCmd% add VDIR /app.name:"%DefSite%/%AppName%" /path:/%WinUser% /physicalPath:\\%Server%\D$\USERDATA\%WinUser% /userName:%userName% /password:%password%
+%AppCmd% add VDIR /app.name:"%DefSite%/%AppName%" /path:/%WinUser%/FileManagement /physicalPath:\\%Server%\D$\USERDATA\%WinUser%File /userName:%userName% /password:%password%
+%AppCmd% add VDIR /app.name:"%DefSite%/%AppName%" /path:/%WinUser%/Portrait /physicalPath:\\%Server%\D$\USERDATA\%WinUser%\Portrait\d%WinUser% /userName:%userName% /password:%password%
+
+%InstallDrive%:
+cd %InstallRoot%\%Site%
+REM %AspNetRegiis% -pdf "appSettings" .
+REM %AspNetRegiis% -pdf "connectionStrings" .
+
+%AppCmd% set CONFIG "%DefSite%/%AppName%/" /section:connectionStrings /+"[connectionString='Data Source=%SqlServer%;Initial Catalog=d%WinUser%;User Id=%SqlUser%;Password=%SqlPassword%;',name='%WinUser%']"
+
+REM %AspNetRegiis% -pef "connectionStrings" .
+REM %AspNetRegiis% -pef "appSettings" .
+
