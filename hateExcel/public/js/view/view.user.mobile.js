@@ -23,8 +23,9 @@
            'plus'      : '.btn-plus-mobile',
         },
         'download' : {
-           'csv' : '.download--mobile-fenics-csv',
-           'sh'  : '.download--mobile-sh'
+           'csv'     : '.download--mobile-fenics-csv',
+           'sh'      : '.download--mobile-sh',
+           'saasweb' : '.download--saas-web-bat'
         },
         'input' : {
            'fenics_key'    : '.fenics_key',
@@ -67,6 +68,7 @@
   , _execDownload
   , _makeFenicsCSV
   , _makeFenicsSh
+  , _makeSaaSWebUseAdd
   , _increaseMobile
   , _decreaseMobile
   , _openEditDialog
@@ -312,6 +314,25 @@
 
   };
 
+  _makeSaaSWebUseAdd = function () {
+
+    var
+      kid       =  cms.model.userBaseInfo.getCache().kid
+    , file_name = 'SaasWebUserAdd_' + kid + '.bat'
+    , tmpl      =  cms.db.getHtml('/template/template__SaaSWebUserAdd.txt')
+    , complied  = _.template(tmpl)
+    , data = { data : cms.model.userBaseInfo.getCache() }
+    , blob
+    ;
+
+    // データ作成
+    blob = util.makeTxt2Blob( complied(data) );
+
+    // ダウンロード
+    util.downloadFile( this, blob, file_name );
+
+  };
+
 
   /**
    * public method
@@ -367,7 +388,6 @@
 
     }
 
-
   };
 
   /**
@@ -416,6 +436,7 @@
       'click btn__exec-download' : _execDownload,
       'click download__csv'       : _makeFenicsCSV,
       'click download__sh'       : _makeFenicsSh,
+      'click download__saasweb'  : _makeSaaSWebUseAdd,
       'click deivice_btn__plus'  : _increaseMobile,
       'click deivice_btn__minus' : _decreaseMobile,
     });
