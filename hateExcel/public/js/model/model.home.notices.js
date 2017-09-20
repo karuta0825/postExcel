@@ -46,16 +46,14 @@
         _is_end = true;
       }
 
+      _model.union( r );
+
       if ( typeof callback === 'function' ) {
-        // 追加
-        _model.union( r );
         callback( _model.find({ type : _filter_type }) ) ;
+        return;
       }
-      else {
-        // 追加
-        _model.union( r );
-        return _model.find({ type : _filter_type });
-      }
+
+      return _model.find({ type : _filter_type });
 
     });
 
