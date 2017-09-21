@@ -33,6 +33,7 @@
   // private
   , _isUniqueFenicsKey
   // public method
+  , getSaaSWebUserData
   , update
   , validate
   , addMobile
@@ -51,6 +52,39 @@
     var id = customer.model.userBaseInfo.getCache().id;
 
     return cms.db.select('/isUniqueFenicsKey', { fenicsKey : fenics_key, kids_id : id }).result;
+
+  };
+
+  /**
+   * SaaSWebUserAdd.batを作るに必要なデータを取得
+   * @return {Object}
+   */
+  getSaaSWebUserData = function () {
+
+    var user = _.clone( cms.model.userBaseInfo.getCache() );
+
+    if ( !user || !user.server ) {
+      return;
+    }
+
+    var AP = cms.model.servers.find({name:user.server})[0];
+
+    if ( !AP || !AP.connect_db || !AP.connect_db = '' ) {
+      return;
+    }
+
+    var DB = cms.model.servers.find({name:AP.connect_db})[0];
+
+    if ( !DB || !DB.ip ) {
+      return;
+    }
+
+    return {
+      AP_IP       : AP.ip,
+      DB_IP       : DB.ip,
+      userkey     : user.userkey,
+      db_password : user.db_password
+    };
 
   };
 
@@ -160,7 +194,8 @@
     update    : $.proxy( _model.update, _model ),
     validate  : validate,
     addMobile : addMobile,
-    register  : register
+    register  : register,
+    getSaaSWebUserData : getSaaSWebUserData
   };
 
 }( jQuery, customer ));

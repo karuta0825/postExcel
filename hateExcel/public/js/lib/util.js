@@ -121,7 +121,7 @@
    */
   util.makeTxt2Blob = function ( text ) {
 
-    var output = convertStr2UnicodeList( text );
+    var output = convertUnicode2Sjis( text );
     return new Blob( output, {'type': 'text/plain'});
 
   };

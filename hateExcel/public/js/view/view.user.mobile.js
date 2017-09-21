@@ -319,9 +319,9 @@
     var
       kid       =  cms.model.userBaseInfo.getCache().kid
     , file_name = 'SaasWebUserAdd_' + kid + '.bat'
-    , tmpl      =  cms.db.getHtml('/template/template__SaaSWebUserAdd.txt')
+    , tmpl      =  cms.db.getHtml('/template/template_SaaSWebUserAdd.txt')
     , complied  = _.template(tmpl)
-    , data = { data : cms.model.userBaseInfo.getCache() }
+    , data = { data : cms.model.userMobile.getSaaSWebUserData() }
     , blob
     ;
 
