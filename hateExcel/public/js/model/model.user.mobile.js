@@ -69,7 +69,7 @@
 
     var AP = cms.model.servers.find({name:user.server})[0];
 
-    if ( !AP || !AP.connect_db || !AP.connect_db = '' ) {
+    if ( !AP || !AP.connect_db || !AP.connect_db === '' ) {
       return;
     }
 
