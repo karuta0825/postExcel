@@ -8,34 +8,6 @@
   // member
     view
   , elements = {
-      'filter' : {
-        'search' : '.search',
-        'system' : {
-          'wrap'  : '.system .filter-item__body',
-          'onpre' : '.btn--onpre',
-          'cloud' : '.btn--cloud',
-          'both'  : '.btn--onpre-cloud'
-        },
-        'version' : {
-          'wrap' : '.version .filter-item__body',
-          'LM'   : '.btn--LM',
-          'ES'   : '.btn--ES',
-          'both' : '.btn--ESLM'
-        },
-        'server' : '.select-servers',
-        'network' : {
-          'wrap'  : '.network .filter-item__body',
-          'busiv' : '.btn--busiv',
-          'univ'  : '.btn--univ',
-          'both'  : '.btn--busivUniv'
-        },
-        'mobile' : {
-          'wrap' : '.mobile .filter-item__body',
-          'on'   : '.btn--mon',
-          'off'  : '.btn--moff',
-          'both' : '.btn--mon-off'
-        }
-      },
       'btn' : {
         'delete'        : '.btn--del',
         'download'      : '.btn--download',
@@ -64,11 +36,6 @@
   , _onClickColumn
   , _onClickKid
   , _onClickDownload
-  , _selectSystem
-  , _selectVertion
-  , _selectNetwork
-  , _selectMobileAvailable
-  , _search
   , _getSelectItem
   , _deleteUser
   , _selectPage
@@ -78,7 +45,6 @@
   , makePageButton
   , drawTable
   , redrawTable
-  , selectServer
   , refresh
   ;
 
@@ -129,7 +95,6 @@
 
   _onClickKid = function ( e ) {
 
-
     var
       target = $(e.target)
     , kids_id
@@ -140,7 +105,6 @@
     }
 
     kids_id = $(e.target).parents('tr').attr('id');
-
     cms.view.editUsrs.open(kids_id);
 
   };
@@ -184,204 +148,6 @@
     // ダウンロード
     util.downloadFile( view.get('download'), Blob, filename );
     view.get('download').get(0).click();
-
-  };
-
-  _search = function () {
-
-    var keyword = $(this).val();
-    cms.model.kids.search( keyword, drawTable );
-
-  };
-
-  _selectSystem = function ( event ) {
-
-    var list_class = $( event.target ).attr('class').split(' ');
-
-    switch ( list_class[1] ) {
-      case 'btn--onpre' :
-        view.get('filter__system__onpre').addClass('btn--on');
-        view.get('filter__system__cloud').removeClass('btn--on');
-        view.get('filter__system__both' ).removeClass('btn--on');
-        customer.model.kids.setCondition( { 'system_type' : 'onpre' }, drawTable );
-        break;
-      case 'btn--cloud' :
-        view.get('filter__system__onpre').removeClass('btn--on');
-        view.get('filter__system__cloud').addClass('btn--on');
-        view.get('filter__system__both' ).removeClass('btn--on');
-        customer.model.kids.setCondition( { 'system_type' : 'cloud' }, drawTable );
-        break;
-      case 'btn--onpre-cloud' :
-        view.get('filter__system__onpre').removeClass('btn--on');
-        view.get('filter__system__cloud').removeClass('btn--on');
-        view.get('filter__system__both' ).addClass('btn--on');
-        customer.model.kids.setCondition( { 'system_type' : 'all'}, drawTable );
-        break;
-      default:
-        break;
-    }
-
-  };
-
-  /**
-   * クラス化できるメソッドですね
-   */
-  _selectVertion = function ( event ) {
-
-    var list_class = $( event.target ).attr('class').split(' ');
-
-    switch ( list_class[1] ) {
-      case 'btn--ES' :
-        view.get('filter__version__ES').addClass('btn--on');
-        view.get('filter__version__LM').removeClass('btn--on');
-        view.get('filter__version__both').removeClass('btn--on');
-        customer.model.kids.setCondition( {'version' : 'ES', 'server' : 'all' }, drawTable );
-        // 選択サーバ変更
-        selectServer('ES');
-        break;
-      case 'btn--LM' :
-        view.get('filter__version__ES').removeClass('btn--on');
-        view.get('filter__version__LM').addClass('btn--on');
-        view.get('filter__version__both').removeClass('btn--on');
-        customer.model.kids.setCondition( { 'version' : 'LM', 'server' : 'all' }, drawTable );
-        // 選択サーバ変更
-        selectServer('LM');
-        break;
-      case 'btn--ESLM' :
-        view.get('filter__version__ES').removeClass('btn--on');
-        view.get('filter__version__LM').removeClass('btn--on');
-        view.get('filter__version__both').addClass('btn--on');
-        customer.model.kids.setCondition( { 'version' : 'all', 'server' : 'all'}, drawTable );
-        //
-        selectServer('all');
-        break;
-      default:
-        break;
-    }
-
-  };
-
-  _selectMobileAvailable = function ( event ) {
-
-    var list_class = $(event.target).attr('class').split(' ');
-
-    switch ( list_class[1] ) {
-      case 'btn--mon' :
-        view.get('filter__mobile__on').addClass('btn--on');
-        view.get('filter__mobile__off').removeClass('btn--on');
-        view.get('filter__mobile__both').removeClass('btn--on');
-        customer.model.kids.setCondition( {'has_mobile' : 1 }, drawTable );
-        break;
-      case 'btn--moff' :
-        view.get('filter__mobile__on').removeClass('btn--on');
-        view.get('filter__mobile__off').addClass('btn--on');
-        view.get('filter__mobile__both').removeClass('btn--on');
-        customer.model.kids.setCondition( { 'has_mobile' : 0 }, drawTable );
-        break;
-      case 'btn--mon-off' :
-        view.get('filter__mobile__on').removeClass('btn--on');
-        view.get('filter__mobile__off').removeClass('btn--on');
-        view.get('filter__mobile__both').addClass('btn--on');
-        customer.model.kids.setCondition( { 'has_mobile' : 'all' }, drawTable );
-        break;
-      default:
-        break;
-    }
-
-  };
-
-  /**
-   * ネットワークのフィルター
-   * @param  {Event} event
-   * TODO: viewに仕事させすぎなのでモデルでできないか！
-   */
-  _selectNetwork = function ( event ) {
-
-    var list_class = $( event.target ).attr('class').split(' ');
-
-    switch ( list_class[1] ) {
-      case 'btn--busiv' :
-
-        view.get('filter__network__busiv').toggleClass('btn--on');
-        view.get('filter__network__both').removeClass('btn--on');
-
-        if ( view.get('filter__network__busiv').hasClass('btn--on') ) {
-          cms.model.kids.setCondition( { 'has_busiv' : 1 } );
-        }
-        else {
-          cms.model.kids.setCondition( { 'has_busiv' : 0 } );
-        }
-
-        if ( view.get('filter__network__univ').hasClass('btn--on') ) {
-          cms.model.kids.setCondition( { 'has_fenics' : 1 } );
-        }
-        else {
-          cms.model.kids.setCondition( { 'has_fenics' : 0 } );
-        }
-
-        cms.model.kids.getCondition( drawTable );
-
-        break;
-      case 'btn--univ' :
-        view.get('filter__network__univ').toggleClass('btn--on');
-        view.get('filter__network__both').removeClass('btn--on');
-
-        if ( view.get('filter__network__busiv').hasClass('btn--on') ) {
-          cms.model.kids.setCondition( { 'has_busiv' : 1 } );
-        }
-        else {
-          cms.model.kids.setCondition( { 'has_busiv' : 0 } );
-        }
-
-        if ( view.get('filter__network__univ').hasClass('btn--on') ) {
-          cms.model.kids.setCondition( { 'has_fenics' : 1 } );
-        }
-        else {
-          cms.model.kids.setCondition( { 'has_fenics' : 0 } );
-        }
-
-        cms.model.kids.getCondition( drawTable );
-
-        break;
-      case 'btn--busivUniv' :
-
-        if ( view.get('filter__network__both').hasClass('btn--on') ) {
-
-          view.get('filter__network__both').removeClass('btn--on');
-
-          if ( view.get('filter__network__busiv').hasClass('btn--on') ) {
-            cms.model.kids.setCondition( { 'has_busiv' : 1 } );
-          }
-          else {
-            cms.model.kids.setCondition( { 'has_busiv' : 0 } );
-          }
-
-          if ( view.get('filter__network__univ').hasClass('btn--on') ) {
-            cms.model.kids.setCondition( { 'has_fenics' : 1 } );
-          }
-          else {
-            cms.model.kids.setCondition( { 'has_fenics' : 0 } );
-          }
-
-          cms.model.kids.getCondition( drawTable );
-
-        }
-        else {
-          view.get('filter__network__both').addClass('btn--on');
-          cms.model.kids.setCondition( { 'has_fenics' : 'all', 'has_busiv' : 'all' }, drawTable );
-        }
-        break
-      default:
-        break;
-    }
-
-  };
-
-  selectServer = function ( version ) {
-
-    var filtered = customer.model.servers.find({ 'version' : version, type : 'AP' });
-    var select =  util.addOption( filtered, $('.select-servers') );
-    $('.filter-item.servers .filter-item__body').append( select );
 
   };
 
@@ -575,11 +341,7 @@
     cms.model.kids.initModule();
     cms.model.kids.fetch( null, drawTable );
 
-    // サーバー選択肢作成
-    selectServer( 'all' );
-
     view.addListener({
-      'change filter__server'       : function () { customer.model.kids.setCondition( { server : $(this).val() }, drawTable );},
       'click btn__delete'           : function () { view.get('dialog__delete').get(0).showModal(); },
       'click btn__download'         : function () { view.get('dialog__download').get(0).showModal(); },
       'click btn__nextPage'         : function () { cms.model.kids.nextPage( drawTable ); },
@@ -587,11 +349,6 @@
       'click btn__listPage'         : _selectPage,
       'click btn__closeDownload'    : function () { view.get('dialog__download').get(0).close(); },
       'click btn__execDownload'     : _onClickDownload,
-      'change filter__search'       : _search,
-      'click filter__system__wrap'  : _selectSystem,
-      'click filter__version__wrap' : _selectVertion,
-      'click filter__network__wrap' : _selectNetwork,
-      'click filter__mobile__wrap'  : _selectMobileAvailable,
       'click table__body'           : _onClickKid,
       'click table__header'         : _onClickColumn
     });
@@ -602,9 +359,7 @@
   cms.view.kids = {
     initModule      : initModule,
     drawTable       : drawTable,
-    refresh         : refresh,
-    selectServer    : selectServer,
-    tmp             : function () { return view; }
+    refresh         : refresh
   };
 
 
