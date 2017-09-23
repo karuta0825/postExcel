@@ -1,0 +1,29 @@
+net localgroup "UsersUSERKEY" /add
+cscript Xcacls.vbs "d:\userdata\USERKEY" /G Administrators:F "UsersUSERKEY":F /SPEC B
+net share USERKEY$=D:\userdata\USERKEY /grant:"UsersUSERKEY",full /Grant:"Administrators",full /Grant:"Administrator",full
+
+net user USERKEY0001 USERKEY0001 /ADD
+net user USERKEY0001 /comment:"お客様：名前"
+wmic useraccount where (Name = "USERKEY0001") set PasswordExpires=FALSE
+net localgroup "Remote Desktop Users" USERKEY0001 /add
+net localgroup "UsersCom" USERKEY0001 /add
+net localgroup "UsersUSERKEY" USERKEY0001 /add
+
+net user USERKEY0999 USERKEY0999 /ADD
+net user USERKEY0999 /comment:"サポセン用：名前"
+wmic useraccount where (Name = "USERKEY0999") set PasswordExpires=FALSE
+net localgroup "Remote Desktop Users" USERKEY0999 /add
+net localgroup "UsersCom" USERKEY0999 /add
+net localgroup "UsersUSERKEY" USERKEY0999 /add
+
+net user USERKEY1999 USERKEY1999 /ADD
+net user USERKEY1999 /comment:"サポセン用：名前"
+wmic useraccount where (Name = "USERKEY1999") set PasswordExpires=FALSE
+net localgroup "Remote Desktop Users" USERKEY1999 /add
+net localgroup "UsersCom" USERKEY1999 /add
+net localgroup "UsersUSERKEY" USERKEY1999 /add
+
+icacls d:\userdata\USERKEY /grant UsersUSERKEY:(OI)(CI)F /t
+icacls d:\userdata\USERKEY /grant administrator:(OI)(CI)F /t
+icacls d:\userdata\USERKEY /grant administrators:(OI)(CI)F /t
+pause

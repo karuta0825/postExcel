@@ -1,0 +1,15 @@
+dsadd group "CN=UsersUSERKEY,CN=Users,DC=WINCARE,DC=local" -scope l -secgrp yes
+
+dsadd user "CN=USERKEY0001,CN=Users, DC=WINCARE,DC=local" -ln USERKEY0001 -display USERKEY0001 -desc "お客様：名前" -upn USERKEY0001@WINCARE.local -pwd "USERKEY0001" -pwdneverexpires yes
+dsmod group "CN=UsersUSERKEY,CN=Users,DC=WINCARE,DC=local" -addmbr "CN=USERKEY0001,CN=Users,DC=WINCARE,DC=local"
+dsmod group "CN=Remote Desktop Users,CN=Builtin,DC=WINCARE,DC=local" -addmbr "CN=USERKEY0001,CN=Users,DC=WINCARE,DC=local"
+
+dsadd user "CN=USERKEY0999,CN=Users, DC=WINCARE,DC=local" -ln USERKEY0999 -display USERKEY0999 -desc "サポセン用：名前" -upn USERKEY0999@WINCARE.local -pwd "USERKEY0999" -pwdneverexpires yes
+dsmod group "CN=UsersUSERKEY,CN=Users,DC=WINCARE,DC=local" -addmbr "CN=USERKEY0999,CN=Users,DC=WINCARE,DC=local"
+dsmod group "CN=Remote Desktop Users,CN=Builtin,DC=WINCARE,DC=local" -addmbr "CN=USERKEY0999,CN=Users,DC=WINCARE,DC=local"
+
+dsadd user "CN=USERKEY1999,CN=Users, DC=WINCARE,DC=local" -ln USERKEY1999 -display USERKEY1999 -desc "サポセン用：名前" -upn USERKEY1999@WINCARE.local -pwd "USERKEY1999" -pwdneverexpires yes
+dsmod group "CN=UsersUSERKEY,CN=Users,DC=WINCARE,DC=local" -addmbr "CN=USERKEY1999,CN=Users,DC=WINCARE,DC=local"
+dsmod group "CN=Remote Desktop Users,CN=Builtin,DC=WINCARE,DC=local" -addmbr "CN=USERKEY1999,CN=Users,DC=WINCARE,DC=local"
+
+pause
