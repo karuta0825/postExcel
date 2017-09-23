@@ -1,29 +1,37 @@
-net localgroup "UsersUSERKEY" /add
-cscript Xcacls.vbs "d:\userdata\USERKEY" /G Administrators:F "UsersUSERKEY":F /SPEC B
-net share USERKEY$=D:\userdata\USERKEY /grant:"UsersUSERKEY",full /Grant:"Administrators",full /Grant:"Administrator",full
+net localgroup "Users<%- userkey %>" /add
+cscript Xcacls.vbs "d:\userdata\<%- userkey %>" /G Administrators:F "Users<%- userkey %>":F /SPEC B
+net share <%- userkey %>$=D:\userdata\<%- userkey %> /grant:"Users<%- userkey %>",full /Grant:"Administrators",full /Grant:"Administrator",full
 
-net user USERKEY0001 USERKEY0001 /ADD
-net user USERKEY0001 /comment:"Ç®ãqólÅFñºëO"
-wmic useraccount where (Name = "USERKEY0001") set PasswordExpires=FALSE
-net localgroup "Remote Desktop Users" USERKEY0001 /add
-net localgroup "UsersCom" USERKEY0001 /add
-net localgroup "UsersUSERKEY" USERKEY0001 /add
 
-net user USERKEY0999 USERKEY0999 /ADD
-net user USERKEY0999 /comment:"ÉTÉ|ÉZÉìópÅFñºëO"
-wmic useraccount where (Name = "USERKEY0999") set PasswordExpires=FALSE
-net localgroup "Remote Desktop Users" USERKEY0999 /add
-net localgroup "UsersCom" USERKEY0999 /add
-net localgroup "UsersUSERKEY" USERKEY0999 /add
+<% _.each( list, function (v,i) { %>
 
-net user USERKEY1999 USERKEY1999 /ADD
-net user USERKEY1999 /comment:"ÉTÉ|ÉZÉìópÅFñºëO"
-wmic useraccount where (Name = "USERKEY1999") set PasswordExpires=FALSE
-net localgroup "Remote Desktop Users" USERKEY1999 /add
-net localgroup "UsersCom" USERKEY1999 /add
-net localgroup "UsersUSERKEY" USERKEY1999 /add
+<% if ( v.client_id.indexOf('0999') !== -1 ) { %>
+net user <%- v.client_id %> <%- v.client_id %> /ADD
+net user <%- v.client_id %> /comment:"„Çµ„Éù„Çª„É≥Áî®Ôºö <%- user_name %>"
+wmic useraccount where (Name = "<%- v.client_id %>") set PasswordExpires=FALSE
+net localgroup "Remote Desktop Users" <%- v.client_id %> /add
+net localgroup "UsersCom" <%- v.client_id %> /add
+net localgroup "Users<%- userkey %>" <%- v.client_id %> /add
+<% return; } %>
 
-icacls d:\userdata\USERKEY /grant UsersUSERKEY:(OI)(CI)F /t
-icacls d:\userdata\USERKEY /grant administrator:(OI)(CI)F /t
-icacls d:\userdata\USERKEY /grant administrators:(OI)(CI)F /t
+<% if ( v.client_id.indexOf('1999') !== -1 ) { %>
+net user <%- v.client_id %> <%- v.client_id %> /ADD
+net user <%- v.client_id %> /comment:"„Çµ„Éù„Çª„É≥Áî®Ôºö <%- user_name %>"
+wmic useraccount where (Name = "<%- v.client_id %>") set PasswordExpires=FALSE
+net localgroup "Remote Desktop Users" <%- v.client_id %> /add
+net localgroup "UsersCom" <%- v.client_id %> /add
+net localgroup "Users<%- userkey %>" <%- v.client_id %> /add
+<% return; } %>
+
+net user <%- v.client_id %> <%- v.client_id %> /ADD
+net user <%- v.client_id %> /comment:"„ÅäÂÆ¢ÊßòÔºö <%- user_name %>"
+wmic useraccount where (Name = "<%- v.client_id %>") set PasswordExpires=FALSE
+net localgroup "Remote Desktop Users" <%- v.client_id %> /add
+net localgroup "UsersCom" <%- v.client_id %> /add
+net localgroup "Users<%- userkey %>" <%- v.client_id %> /add
+<% }); %>
+
+icacls d:\userdata\<%- userkey %> /grant Users<%- userkey %>:(OI)(CI)F /t
+icacls d:\userdata\<%- userkey %> /grant administrator:(OI)(CI)F /t
+icacls d:\userdata\<%- userkey %> /grant administrators:(OI)(CI)F /t
 pause

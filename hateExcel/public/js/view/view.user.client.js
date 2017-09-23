@@ -23,8 +23,8 @@
         'client'          : '.download--client',
         'open_notice'     : '.download--open-notice',
         'open_notice_add' : '.download--open-notice-for-add',
-        'spla'            : '.download--spla',
-        'mail'            : '.download--mail',
+        'citrix_user'     : '.download--citrix-user',
+        'db_user'         : '.download--db-user'
       },
       'table'  : '.account-table',
       'dialog' : {
@@ -40,6 +40,8 @@
   , _downloadOpenNotice
   , _downloadOpenNoticeForAdd
   , _downloadIni
+  , _downloadCitrixUser
+  , _downloadDbUser
   , _changeFenicsId
   , _save
   , _cancel
@@ -164,8 +166,6 @@
 
   };
 
-
-
   _downloadIni = function () {
 
     var
@@ -180,6 +180,60 @@
 
     // データ作成
     blob = util.makeMapList2Txt( downloadMap );
+
+    // ダウンロード
+    util.downloadFile( this, blob, file_name );
+
+  };
+
+  _downloadCitrixUser = function ()  {
+
+    var
+      user = cms.model.userBaseInfo.getCache()
+    , file_name = 'AP_WinUserSet_' + user.kid + '.bat'
+    , tmpl      =  cms.db.getHtml('/template/template_AP_WinUserSet_KIDXXXXX.txt')
+    , complied  = _.template(tmpl)
+    , blob
+    , data
+    ;
+
+    data = {
+      userkey   : user.userkey,
+      user_name : user.user_name,
+      list      : _getSelectItem()
+    };
+
+    if ( data.list.length < 1 )  { return; }
+
+    // データ作成
+    blob = util.makeTxt2Blob( complied(data) );
+
+    // ダウンロード
+    util.downloadFile( this, blob, file_name );
+
+  };
+
+  _downloadDbUser = function () {
+
+    var
+      user = cms.model.userBaseInfo.getCache()
+    , file_name = 'DB_WinUserSet_' + user.kid + '.bat'
+    , tmpl      =  cms.db.getHtml('/template/template_DB_WinUserSet_KIDXXXXX.txt')
+    , complied  = _.template(tmpl)
+    , blob
+    , data
+    ;
+
+    data = {
+      userkey   : user.userkey,
+      user_name : user.user_name,
+      list      : _getSelectItem()
+    };
+
+    if ( data.list.length < 1 )  { return; }
+
+    // データ作成
+    blob = util.makeTxt2Blob( complied(data) );
 
     // ダウンロード
     util.downloadFile( this, blob, file_name );
@@ -352,6 +406,8 @@
       'click download__client'          : _downloadIni,
       'click download__open_notice'     : _downloadOpenNotice,
       'click download__open_notice_add' : _downloadOpenNoticeForAdd,
+      'click download__citrix_user'     : _downloadCitrixUser,
+      'click download__db_user'         : _downloadDbUser,
       'click download__spla'            : function () { alert('download download__s')},
       'click download__mail'            : function () { alert('download download__m')},
       'change select-clients'           : _changeFenicsId
