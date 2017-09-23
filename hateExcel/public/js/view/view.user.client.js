@@ -124,7 +124,7 @@
     }
 
     // 取得データからモデルにデータ検索
-    downloadMap = cms.model.clients.makeOpenNotice( list_checked, false);
+    downloadMap = cms.model.userClients.makeOpenNotice( list_checked, false);
 
     csv_header = _.values(downloadMap.header).join(',');
 
@@ -153,7 +153,7 @@
     }
 
     // 取得データからモデルにデータ検索
-    downloadMap = cms.model.clients.makeOpenNotice( list_checked, true);
+    downloadMap = cms.model.userClients.makeOpenNotice( list_checked, true);
 
     csv_header = _.values(downloadMap.header).join(',');
 
@@ -177,7 +177,7 @@
     , blob
     ;
 
-    downloadMap = cms.model.clients.makeBatInfo();
+    downloadMap = cms.model.userClients.makeBatInfo();
 
     // データ作成
     blob = util.makeMapList2Txt( downloadMap );
@@ -209,7 +209,7 @@
     ;
 
     _.each( tr, function ( el, idx ) {
-      value = cms.model.clients.find( { client_id :$(el).attr('id') })[0].fenics_id;
+      value = cms.model.userClients.find( { client_id :$(el).attr('id') })[0].fenics_id;
       $(el).find('.select-clients').val( value );
     });
 
@@ -242,7 +242,7 @@
     var list_clients = _getSelectItem();
 
     if ( list_clients && list_clients.length > 0 ) {
-      customer.model.clients.delete( list_clients, function () {
+      customer.model.userClients.delete( list_clients, function () {
         _backMode();
       });
     }
@@ -258,15 +258,15 @@
 
     // コレクションの値を書き換える
     // これはモデルのしごとだ
-    cms.model.clients.find({ 'client_id' : client_id })[0].fenics_id = value;
+    cms.model.userClients.find({ 'client_id' : client_id })[0].fenics_id = value;
 
-    cms.model.clients.changeUpdateInfo( client_id );
+    cms.model.userClients.changeUpdateInfo( client_id );
 
   };
 
 
   _save = function () {
-    cms.model.clients.update();
+    cms.model.userClients.update();
     _backMode();
   };
 
@@ -324,7 +324,7 @@
   refresh = function () {
 
     var kids_id = cms.model.userBaseInfo.getCache().id;
-    cms.model.clients.fetch( kids_id , redrawTable );
+    cms.model.userClients.fetch( kids_id , redrawTable );
 
   };
 

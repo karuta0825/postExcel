@@ -52,7 +52,7 @@
     var
       data     = {
         list      : data,
-        clients   : cms.model.clients.find({ is_admin : 0 })
+        clients   : cms.model.userClients.find({ is_admin : 0 })
       }
     , tmpl     = customer.db.getHtml('template/mobile.fenics.list.html')
     , complied = _.template( tmpl )

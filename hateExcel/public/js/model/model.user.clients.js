@@ -186,7 +186,7 @@
   }
 
   // to public
-  cms.model.clients = {
+  cms.model.userClients = {
     fetch               : $.proxy( _model.fetchAsync, _model ),
     getCache            : $.proxy( _model.getCache, _model),
     find                : $.proxy( _model.find, _model ),

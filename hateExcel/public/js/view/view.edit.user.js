@@ -118,7 +118,7 @@
     });
 
     // クライアントテーブル描画
-    cms.model.clients.fetch(kid,
+    cms.model.userClients.fetch(kid,
       cms.view.userClient.redrawTable
     );
 
