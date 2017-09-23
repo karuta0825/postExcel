@@ -34,7 +34,6 @@
   , _isUniqueFenicsKey
   // public method
   , getSaaSWebUserData
-  , update
   , validate
   , addMobile
   , register
@@ -51,7 +50,7 @@
 
     var id = customer.model.userBaseInfo.getCache().id;
 
-    return cms.db.select('/isUniqueFenicsKey', { fenicsKey : fenics_key, kids_id : id }).result;
+    return cms.db.select('/isUniqueMobileFenicsKey', { fenicsKey : fenics_key, kids_id : id }).result;
 
   };
 
