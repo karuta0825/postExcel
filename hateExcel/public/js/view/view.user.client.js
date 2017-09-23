@@ -39,8 +39,7 @@
   , _execDowload
   , _downloadOpenNotice
   , _downloadOpenNoticeForAdd
-  , _downloadBat
-  , _downloadSpla
+  , _downloadIni
   , _changeFenicsId
   , _save
   , _cancel
@@ -167,7 +166,7 @@
 
 
 
-  _downloadBat = function () {
+  _downloadIni = function () {
 
     var
       kid          =  cms.model.userBaseInfo.getCache().kid
@@ -350,7 +349,7 @@
       'click btn__edit'                 : _goEditMode,
       'click btn__cancel'               : _cancel,
       'click btn__save'                 : _save,
-      'click download__client'          : _downloadBat,
+      'click download__client'          : _downloadIni,
       'click download__open_notice'     : _downloadOpenNotice,
       'click download__open_notice_add' : _downloadOpenNoticeForAdd,
       'click download__spla'            : function () { alert('download download__s')},
