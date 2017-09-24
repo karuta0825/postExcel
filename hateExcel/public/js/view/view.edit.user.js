@@ -164,10 +164,19 @@
       cms.view.userNetwork.hideBusiv();
     }
     else {
+      var version = cms.model.userBaseInfo.getCache().version;
+      cms.view.userNetwork.setVersion( version );
       cms.view.userNetwork.showBusiv();
-      cms.model.userBusiv.fetch(kid,
-        cms.view.userBusiv.setViewInfo
-      );
+
+      cms.model.userBusiv.fetch(kid)
+      .then(function (r){
+        if ( version === 'LM') {
+          cms.view.userBusiv.setViewInfo(r);
+        }
+        else {
+          cms.view.userBusivES.setViewInfo(r);
+        }
+      });
     }
 
     // モバイル表示制御

@@ -141,6 +141,23 @@ app.post('/select', function ( req, res ) {
     return;
   }
 
+  if ( table === 'busivs' ) {
+    datas.select( condition, table, function (results) {
+
+      var r = _.map( results, _.clone );
+      delete r[0].information;
+
+      _.map( results, function (v) {
+          v['information'] = JSON.parse(v['information']);
+      });
+
+      r[0] = _.extend( r[0], results[0].information );
+      res.json(r);
+
+    });
+    return;
+  }
+
   if ( condition ) {
     datas.select( condition, table, function ( results ) {
       res.json( results );

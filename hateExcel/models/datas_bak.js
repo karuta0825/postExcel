@@ -684,13 +684,26 @@ datas.getLicense = function ( kid, callback ) {
 // asyncを使わない順次処理
 // 参考サイト：
 //
-Promise.all([
-    findNewKid( 3 ),
-    findNewUserkey(null),
-    findNewDbPass(null),
-    findNewFenicsKey(null)
-  ])
-.then(function (results) {
-  console.log(results);
-});
+// Promise.all([
+//     findNewKid( 3 ),
+//     findNewUserkey(null),
+//     findNewDbPass(null),
+//     findNewFenicsKey(null)
+//   ])
+// .then(function (results) {
+//   console.log(results);
+// });
 
+
+// db.query(
+//   'select information from busivs where kids_id = 1'
+//   , null
+//   , function ( err, result, fields ) {
+//     db.end();
+//     if ( err ) {
+//       console.log(err);
+//       return;
+//     }
+//     console.log(result);
+//   }
+// );

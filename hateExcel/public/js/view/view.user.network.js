@@ -27,12 +27,14 @@
         'fenics' : '#modal-network-download .mdl-checkbox.fenics'
       }
     }
+  , _version
   , _execDowload
   , _downloadFile
   , _goEditMode
   , _save
   , _cancel
   , clear
+  , setVersion
   , showBusiv
   , hideBusiv
   , refresh
@@ -52,6 +54,7 @@
     networkView.get('btn__save').removeClass('is-hidden');
 
     cms.view.userBusiv.goEditMode();
+    cms.view.userBusivES.goEditMode();
 
   };
 
@@ -67,6 +70,7 @@
     networkView.get('btn__save').addClass('is-hidden');
 
     cms.view.userBusiv.goViewMode();
+    cms.view.userBusivES.goViewMode();
 
   };
 
@@ -122,22 +126,34 @@
   _save = function () {
 
     var
-      busivInfo = cms.view.userBusiv.getViewInfo()
-    , cb_success = function ( data )  {
-        cms.view.userBusiv.setViewInfo(data);
-        _goViewMode();
-      }
+      busivInfo
+    , cb_success
+    , cb_fail
     ;
 
-    if ( cms.model.userBaseInfo.getCache().has_busiv === 1 ) {
-
-      cms.model.userBusiv.update(
-        busivInfo,
-        cb_success,
-        cms.view.userBusiv.showError
-      );
-
+    if ( _version === 'LM' ) {
+      busivInfo = cms.view.userBusiv.getViewInfo();
+      cb_success = function ( data )  {
+        cms.view.userBusiv.setViewInfo(data);
+        _goViewMode();
+      };
+      cb_fail = cms.view.userBusiv.showError;
     }
+    else {
+      busivInfo = cms.view.userBusivES.getViewInfo();
+      cb_success = function ( data ) {
+        cms.view.userBusivES.setViewInfo(data);
+        _goViewMode();
+      };
+      cb_fail = cms.view.userBusivES.showError;
+    }
+
+    cms.model.userBusiv.update(
+      busivInfo,
+      cb_success,
+      cb_fail,
+      _version
+    );
 
   };
 
@@ -171,12 +187,23 @@
   };
 
   showBusiv = function () {
-    cms.view.userBusiv.show();
+
+    if ( _version === 'LM' ) {
+      cms.view.userBusiv.show();
+      cms.view.userBusivES.hide();
+    }
+    else {
+      cms.view.userBusiv.hide();
+      cms.view.userBusivES.show();
+    }
+
     networkView.get('btn__edit').removeClass('is-hidden');
+
   };
 
   hideBusiv = function () {
     cms.view.userBusiv.hide();
+    cms.view.userBusivES.hide();
     networkView.get('btn__edit').addClass('is-hidden');
   };
 
@@ -189,6 +216,10 @@
 
     cms.view.userBusiv.refresh();
 
+  };
+
+  setVersion = function ( version ) {
+    _version = version;
   };
 
   initModule = function () {
@@ -222,6 +253,7 @@
     hideBusiv           : hideBusiv,
     showFenics          : function () { cms.view.userFenics.show(); },
     hideFenics          : function () { cms.view.userFenics.hide(); },
+    setVersion          : setVersion,
     refresh             : refresh
   };
 

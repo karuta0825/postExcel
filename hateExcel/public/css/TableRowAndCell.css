@@ -1123,7 +1123,8 @@
 ---------------------- */
 
 .fenics-section,
-.busiv-section,
+.busiv-lm-section,
+.busiv-es-section,
 .mobile-fenics {
   width : 85%;
   min-width: 705px;

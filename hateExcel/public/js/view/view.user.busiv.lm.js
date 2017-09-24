@@ -1,6 +1,6 @@
 
 /**
- * busiv画面
+ * busiv LM用画面
  */
 
 ( function ( $, cms ) {
@@ -26,8 +26,7 @@
         'cc_ip'                  : '.cc_ip'             ,
         'download_server_ip'     : '.download_server_ip',
         'auth_server_ip'         : '.auth_server_ip'
-      },
-      'alert' : '#modal-userBusiv-alert'
+      }
     }
   , _selectChoice
   , showError
@@ -40,6 +39,10 @@
   , initModule
   ;
 
+  /**
+   * ありの時は、選択状態であることを、
+   * なしの時は、未選択状態であることを色つけて区別する
+   */
   _selectChoice    = function () {
     var
       el_pushed = $(event.target)
@@ -53,10 +56,17 @@
 
   };
 
+  /**
+   * LMビジV画面を非表示にする
+   */
   isHidden = function () {
     return view.wrap.hasClass('is-hidden');
   };
 
+  /**
+   * 入力エラーダイアログを表示し、エラー箇所を画面に表示する
+   * @param  {Array} list_key
+   */
   showError = function ( list_key ) {
 
     _.each( list_key, function ( v,k ) {
@@ -64,10 +74,13 @@
       .find('.item-value').addClass('is-error');
     });
 
-    view.get('alert').get(0).showModal();
+    cms.view.dialogAlert.open();
 
   };
 
+  /**
+   * 参照モードに遷移
+   */
   goViewMode = function () {
 
     // エラー外す
@@ -88,6 +101,9 @@
 
   };
 
+  /**
+   * 編集モードに遷移
+   */
   goEditMode = function () {
 
     _.each( view.get('input'), function (val,key) {
@@ -103,6 +119,9 @@
 
   };
 
+  /**
+   * 画面にデータを表示する
+   */
   setViewInfo = function ( data ) {
 
     var data = _.isArray( data ) ? data[0] : data;
@@ -149,6 +168,10 @@
 
   };
 
+  /**
+   * 画面からデータ取得
+   * @return {Object}
+   */
   getViewInfo = function () {
 
     var
@@ -162,34 +185,28 @@
 
     // 選択形式の入力の値を取得
     _.each( list_choice, function (v,k) {
-
       if ( view.get('input')[v].find('.choice').hasClass('choice--on') ) {
         result[v] = 1
       }
       else {
         result[v]= 0
       }
-      ;
-
     });
 
     return result;
 
   };
 
+  /**
+   * 画面の更新
+   */
   refresh = function () {
     cms.model.userBusiv.getCache( setViewInfo );
   };
 
   initModule = function () {
 
-    view = new Controller('.busiv-section');
-
-    util.alert({
-      selector : view.top,
-      id       : 'modal-userBusiv-alert',
-      msg      : '入力に誤りがあります'
-    });
+    view = new Controller('.busiv-lm-section');
 
     view.initElement( elements );
 
