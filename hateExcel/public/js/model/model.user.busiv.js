@@ -37,7 +37,9 @@
     }
   , vl = {}
   , _model = new Model( config )
+  // public method
   , diff
+  , register
   ;
 
   vl['LM'] = new util.Validate({
@@ -166,13 +168,32 @@
       cms.view.dialogAlert.open(r);
     });
 
-  }
+  };
+
+  /**
+   * 初回登録
+   * @param  {Object} data
+   * @return {Promise}
+   */
+  register = function (data) {
+
+    var kids_id = data.kids_id;
+    delete data.kids_id;
+
+    return customer.db.post('/update', {
+      data      : { information : JSON.stringify(data) },
+      condition : {'kids_id' : kids_id},
+      table     : 'busivs'
+    });
+
+  };
 
   // to public
   cms.model.userBusiv = {
     fetch    : $.proxy( _model.fetchAsync, _model ),
     getCache : $.proxy( _model.getCache, _model),
-    update   : $.proxy( _model.update, _model )
+    update   : $.proxy( _model.update, _model ),
+    register : register
   };
 
 }( jQuery, customer ));

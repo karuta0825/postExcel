@@ -127,7 +127,8 @@
           'customers' : { 'kids_id' : id },
           'licenses'  : { 'kids_id' : id },
           'partners'  : { 'kids_id' : id },
-          'mobiles'   : { 'kids_id' : id, 'number' : 1 }
+          'mobiles'   : { 'kids_id' : id, 'number' : 1 },
+          'busivs'    : { 'kids_id' : id }
         }
       , delimiter_position
       , key
@@ -272,6 +273,9 @@
     // mobiles
     .then( function () {
       return cms.model.userMobile.register( upload_data.mobiles );
+    })
+    .then( function () {
+      return cms.model.userBusiv.register( upload_data.busivs );
     })
     // all refresh
     .then( function () {
