@@ -1,5 +1,5 @@
 ﻿#kid
-KID98397
+KID98379
 kids__user_name:B訪問看護ステーション
 kids__has_qa:1
 
@@ -88,3 +88,39 @@ licenses__ASL:0
 licenses__ASM:0
 licenses__ASO:0
 
+#busiv lm
+busivs__cc_ip              :a
+busivs__sx_ip              :a
+busivs__has_L3             :a
+busivs__has_cc             :a
+busivs__has_sx             :a
+busivs__w_router           :a
+busivs__w_subnet           :a
+busivs__has_carte          :a
+busivs__open_date          :a
+busivs__w_network          :a
+busivs__carte_system       :a
+busivs__circuit_name       :a
+busivs__auth_server_ip     :a
+busivs__circuit_service    :a
+busivs__how_to_cooperate   :a
+busivs__carte_html_save_ip :a
+busivs__download_server_ip :a
+
+#busiv es
+#busivs__kids_id         : 
+#busivs__base_id         : 
+#busivs__rx_ip           : 
+#busivs__sx_ip           : 
+#busivs__has_rx          : 
+#busivs__has_sd          : 
+#busivs__w_router        : 
+#busivs__w_subnet        : 
+#busivs__has_sxr_j       : 
+#busivs__open_date       : 
+#busivs__w_network       : 
+#busivs__clients_ip      : 
+#busivs__circuit_name    : 
+#busivs__virtual_dl_ip   : 
+#busivs__auth_server_ip  : 
+#busivs__circuit_service : 
