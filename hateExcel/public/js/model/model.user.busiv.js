@@ -37,6 +37,7 @@
     }
   , vl = {}
   , _model = new Model( config )
+  , diff
   ;
 
   vl['LM'] = new util.Validate({
@@ -76,6 +77,51 @@
     'clients_ip'      : 'noCheck'
   });
 
+  /**
+   * ２つのオブジェクトの差分をもとめる
+   * TODO:あとでutil関数に昇格させようか！
+   * @param  {Object} before
+   * @param  {Object} after
+   * @return {Object} result - 差分結果
+   */
+  diff = function ( before, after ) {
+
+    var result = {};
+
+    for ( var i in after ) {
+
+      if (
+        ( before[i] && before[i] !== '' ) ||
+        ( after[i] && after[i] !== '' )
+      ) {
+        if ( after[i] !== before[i] ) {
+          result[i] = after[i];
+        }
+      }
+
+    }
+
+    return result;
+
+  };
+
+  /**
+   * 前回との差分をもとめる
+   * @override
+   * @param  {Object} view_data
+   * @return {Object}
+   */
+  _model._checkWhatsUpdated = function ( view_data ) {
+
+    var result = {};
+
+    if ( !this['_cache'] ) {
+      return view_data;
+    }
+
+    return diff( this.getCache()[0], view_data );
+
+  };
 
   /**
    * @override
