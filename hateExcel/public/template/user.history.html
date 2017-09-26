@@ -2,22 +2,26 @@
 
   <thead>
     <th class='mdl-data-table__cell--non-numeric create_on'>更新日</th>
-    <th class='mdl-data-table__cell--non-numeric type'>種類</th>
     <th class='mdl-data-table__cell--non-numeric content_name'>タブ</th>
     <th class='mdl-data-table__cell--non-numeric item_name'>項目</th>
     <th class='mdl-data-table__cell--non-numeric msg'>内容</th>
     <th class='mdl-data-table__cell--non-numeric update_name'>更新者</th>
+    <th class='mdl-data-table__cell--non-numeric del-flg'>削除</th>
   </thead>
   <tbody>
 
     <% _.each( list, function ( item, num ) { %>
-      <tr>
+      <tr hid=<%- item.id %>>
         <td class='mdl-data-table__cell--non-numeric create_on'><%- item.create_on %></td>
-        <td class='mdl-data-table__cell--non-numeric type'><%- item.type %></td>
         <td class='mdl-data-table__cell--non-numeric content_name'><%- item.content_name %></td>
         <td class='mdl-data-table__cell--non-numeric item_name'><%- item.item_name %></td>
         <td class='mdl-data-table__cell--non-numeric msg'><%- item.msg %></td>
         <td class='mdl-data-table__cell--non-numeric creater'><%- item.creater %></td>
+        <td class='mdl-data-table__cell--non-numeric delete'>
+          <button class="mdl-button mdl-js-button mdl-button--icon">
+            <i class="material-icons">delete_forever</i>
+          </button>
+        </td>
       </tr>
     <% }); %>
 

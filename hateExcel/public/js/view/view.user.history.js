@@ -8,14 +8,34 @@
   var
     view
   , elements = {
-      filter : {
-        self : '.filter'
+      'btn' : {
+        'del' : '.delete .mdl-button'
       },
-      table  : '.body'
+      'filter' : {
+        'self' : '.filter'
+      },
+      'table'  : '.body',
+      'confirm' : '#confirm-delete-history'
     }
+  , _selectedId
   , _drawTable
+  , _confirmDel
+  , _delete
   , initModule
   ;
+
+  _confirmDel = function () {
+
+    _selectedId = $(this).parents('tr').attr('hid');
+    view.get('confirm').get(0).showModal();
+
+  };
+
+  _delete = function () {
+
+    cms.model.userHistory.remove( _selectedId, drawTable );
+
+  };
 
   drawTable = function ( data ) {
     var
@@ -28,14 +48,24 @@
 
   };
 
-
   initModule = function () {
 
     view = new Controller('#usr-history-panel');
 
     view.wrap.append( customer.db.getHtml('html/user.history.html') );
 
+    util.confirm({
+      selector : view.top,
+      id       : 'confirm-delete-history',
+      msg      : '選択した履歴を削除しますか?',
+      yes      : _delete
+    });
+
     view.initElement( elements );
+
+    view.addListener({
+      'click btn__del' : _confirmDel
+    });
 
   };
 
