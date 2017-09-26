@@ -613,7 +613,7 @@
 ---------------------- */
 
 /*.main-contents.main-contents--view-usr {*/
-#tmp {
+#users-info {
   display: flex;
   display: -webkit-flex;
   height: 100%;
