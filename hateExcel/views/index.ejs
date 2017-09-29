@@ -46,7 +46,7 @@
           <!-- その他リスト -->
           <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="demo-menu-lower-right">
             <li class="mdl-menu__item logout">ログアウト</li>
-            <li class="mdl-menu__item">表示列</li>
+            <li class="mdl-menu__item show-column">表示列</li>
           </ul>
         </nav>
 
@@ -157,6 +157,258 @@
   </div>
 </dialog>
 
+<!-- 表示カラム用ダイアログ -->
+<dialog class="mdl-dialog" id="dialog-show-columns">
+  <h5 class="mdl-dialog__title">表示したい項目を選択してください</h5>
+  <div class="mdl-dialog__content">
+
+    <ul class='column-list'>
+      <li class='item'>
+        <span class='title'>個別</span>
+        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-is_marked">
+          <input type="checkbox" id="switch-is_marked" class="mdl-switch__input" checked>
+          <span class="mdl-switch__label"></span>
+        </label>
+
+      </li>
+      <li class='item'><span class='title'>KID</span>
+        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-kid">
+          <input type="checkbox" id="switch-kid" class="mdl-switch__input" checked>
+          <span class="mdl-switch__label"></span>
+        </label>
+
+      </li>
+      <li class='item'><span class='title'>顧客名</span>
+        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-user_name">
+          <input type="checkbox" id="switch-user_name" class="mdl-switch__input" checked>
+          <span class="mdl-switch__label"></span>
+        </label>
+
+      </li>
+      <li class='item'><span class='title'>フリガナ</span>
+        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-kana">
+          <input type="checkbox" id="switch-kana" class="mdl-switch__input">
+          <span class="mdl-switch__label"></span>
+        </label>
+
+      </li>
+      <li class='item'><span class='title'>サーバ</span>
+        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-server">
+          <input type="checkbox" id="switch-server" class="mdl-switch__input" checked>
+          <span class="mdl-switch__label"></span>
+        </label>
+
+      </li>
+      <li class='item'><span class='title'>ユーザキー</span>
+        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-userkey">
+          <input type="checkbox" id="switch-userkey" class="mdl-switch__input" checked>
+          <span class="mdl-switch__label"></span>
+        </label>
+
+      </li>
+      <li class='item'><span class='title'>DBパスワード</span>
+        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-db_password">
+          <input type="checkbox" id="switch-db_password" class="mdl-switch__input" checked>
+          <span class="mdl-switch__label"></span>
+        </label>
+
+      </li>
+      <li class='item'><span class='title'>fenicsキー</span>
+        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-fenics_key">
+          <input type="checkbox" id="switch-fenics_key" class="mdl-switch__input" checked>
+          <span class="mdl-switch__label"></span>
+        </label>
+
+      </li>
+      <li class='item'><span class='title'>ユーザー数</span>
+        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-client_number">
+          <input type="checkbox" id="switch-client_number" class="mdl-switch__input" checked>
+          <span class="mdl-switch__label"></span>
+        </label>
+
+      </li>
+      <li class='item'><span class='title'>クライアント数</span>
+        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-number_pc">
+          <input type="checkbox" id="switch-number_pc" class="mdl-switch__input" checked>
+          <span class="mdl-switch__label"></span>
+        </label>
+
+      </li>
+      <li class='item'><span class='title'>ライセンス</span>
+        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-license">
+          <input type="checkbox" id="switch-license" class="mdl-switch__input">
+          <span class="mdl-switch__label"></span>
+        </label>
+
+      </li>
+      <li class='item'><span class='title'>端末id収容数</span>
+        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-number_id">
+          <input type="checkbox" id="switch-number_id" class="mdl-switch__input" checked>
+          <span class="mdl-switch__label"></span>
+        </label>
+
+      </li>
+      <li class='item'><span class='title'>端末id範囲</span>
+        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-range_id">
+          <input type="checkbox" id="switch-range_id" class="mdl-switch__input" checked>
+          <span class="mdl-switch__label"></span>
+        </label>
+
+      </li>
+      <li class='item'><span class='title'>更新日</span>
+        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-update_on">
+          <input type="checkbox" id="switch-update_on" class="mdl-switch__input" checked>
+          <span class="mdl-switch__label"></span>
+        </label>
+
+      </li>
+      <li class='item'><span class='title'>システム環境</span>
+        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-system_type">
+          <input type="checkbox" id="switch-system_type" class="mdl-switch__input" >
+          <span class="mdl-switch__label"></span>
+        </label>
+
+      </li>
+      <li class='item'><span class='title'>バージョン</span>
+        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-version">
+          <input type="checkbox" id="switch-version" class="mdl-switch__input" >
+          <span class="mdl-switch__label"></span>
+        </label>
+
+      </li>
+      <li class='item'><span class='title'>ビジVあり</span>
+        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-has_busiv">
+          <input type="checkbox" id="switch-has_busiv" class="mdl-switch__input" >
+          <span class="mdl-switch__label"></span>
+        </label>
+
+      </li>
+      <li class='item'><span class='title'>ユニバあり</span>
+        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-has_fenics">
+          <input type="checkbox" id="switch-has_fenics" class="mdl-switch__input" >
+          <span class="mdl-switch__label"></span>
+        </label>
+
+      </li>
+      <li class='item'><span class='title'>モバイル有無</span>
+        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-has_mobile">
+          <input type="checkbox" id="switch-has_mobile" class="mdl-switch__input" >
+          <span class="mdl-switch__label"></span>
+        </label>
+
+      </li>
+      <li class='item'><span class='title'>モバイル数</span>
+        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-mobile_number">
+          <input type="checkbox" id="switch-mobile_number" class="mdl-switch__input" checked>
+          <span class="mdl-switch__label"></span>
+        </label>
+
+      </li>
+      <li class='item'><span class='title'>初期登録済</span>
+        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-is_registered">
+          <input type="checkbox" id="switch-is_registered" class="mdl-switch__input" >
+          <span class="mdl-switch__label"></span>
+        </label>
+
+      </li>
+      <li class='item'><span class='title'>登録日</span>
+        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-register_on">
+          <input type="checkbox" id="switch-register_on" class="mdl-switch__input" >
+          <span class="mdl-switch__label"></span>
+        </label>
+
+      </li>
+      <li class='item'><span class='title'>SA会社名</span>
+        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-sa_company">
+          <input type="checkbox" id="switch-sa_company" class="mdl-switch__input" >
+          <span class="mdl-switch__label"></span>
+        </label>
+
+      </li>
+      <li class='item'><span class='title'>SA担当者名</span>
+        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-sa_name">
+          <input type="checkbox" id="switch-sa_name" class="mdl-switch__input" >
+          <span class="mdl-switch__label"></span>
+        </label>
+
+      </li>
+      <li class='item'><span class='title'>SA電話番号</span>
+        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-sa_tel">
+          <input type="checkbox" id="switch-sa_tel" class="mdl-switch__input" >
+          <span class="mdl-switch__label"></span>
+        </label>
+
+      </li>
+      <li class='item'><span class='title'>SAメール</span>
+        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-sa_email">
+          <input type="checkbox" id="switch-sa_email" class="mdl-switch__input" >
+          <span class="mdl-switch__label"></span>
+        </label>
+
+      </li>
+      <li class='item'><span class='title'>SE会社名</span>
+        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-se_company">
+          <input type="checkbox" id="switch-se_company" class="mdl-switch__input" >
+          <span class="mdl-switch__label"></span>
+        </label>
+
+      </li>
+      <li class='item'><span class='title'>SE担当者名</span>
+        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-se_name">
+          <input type="checkbox" id="switch-se_name" class="mdl-switch__input" >
+          <span class="mdl-switch__label"></span>
+        </label>
+
+      </li>
+      <li class='item'><span class='title'>SE電話番号</span>
+        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-se_tel">
+          <input type="checkbox" id="switch-se_tel" class="mdl-switch__input" >
+          <span class="mdl-switch__label"></span>
+        </label>
+
+      </li>
+      <li class='item'><span class='title'>SEメール</span>
+        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-se_email">
+          <input type="checkbox" id="switch-se_email" class="mdl-switch__input" >
+          <span class="mdl-switch__label"></span>
+        </label>
+
+      </li>
+      <li class='item'><span class='title'>緊急連絡先社名</span>
+        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-em_company">
+          <input type="checkbox" id="switch-em_company" class="mdl-switch__input" >
+          <span class="mdl-switch__label"></span>
+        </label>
+
+      </li>
+      <li class='item'><span class='title'>緊急連絡先担当者名</span>
+        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-em_name">
+          <input type="checkbox" id="switch-em_name" class="mdl-switch__input" >
+          <span class="mdl-switch__label"></span>
+        </label>
+
+      </li>
+      <li class='item'><span class='title'>緊急連絡先電話番号</span>
+        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-em_tel">
+          <input type="checkbox" id="switch-em_tel" class="mdl-switch__input" >
+          <span class="mdl-switch__label"></span>
+        </label>
+
+      </li>
+      <li class='item'><span class='title'>緊急連絡先メール</span>
+        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-em_email">
+          <input type="checkbox" id="switch-em_email" class="mdl-switch__input" >
+          <span class="mdl-switch__label"></span>
+        </label>
+      </li>
+    </ul>
+
+  </div>
+  <div class="mdl-dialog__actions">
+      <button type="button" class="mdl-button btn--close">閉じる</button>
+  </div>
+</dialog>
+
 <!-- edit fenics dialog -->
 <dialog class="mdl-dialog" id='dialog-edit-fenics'>
   <h6 class="mdl-dialog__title">FenicsIDの編集</h6>
@@ -251,6 +503,7 @@
   <script src='./js/view/view.register.user.js'></script>
   <script src='./js/view/view.kids.js'></script>
   <script src='./js/view/view.kids.filter.js'></script>
+  <script src='./js/view/view.kids.column.js'></script>
   <script src='./js/view/view.fenics.js'></script>
   <script src='./js/view/view.edit.user.js'></script>
   <script src='./js/view/view.user.base.js'></script>

@@ -761,6 +761,31 @@
 }
 
 /* -------------------
+  dialog users table column
+---------------------- */
+
+#dialog-show-columns {
+  height: 60%;
+  width: 500px;
+  overflow-y: scroll;
+}
+
+#dialog-show-columns .column-list {
+  list-style: none;
+  padding: 0px;
+}
+
+.column-list .item {
+  margin-bottom: 10px;
+}
+
+.column-list .mdl-switch {
+  position: absolute;
+  width: 40px;
+  right: 30px;
+}
+
+/* -------------------
     edit or view users
 ---------------------- */
 
