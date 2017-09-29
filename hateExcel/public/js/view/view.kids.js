@@ -41,6 +41,7 @@
   , _selectPage
   , _highlightIndexPage
   // public
+  , changeColumnState
   , initModule
   , makePageButton
   , drawTable
@@ -322,6 +323,18 @@
 
   };
 
+  changeColumnState = function ( column, is_show ) {
+
+    var col = 'table__col__' + column;
+
+    if ( is_show ) {
+      view.get(col).removeClass('is-hidden');
+    }
+    else {
+      view.get(col).addClass('is-hidden');
+    }
+
+  };
 
   initModule = function () {
     // table load
@@ -359,7 +372,8 @@
   cms.view.kids = {
     initModule      : initModule,
     drawTable       : drawTable,
-    refresh         : refresh
+    refresh         : refresh,
+    changeColumnState : changeColumnState
   };
 
 
