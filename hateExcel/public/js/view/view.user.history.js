@@ -21,6 +21,7 @@
   , _drawTable
   , _confirmDel
   , _delete
+  , _makeFilter
   , initModule
   ;
 
@@ -34,6 +35,10 @@
   _delete = function () {
 
     cms.model.userHistory.remove( _selectedId, drawTable );
+
+  };
+
+  _makeFilter = function () {
 
   };
 
