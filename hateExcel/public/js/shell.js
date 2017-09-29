@@ -58,6 +58,10 @@ $(function(){
     window.location.href = '/logout';
   });
 
+  $('.mdl-menu--bottom-right .show-column').on('click', function () {
+    customer.view.kidsColumn.open();
+  });
+
   customer.shell = {
     manageMainView : manageMainView
   };
