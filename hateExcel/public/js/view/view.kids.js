@@ -49,41 +49,48 @@
   , refresh
   ;
 
+  /**
+   * viewのtable_colを更新する
+   */
   _setColInfo = function () {
 
     var obj;
+    var header = cms.model.kidsColumn.getCache();
 
-    _.each( cms.model.kids.getHeader(), function (v,k) {
-      obj = {};
-      obj['table__col__' + k ] = '.users-table__body .' + k ;
-      view.addElement(obj);
-    });
+    if ( header.length < 1 ) {
+      return cms.model.kidsColumn.fetch()
+      .then( function (r) {
+
+        _.each( r[0], function (v,k) {
+          obj = {};
+          obj['table__col__' + k ] = '.users-table__body .' + k ;
+          view.addElement(obj);
+        });
+
+      });
+    }
+    else {
+
+      _.each( header, function (v,k) {
+        obj = {};
+        obj['table__col__' + k ] = '.users-table__body .' + k ;
+        view.addElement(obj);
+      });
+
+      return Promise.resolve();
+
+    }
+
 
   };
 
   _hideCol = function () {
 
-    view.get('table__col__kana'         ).addClass('is-hidden');
-    view.get('table__col__license'      ).addClass('is-hidden');
-    view.get('table__col__system_type'  ).addClass('is-hidden');
-    view.get('table__col__version'      ).addClass('is-hidden');
-    view.get('table__col__has_mobile'   ).addClass('is-hidden');
-    view.get('table__col__has_busiv'    ).addClass('is-hidden');
-    view.get('table__col__has_fenics'   ).addClass('is-hidden');
-    view.get('table__col__is_registered').addClass('is-hidden');
-    view.get('table__col__register_on'  ).addClass('is-hidden');
-    view.get('table__col__sa_company'   ).addClass('is-hidden');
-    view.get('table__col__sa_name'      ).addClass('is-hidden');
-    view.get('table__col__sa_tel'       ).addClass('is-hidden');
-    view.get('table__col__sa_email'     ).addClass('is-hidden');
-    view.get('table__col__se_company'   ).addClass('is-hidden');
-    view.get('table__col__se_name'      ).addClass('is-hidden');
-    view.get('table__col__se_tel'       ).addClass('is-hidden');
-    view.get('table__col__se_email'     ).addClass('is-hidden');
-    view.get('table__col__em_company'   ).addClass('is-hidden');
-    view.get('table__col__em_name'      ).addClass('is-hidden');
-    view.get('table__col__em_tel'       ).addClass('is-hidden');
-    view.get('table__col__em_email'     ).addClass('is-hidden');
+    _.each(cms.model.kidsColumn.getCache(), function (v,k) {
+
+      changeColumnState(k, v);
+
+    });
 
   };
 
@@ -264,14 +271,17 @@
     view.updateElement('table__header');
     view.updateElement('table__body');
     view.updateElement('table__row');
-    _setColInfo();
+
+    _setColInfo().
+    then(function (){
+      _hideCol();
+    });
 
     componentHandler.upgradeElement( view.get('table__self').get(0) );
 
     cms.model.kids.getPageList( makePageButton );
     _highlightIndexPage( cms.model.kids.getPageIndex() );
 
-    _hideCol();
 
   };
 
@@ -327,7 +337,7 @@
 
     var col = 'table__col__' + column;
 
-    if ( is_show ) {
+    if ( is_show === '1' ) {
       view.get(col).removeClass('is-hidden');
     }
     else {

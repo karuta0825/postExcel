@@ -58,19 +58,19 @@
   _switchColumnState = function () {
 
     var
-      item = $(this).attr('id').replace(/switch-/,'')
+      column = $(this).attr('id').replace(/switch-/,'')
     , is_show
     ;
 
     if ( $(this).parents('label').hasClass('is-checked') ) {
-      is_show = 0;
+      is_show = '0';
     }
     else {
-      is_show = 1;
+      is_show = '1';
     }
 
-    // 状態変更
-    cms.view.kids.changeColumnState( item, is_show );
+    cms.model.kidsColumn.setShowColumn( column, is_show );
+    cms.view.kids.changeColumnState( column, is_show );
 
   };
 

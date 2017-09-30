@@ -15,7 +15,7 @@
     "servers"                         : "SELECT * FROM servers order by name, ip, version;",
     "memo_templates"                  : "SELECT id, title, msg, LEFT(msg, 15) as short_msg FROM memo_templates order by id;",
     "users"                           : "SELECT * FROM login_users where uid = ? and password = ?;",
-    "header"                          : "SELECT * FROM columns where uid = 0;",
+    "header"                          : "SELECT * FROM columns where uid = 1;",
     "show_columns"                    : "SELECT * FROM columns where uid = ?;",
     "services"                        : "SELECT * FROM services;",
     "base_info"                       : "SELECT * FROM CUSTOMERS WHERE kid = ?;",
