@@ -84,6 +84,9 @@
 
   };
 
+  /**
+   * 表示列制御
+   */
   _hideCol = function () {
 
     _.each(cms.model.kidsColumn.getCache(), function (v,k) {
