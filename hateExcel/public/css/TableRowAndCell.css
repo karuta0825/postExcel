@@ -1101,8 +1101,7 @@
    service tab
 ---------------------- */
 .service-table,
-.account-table,
-.history-table {
+.account-table {
   width : 80%;
   margin : 0 auto;
 }
@@ -1140,6 +1139,22 @@
    mobile tab
 ---------------------- */
 
+/* -------------------
+   history tab
+---------------------- */
+
+.user-historys-wrap {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.user-historys-wrap .select-item_name {
+  font-size: 1em;
+}
+
+.user-historys-wrap .history-table {
+  width: 100%;
+}
 
 
 /* -------------------
