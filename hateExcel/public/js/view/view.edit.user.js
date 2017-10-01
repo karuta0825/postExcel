@@ -138,9 +138,12 @@
     );
 
     // 履歴タブの描画
-    cms.model.userHistory.fetch( kid,
-      cms.view.userHistory.drawTable
-    );
+    cms.model.userHistory.fetch( kid, function (r) {
+
+      cms.view.userHistory.drawTable(r);
+      cms.view.userHistory.makeFilter();
+
+    });
 
     // メモ一覧作成
     cms.model.userMemo.fetch( kid,

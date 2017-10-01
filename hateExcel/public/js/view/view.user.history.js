@@ -12,7 +12,8 @@
         'del' : '.delete .mdl-button'
       },
       'filter' : {
-        'self' : '.filter'
+        'self' : '.filter',
+        'select' : '.select-item_name'
       },
       'table'  : '.body',
       'confirm' : '#confirm-delete-history'
@@ -21,7 +22,8 @@
   , _drawTable
   , _confirmDel
   , _delete
-  , _makeFilter
+  , _selectFilter
+  , makeFilter
   , initModule
   ;
 
@@ -38,7 +40,32 @@
 
   };
 
-  _makeFilter = function () {
+  makeFilter = function () {
+
+    var options = cms.model.userHistory.getFilterOption();
+
+    view.get('filter__select').empty();
+
+    view.get('filter__select').append(
+      $('<option>', { 'value' : 'all', 'text' : '全て' })
+    );
+
+    _.each( options, function (v,k) {
+
+      view.get('filter__select').append(
+        $('<option>', { 'value' : v, 'text' : v })
+      );
+
+    });
+
+  };
+
+  _selectFilter = function () {
+
+    var item_name = $(this).val();
+    var items = cms.model.userHistory.find({item_name:item_name});
+
+    drawTable( items );
 
   };
 
@@ -69,7 +96,8 @@
     view.initElement( elements );
 
     view.addListener({
-      'click btn__del' : _confirmDel
+      'click btn__del' : _confirmDel,
+      'change filter__select' : _selectFilter
     });
 
   };
@@ -77,7 +105,8 @@
   // to public
   cms.view.userHistory = {
     initModule : initModule,
-    drawTable  : drawTable
+    drawTable  : drawTable,
+    makeFilter : makeFilter
   };
 
 
