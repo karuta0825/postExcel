@@ -24,6 +24,7 @@
   , _delete
   , _selectFilter
   , makeFilter
+  , refresh
   , initModule
   ;
 
@@ -36,7 +37,10 @@
 
   _delete = function () {
 
-    cms.model.userHistory.remove( _selectedId, drawTable );
+    cms.model.userHistory.remove( _selectedId, function () {
+      var option = view.get('filter__select').val();
+      drawTable( cms.model.userHistory.find({item_name:option}) );
+    });
 
   };
 
@@ -80,6 +84,11 @@
 
   };
 
+  refresh = function (data) {
+    drawTable(data);
+    makeFilter();
+  };
+
   initModule = function () {
 
     view = new Controller('#usr-history-panel');
@@ -106,7 +115,8 @@
   cms.view.userHistory = {
     initModule : initModule,
     drawTable  : drawTable,
-    makeFilter : makeFilter
+    makeFilter : makeFilter,
+    refresh    : refresh
   };
 
 
