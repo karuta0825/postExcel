@@ -311,7 +311,7 @@
 
       // 履歴テーブルの再描画
       customer.model.userHistory.fetch( this['_cache'][0]['kids_id'],
-        customer.view.userHistory.drawTable
+        customer.view.userHistory.refresh
       );
 
     }

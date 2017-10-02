@@ -10,7 +10,23 @@
       'table' : 'usrHistorys'
     })
   , remove
+  , getFilterOption
   ;
+
+  /**
+   * 項目を重複許さないで取得する
+   * @return {Array}
+   */
+  getFilterOption = function () {
+
+    return _.chain( _model.getCache() )
+           .map( function (v) {
+              return v.item_name;
+           })
+           .uniq()
+           .value();
+
+  };
 
   remove = function ( hid, callback ) {
 
@@ -34,7 +50,8 @@
     fetch    : $.proxy( _model.fetchAsync, _model ),
     getCache : $.proxy( _model.getCache, _model ),
     find     : $.proxy( _model.find, _model ),
-    remove   : remove
+    remove   : remove,
+    getFilterOption : getFilterOption
   };
 
 }( jQuery, customer ));
