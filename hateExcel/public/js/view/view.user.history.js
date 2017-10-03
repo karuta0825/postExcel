@@ -6,6 +6,7 @@
 ( function ( $, cms ) {
 
   var
+  // member
     view
   , elements = {
       'btn' : {
@@ -18,11 +19,13 @@
       'table'  : '.body',
       'confirm' : '#confirm-delete-history'
     }
+  // private method
   , _selectedId
   , _drawTable
   , _confirmDel
   , _delete
   , _selectFilter
+  // public method
   , makeFilter
   , refresh
   , initModule
@@ -37,9 +40,19 @@
 
   _delete = function () {
 
+    var option = view.get('filter__select').val();
     cms.model.userHistory.remove( _selectedId, function () {
-      var option = view.get('filter__select').val();
-      drawTable( cms.model.userHistory.find({item_name:option}) );
+
+      var data = cms.model.userHistory.find({item_name:option});
+      makeFilter();
+
+      if ( data.length > 0 ) {
+        view.get('filter__select').val(option);
+        drawTable(data);
+      }
+      else {
+        drawTable( cms.model.userHistory.getCache() );
+      }
     });
 
   };
