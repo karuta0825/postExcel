@@ -42,6 +42,7 @@
   , changeEditMode
   , makeTemplateOption
   , reset
+  , refresh
   , makeViewInfo
   , initModule
   ;
@@ -245,6 +246,11 @@
 
   };
 
+  refresh = function () {
+    var kids_id = cms.model.userBaseInfo.getCache().id;
+    cms.model.userMemo.fetch( kids_id, cms.view.editUsrs.makeMemos );
+  };
+
   makeViewInfo = function( data ) {
 
     _clear();
@@ -312,7 +318,7 @@
     changeEditMode : changeEditMode,
     reset        : reset,
     makeTemplateOption : makeTemplateOption,
-    tmp : _getViewInfo
+    refresh : refresh
   };
 
 }( jQuery, customer));
