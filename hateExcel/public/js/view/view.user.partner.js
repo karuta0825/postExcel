@@ -48,6 +48,7 @@
   , setInfo
   , getViewInfo
   , clear
+  , refresh
   , initModule
   ;
 
@@ -170,6 +171,16 @@
 
   };
 
+  /**
+   * 画面更新
+   */
+  refresh = function () {
+
+    var kids_id = cms.model.userBaseInfo.getCache().id;
+    cms.model.userPartner.fetch( kids_id, setInfo )
+
+  };
+
   initModule = function () {
     // View挿入
     $('#usr-partner-panel')
@@ -201,7 +212,7 @@
     setInfo     : setInfo,
     clear       : clear,
     getViewInfo : getViewInfo,
-    get : function () { return partnerView; }
+    refresh     : refresh
   }
 
 }( jQuery, customer ))
