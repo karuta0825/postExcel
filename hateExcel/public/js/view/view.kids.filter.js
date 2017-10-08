@@ -264,7 +264,7 @@
 
     view.addListener({
       'change server'       : _selectServer,
-      'change search'       : _search,
+      'keyup search'       : _search,
       'click system__wrap'  : _selectSystem,
       'click version__wrap' : _selectVertion,
       'click network__wrap' : _selectNetwork,
