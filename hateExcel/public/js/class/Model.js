@@ -68,7 +68,7 @@
     , ary = []
     ;
 
-    _.each( this['_cache'], function (item,idx) {
+    _.each( this.getFiltered(), function (item,idx) {
 
       var is_match = 0;
 
@@ -83,8 +83,6 @@
       }
 
     });
-
-    this['_filterList'] = ary;
 
     if ( typeof callback  === 'function') {
       callback( ary );
