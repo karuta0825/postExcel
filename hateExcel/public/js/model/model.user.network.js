@@ -70,6 +70,9 @@
       .then ( function (result) {
         cb_success();
       })
+      .then( function () {
+        cms.view.kids.refresh();
+      })
       .catch( function (err) {
         throw Error(err);
       });
