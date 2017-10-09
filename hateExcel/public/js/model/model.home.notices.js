@@ -9,7 +9,7 @@
       table : 'historys'
     })
   , _is_end = false
-  , _filter_type
+  , _filter_type = 'all'
   , filter
   , initModule
   , getMore
