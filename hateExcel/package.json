@@ -32,6 +32,10 @@
     "power-assert": "^1.4.4",
     "sinon": "^3.2.1",
     "underscore": "^1.8.3",
-    "webpack": "^1.14.0"
+    "webpack": "^1.14.0",
+    "selenium-webdriver": "^3.0.1",
+    "flow-bin": "^0.53.1",
+    "flow-remove-types": "^1.2.1",
+    "flow-typed": "^2.1.5"
   }
 }
