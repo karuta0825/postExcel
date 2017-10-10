@@ -1,0 +1,53 @@
+{
+
+  "readme" : "KIDテストデータ",
+
+  "fetch" : {
+
+    "header" : {
+      "out" : [
+
+      ]
+    },
+
+    "list" : {
+      "out" : [
+        {"id":1, "kid":"KID55001","user_name":"ユーザー0001","kana":"ユーザー0001","server":"AP1-1","userkey":null, "has_busiv" : 0, "has_fenics" : 1, "system" : "cloud", "version" : "LM"},
+        {"id":2, "kid":"KID55002","user_name":"ユーザー0002","kana":"ユーザー0002","server":"AP1-2","userkey":null, "has_busiv" : 0, "has_fenics" : 1, "system" : "cloud", "version" : "LM"},
+        {"id":3, "kid":"KID55003","user_name":"ユーザー0003","kana":"ユーザー0003","server":"AP1-3","userkey":null, "has_busiv" : 0, "has_fenics" : 1, "system" : "cloud", "version" : "LM"},
+        {"id":4, "kid":"KID55004","user_name":"ユーザー0004","kana":"ユーザー0004","server":"AP1-4","userkey":null, "has_busiv" : 0, "has_fenics" : 1, "system" : "cloud", "version" : "LM"},
+        {"id":5, "kid":"KID55005","user_name":"ユーザー0005","kana":"ユーザー0005","server":"AP1-5","userkey":null, "has_busiv" : 0, "has_fenics" : 1, "system" : "cloud", "version" : "LM"},
+        {"id":6, "kid":"KID55006","user_name":"ユーザー0006","kana":"ユーザー0006","server":"AP1-6","userkey":null, "has_busiv" : 0, "has_fenics" : 1, "system" : "cloud", "version" : "LM"},
+        {"id":7, "kid":"KID55007","user_name":"ユーザー0007","kana":"ユーザー0007","server":"AP1-7","userkey":null, "has_busiv" : 0, "has_fenics" : 1, "system" : "onpre", "version" : "LM"},
+        {"id":8, "kid":"KID55008","user_name":"ユーザー0008","kana":"ユーザー0008","server":"AP1-8","userkey":null, "has_busiv" : 0, "has_fenics" : 1, "system" : "onpre", "version" : "LM"},
+        {"id":9, "kid":"KID55009","user_name":"ユーザー0009","kana":"ユーザー0009","server":"AP1-9","userkey":null, "has_busiv" : 0, "has_fenics" : 1, "system" : "onpre", "version" : "LM"},
+        {"id":10,"kid":"KID55010","user_name":"ユーザー0010","kana":"ユーザー0010","server":"AP2-1","userkey":null, "has_busiv" : 0, "has_fenics" : 1, "system" : "onpre", "version" : "LM"},
+        {"id":11,"kid":"KID55011","user_name":"ユーザー0011","kana":"ユーザー0011","server":"AP2-2","userkey":null, "has_busiv" : 0, "has_fenics" : 1, "system" : "cloud", "version" : "LM"},
+        {"id":12,"kid":"KID55012","user_name":"ユーザー0012","kana":"ユーザー0012","server":"AP2-3","userkey":null, "has_busiv" : 0, "has_fenics" : 1, "system" : "cloud", "version" : "LM"},
+        {"id":13,"kid":"KID55013","user_name":"ユーザー0013","kana":"ユーザー0013","server":"AP1-4","userkey":null, "has_busiv" : 0, "has_fenics" : 1, "system" : "cloud", "version" : "LM"},
+        {"id":14,"kid":"KID55014","user_name":"ユーザー0014","kana":"ユーザー0014","server":"AP1-5","userkey":null, "has_busiv" : 0, "has_fenics" : 1, "system" : "cloud", "version" : "LM"},
+        {"id":15,"kid":"KID55015","user_name":"ユーザー0015","kana":"ユーザー0015","server":"AP1-6","userkey":null, "has_busiv" : 0, "has_fenics" : 1, "system" : "cloud", "version" : "LM"},
+        {"id":16,"kid":"KID55016","user_name":"ユーザー0016","kana":"ユーザー0016","server":"AP1-7","userkey":null, "has_busiv" : 0, "has_fenics" : 1, "system" : "cloud", "version" : "LM"},
+        {"id":17,"kid":"KID55017","user_name":"ユーザー0017","kana":"ユーザー0017","server":"AP1-8","userkey":null, "has_busiv" : 0, "has_fenics" : 1, "system" : "cloud", "version" : "ES"},
+        {"id":18,"kid":"KID55018","user_name":"ユーザー0018","kana":"ユーザー0018","server":"AP1-9","userkey":null, "has_busiv" : 0, "has_fenics" : 1, "system" : "cloud", "version" : "ES"},
+        {"id":19,"kid":"KID55019","user_name":"ユーザー0019","kana":"ユーザー0019","server":"AP1-1","userkey":null, "has_busiv" : 0, "has_fenics" : 1, "system" : "onpre", "version" : "ES"},
+        {"id":20,"kid":"KID55020","user_name":"ユーザー0020","kana":"ユーザー0020","server":"AP1-2","userkey":null, "has_busiv" : 0, "has_fenics" : 1, "system" : "onpre", "version" : "ES"},
+        {"id":21,"kid":"KID55021","user_name":"ユーザー0021","kana":"ユーザー0021","server":"AP1-3","userkey":null, "has_busiv" : 0, "has_fenics" : 1, "system" : "onpre", "version" : "ES"},
+        {"id":22,"kid":"KID55022","user_name":"ユーザー0022","kana":"ユーザー0022","server":"AP1-4","userkey":null, "has_busiv" : 0, "has_fenics" : 1, "system" : "onpre", "version" : "ES"},
+        {"id":23,"kid":"KID55023","user_name":"ユーザー0023","kana":"ユーザー0023","server":"AP1-5","userkey":null, "has_busiv" : 0, "has_fenics" : 1, "system" : "onpre", "version" : "ES"},
+        {"id":24,"kid":"KID55024","user_name":"ユーザー0024","kana":"ユーザー0024","server":"AP1-6","userkey":null, "has_busiv" : 0, "has_fenics" : 1, "system" : "onpre", "version" : "ES"},
+        {"id":25,"kid":"KID55025","user_name":"ユーザー0025","kana":"ユーザー0025","server":"AP1-7","userkey":null, "has_busiv" : 0, "has_fenics" : 1, "system" : "cloud", "version" : "ES"},
+        {"id":26,"kid":"KID55026","user_name":"ユーザー0026","kana":"ユーザー0026","server":"AP1-8","userkey":null, "has_busiv" : 0, "has_fenics" : 1, "system" : "cloud", "version" : "ES"},
+        {"id":27,"kid":"KID55027","user_name":"ユーザー0027","kana":"ユーザー0027","server":"AP1-9","userkey":null, "has_busiv" : 1, "has_fenics" : 0, "system" : "cloud", "version" : "ES"},
+        {"id":28,"kid":"KID55028","user_name":"ユーザー0028","kana":"ユーザー0018","server":"AP1-0","userkey":null, "has_busiv" : 1, "has_fenics" : 0, "system" : "cloud", "version" : "ES"},
+        {"id":29,"kid":"KID55029","user_name":"ユーザー0029","kana":"ユーザー0029","server":"AP1-2","userkey":null, "has_busiv" : 1, "has_fenics" : 0, "system" : "cloud", "version" : "ES"},
+        {"id":30,"kid":"KID55030","user_name":"ユーザー0030","kana":"ユーザー0030","server":"AP1-3","userkey":null, "has_busiv" : 1, "has_fenics" : 0, "system" : "cloud", "version" : "ES"},
+        {"id":97,"kid":"KID99997","user_name":"ユーザー0097","kana":"ユーザー0097","server":"AP1-4","userkey":null, "has_busiv" : 1, "has_fenics" : 0, "system" : "cloud", "version" : "ES"},
+        {"id":98,"kid":"KID99998","user_name":"ユーザー0098","kana":"ユーザー0098","server":"AP1-5","userkey":null, "has_busiv" : 1, "has_fenics" : 0, "system" : "cloud", "version" : "ES"},
+        {"id":99,"kid":"KID99999","user_name":"ユーザー0099","kana":"ユーザー0099","server":"AP1-6","userkey":null, "has_busiv" : 1, "has_fenics" : 0, "system" : "cloud", "version" : "ES"}
+      ]
+    }
+
+  }
+
+}

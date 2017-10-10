@@ -1,0 +1,41 @@
+{
+  "fetch" : {
+    "out" : [{
+      "kid"           : "KID",
+      "user_name"     : "顧客名",
+      "kana"          : "フリガナ",
+      "server"        : "サーバ",
+      "userkey"       : "ユーザキー",
+      "db_password"   : "DBパスワード",
+      "fenics_key"    : "fenicsキー",
+      "number_pc"     : "端末台数",
+      "client_number" : "クライアント数",
+      "license"       : "ライセンス",
+      "number_id"     : "端末id収容数",
+      "range_id"      : "端末id範囲",
+      "creater"       : "作成者",
+      "update_on"     : "更新日",
+      "system_type"   : "システム環境",
+      "version"       : "バージョン",
+      "has_busiv"     : "ビジVあり",
+      "has_fenics"    : "ユニバあり",
+      "has_mobile"    : "モバイル有無",
+      "mobile_number" : "モバイル台数",
+      "has_qa"        : "業務QAあり",
+      "is_registered" : "初期登録済",
+      "register_on"   : "登録日",
+      "sa_company"    : "SA社名",
+      "sa_name"       : "SA担当者",
+      "sa_tel"        : "SA電話番号",
+      "sa_email"      : "SAメール",
+      "se_company"    : "SE社名",
+      "se_name"       : "SE担当者名",
+      "se_tel"        : "SE電話番号",
+      "se_email"      : "SEメール",
+      "em_company"    : "緊急連絡先会社",
+      "em_name"       : "緊急連絡先担当者名",
+      "em_tel"        : "緊急連絡先電話番号",
+      "em_email"      : "緊急連絡先メール"
+    }]
+  }
+}

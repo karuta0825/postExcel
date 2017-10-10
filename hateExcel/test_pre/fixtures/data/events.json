@@ -1,0 +1,51 @@
+{
+  "readme" : "はじめに",
+  "fetch" : {
+    "out" : [{},{},{}]
+  },
+ "insert" : {
+    "in" : {
+      "title"       : "タイトル",
+      "start_on"    : "2017-09-01",
+      "start_time"  : "09:00",
+      "message"     : "メッセージ",
+      "is_finished" : 0
+    },
+   "out" : {
+      "result" : "ok"
+    }
+  },
+  "insert_err" : {
+    "in" : {
+      "title"       : "",
+      "start_on"    : "2017-09-01",
+      "start_time"  : "09:00",
+      "message"     : "メッセージ",
+      "is_finished" : 0
+    },
+    "out" : { "result" : "fail" }
+  },
+  "update" : {
+    "in" : {
+      "title"       : "タイトル",
+      "start_on"    : "2017-09-01",
+      "start_time"  : "09:00",
+      "message"     : "メッセージ",
+      "is_finished" : 1
+    }
+  },
+  "update_err" : {
+    "in" : {
+      "title"       : "",
+      "start_on"    : "2017-09-01",
+      "start_time"  : "09:00",
+      "message"     : "メッセージ",
+      "is_finished" : 1
+    }
+  },
+  "delete" : {
+    "in" : {
+      "id" : 1
+    }
+  }
+}
