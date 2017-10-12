@@ -5,9 +5,9 @@
   "scripts": {
     "start": "node app.js",
     "test": "karma start",
-    "st" : "cp -r test_pre test;flow-remove-types test_pre/ -d test/; mocha --require intelli-espower-loader --timeout 1000000 ./test/scenario/",
+    "st" : "cp -r e2e test;flow-remove-types e2e/ -d test/; mocha --require intelli-espower-loader --timeout 1000000 ./test/scenario/",
     "flow": "flow",
-    "build": "flow-remove-types test_pre/ -d test/"
+    "build": "cp -r e2e test;flow-remove-types e2e/ -d test/"
   },
   "dependencies": {
     "ejs": "*",
