@@ -1,4 +1,5 @@
 /hateExcel/node_modules/
 /hateExcel/logs/
 /hateExcel/coverage/
-/hateExcel/test/
+/hateExcel/test/pages/
+/hateExcel/test/scenario/
