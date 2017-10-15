@@ -1,6 +1,6 @@
 
 
-class Clac {
+class Calc {
 
   /**
    * ２つ引数の値を合計値を求める
