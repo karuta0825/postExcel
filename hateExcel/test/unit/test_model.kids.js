@@ -289,12 +289,26 @@ describe('model.kidsモジュール', () => {
 
   describe('update', () => {
 
-    var fs, spy;
+    var
+      fs
+    , spy
+    , kidsView
+    , homeNoticeView
+    , userHistoryView
+    , historyFs
+    ;
 
     beforeEach( () => {
 
       fs = new sinon.stub(customer.db, 'post');
       spy = sinon.spy();
+
+      kidsView        = sinon.stub( customer.view.kids, 'refresh');
+      homeNoticeView  = sinon.stub( customer.view.homeNotices, 'refresh');
+      userHistoryView = sinon.stub( customer.view.userHistory, 'drawTable');
+      historyFs       = sinon.stub( customer.db, 'insert');
+
+      fs.withArgs('/select').returns( Promise.resolve() );
 
       fs.withArgs('/select', {
         condition : [null],
@@ -302,10 +316,14 @@ describe('model.kidsモジュール', () => {
       }).returns( Promise.resolve(DATA.fetch.list.out ) );
 
       return customer.model.kids.fetch(null, spy);
+
     });
 
     afterEach( () => {
       fs.restore();
+      kidsView.restore();
+      homeNoticeView.restore();
+      userHistoryView.restore();
     });
 
     it('id=1のユーザーのserverをAP1-2に変更する', () => {
@@ -313,7 +331,6 @@ describe('model.kidsモジュール', () => {
       var view_data = {'server' : 'AP1-2', 'id' : 1};
 
       fs.withArgs('/update').callsFake( (url,post) => {
-        console.log(post);
         assert.deepEqual(post, {
           data : { server : 'AP1-2'},
           condition: { id : 1 },
@@ -326,6 +343,23 @@ describe('model.kidsモジュール', () => {
 
     });
 
+    it('id=1のユーザーの事業者名を「change」に変更する', () => {
+
+      const view_data = {'user_name' : 'change', 'id' : 1};
+      const expect = {
+        data : {'user_name' : 'change'},
+        condition: { id : 1 },
+        table : 'kids'
+      };
+
+      fs.withArgs('/update').callsFake( (url,post) => {
+        assert.deepEqual(post, expect);
+        return Promise.resolve({"result" : "ok"});
+      });
+
+      customer.model.kids.update(view_data);
+
+    });
 
   });
 
