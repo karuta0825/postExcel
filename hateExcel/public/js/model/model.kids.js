@@ -8,6 +8,7 @@
       tab_name : '基本情報',
       item_name_map : {
         'kid'           : 'KID',
+        'user_name'     : '事業者名',
         'server'        : 'サーバ',
         'userkey'       : 'ユーザーキー',
         'db_password'   : 'DBパスワード',
@@ -274,11 +275,12 @@
     if ( _.keys(update_data).length > 0 ) {
 
       // データの更新
-      customer.db.update('/update', {
+      customer.db.post('/update', {
         data      : update_data,
         condition : {'id' : view_data['id']},
         table     : this['config']['table']
-      });
+      })
+      .then( cms.view.kids.refresh );
 
     }
 
@@ -290,7 +292,6 @@
 
       // 再描画
       cms.view.homeNotices.refresh();
-      cms.view.kids.refresh();
 
     }
 
