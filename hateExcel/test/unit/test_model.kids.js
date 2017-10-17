@@ -324,6 +324,7 @@ describe('model.kidsモジュール', () => {
       kidsView.restore();
       homeNoticeView.restore();
       userHistoryView.restore();
+      historyFs.restore();
     });
 
     it('id=1のユーザーのserverをAP1-2に変更する', () => {
@@ -343,7 +344,7 @@ describe('model.kidsモジュール', () => {
 
     });
 
-    it('id=1のユーザーの事業者名を「change」に変更する', () => {
+    it('id=1のユーザーの事業者名を「change」に変更すると、サーバにexpectJSONオブジェクトが送られる', () => {
 
       const view_data = {'user_name' : 'change', 'id' : 1};
       const expect = {
@@ -356,6 +357,32 @@ describe('model.kidsモジュール', () => {
         assert.deepEqual(post, expect);
         return Promise.resolve({"result" : "ok"});
       });
+
+      customer.model.kids.update(view_data);
+
+    });
+
+    it('id=1のユーザーの事業者名を「change」に変更すると、履歴作成オブジェクトがサーバーに送られる', () => {
+
+      const view_data = {'user_name' : 'change', 'id' : 1};
+      const expect = {
+        data : {'user_name' : 'change'},
+        condition: { id : 1 },
+        table : 'kids'
+      };
+
+      fs.withArgs('/update').returns( Promise.resolve({'result' : 'ok'}));
+
+      historyFs.callsFake( (url,data) => {
+        assert( data.table === 'historys' );
+        assert( data.data[0].kids_id === 1 );
+        assert( data.data[0].type === '更新' );
+        assert( data.data[0].content_name === '基本情報' );
+        assert( data.data[0].item_name === '事業者名' );
+        assert( data.data[0].before === 'ユーザー0001' );
+        assert( data.data[0].after === 'change' );
+      });
+
 
       customer.model.kids.update(view_data);
 
