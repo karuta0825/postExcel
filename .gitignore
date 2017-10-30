@@ -2,4 +2,5 @@
 /hateExcel/logs/
 /hateExcel/coverage/
 /hateExcel/test/pages/
+/hateExcel/test/e2e/
 /hateExcel/test/scenario/

@@ -10,6 +10,7 @@ const { By, until } = require('selenium-webdriver');
 const LoginPage = require('../pages/Login').Login;
 const Navigation = require('../pages/Navigation').Navigation;
 const Home = require('../pages/Home').Home;
+const MakeUser = require('../pages/MakeUser').MakeUser;
 
 var driver;
 
@@ -54,12 +55,14 @@ t.describe('メニュー変更', function () {
   });
 
   t.it('ユーザー作成画面に遷移する', () => {
-    n.move('ユーザー作成');
-    var page;
-    page.isActive().then( (r) => {
-      assert( r === true );
+
+    n.move('ユーザー作成')
+    .then( () => {
+      var page = new MakeUser( driver, By, until);
+      page.isActive().then( (r) => {
+        assert( r === true );
+      });
     });
-    assert( page === true );
   });
 
   t.it('ユーザー登録画面に遷移する', () => {
