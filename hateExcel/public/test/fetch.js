@@ -5,7 +5,8 @@
 fetch( '/select', {
    method:'POST',
    headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
-   body : "table=kids"
+   body : "table=kids",
+   credentials: "include"
 })
 .then( (r) => {
   return r.json();
@@ -18,7 +19,8 @@ fetch( '/select', {
 fetch( '/select', {
    method:'POST',
    headers: { 'content-type': 'application/json' },
-   body : JSON.stringify({ table : 'kids'})
+   body : JSON.stringify({ table : 'kids'}),
+   credentials: "include"
 })
 .then( (r) => {
   return r.json();
