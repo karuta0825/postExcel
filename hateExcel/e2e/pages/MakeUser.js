@@ -17,7 +17,6 @@ const elements = {
     'ES'    : '.select-version > option:nth-child(2)',
     'LM'    : '.select-version > option:nth-child(3)',
     'srv1'  : '.select-server > option:nth-child(1)',
-    // 'srv2'  : '.select-server > option:nth-child(2)'
   },
   'server-title' : '.select-name.server',
   'kid-title'    : '.select-name.kid',
