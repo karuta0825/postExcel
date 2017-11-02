@@ -45,11 +45,12 @@ t.describe('メニュー変更', function () {
   });
 
   t.it('HOME画面に遷移する', () => {
-    n.move('HOME');
-    // TODO:　n.move()の返り値として初期化クラスを渡せばよいのだ。
-    var page = new Home( driver, By, until );
-    page.isActive().then( (r) => {
-      assert(r === true);
+
+    n.move('HOME')
+    .then( (page) => {
+      page.isActive().then( (r) => {
+        assert(r === true);
+      });
     });
 
   });
@@ -57,12 +58,12 @@ t.describe('メニュー変更', function () {
   t.it('ユーザー作成画面に遷移する', () => {
 
     n.move('ユーザー作成')
-    .then( () => {
-      var page = new MakeUser( driver, By, until);
+    .then( (page) => {
       page.isActive().then( (r) => {
         assert( r === true );
       });
     });
+
   });
 
   t.it('ユーザー登録画面に遷移する', () => {

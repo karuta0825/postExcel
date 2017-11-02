@@ -1,5 +1,7 @@
 // @flow
 const Page = require('./Page').Page;
+const Home = require('./Home').Home;
+const MakeUser = require('./MakeUser').MakeUser;
 
 // CSSセレクタ
 const elements = {
@@ -50,10 +52,12 @@ class Navigation extends Page {
       case 'HOME' :
         obj.el = this.elements.home;
         obj.is_setting = false;
+        obj.page = Home;
         break;
       case 'ユーザー作成' :
         obj.el = this.elements.mkUsr;
         obj.is_setting = false;
+        obj.page = MakeUser;
         break;
       case 'ユーザー登録' :
         obj.el = this.elements.regUsr;
@@ -142,6 +146,9 @@ class Navigation extends Page {
     })
     .then( () => {
       context.closeMenu();
+    })
+    .then( () => {
+      return new target.page(this.driver, this.By, this.until);
     })
     ;
 
