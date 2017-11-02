@@ -2,6 +2,7 @@
 const Page = require('./Page').Page;
 const Home = require('./Home').Home;
 const MakeUser = require('./MakeUser').MakeUser;
+const RegistUser = require('./RegistUser').RegistUser;
 
 // CSSセレクタ
 const elements = {
@@ -23,7 +24,8 @@ const elements = {
 // メニュー項目
 type MenuItem = {
   el         : any,
-  is_setting : boolean
+  is_setting : boolean,
+  page       : any
 };
 
 class Navigation extends Page {
@@ -62,6 +64,7 @@ class Navigation extends Page {
       case 'ユーザー登録' :
         obj.el = this.elements.regUsr;
         obj.is_setting = false;
+        obj.page = RegistUser;
         break;
       case 'ユーザー情報' :
         obj.el = this.elements.usrList;
@@ -93,7 +96,7 @@ class Navigation extends Page {
   }
 
   // メニュー画面を開く
-  openMenu () {
+  _openMenu () {
     // メニューボタンが押せるまで待つ
     this.driver.wait(this.until.elementIsNotVisible(this.elements.menu_obfus, 10000));
     return this.elements.menu.click();
@@ -101,7 +104,7 @@ class Navigation extends Page {
   }
 
   // メニュー画面を閉じる
-  closeMenu() {
+  _closeMenu() {
 
     return this.driver.wait(
       this.until.elementIsVisible(this.elements.menu_obfus, 10000)
@@ -113,12 +116,12 @@ class Navigation extends Page {
    * メニュー内の指定ページに画面遷移
    * @param  {String} menu_name - メニュー名
    */
-  move ( menu_name: string ) {
+  move( menu_name: string ) {
 
-    const target = this._getDest( menu_name );
+    const target: MenuItem = this._getDest( menu_name );
     const context = this;
 
-    return this.openMenu()
+    return this._openMenu()
     .then( () => {
 
       // 設定詳細メニューを表示
@@ -145,7 +148,7 @@ class Navigation extends Page {
       target.el.click();
     })
     .then( () => {
-      context.closeMenu();
+      context._closeMenu();
     })
     .then( () => {
       return new target.page(this.driver, this.By, this.until);

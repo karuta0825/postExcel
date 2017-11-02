@@ -1,8 +1,6 @@
 // @flow
-const Page = require('./Page').Page;
-
+const MainMenu = require('./MainMenu').MainMenu;
 const entryPoint = '.main-contents--reg-usr';
-
 const elements = {
   'upload' : '.upload',
   'btn' : {
@@ -12,7 +10,7 @@ const elements = {
   'finish' : '#modal-finish-register'
 };
 
-class RegistUser extends Page {
+class RegistUser extends MainMenu {
 
   constructor ( driver: any, by: any, until: any ) {
     super(driver,by, until, entryPoint );

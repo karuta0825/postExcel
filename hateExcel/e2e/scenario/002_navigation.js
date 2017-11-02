@@ -67,12 +67,12 @@ t.describe('メニュー変更', function () {
   });
 
   t.it('ユーザー登録画面に遷移する', () => {
-    n.move('ユーザー登録');
-    var page;
-    page.isActive().then( (r) => {
-      assert( r === true );
+    n.move('ユーザー登録')
+    .then( (page) => {
+      page.isActive().then( (r) => {
+        assert( r === true );
+      });
     });
-    assert( page === true );
   });
 
   t.it('ユーザー情報画面に遷移する', () => {
