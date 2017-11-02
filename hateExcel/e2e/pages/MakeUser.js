@@ -1,6 +1,6 @@
 // @flow
-const Page = require('./Page').Page;
-
+const MainMenu = require('./MainMenu').MainMenu;
+const entryPoint: string = '.main-contents--mk-usr';
 const elements = {
   'btn' : {
     'ok'     : '.btn--ok'
@@ -27,20 +27,13 @@ const elements = {
   }
 };
 
-class MakeUser extends Page {
+class MakeUser extends MainMenu {
 
   elements : any;
 
   constructor( driver: any, By: any, until: any ) {
-    super( driver, By, until, '.main-contents--mk-usr');
+    super(driver, By, until, entryPoint);
     super.initElements(elements);
-  }
-
-  isActive (): Promise<Boolean> {
-    return super.getEntryDom().getAttribute('class')
-    .then( (r) => {
-      return r.match(/is-active/) !== null;
-    });
   }
 
   /**

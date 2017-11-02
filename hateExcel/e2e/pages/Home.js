@@ -1,9 +1,7 @@
 // @flow
-const Page = require('./Page').Page;
-
-const entryPoint = '.main-contents--home';
-
-const elements = {
+const MainMenu: MainMenu = require('./MainMenu').MainMenu;
+const entryPoint: string = '.main-contents--home';
+const elements: any = {
   'article' : {
     'notice' : '.article-notice',
     'table'  : '.article-servers-table'
@@ -27,21 +25,11 @@ const elements = {
   }
 };
 
-class Home extends Page {
+class Home extends MainMenu {
 
   constructor ( driver: any, by: any, until: any ) {
     super(driver,by, until, entryPoint );
     super.initElements(elements);
-  }
-
-  /**
-   * HOME画面がアクティブ状態かどうかを返す
-   */
-  isActive (): Promise<Boolean> {
-    return super.getEntryDom().getAttribute('class')
-    .then( (r) => {
-      return r.match(/is-active/) !== null;
-    });
   }
 
   /**
