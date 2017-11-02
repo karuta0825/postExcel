@@ -76,49 +76,49 @@ t.describe('メニュー変更', function () {
   });
 
   t.it('ユーザー情報画面に遷移する', () => {
-    n.move('ユーザー情報');
-    var page;
-    page.isActive().then( (r) => {
-      assert( r === true );
+    n.move('ユーザー情報')
+    .then( (page) => {
+      page.isActive().then( (r) => {
+        assert( r === true );
+      });
     });
-    assert( page === true );
   });
 
   t.it('サーバー情報画面に遷移する', () => {
-    n.move('サーバー情報');
-    var page;
-    page.isActive().then( (r) => {
-      assert( r === true );
+    n.move('サーバー情報')
+    .then( (page) => {
+      page.isActive().then( (r) => {
+        assert( r === true );
+      });
     });
-    assert( page === true );
 
   });
 
   t.it('サービス情報画面に遷移する', () => {
-    n.move('サービス情報');
-    var page;
-    page.isActive().then( (r) => {
-      assert( r === true );
+    n.move('サービス情報')
+    .then( (page) => {
+      page.isActive().then( (r) => {
+        assert( r === true );
+      });
     });
-    assert( page === true );
   });
 
   t.it('テンプレート画面に遷移する', () => {
-    n.move('テンプレート');
-    var page;
-    page.isActive().then( (r) => {
-      assert( r === true );
+    n.move('テンプレート')
+    .then( (page) => {
+      page.isActive().then( (r) => {
+        assert( r === true );
+      });
     });
-    assert( page === true );
   });
 
   t.it('ログイン画面に遷移する', () => {
-    n.move('ログイン');
-    var page;
-    page.isActive().then( (r) => {
-      assert( r === true );
+    n.move('ログイン')
+    .then( (page) => {
+      page.isActive().then( (r) => {
+        assert( r === true );
+      });
     });
-    assert( page === true );
   });
 
 });

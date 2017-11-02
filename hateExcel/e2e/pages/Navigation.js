@@ -1,8 +1,13 @@
 // @flow
-const Page = require('./Page').Page;
-const Home = require('./Home').Home;
-const MakeUser = require('./MakeUser').MakeUser;
+const Page       = require('./Page').Page;
+const Home       = require('./Home').Home;
+const MakeUser   = require('./MakeUser').MakeUser;
 const RegistUser = require('./RegistUser').RegistUser;
+const Kids       = require('./Kids').Kids;
+const Servers    = require('./Servers').Servers;
+const Services   = require('./Services').Services;
+const Template   = require('./Template').Template;
+const LoginInfo  = require('./LoginInfo').LoginInfo;
 
 // CSSセレクタ
 const elements = {
@@ -45,7 +50,7 @@ class Navigation extends Page {
    * @return {MenuItem} obj   - メニューのDOM要素に関するオブジェクト
    * @private
    */
-  _getDest ( item : string ) : MenuItem {
+  _getDest ( item : string ): MenuItem {
 
     var obj = {};
 
@@ -69,22 +74,27 @@ class Navigation extends Page {
       case 'ユーザー情報' :
         obj.el = this.elements.usrList;
         obj.is_setting = false;
+        obj.page = Kids;
         break;
       case 'サーバー情報' :
         obj.el = this.elements.server;
         obj.is_setting = true;
+        obj.page = Servers;
         break;
       case 'サービス情報' :
         obj.el = this.elements.service;
         obj.is_setting = true;
+        obj.page = Services;
         break;
       case 'テンプレート' :
         obj.el = this.elements.template;
         obj.is_setting = true;
+        obj.page = Template;
         break;
       case 'ログイン' :
         obj.el = this.elements.login;
         obj.is_setting = true;
+        obj.page = LoginInfo;
         break;
       default :
         throw new Error(item　+ 'は存在しないメニューです。引数を確認してください');
