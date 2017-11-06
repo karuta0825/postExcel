@@ -8,6 +8,7 @@
       tab_name : '基本情報',
       item_name_map : {
         'kid'           : 'KID',
+        'register_on'   : '受付日',
         'user_name'     : '事業者名',
         'server'        : 'サーバ',
         'userkey'       : 'ユーザーキー',
