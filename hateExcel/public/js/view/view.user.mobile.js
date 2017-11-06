@@ -321,7 +321,7 @@
     , file_name = 'SaasWebUserAdd_' + kid + '.bat'
     , tmpl      =  cms.db.getHtml('/template/template_SaaSWebUserAdd.txt')
     , complied  = _.template(tmpl)
-    , data = { data : cms.model.userMobile.getSaaSWebUserData() }
+    , data = cms.model.userMobile.getSaaSWebUserData()
     , blob
     ;
 

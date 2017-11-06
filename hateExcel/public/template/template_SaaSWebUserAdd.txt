@@ -16,13 +16,13 @@ REM set SqlPassword=<SQLサーバのユーザパスワード　例：U53RK3N5YU>
 REM ####################################################################################
 
 set InstallDrive=D
-set Server=<%- data.AP_IP %>
-set userName=WINCARE\Administrator
+set Server=<%- AP_IP %>
+set userName=<%= domain %>\Administrator
 set password=1AJNQJ
-set WinUser=<%- data.userkey %>
-set SqlServer=<%- data.DB_IP %>
-set SqlUser=<%- "u" +  data.userkey %>
-set SqlPassword=<%- data.db_password %>
+set WinUser=<%- userkey %>
+set SqlServer=<%- DB_IP %>
+set SqlUser=<%- "u" +  userkey %>
+set SqlPassword=<%- db_password %>
 
 set InstallRoot=%InstallDrive%:\WINCARE
 set Site=wwwroot

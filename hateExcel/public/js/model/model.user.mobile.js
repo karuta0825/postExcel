@@ -60,19 +60,23 @@
    */
   getSaaSWebUserData = function () {
 
-    var user = _.clone( cms.model.userBaseInfo.getCache() );
+    var
+      user = _.clone( cms.model.userBaseInfo.getCache() )
+    , AP
+    , DB
+    ;
 
     if ( !user || !user.server ) {
       return;
     }
 
-    var AP = cms.model.servers.find({name:user.server})[0];
+    AP = cms.model.servers.find({name:user.server})[0];
 
     if ( !AP || !AP.connect_db || !AP.connect_db === '' ) {
       return;
     }
 
-    var DB = cms.model.servers.find({name:AP.connect_db})[0];
+    DB = cms.model.servers.find({name:AP.connect_db})[0];
 
     if ( !DB || !DB.ip ) {
       return;
@@ -82,7 +86,8 @@
       AP_IP       : AP.ip,
       DB_IP       : DB.ip,
       userkey     : user.userkey,
-      db_password : user.db_password
+      db_password : user.db_password,
+      domain      : DB.domain || AP.name || 'WINCARE'
     };
 
   };
