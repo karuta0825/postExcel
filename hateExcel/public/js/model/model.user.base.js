@@ -8,6 +8,7 @@
     _cache
   , vl = new util.Validate({
     'id'            : 'noCheck',
+    'register_on'   : 'noCheck',
     'kid'           : "isId",
     'user_name'     : "noCheck",
     'userkey'       : "isAlpha",

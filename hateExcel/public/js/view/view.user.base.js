@@ -26,6 +26,7 @@
         },
         'kid'              : '.kid',
         'input' : {
+          'register_on'    : '.register_on',
           'kid'            : '.kid',
           'user_name'      : '.user_name',
           'server'         : '.server',
@@ -474,6 +475,7 @@
     result.system = {
       'id'            : customer.model.userBaseInfo.getCache().id,
       'kid'           : systemView.get('kid'                        ).find('.item-value').val(),
+      'register_on'   : systemView.get('input__register_on'         ).find('.item-value').val(),
       'user_name'     : systemView.get('input__user_name'           ).find('.item-value').val(),
       'server'        : systemView.get('input__server'              ).find('.item-value').val(),
       'userkey'       : systemView.get('input__userkey'             ).find('.item-value').val(),
@@ -536,7 +538,16 @@
 
     // 値設定
     _.each( systemView.get('input'), function (v,k) {
-      v.find('.item-value').val(data[k]);
+
+      // 日付は変換
+      if ( k === 'register_on' ) {
+        v.find('.item-value').val(
+          moment(data[k]).format('YYYY-MM-DD')
+        );
+      }
+      else {
+        v.find('.item-value').val(data[k]);
+      }
     });
 
     if ( data.system_type === 'onpre' ) {
