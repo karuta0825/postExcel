@@ -18,6 +18,7 @@
       connect_db     : 'noCheck',
       version        : 'noCheck',
       capacity       : 'isNatural',
+      domain         : 'noCheck',
       environment_id : 'noCheck'
     })
   , initModule

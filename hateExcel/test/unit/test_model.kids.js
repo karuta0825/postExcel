@@ -383,13 +383,46 @@ describe('model.kidsモジュール', () => {
         assert( data.data[0].after === 'change' );
       });
 
-
       customer.model.kids.update(view_data);
 
     });
 
   });
 
+  describe('stub', () => {
+
+    var st;
+
+    beforeEach( () => {
+      st = sinon.stub(customer.model.kids, 'fetch');
+    });
+
+    afterEach( () => {
+      st.restore();
+    });
+
+    it('callsFakeのreturnにPromiseを使用できる', () => {
+
+
+      st.returns( Promise.resolve('ok'));
+
+      // returnが絶対に必要
+      return customer.model.kids.fetch().then( (r) => {
+        assert( r === 'ok2');
+      });
+
+
+    });
+
+    // it('受け取った引数を返す', () => {
+
+    //   st.returnsArg(0);
+
+    //   assert( st(3) === 2 );
+
+    // });
+
+  });
 
   /**
    * update系のテストの書き方

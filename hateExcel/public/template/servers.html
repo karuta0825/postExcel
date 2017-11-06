@@ -9,6 +9,7 @@
       <th class='ip mdl-data-table__cell--non-numeric'>IPアドレス</th>
       <th class='env mdl-data-table__cell--non-numeric'>接続DB</th>
       <th class='env mdl-data-table__cell--non-numeric'>収容数</th>
+      <th class='env mdl-data-table__cell--non-numeric'>ドメイン名(なければコンピュータ名)</th>
       <th class='del-flg'>削除</th>
     </tr>
   </thead>
@@ -38,7 +39,7 @@
       </td>
 
       <td class='name'>
-        <input type='text' value=<%- item.name %> >
+        <input type='text' maxlength='10' value=<%- item.name %> >
       </td>
 
       <td class='ip'>
@@ -51,6 +52,10 @@
 
       <td class='capacity'>
         <input type='number' value=<%- item.capacity %> >
+      </td>
+
+      <td class='domain'>
+        <input type='text' maxlength='45' value=<%- item.domain %> >
       </td>
 
       <td align='center' class='del'>

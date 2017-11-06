@@ -32,6 +32,7 @@
   , _changeVersion
   , _changeConnetDBVisibilty
   , _makeSelectBox
+  , _makeInputWidthMaxLength
   , _setConnectDBValue
   , _onClickAdd
   , _onClickCancel
@@ -141,10 +142,11 @@
     var
       tr          = $('<tr>',     { 'data-id' : 'c' + idx })
     , td_type     = $('<td>',     { class : 'type'} )
-    , td_name     = $('<td>',     { class : 'name' } )
+    , td_name     = $('<td>',     { class : 'name'} )
     , td_ip       = $('<td>',     { class : 'ip' } )
     , td_con_db   = $('<td>',     { class : 'connect_db' } )
     , td_capacity = $('<td>',     { class : 'capacity' } )
+    , td_domain   = $('<td>',     { class : 'domain'} )
     , td_del      = $('<td>',     { align : 'center', class : 'del' } )
     , input       = $('<input>',  { type  : 'text' } )
     , input_num   = $('<input>',  { type  : 'number' } )
@@ -161,9 +163,9 @@
     // cidの管理もモデルにやってほしいものだ
     idx += 1;
     select_type
-      .append( opt_ap  )
-      .append( opt_db  )
-      .append( opt_web )
+    .append( opt_ap  )
+    .append( opt_db  )
+    .append( opt_web )
       ;
 
     select_db.append( $('<option>') );
@@ -172,10 +174,11 @@
     });
 
     td_type.append(select_type);
-    td_name.append( $(input).clone(true) );
+    td_name.append( _makeInputWidthMaxLength(10) );
     td_ip.append(   $(input).clone(true) );
     td_con_db.append( select_db );
     td_capacity.append( input_num );
+    td_domain.append( _makeInputWidthMaxLength(45) );
     td_del.append( button.append(icon) );
 
     tr.append(td_type)
@@ -183,11 +186,17 @@
       .append(td_ip)
       .append(td_con_db)
       .append(td_capacity)
+      .append(td_domain)
       .append(td_del)
       ;
 
     return tr;
 
+  };
+
+  _makeInputWidthMaxLength = function ( length, type ) {
+    type = (type) ? type : 'text';
+    return $('<input>',  { type  : type, maxlength : length } );
   };
 
   _drawTable = function ( data ) {
@@ -261,6 +270,7 @@
       'connect_db'   : '',
       'environment_id' : (version === 'LM') ? 4 : 3,
       'capacity'     : '',
+      'domain'       : '',
       'version'      : version
     });
 
