@@ -1,23 +1,18 @@
-dsadd group "CN=UsersUSERKEY,CN=Users,DC=WINCARE,DC=local" -scope l -secgrp yes
+dsadd group "CN=UsersUSERKEY,CN=Users,DC=<%= domain %>,DC=local" -scope l -secgrp yes
 
 <% _.each(list, function(v,i) { %>
-
 <% if ( v.client_id.indexOf('0999') !== -1 ) { %>
-dsadd user "CN=<%- v.client_id %>,CN=Users, DC=WINCARE,DC=local" -ln <%- v.client_id %> -display <%- v.client_id %> -desc "サポセン用：<%- user_name %>" -upn <%- v.client_id %>@WINCARE.local -pwd "<%- v.client_id %>" -pwdneverexpires yes
-dsmod group "CN=Users<%- userkey %>,CN=Users,DC=WINCARE,DC=local" -addmbr "CN=<%- v.client_id %>,CN=Users,DC=WINCARE,DC=local"
-dsmod group "CN=Remote Desktop Users,CN=Builtin,DC=WINCARE,DC=local" -addmbr "CN=<%- v.client_id %>,CN=Users,DC=WINCARE,DC=local"
+dsadd user "CN=<%- v.client_id %>,CN=Users, DC=<%= domain %>,DC=local" -ln <%- v.client_id %> -display <%- v.client_id %> -desc "サポセン用：<%- user_name %>" -upn <%- v.client_id %>@<%= domain %>.local -pwd "<%- v.client_id %>" -pwdneverexpires yes
+dsmod group "CN=Users<%- userkey %>,CN=Users,DC=<%= domain %>,DC=local" -addmbr "CN=<%- v.client_id %>,CN=Users,DC=<%= domain %>,DC=local"
+dsmod group "CN=Remote Desktop Users,CN=Builtin,DC=<%= domain %>,DC=local" -addmbr "CN=<%- v.client_id %>,CN=Users,DC=<%= domain %>,DC=local"
 <% return; } %>
-
 <% if ( v.client_id.indexOf('1999') !== -1 ) { %>
-dsadd user "CN=<%- v.client_id %>,CN=Users, DC=WINCARE,DC=local" -ln <%- v.client_id %> -display <%- v.client_id %> -desc "サポセン用：<%- user_name %>" -upn <%- v.client_id %>@WINCARE.local -pwd "<%- v.client_id %>" -pwdneverexpires yes
-dsmod group "CN=Users<%- userkey %>,CN=Users,DC=WINCARE,DC=local" -addmbr "CN=<%- v.client_id %>,CN=Users,DC=WINCARE,DC=local"
-dsmod group "CN=Remote Desktop Users,CN=Builtin,DC=WINCARE,DC=local" -addmbr "CN=<%- v.client_id %>,CN=Users,DC=WINCARE,DC=local"
+dsadd user "CN=<%- v.client_id %>,CN=Users, DC=<%= domain %>,DC=local" -ln <%- v.client_id %> -display <%- v.client_id %> -desc "サポセン用：<%- user_name %>" -upn <%- v.client_id %>@<%= domain %>.local -pwd "<%- v.client_id %>" -pwdneverexpires yes
+dsmod group "CN=Users<%- userkey %>,CN=Users,DC=<%= domain %>,DC=local" -addmbr "CN=<%- v.client_id %>,CN=Users,DC=<%= domain %>,DC=local"
+dsmod group "CN=Remote Desktop Users,CN=Builtin,DC=<%= domain %>,DC=local" -addmbr "CN=<%- v.client_id %>,CN=Users,DC=<%= domain %>,DC=local"
 <% return; } %>
-
-dsadd user "CN=<%- v.client_id %>,CN=Users, DC=WINCARE,DC=local" -ln <%- v.client_id %> -display <%- v.client_id %> -desc "お客様：名前" -upn <%- v.client_id %>@WINCARE.local -pwd "<%- v.client_id %>" -pwdneverexpires yes
-dsmod group "CN=Users<%- userkey %>,CN=Users,DC=WINCARE,DC=local" -addmbr "CN=<%- v.client_id %>,CN=Users,DC=WINCARE,DC=local"
-dsmod group "CN=Remote Desktop Users,CN=Builtin,DC=WINCARE,DC=local" -addmbr "CN=<%- v.client_id %>,CN=Users,DC=WINCARE,DC=local"
-
+dsadd user "CN=<%- v.client_id %>,CN=Users, DC=<%= domain %>,DC=local" -ln <%- v.client_id %> -display <%- v.client_id %> -desc "お客様：名前" -upn <%- v.client_id %>@<%= domain %>.local -pwd "<%- v.client_id %>" -pwdneverexpires yes
+dsmod group "CN=Users<%- userkey %>,CN=Users,DC=<%= domain %>,DC=local" -addmbr "CN=<%- v.client_id %>,CN=Users,DC=<%= domain %>,DC=local"
+dsmod group "CN=Remote Desktop Users,CN=Builtin,DC=<%= domain %>,DC=local" -addmbr "CN=<%- v.client_id %>,CN=Users,DC=<%= domain %>,DC=local"
 <% }); %>
-
 pause

@@ -222,12 +222,30 @@
     , complied  = _.template(tmpl)
     , blob
     , data
+    , AP,DB
     ;
+
+    if ( !user || !user.server ) {
+      return;
+    }
+
+    AP = cms.model.servers.find({name:user.server})[0];
+
+    if ( !AP || !AP.connect_db || !AP.connect_db === '' ) {
+      return;
+    }
+
+    DB = cms.model.servers.find({name:AP.connect_db})[0];
+
+    if ( !DB || !DB.ip ) {
+      return;
+    }
 
     data = {
       userkey   : user.userkey,
       user_name : user.user_name,
-      list      : _getSelectItem()
+      list      : _getSelectItem(),
+      domain    : DB.domain
     };
 
     if ( data.list.length < 1 )  { return; }
