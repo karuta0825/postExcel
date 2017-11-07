@@ -102,7 +102,10 @@
   };
 
   refresh = function () {
-    drawNews(customer.model.homeNotices.fetch() );
+    return customer.model.homeNotices.fetch()
+    .then( function(r) {
+      drawNews(r);
+    });
   };
 
   initModule = function () {
