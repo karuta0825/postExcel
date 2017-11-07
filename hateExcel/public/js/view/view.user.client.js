@@ -226,18 +226,21 @@
     ;
 
     if ( !user || !user.server ) {
+      cms.view.dialogAlert.open('接続先のAPサーバが設定しないため正常に作成できません');
       return;
     }
 
     AP = cms.model.servers.find({name:user.server})[0];
 
     if ( !AP || !AP.connect_db || !AP.connect_db === '' ) {
+      cms.view.dialogAlert.open('接続先のDBサーバが存在しないため正常に作成できません');
       return;
     }
 
     DB = cms.model.servers.find({name:AP.connect_db})[0];
 
-    if ( !DB || !DB.ip ) {
+    if ( !DB || !DB.domain ) {
+      cms.view.dialogAlert.open('接続先のDBサーバにドメイン情報が設定されていないため正常に作成できません');
       return;
     }
 
@@ -248,7 +251,9 @@
       domain    : DB.domain
     };
 
-    if ( data.list.length < 1 )  { return; }
+    if ( data.list.length < 1 )  {
+      return;
+    }
 
     // データ作成
     blob = util.makeTxt2Blob( complied(data) );
