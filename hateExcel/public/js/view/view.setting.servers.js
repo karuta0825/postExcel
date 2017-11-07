@@ -30,7 +30,7 @@
   // private method
   , _changeValue
   , _changeVersion
-  , _changeConnetDBVisibilty
+  , _toggleByType
   , _makeSelectBox
   , _makeInputWidthMaxLength
   , _setConnectDBValue
@@ -77,7 +77,7 @@
 
   };
 
-  _changeConnetDBVisibilty = function ( evt ) {
+  _toggleByType = function ( evt ) {
 
     var
       type = $(evt.target).val()
@@ -86,9 +86,15 @@
 
     if ( type === 'AP' ) {
       tr.find('.select-db').removeClass('is-hidden');
+      tr.find('.domain input').addClass('is-hidden');
+    }
+    else if ( type === 'DB' ) {
+      tr.find('.select-db').addClass('is-hidden');
+      tr.find('.domain input').removeClass('is-hidden');
     }
     else {
       tr.find('.select-db').addClass('is-hidden');
+      tr.find('.domain input').addClass('is-hidden');
     }
 
   };
@@ -97,6 +103,7 @@
   /**
    * [_setConnectDBValue description]
    * @param {[type]} version
+   * @todo : 表示制御しているので、関数名を変更したほうがいい
    */
   _setConnectDBValue = function ( version ) {
 
@@ -110,8 +117,14 @@
 
       $(el).find('.select-db').val( item.connect_db );
 
+      // 接続先DB入力不可
       if ( item.type !== 'AP' ) {
         $(el).find('.select-db').addClass('is-hidden');
+      }
+
+      // DOMAIN入力不可
+      if ( item.type !== 'DB' ) {
+        $(el).find('.domain input').addClass('is-hidden');
       }
 
     });
@@ -355,6 +368,8 @@
     _makeSelectBox('LM');
     _makeSelectBox('ES');
 
+
+
     view['BASE'].addListener({
       'change version' : _changeVersion
     });
@@ -365,7 +380,7 @@
       'click btn__cancel'  : _onClickCancel,
       'click btn__del'     : _onClickDel,
       'change body'        : _changeValue,
-      'change select_type' : _changeConnetDBVisibilty
+      'change select_type' : _toggleByType
     });
 
     view['ES'].addListener({
