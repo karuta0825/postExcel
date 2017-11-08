@@ -191,7 +191,7 @@
     td_ip.append(   $(input).clone(true) );
     td_con_db.append( select_db );
     td_capacity.append( input_num );
-    td_domain.append( _makeInputWidthMaxLength(45) );
+    td_domain.append( _makeInputWidthMaxLength(45).attr('class','is-hidden') );
     td_del.append( button.append(icon) );
 
     tr.append(td_type)
