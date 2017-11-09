@@ -85,7 +85,8 @@
 
   _makeSelectServer = function () {
     var version = $(this).val();
-    var list_option = customer.model.servers.find( { 'version' : version, 'type' : 'AP' } );
+    var list_option = [{name:''}];
+    list_option = _.union( list_option, customer.model.servers.find( { 'version' : version, 'type' : 'AP' }) );
     util.addOption( list_option, makeUserView.get('select__server'), true );
   };
 
