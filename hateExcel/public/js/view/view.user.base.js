@@ -475,7 +475,7 @@
     result.system = {
       'id'            : customer.model.userBaseInfo.getCache().id,
       'kid'           : systemView.get('kid'                        ).find('.item-value').val(),
-      'register_on'   : systemView.get('input__register_on'         ).find('.item-value').val(),
+      'register_on'   : moment(systemView.get('input__register_on'  ).find('.item-value').val()).format('YYYY/MM/DD'),
       'user_name'     : systemView.get('input__user_name'           ).find('.item-value').val(),
       'server'        : systemView.get('input__server'              ).find('.item-value').val(),
       'userkey'       : systemView.get('input__userkey'             ).find('.item-value').val(),
