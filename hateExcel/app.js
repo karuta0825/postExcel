@@ -650,8 +650,6 @@ app.post('/master', function ( req, res ) {
       res.json({'result' : 'OK'});
       return;
     });
-    return;
-    });
   }
 
 });
