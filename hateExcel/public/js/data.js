@@ -88,9 +88,10 @@ customer.db = ( function (){
 
         customer.view.dialogAlert.open( err.responseJSON.message );
 
-        return Promise.reject();
-
       }
+      
+      return Promise.reject(err);
+
     });
 
   };

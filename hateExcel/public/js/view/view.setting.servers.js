@@ -255,8 +255,28 @@
 
     cms.model.servers.sendServer(version)
     .then(function(){
+
+      // モデルの更新
+      initModule();
+
+      // ユーザ一覧のサーバー選択肢を更新
+      cms.view.kidsFilter.updateServerOption('all');
+
+      // ホーム画面のサーバー収容表を更新
+      cms.view.homeServerTable.refresh();
+
+      // 本画面更新
+      cms.view.servers.redrawTable(version);
+
       view[version].get('btn__save').prop('disabled', false);
+
       cms.view.dialogAlert.open('保存完了しました');
+
+    })
+    .catch( function (err) {
+      var msg = '保存に失敗しました ' + err.responseJSON.message.code;
+      view[version].get('btn__save').prop('disabled', false);
+      cms.view.dialogAlert.open(msg);
     });
 
   };

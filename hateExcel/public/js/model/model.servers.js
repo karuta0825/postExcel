@@ -145,21 +145,7 @@
       });
     }
 
-    return cms.db.post('/master', params )
-    .then( function () {
-
-      // モデルの更新
-      initModule();
-
-      // ユーザ一覧のサーバー選択肢を更新
-      cms.view.kidsFilter.updateServerOption('all');
-
-      // ホーム画面のサーバー収容表を更新
-      cms.view.homeServerTable.refresh();
-
-      cms.view.servers.redrawTable(version);
-
-    });
+    return cms.db.post('/master', params );
 
   };
 
