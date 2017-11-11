@@ -57,7 +57,6 @@ Database.prototype.transaction = function ( querys, params, callback ) {
         } else {
           // 終了
           client.commit( function (err) {
-            client.end();
             if (err) {reject(err);}
             resolve('ends');
           });
@@ -84,7 +83,6 @@ Database.prototype.transaction = function ( querys, params, callback ) {
   })
   .catch( function (err) {
     callback(err, null);
-    client.end();
   })
   ;
 
