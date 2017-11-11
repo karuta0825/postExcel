@@ -605,9 +605,7 @@ var makeMobileUser = function ( input_map, idx, cb_resolve ) {
 
   });
 
-
 };
-
 
 
 /**
@@ -617,9 +615,31 @@ datas.makeFenicsList = flow.makeSyncLoop( makeFenicsAccount );
 
 datas.makeClientList = flow.makeSyncLoop( makeClient );
 
-datas.makeServiceList = flow.makeSyncLoop( makeService );
+datas.makeServiceList = function ( version, params, callback ) {
+  var qs = [querys.delete.services];
+  for ( var i=0; i< params.length; i+=1 ) {
+    qs.push(querys.insert.services);
+  };
+  params.unshift(version);
+  db.transaction( qs, params, function (err, result) {
+    db.end();
+    callback(err, result);
+  });
 
-datas.makeServerList = flow.makeSyncLoop( makeServer );
+};
+
+datas.makeServerList = function ( version, params, callback ) {
+  var qs = [querys.delete.servers];
+  for ( var i=0; i< params.length; i+=1 ) {
+    qs.push(querys.insert.servers);
+  };
+  params.unshift(version);
+  db.transaction( qs, params, function (err, result) {
+    db.end();
+    callback(err, result);
+  });
+
+};
 
 datas.makeMobileList = flow.makeSyncLoop( makeMobileUser );
 

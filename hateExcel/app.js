@@ -629,39 +629,30 @@ app.post('/master', function ( req, res ) {
     return;
   }
 
-  // delete
-  datas.delete( version, table, function ( err ) {
-    // delete時のエラー処理
-    if (err) {
-      console.log(err);
-      res.json({ 'result' : 'fail', 'error' : err });
-      return;
-    }
-    else {
-      // insert
-      // 何もデータがないとき
-      if ( list.length === 0 ) {
-        res.json({'result' : 'OK'});
+  if ( table === 'servers' ) {
+    datas.makeServerList( version, list, function (err, result) {
+      if (err) {
+        res.json(440, {result:'failed', message : err});
         return;
       }
+      res.json({'result' : 'OK'});
+      return;
+    });
+    return;
+  }
 
-      if ( table === 'services' ) {
-        datas.makeServiceList( list, list.length, function (result) {
-          res.json({'result' : 'OK'});
-          return
-        });
+  if ( table === 'services' ) {
+    datas.makeServiceList( version, list, function (err, result) {
+      if (err) {
+        res.json(440, {result:'failed', message : err});
+        return;
       }
-
-      if ( table === 'servers' ) {
-        datas.makeServerList( list, list.length, function (result) {
-          res.json({'result' : 'OK'});
-          return
-        });
-      }
-
-    }
-
-  });
+      res.json({'result' : 'OK'});
+      return;
+    });
+    return;
+    });
+  }
 
 });
 
