@@ -147,7 +147,8 @@
     var order = [
     'kid','user_name','server','userkey','db_password',
     'fenics_key','client_number','number_pc','number_id','range_id',
-    'license','has_qa','has_busiv','mobile_number', 'register_on',
+    'license','has_qa','has_busiv','mobile_number','register_on',
+    'is_new_contract','is_replaced_from_cj','is_replaced_from_wc','is_replaced_from_another',
     'sa_company', 'sa_name','sa_tel', 'sa_email',
     'se_company','se_name', 'se_tel','se_email',
     'em_company','em_name','em_tel','em_email'];
