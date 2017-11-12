@@ -350,7 +350,8 @@
     getPage      : $.proxy( _page.get, _page ),
     getPageIndex : $.proxy( _page.getIndex, _page ),
     getPageList  : getPageList,
-    getConditionAll : getConditionAll
+    getConditionAll : getConditionAll,
+    getHeader    : getHeader
   };
 
 }( jQuery, customer ));

@@ -93,7 +93,7 @@ datas.select = function ( condition, access, callback ) {
 
 datas.getHeader = function ( callback ) {
   db.query(
-    querys.select.header,
+    querys.select.show_columns,
     function ( err, results, fields ) {
       db.end();
       if ( err ) { console.log(err); return; }
