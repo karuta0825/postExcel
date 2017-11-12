@@ -256,9 +256,6 @@
     cms.model.servers.sendServer(version)
     .then(function(){
 
-      // モデルの更新
-      initModule();
-
       // ユーザ一覧のサーバー選択肢を更新
       cms.view.kidsFilter.updateServerOption('all');
 

@@ -143,7 +143,10 @@
       });
     }
 
-    return cms.db.post('/master/servers', params );
+    return cms.db.post('/master/servers', params )
+    .then( function () {
+      return initModule();
+    });
 
   };
 
