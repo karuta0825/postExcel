@@ -616,11 +616,11 @@ app.post('/updateClient', function (req, res) {
 
 });
 
-app.post('/master', function ( req, res ) {
+app.post('/master/:table', function ( req, res ) {
 
   var
     list    = req.body.items
-  , table   = req.body.table
+  , table   = req.params.table
   , version = list[0].version
   ;
 
