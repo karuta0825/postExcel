@@ -227,7 +227,7 @@
     networkView = new Controller('#usr-network-panel');
 
     networkView.wrap.append(
-      customer.db.getHtml('template/user.network.html')
+      customer.db.getHtml('html/user.network.html')
     );
 
     networkView.initElement( elements );

@@ -406,7 +406,7 @@
   initModule = function () {
 
     view = new Controller('#usr-mobile-panel');
-    view.wrap.append( customer.db.getHtml('template/user.mobile.html'));
+    view.wrap.append( customer.db.getHtml('html/user.mobile.html'));
 
     fenicsView = new Controller('.mobile-fenics');
 

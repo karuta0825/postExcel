@@ -184,7 +184,7 @@
   initModule = function () {
     // View挿入
     $('#usr-partner-panel')
-    .append( customer.db.getHtml('template/user.partner.html'));
+    .append( customer.db.getHtml('html/user.partner.html'));
 
     partnerView = new Controller('#usr-partner-panel');
 

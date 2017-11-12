@@ -711,7 +711,7 @@
   initModule = function () {
 
     $('#usr-base-panel')
-    .append( customer.db.getHtml('template/user.base.html'));
+    .append( customer.db.getHtml('html/user.base.html'));
 
     commonView = new Controller('#usr-base-panel');
     systemView = new Controller('#usr-base-panel');
