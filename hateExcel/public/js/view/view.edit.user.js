@@ -94,9 +94,10 @@
     cms.view.editUsrs.clearView();
 
     // 基本情報タブ　システム情報描画
-    cms.model.userBaseInfo.fetch( kid,
-      cms.view.userBaseInfo.makeSystemInfo
-    );
+    cms.model.userBaseInfo.fetch( kid, function (data) {
+      cms.view.userBaseInfo.makeSystemInfo(data);
+      cms.view.userBaseInfoContract.setViewInfo(data);
+    });
 
     // 基本情報タブ　拠点情報作成描画
     cms.model.userCustomer.fetch(kid,
