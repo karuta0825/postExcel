@@ -616,11 +616,11 @@ app.post('/updateClient', function (req, res) {
 
 });
 
-app.post('/master', function ( req, res ) {
+app.post('/master/:table', function ( req, res ) {
 
   var
     list    = req.body.items
-  , table   = req.body.table
+  , table   = req.params.table
   , version = list[0].version
   ;
 
@@ -629,27 +629,31 @@ app.post('/master', function ( req, res ) {
     return;
   }
 
-  if ( table === 'servers' ) {
-    datas.makeServerList( version, list, function (err, result) {
-      if (err) {
-        res.json(440, {result:'failed', message : err});
-        return;
-      }
-      res.json({'result' : 'OK'});
-      return;
-    });
-    return;
-  }
+  switch ( table ) {
 
-  if ( table === 'services' ) {
-    datas.makeServiceList( version, list, function (err, result) {
-      if (err) {
-        res.json(440, {result:'failed', message : err});
-        return;
-      }
-      res.json({'result' : 'OK'});
-      return;
-    });
+    case 'servers' :
+      datas.makeServerList( version, list, function (err, result) {
+        if (err) {
+          res.json(440, {result:'failed', message : err});
+          return;
+        }
+        res.json({'result' : 'OK'});
+      });
+      break;
+
+    case 'services' :
+      datas.makeServiceList( version, list, function (err, result) {
+        if (err) {
+          res.json(440, {result:'failed', message : err});
+          return;
+        }
+        res.json({'result' : 'OK'});
+      });
+      break;
+
+    default :
+      res.json(440, {result:'failed', message : 'URLが間違っています'});
+      break
   }
 
 });

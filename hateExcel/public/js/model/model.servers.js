@@ -130,9 +130,7 @@
 
   sendServer = function ( version ) {
 
-    var params = {
-      'table' : 'servers'
-    };
+    var params = {};
 
     if ( version === 'LM' ) {
       params.items = _.each( list_lm.getCache(), function (v,k) {
@@ -145,7 +143,7 @@
       });
     }
 
-    return cms.db.post('/master', params );
+    return cms.db.post('/master/servers', params );
 
   };
 

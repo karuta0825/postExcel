@@ -121,9 +121,7 @@
 
   sendServer = function ( version ) {
 
-    var params = {
-      'table' : 'services'
-    };
+    var params = {};
 
     if ( version === 'LM' ) {
       params.items = _.each( list_lm.getCache(), function (v,k) {
@@ -136,7 +134,7 @@
       });
     }
 
-    return cms.db.post('/master', params )
+    return cms.db.post('/master/services', params )
     .then(function (){
       initModule();
       cms.view.services.redrawTable(version);
