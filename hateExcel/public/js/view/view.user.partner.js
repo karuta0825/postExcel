@@ -41,6 +41,7 @@
       'alert' : '#save-alert'
     }
   , _validate
+  , _setTelBtn
   , cancel
   , save
   , edit
@@ -73,6 +74,32 @@
     }
 
     return false;
+
+  };
+
+  /**
+   * 電話ボタンを表示させる
+   * @param {String} key
+   * @param {jQuery Element} $el
+   * @param {String} data
+   */
+  _setTelBtn = function (key, $el, data ) {
+
+    // 電話番号項目は、値が入っていればTELボタンを表示する
+    if ( key === 'se_tel' || key === 'sa_tel' || key === 'em_tel' ) {
+
+      if ( data && data !== '') {
+        $el.find('a')
+        .removeClass('is-hidden')
+        .attr('href', 'tel:' + data.replace(/-/g,'') );
+      }
+      else {
+        $el.find('a')
+        .addClass('is-hidden')
+        .attr('href', '#');
+      }
+
+    }
 
   };
 
@@ -147,6 +174,7 @@
 
     _.each( partnerView.get('input'), function (v,k) {
       v.find('.item-value').val( data[k]);
+      _setTelBtn(k,v,data[k]);
     });
 
   };
