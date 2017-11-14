@@ -5,7 +5,8 @@
     view
   , elements = {
       'btn' : {
-        'close' : '.btn--close'
+        'close' : '.btn--close',
+        'save' : '.btn--save'
       },
       'list' : '.column-list',
       'switch' : {
@@ -46,6 +47,7 @@
       }
     }
   , _close
+  , _save
   , _switchColumnState
   , open
   , initModule
@@ -54,6 +56,11 @@
   _close = function () {
     view.wrap.get(0).close();
   };
+
+  _save = function () {
+    cms.model.kidsColumn.update();
+    _close();
+  }
 
   _switchColumnState = function () {
 
@@ -75,7 +82,23 @@
   };
 
   open = function () {
+
+    var columns = cms.model.kidsColumn.getCache();
+
+    _.each( view.get('switch'), function (val,key) {
+
+      if ( columns[key] === '1' && !val.get(0).checked ) {
+        val.click();
+      }
+
+      if( columns[key] === '0' && val.get(0).checked ) {
+        val.click();
+      }
+
+    });
+
     view.wrap.get(0).showModal();
+
   };
 
   initModule = function () {
@@ -86,6 +109,7 @@
 
     view.addListener({
       'click btn__close' : _close,
+      'click btn__save' : _save,
       'click switch__is_marked'     : _switchColumnState,
       'click switch__kid'           : _switchColumnState,
       'click switch__user_name'     : _switchColumnState,

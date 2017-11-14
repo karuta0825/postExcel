@@ -127,6 +127,14 @@ app.post('/select', function ( req, res ) {
     return;
   }
 
+  if ( table === 'header') {
+    var uid = req.session.uid;
+    datas.select( uid, table, function ( results ) {
+      res.json( results );
+    });
+    return;
+  }
+
   if ( table === 'add_info' ) {
     datas.getAddInfo( condition, function ( result ) {
       res.json( result );
@@ -189,15 +197,16 @@ app.get('/columns', function ( req, res ) {
 
 app.post('/columns', function ( req, res ) {
   var
-    headerMap = req.body.headerMap,
-    uid       = req.session.uid
+    data = req.body.data,
+    uid  = req.session.uid
     ;
 
-  datas.update( headerMap, uid, function ( err ) {
+  datas.update( data, uid, 'columns', function ( err ) {
     if ( err ) {
       res.status( 500 ).send( err.message );
       return;
     }
+    res.json({ result : 'ok'});
   });
 
 });

@@ -5,6 +5,7 @@
   , setShowColumn
   , getColumn
   , getCache
+  , update
   ;
 
   setShowColumn = function ( column, is_show ) {
@@ -25,11 +26,25 @@
     return _model.getCache()[0] || [];
   };
 
+  update = function () {
+
+    var clone = _.clone( getCache() );
+    delete clone.uid;
+
+    var params = {
+      'data' : clone
+    };
+
+    return cms.db.post('/columns', params );
+
+  };
+
   cms.model.kidsColumn = {
     fetch : $.proxy( _model.fetchAsync, _model ),
     getCache : getCache,
     setShowColumn : setShowColumn,
-    getColumn : getColumn
+    getColumn : getColumn,
+    update : update
   };
 
 

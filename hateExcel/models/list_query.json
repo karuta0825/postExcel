@@ -16,7 +16,7 @@
     "servers"                         : "SELECT * FROM servers order by name, ip, version;",
     "memo_templates"                  : "SELECT id, title, msg, LEFT(msg, 15) as short_msg FROM memo_templates order by id;",
     "users"                           : "SELECT * FROM login_users where uid = ? and password = ?;",
-    "header"                          : "SELECT * FROM columns where uid = 1;",
+    "header"                          : "SELECT * FROM columns where uid = ?;",
     "show_columns"                    : "SELECT * FROM columns where uid = 0;",
     "services"                        : "SELECT * FROM services;",
     "base_info"                       : "SELECT * FROM CUSTOMERS WHERE kid = ?;",
@@ -55,7 +55,7 @@
   "update" : {
     "date"          : "UPDATE USERS SET updateDate = ? WHERE kid = ?",
     "client_number" : "UPDATE USERS SET client_number = ? WHERE kid = ?",
-    "columns"       : "UPDATE columns SET kid = ?, company = ?, server = ?, userKey = ?, genics = ?, name = ?, client_number = ?, update_on = ? WHERE uid = ?;",
+    "columns"       : "UPDATE columns SET ? WHERE uid = ?;",
     "customers"     : "UPDATE customers SET ? WHERE ?",
     "partners"      : "UPDATE partners SET ? WHERE ?",
     "licenses"      : "UPDATE licenses SET ? WHERE ?",
@@ -67,7 +67,7 @@
     "busivs"        : "UPDATE busivs SET ? WHERE ?;",
     "mobiles"       : "UPDATE mobiles SET ? WHERE ?;",
     "events"        : "UPDATE events SET ? WHERE ?;",
-    "memo_templates" : "UPDATE memo_templates SET ? WHERE ?;",
+    "memo_templates"  : "UPDATE memo_templates SET ? WHERE ?;",
     "login_user_info" : "UPDATE login_users set ? WHERE ?;"
   },
 
