@@ -187,14 +187,6 @@ app.get('/tableHeader', function ( req, res ) {
   });
 });
 
-app.get('/columns', function ( req, res ) {
-  var uid = req.session.uid;
-  res.header("Content-Type", "application/json; charset=utf-8");
-  datas.getColumns( uid, function ( results ) {
-    res.json( results );
-  });
-});
-
 app.post('/columns', function ( req, res ) {
   var
     data = req.body.data,
