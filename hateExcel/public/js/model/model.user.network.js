@@ -41,7 +41,7 @@
       return;
     }
 
-    cms.db.post('/isUniqueIp', { ip : view_data['fenics_ip']})
+    return cms.db.post('/isUniqueIp', { ip : view_data['fenics_ip']})
     .then( function (result) {
 
       // 重複で更新不可
@@ -49,35 +49,23 @@
         cb_fail( ['fenics_ip'], function () {
           cms.view.dialogAlert.open('FenicsIPが重複してます');
         });
-        return;
+        throw new Error('FenicsIP重複');
       }
 
-      cms.db.post('/updateFenics', { data : [view_data] })
-      .then( function () {
-        return _model.fetchAsync( kids_id );
-      })
-      .then( function () {
-
-        cms.model.userNetwork.find({is_mobile : 0},
-          cms.view.userFenics.drawTable
-        );
-
-        cms.model.userNetwork.find({is_mobile : 1},
-          cms.view.userMobile.drawTable
-        );
-
-      })
-      .then ( function (result) {
-        cb_success();
-      })
-      .then( function () {
-        cms.view.kids.refresh();
-      })
-      .catch( function (err) {
-        throw Error(err);
-      });
-
+    })
+    .then( function () {
+      return cms.db.post('/updateFenics', { data : [view_data] })
+    })
+    .then( function () {
+      return _model.fetchAsync( kids_id );
+    })
+    .then ( function (result) {
+      if (typeof cb_success === 'function'){ cb_success() };
+    })
+    .catch( function (err) {
+      throw new Error(err);
     });
+
 
   };
 

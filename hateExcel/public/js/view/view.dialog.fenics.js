@@ -85,7 +85,24 @@
    */
   _save = function () {
 
-    cms.model.userNetwork.update( getViewInfo(), close, _showError );
+    cms.model.userNetwork.update( getViewInfo(), close, _showError )
+    .then( function () {
+
+      cms.model.userNetwork.find({is_mobile : 0},
+        cms.view.userFenics.drawTable
+      );
+
+      cms.model.userNetwork.find({is_mobile : 1},
+        cms.view.userMobile.drawTable
+      );
+
+      cms.view.kids.refresh();
+
+    })
+    .catch( function (r) {
+      console.log(r);
+    })
+    ;
 
   };
 
