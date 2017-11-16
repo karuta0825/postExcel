@@ -89,12 +89,17 @@
     if ( key === 'se_tel' || key === 'sa_tel' || key === 'em_tel' ) {
 
       if ( data && data !== '') {
-        $el.find('a')
+        $el.find('[data-isIyayo=true]')
+        .removeClass('is-hidden')
+        .attr('href', 'tel:184' + data.replace(/-/g,'') );
+
+        $el.find('[data-isIyayo=false]')
         .removeClass('is-hidden')
         .attr('href', 'tel:' + data.replace(/-/g,'') );
+
       }
       else {
-        $el.find('a')
+        $el.find('[data-isIyayo]')
         .addClass('is-hidden')
         .attr('href', '#');
       }
