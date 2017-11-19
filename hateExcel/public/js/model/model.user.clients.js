@@ -51,7 +51,7 @@
       return _model.fetch( kids_id );
     })
     .then(function (r) {
-      cms.view.userClient.redrawTable(r);
+      cms.view.userClient.drawTable(r);
     });
 
   };

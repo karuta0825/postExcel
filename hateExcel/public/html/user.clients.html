@@ -1,5 +1,3 @@
-
-<% if ( !is_redraw ) { %>
   <!-- アクション -->
   <div class='user-edit-header__action'>
     <button class='btn btn--cancel mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect is-hidden' href='#edit-usr'>キャンセル</button>
@@ -52,32 +50,7 @@
       </div>
   </dialog>
 
-<% } %>
-
-<table class='account-table mdl-data-table mdl-js-data-table mdl-data-table--selectable'>
-
-  <thead>
-    <th class='mdl-data-table__cell--non-numeric'>ユーザー名</th>
-    <th class='mdl-data-table__cell--non-numeric'>パスワード</th>
-    <th class='mdl-data-table__cell--non-numeric'>対応FenicsID</th>
-    <th class='mdl-data-table__cell--non-numeric'>作成日</th>
-  </thead>
-  <tbody>
-
-    <% _.each( list, function ( item, num ) { %>
-      <tr id='<%- item.client_id %>'>
-        <td class='mdl-data-table__cell--non-numeric'><%- item.client_id %></td>
-        <td class='mdl-data-table__cell--non-numeric'><%- item.client_pass %></td>
-        <td class='mdl-data-table__cell--non-numeric'>
-          <select class='select-clients' disabled='disabled'></select>
-        </td>
-        <td class='mdl-data-table__cell--non-numeric'><%- item.create_on %></td>
-      </tr>
-    <% }); %>
-
-  </tbody>
-
-</table>
+  <div class="table--clients"></div>
 
 
 

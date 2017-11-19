@@ -26,7 +26,7 @@
         'citrix_user'     : '.download--citrix-user',
         'db_user'         : '.download--db-user'
       },
-      'table'  : '.account-table',
+      'table'  : '.table--clients',
       'dialog' : {
         'download' : '#modal-client-download',
         'delete'   : '#delete-clients-confirm'
@@ -48,7 +48,6 @@
   , makeFenicsSelectBox
   , clear
   , drawTable
-  , redrawTable
   , refresh
   , initModule
   ;
@@ -347,41 +346,31 @@
   };
 
   _cancel = function () {
-
     _backMode();
-
     refresh();
-
-  };
-
-  redrawTable = function ( data ) {
-
-    var
-      data     = { list : data, is_redraw : true }
-    , tmpl     = customer.db.getHtml('template/user.client.html')
-    , complied = _.template( tmpl )
-    ;
-
-    clientView.wrap.find('table').remove();
-    clientView.wrap.append( complied(data) );
-    componentHandler.upgradeElements( clientView.wrap );
-
-    clientView.updateElement({'table'           : '.account-table'});
-    clientView.updateElement({'select-clients'  : '.select-clients'});
-
-    makeFenicsSelectBox();
-
   };
 
   drawTable = function ( data ) {
 
     var
-      data     = { list : data, is_redraw : false }
-    , tmpl     = customer.db.getHtml('template/user.client.html')
+      data     = { list : data }
+    , tmpl     = customer.db.getHtml('template/clients.html')
     , complied = _.template( tmpl )
     ;
 
-    $('#usr-client-panel').append( complied(data) );
+    clientView.get('table')
+    .empty()
+    .append(complied(data))
+    ;
+
+    clientView.updateElement('table');
+    clientView.updateElement('select-clients');
+
+    componentHandler.upgradeElement(
+      clientView.get('table').find('table').get(0)
+    );
+
+    makeFenicsSelectBox();
 
   };
 
@@ -400,13 +389,15 @@
   refresh = function () {
 
     var kids_id = cms.model.userBaseInfo.getCache().id;
-    cms.model.userClients.fetch( kids_id , redrawTable );
+    cms.model.userClients.fetch( kids_id , drawTable );
 
   };
 
   initModule = function () {
 
-    drawTable();
+    // View挿入
+    $('#usr-client-panel')
+    .append( customer.db.getHtml('html/user.clients.html'));
 
     util.confirm({
       selector : '#usr-client-panel',
@@ -417,6 +408,8 @@
 
     clientView = new Controller('#usr-client-panel');
     clientView.initElement( elements );
+
+    drawTable();
 
     clientView.addListener({
       'click btn__download'             : _openDialog,
@@ -440,11 +433,10 @@
 
   // to public
   cms.view.userClient = {
-    initModule : initModule,
-    drawTable  : drawTable,
-    redrawTable : redrawTable,
-    clear : clear,
-    refresh : refresh,
+    initModule          : initModule,
+    drawTable           : drawTable,
+    clear               : clear,
+    refresh             : refresh,
     makeFenicsSelectBox : makeFenicsSelectBox
   };
 

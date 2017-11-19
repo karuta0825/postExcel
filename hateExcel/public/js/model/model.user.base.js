@@ -83,7 +83,7 @@
     var diff = view_client_number - _cache['client_number'];
 
     if ( diff < 1 ) {
-      cms.model.userClients.fetch( _cache['id'], cms.view.userClient.redrawTable );
+      cms.model.userClients.fetch( _cache['id'], cms.view.userClient.drawTable );
       return ;
     }
 
@@ -100,7 +100,7 @@
       return cms.model.userClients.fetch( _cache['id'] );
     })
     .then(function (r){
-      cms.view.userClient.redrawTable(r);
+      cms.view.userClient.drawTable(r);
     })
 
   };

@@ -120,7 +120,7 @@
 
     // クライアントテーブル描画
     cms.model.userClients.fetch(kid,
-      cms.view.userClient.redrawTable
+      cms.view.userClient.drawTable
     );
 
     // サービステーブル描画
