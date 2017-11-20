@@ -217,9 +217,11 @@
       customer.model.userNetwork.addFenicsAccount( getViewInfo() );
     }
 
-    customer.model.userBaseInfo.addClient( getViewInfo().client_number );
-    customer.model.userCustomer.update( getViewInfo('customer'), makeCustomerInfo );
-    customer.model.kids.update( getViewInfo('system'), makeSystemInfo );
+    customer.model.userBaseInfo.addClient( getViewInfo().client_number )
+    .then( function () {
+      customer.model.userCustomer.update( getViewInfo('customer'), makeCustomerInfo );
+      customer.model.kids.update( getViewInfo('system'), makeSystemInfo );
+    });
 
     // usekeyが更新されることがあるため更新
     cms.view.userNetwork.refresh();
