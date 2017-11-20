@@ -208,25 +208,26 @@ var makeMobileAdminPw = function ( adminId ) {
 };
 
 
-var findNewDbPass = function ( data, callback ) {
-  var db_pass = 'U53R' + makeUserKey(6);
+/**
+ * 旧台帳と同じ変換方法を利用してＤＢパスワードを求める
+ * @param  {String} userkey    - ユーザーキー
+ * @return {String} dbpassword - ＤＢパスワード
+ */
+var findNewDbPass = function ( userkey ) {
 
-  datas.select(
-    db_pass,
-    'find_new_db_password',
-    function ( result ) {
-      if ( result.length !== 0 ) {
-        console.log('not unique');
-        findNewDbPass( null, callback );
-      }
-      else {
-        // console.log('ok: ' +  db_pass)
-        if ( typeof callback === 'function') {
-          callback( null, db_pass );
-        }
-      }
-    }
-  );
+  var convert = userkey.replace(/A/g,"4")
+                       .replace(/B/g,"8")
+                       .replace(/E/g,"3")
+                       .replace(/G/g,"6")
+                       .replace(/I/g,"1")
+                       .replace(/O/g,"0")
+                       .replace(/S/g,"5")
+                       .replace(/T/g,"7")
+                       .replace(/Z/g,"2")
+                       ;
+
+  return 'U53R' + convert;
+
 };
 
 var findNewUserkey = function ( data, callback ) {
@@ -663,9 +664,6 @@ datas.makeUser = function ( input_map, callback ) {
         findNewUserkey(null, callback );
       },
       function(callback) {
-        findNewDbPass(null, callback );
-      },
-      function(callback) {
         findNewFenicsKey(null, callback);
       }
   ], function(err, results) {
@@ -673,8 +671,8 @@ datas.makeUser = function ( input_map, callback ) {
 
       set['kid']            = input_map.kid || results[0];
       set['userkey']        = results[1];
-      set['db_password']    = results[2];
-      set['fenics_key']     = results[3];
+      set['db_password']    = findNewDbPass(results[1]);
+      set['fenics_key']     = results[2];
       set['server']         = input_map['server'];
       set['environment_id'] = input_map['environment_id'];
       set['create_user_id'] = input_map['create_user_id'];
