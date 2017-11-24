@@ -23,7 +23,8 @@
   ;
 
   changeUpdateInfo = function ( id ) {
-    _updateInfo.push({ client_id : id });
+    _updateInfo.push(id);
+
   };
 
   clearUpdateInfo = function () {
@@ -39,19 +40,21 @@
       return;
     }
 
+    var list_update = _.chain(_updateInfo)
+    .uniq()
+    .map(function(v){return {client_id:v}})
+    .value();
+
     var
       params = {
-        data : _model.find( _updateInfo )
+        data : _model.find( list_update )
       }
     , kids_id = _model.getCache()[0].kids_id
     ;
 
-    cms.db.post('/updateClient', params )
+    return cms.db.post('/updateClient', params )
     .then(function() {
       return _model.fetch( kids_id );
-    })
-    .then(function (r) {
-      cms.view.userClient.drawTable(r);
     });
 
   };
@@ -70,7 +73,7 @@
       }
     ;
 
-    customer.db.post('/insert', {
+    return customer.db.post('/insert', {
       data  : [history_info],
       table : 'historys'
     })
@@ -83,14 +86,6 @@
     .then( function () {
       _model.delete( data );
     })
-    .then( function () {
-      cms.view.homeNotices.refresh();
-      cms.view.homeGraph.refresh();
-      cms.view.kids.refresh();
-      cms.view.userBaseInfo.refresh();
-      cms.view.userClient.refresh();
-    })
-    .then( callback );
 
   };
 
