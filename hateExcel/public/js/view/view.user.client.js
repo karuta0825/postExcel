@@ -19,6 +19,7 @@
       },
       'checkbox' : '.mdl-checkbox',
       'select-clients' : '.select-clients',
+      'end_on' : '.input--end_on',
       'download' : {
         'client'          : '.download--client',
         'open_notice'     : '.download--open-notice',
@@ -43,6 +44,7 @@
   , _downloadCitrixUser
   , _downloadDbUser
   , _changeFenicsId
+  , _changeEndOn
   , _save
   , _cancel
   , makeFenicsSelectBox
@@ -57,6 +59,7 @@
    * TODO:セレクトボックス指定のためのPropertyを作る
    */
   _goEditMode = function () {
+
     clientView.get('btn__edit').addClass('is-hidden');
     clientView.get('btn__download').addClass('is-hidden');
     clientView.get('btn__cancel').removeClass('is-hidden');
@@ -65,6 +68,7 @@
 
     // wrapではなく、propertyをしていさせる
     clientView.wrap.find('.select-clients').prop('disabled', false);
+    clientView.get('end_on').prop('disabled', false);
 
   };
 
@@ -80,6 +84,7 @@
     clientView.get('btn__save').addClass('is-hidden');
 
     clientView.wrap.find('.select-clients').prop('disabled', true);
+    clientView.get('end_on').prop('disabled', false);
 
   };
 
@@ -317,9 +322,16 @@
     var list_clients = _getSelectItem();
 
     if ( list_clients && list_clients.length > 0 ) {
-      customer.model.userClients.delete( list_clients, function () {
-        _backMode();
-      });
+      customer.model.userClients.delete( list_clients )
+      .then( function () {
+        cms.view.homeNotices.refresh();
+        cms.view.homeGraph.refresh();
+        cms.view.kids.refresh();
+        cms.view.userBaseInfo.refresh();
+        cms.view.userClient.refresh();
+      })
+      .then( _backMode )
+      ;
     }
 
   };
@@ -339,9 +351,26 @@
 
   };
 
+  _changeEndOn = function (evt) {
+    var
+      el        = $(evt.target)
+    , client_id = el.parents('tr').attr('id')
+    , value     = el.val()
+    ;
+
+    // コレクションの値を書き換える
+    // これはモデルのしごとだ
+    cms.model.userClients.find({ 'client_id' : client_id })[0].end_on = value;
+
+    cms.model.userClients.changeUpdateInfo( client_id );
+  };
+
 
   _save = function () {
-    cms.model.userClients.update();
+    cms.model.userClients.update()
+    .then( function (r) { drawTable(r);} )
+    .then( cms.view.kids.refresh )
+    .then( cms.view.userBaseInfo.refresh );
     _backMode();
   };
 
@@ -365,6 +394,7 @@
 
     clientView.updateElement('table');
     clientView.updateElement('select-clients');
+    clientView.updateElement('end_on');
 
     componentHandler.upgradeElement(
       clientView.get('table').find('table').get(0)
@@ -426,7 +456,8 @@
       'click download__db_user'         : _downloadDbUser,
       'click download__spla'            : function () { alert('download download__s')},
       'click download__mail'            : function () { alert('download download__m')},
-      'change select-clients'           : _changeFenicsId
+      'change select-clients'           : _changeFenicsId,
+      'change end_on'                   : _changeEndOn
     });
 
   };
