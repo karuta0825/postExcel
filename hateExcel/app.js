@@ -595,6 +595,7 @@ app.post('/updateClient', function (req, res) {
 
 
     item.fenics_id = data[i].fenics_id || '';
+    item.end_on = data[i].end_on || '';
 
     condition = data[i].client_id;
 
