@@ -5,6 +5,7 @@
     <th class='mdl-data-table__cell--non-numeric'>パスワード</th>
     <th class='mdl-data-table__cell--non-numeric'>対応FenicsID</th>
     <th class='mdl-data-table__cell--non-numeric'>作成日</th>
+    <th class='mdl-data-table__cell--non-numeric'>終了日</th>
   </thead>
   <tbody>
 
@@ -16,6 +17,9 @@
           <select class='select-clients' disabled='disabled'></select>
         </td>
         <td class='mdl-data-table__cell--non-numeric'><%- item.create_on %></td>
+        <td class='mdl-data-table__cell--non-numeric'>
+          <input class="input--end_on" type="date" value="<%- item.end_on %>" disabled='disabled'></input>
+        </td>
       </tr>
     <% }); %>
 
