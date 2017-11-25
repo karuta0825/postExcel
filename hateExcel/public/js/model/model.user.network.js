@@ -21,6 +21,7 @@
       'is_mobile'  : 'noCheck',
       'create_on'  : 'noCheck'
     })
+  , _diff
   // update候補のidのみ保存
   , makeFenicsDownloadMap
   , update
@@ -28,6 +29,9 @@
   , deleteFenics
   , registerFenicsAccount
   ;
+
+  _diff = function ( view_data ) {
+  };
 
   update = function ( view_data, cb_success, cb_fail ) {
 

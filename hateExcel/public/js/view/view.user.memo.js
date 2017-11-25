@@ -155,6 +155,7 @@
   _save = function () {
     var
       data = _getViewInfo()
+    , kids_id = cms.model.userBaseInfo.getCache().id
     , errors
     ;
 
@@ -172,13 +173,17 @@
       return;
     };
 
-    cms.model.userMemo.makeMemo( data, function () {
-      var kids_id = cms.model.userBaseInfo.getCache().id
-      cms.model.userMemo.fetch( kids_id,
-        cms.view.editUsrs.makeMemos
-      );
-      cms.view.editUsrs.clearMemoFilter();
-    });
+    cms.model.userMemo.makeMemo( data )
+    .then( function () {
+      return cms.model.userMemo.fetch( kids_id );
+    })
+    .then( function (r) {
+      cms.view.editUsrs.makeMemos(r);
+    })
+    // メモのフィルターを初期化
+    .then( cms.view.editUsrs.clearMemoFilter )
+    // 個別対応の場合、星マークをつける必要あるため
+    .then( cms.view.kids.refresh );
 
     memoView.wrap.get(0).close();
 
@@ -216,7 +221,14 @@
       return;
     };
 
-    cms.model.userMemo.update( data );
+    cms.model.userMemo.update( data )
+    .then( function (r) {
+      cms.view.editUsrs.makeMemos(r);
+    })
+    .then( function () {
+      cms.view.kids.refresh();
+    })
+    ;
 
     memoView.wrap.get(0).close();
 
@@ -226,7 +238,13 @@
 
     var data = _getViewInfo();
 
-    cms.model.userMemo.remove( data );
+    cms.model.userMemo.remove( data )
+    .then( function (r) {
+      cms.view.editUsrs.makeMemos(r);
+    })
+    .then( function () {
+      cms.view.kids.refresh();
+    });
 
     memoView.wrap.get(0).close();
 

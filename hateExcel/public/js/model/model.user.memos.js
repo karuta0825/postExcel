@@ -44,17 +44,8 @@
     data['kids_id'] = cms.model.userBaseInfo.getCache().id;
 
     return cms.db.post('/makeMemo', {
-      'data'     : data,
-    })
-    .then( function () {
-      callback();
-    })
-    .then( function () {
-      // 個別対応の場合、星マークをつける必要あるため
-      cms.view.kids.refresh();
-    })
-    ;
-
+      'data' : data,
+    });
 
   };
 
@@ -83,12 +74,6 @@
     return cms.db.post('/update', param )
     .then( function () {
       return _model.fetchAsync( data.kids_id );
-    })
-    .then( function (r) {
-      cms.view.editUsrs.makeMemos(r);
-    })
-    .then( function () {
-      cms.view.kids.refresh();
     });
 
   };
@@ -112,12 +97,6 @@
     return cms.db.post('/delete', param )
     .then( function () {
       return _model.fetchAsync( data.kids_id );
-    })
-    .then( function (r) {
-      cms.view.editUsrs.makeMemos(r);
-    })
-    .then( function () {
-      cms.view.kids.refresh();
     });
 
   };
