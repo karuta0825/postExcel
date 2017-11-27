@@ -11,10 +11,10 @@
     <% _.each( list, function ( item, num ) { %>
       <tr id=''>
         <td class='server'>
-          <%- item.server %>
+          <%- item.name %>
         </td>
         <td class='pc_number'>
-          <%- item.pc_number %>
+          <%- item.client_number %>
         </td>
         <% if ( item.available_number < 0 ) { %>
           <td class='available_number is-over'>
