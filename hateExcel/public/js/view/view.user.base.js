@@ -472,12 +472,20 @@
     var
       result = {}
     , select_network = systemView.get('environment__network').find('.choice--on')
+    , register_on
     ;
+
+    if ( systemView.get('input__register_on').find('.item-value').val() === '' ) {
+      register_on = null
+    }
+    else {
+      register_on = moment(systemView.get('input__register_on').find('.item-value').val()).format('YYYY/MM/DD');
+    }
 
     result.system = {
       'id'            : customer.model.userBaseInfo.getCache().id,
       'kid'           : systemView.get('kid'                        ).find('.item-value').val(),
-      'register_on'   : moment(systemView.get('input__register_on'  ).find('.item-value').val()).format('YYYY/MM/DD'),
+      'register_on'   : register_on,
       'user_name'     : systemView.get('input__user_name'           ).find('.item-value').val(),
       'server'        : systemView.get('input__server'              ).find('.item-value').val(),
       'userkey'       : systemView.get('input__userkey'             ).find('.item-value').val(),
