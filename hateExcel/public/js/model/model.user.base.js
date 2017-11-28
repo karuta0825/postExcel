@@ -84,7 +84,7 @@
 
     if ( diff < 1 ) {
       cms.model.userClients.fetch( _cache['id'], cms.view.userClient.drawTable );
-      return ;
+      return Promise.resolve();
     }
 
     var params = {
