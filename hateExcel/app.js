@@ -21,7 +21,7 @@ var app = express();
 // };
 
 // all environments
-app.set('port', process.env.PORT || 8080);
+app.set('port', process.env.PORT || 8000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
@@ -548,7 +548,7 @@ app.post('/updateFenics', function (req, res) {
 
     item.start_on = ( data[i].start_on ) ? data[i].start_on : null;
 
-    item.end_on = ( data[i].end_on ) ? data[i].end_on : null;
+    item.end_on = ( data[i].end_on && data[i].end_on !== '' ) ? data[i].end_on : null;
 
     item.pc_name = data[i].pc_name  || '';
 
@@ -595,7 +595,7 @@ app.post('/updateClient', function (req, res) {
 
 
     item.fenics_id = data[i].fenics_id || '';
-    item.end_on = data[i].end_on || '';
+    item.end_on = ( data[i].end_on && data[i].end_on !== '' ) ? data[i].end_on : null;
 
     condition = data[i].client_id;
 
