@@ -45,6 +45,14 @@ $(function(){
       }
   };
 
+  var changeTitle = function ( title ) {
+    if ( !title || title === '' ) {
+      title = 'ユーザー管理';
+    }
+
+    $('.mdl-layout-title').text(title);
+  };
+
   /* events */
   $('.btn-navi').on( 'click', manageMainView );
 
@@ -63,7 +71,8 @@ $(function(){
   });
 
   customer.shell = {
-    manageMainView : manageMainView
+    manageMainView : manageMainView,
+    changeTitle : changeTitle
   };
 
 

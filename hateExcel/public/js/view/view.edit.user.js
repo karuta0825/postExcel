@@ -191,6 +191,13 @@
       cms.view.editUsrs.hideMobile();
     }
 
+    // タイトルの変更
+    cms.shell.changeTitle(
+      cms.model.userBaseInfo.getCache().kid +
+      ' ' +
+      (cms.model.userBaseInfo.getCache().user_name || '')
+    );
+
     $('.main-contents').removeClass('is-active');
 
     // クリックされたコンテンツにis-activeを付与
@@ -226,6 +233,9 @@
 
     editView.get('tab_bar__usr-base').addClass('is-active');
     editView.get('tab_panel__usr-base').addClass('is-active');
+
+    // タイトルの初期化
+    cms.shell.changeTitle();
 
     // 各タブの初期化
     cms.view.userBaseInfo.clear();
