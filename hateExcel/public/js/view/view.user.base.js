@@ -221,12 +221,14 @@
     .then( function () {
       customer.model.userCustomer.update( getViewInfo('customer'), makeCustomerInfo );
       customer.model.kids.update( getViewInfo('system'), makeSystemInfo );
+    })
+    .then( function () {
+      // usekeyが更新されることがあるため更新
+      cms.view.userNetwork.refresh();
+      cms.view.userClient.refresh();
+      cms.view.homeNotices.refresh();
     });
 
-    // usekeyが更新されることがあるため更新
-    cms.view.userNetwork.refresh();
-    cms.view.userClient.refresh();
-    cms.view.homeNotices.refresh();
 
   };
 
