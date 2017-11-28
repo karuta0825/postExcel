@@ -1,4 +1,4 @@
-dsadd group "CN=UsersUSERKEY,CN=Users,DC=<%= domain %>,DC=local" -scope l -secgrp yes
+dsadd group "CN=Users<%- userkey %>,CN=Users,DC=<%= domain %>,DC=local" -scope l -secgrp yes
 
 <% _.each(list, function(v,i) { %>
 <% if ( v.client_id.indexOf('0999') !== -1 ) { %>
