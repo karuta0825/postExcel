@@ -50,7 +50,7 @@ $(function(){
       title = 'ユーザー管理';
     }
 
-    $('.mdl-layout-title').text(title);
+    $('.mdl-layout__header-row .mdl-layout-title').text(title);
   };
 
   /* events */
