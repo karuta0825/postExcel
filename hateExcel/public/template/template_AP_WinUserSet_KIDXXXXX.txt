@@ -1,35 +1,23 @@
 net localgroup "Users<%- userkey %>" /add
 cscript Xcacls.vbs "d:\userdata\<%- userkey %>" /G Administrators:F "Users<%- userkey %>":F /SPEC B
-net share <%- userkey %>$=D:\userdata\<%- userkey %> /grant:"Users<%- userkey %>",full /Grant:"Administrators",full /Grant:"Administrator",full
-
-
-<% _.each( list, function (v,i) { %>
-
-<% if ( v.client_id.indexOf('0999') !== -1 ) { %>
+net share <%- userkey %>$=D:\userdata\<%- userkey %> /grant:"Users<%- userkey %>",full /Grant:"Administrators",full /Grant:"Administrator",full<% _.each( list, function (v,i) { %><% if ( v.client_id.indexOf('0999') !== -1 ) { %>
 net user <%- v.client_id %> <%- v.client_id %> /ADD
 net user <%- v.client_id %> /comment:"サポセン用： <%- user_name %>"
 wmic useraccount where (Name = "<%- v.client_id %>") set PasswordExpires=FALSE
 net localgroup "Remote Desktop Users" <%- v.client_id %> /add
-net localgroup "UsersCom" <%- v.client_id %> /add
-net localgroup "Users<%- userkey %>" <%- v.client_id %> /add
-<% return; } %>
-
+net localgroup "Users<%- userkey %>" <%- v.client_id %> /add<% return; } %>
 <% if ( v.client_id.indexOf('1999') !== -1 ) { %>
 net user <%- v.client_id %> <%- v.client_id %> /ADD
-net user <%- v.client_id %> /comment:"サポセン用： <%- user_name %>"
+net user <%- v.client_id %> /comment:"FJMサポセン用： <%- user_name %>"
 wmic useraccount where (Name = "<%- v.client_id %>") set PasswordExpires=FALSE
 net localgroup "Remote Desktop Users" <%- v.client_id %> /add
-net localgroup "UsersCom" <%- v.client_id %> /add
-net localgroup "Users<%- userkey %>" <%- v.client_id %> /add
-<% return; } %>
-
+net localgroup "Users<%- userkey %>" <%- v.client_id %> /add<% return; } %>
 net user <%- v.client_id %> <%- v.client_id %> /ADD
 net user <%- v.client_id %> /comment:"お客様： <%- user_name %>"
 wmic useraccount where (Name = "<%- v.client_id %>") set PasswordExpires=FALSE
 net localgroup "Remote Desktop Users" <%- v.client_id %> /add
-net localgroup "UsersCom" <%- v.client_id %> /add
 net localgroup "Users<%- userkey %>" <%- v.client_id %> /add
-<% }); %>
+<% });%>
 
 icacls d:\userdata\<%- userkey %> /grant Users<%- userkey %>:(OI)(CI)F /t
 icacls d:\userdata\<%- userkey %> /grant administrator:(OI)(CI)F /t
