@@ -45,6 +45,7 @@
   , setCondition
   , getCondition
   , getConditionAll
+  , getNeighborUser
   , getHeader
   , register
   , initModule
@@ -124,6 +125,31 @@
 
   getConditionAll = function () {
     return _model.find( _condition );
+  };
+
+  /**
+   * 指定したkidの前後のユーザー情報を取得する
+   * @param {String} kid - KID番号
+   * @param {Boolean} is_next - 前のユーザーか後ろのユーザーなのか
+   * @return {Object} 
+   */
+  getNeighborUser = function ( kid, is_next ) {
+
+    var
+      index = _.findIndex( getConditionAll(), { kid : kid })
+    , size  = getConditionAll().length
+    , neighbor = (is_next) ? index + 1 : index - 1
+    ;
+
+    if ( neighbor < 0 || neighbor > size - 1 ) {
+      return { value : null, done : true }
+    }
+
+    return {
+      value : getConditionAll()[neighbor],
+      done : false
+    }
+
   };
 
   /**
@@ -351,7 +377,8 @@
     getPageIndex : $.proxy( _page.getIndex, _page ),
     getPageList  : getPageList,
     getConditionAll : getConditionAll,
-    getHeader    : getHeader
+    getHeader    : getHeader,
+    getNeighborUser : getNeighborUser
   };
 
 }( jQuery, customer ));
