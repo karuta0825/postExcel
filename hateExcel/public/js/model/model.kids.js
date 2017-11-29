@@ -142,13 +142,10 @@
     ;
 
     if ( neighbor < 0 || neighbor > size - 1 ) {
-      return { value : null, done : true }
+      return null;
     }
 
-    return {
-      value : getConditionAll()[neighbor],
-      done : false
-    }
+    return getConditionAll()[neighbor]
 
   };
 
