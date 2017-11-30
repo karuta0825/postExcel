@@ -44,6 +44,7 @@
   , _selectMemo
   , _filterMemo
   , _nextUser
+  , _resetTab
   , backUserTable
   , makeMemos
   , open
@@ -96,20 +97,46 @@
       kid = cms.model.userBaseInfo.getCache().kid
     , next = cms.model.kids.getNeighborUser(kid, is_next)
     ;
-    if ( next ) { open(next.id); }
+    if ( next ) { open(next.id, true); }
   };
 
-  open = function ( kid ) {
+  _resetTab = function ( is_tab_fixed ) {
+
+    if ( is_tab_fixed ) {
+      if ( cms.model.userBaseInfo.getCache().has_mobile === 0 &&
+        editView.get('tab_bar__usr-mobile').hasClass('is-active')
+      ) {
+        editView.get('tab_bar__usr-mobile').removeClass('is-active');
+        editView.get('tab_panel__usr-mobile').removeClass('is-active');
+        editView.get('tab_bar__usr-base').addClass('is-active');
+        editView.get('tab_panel__usr-base').addClass('is-active');
+      }
+      return;
+    }
+
+    // タブ位置を消去
+    _.each( editView.get('tab_bar'), function ( val,key ) {
+      $(val).removeClass('is-active');
+    });
+
+    // タブパネル位置を消去
+    _.each( editView.get('tab_panel'), function ( val, key ) {
+      $(val).removeClass('is-active');
+    });
+
+    // タブ・タブパネルを基本情報に設定
+    editView.get('tab_bar__usr-base').addClass('is-active');
+    editView.get('tab_panel__usr-base').addClass('is-active');
+
+  };
+
+  open = function ( kid,  is_tab_fixed  ) {
 
     // ローディングダイアログ表示
     cms.view.dialogLoading.open();
 
-    // 次のユーザーボタンの使用不可
-    editView.get('btn__next-user').attr('disabled', true);
-    editView.get('btn__pre-user').attr('disabled', true);
-
-    // 編集画面の初期化
-    cms.view.editUsrs.clearView();
+    // 各タブの初期化
+    clearView();
 
     // 基本情報タブ システム情報描画
     cms.model.userBaseInfo.fetch( kid, function (data) {
@@ -180,15 +207,12 @@
       cms.view.editUsrs.makeMemos(r);
     })
     .then( function () {
+      _resetTab( is_tab_fixed );
       cms.view.dialogLoading.close();
-      editView.get('btn__next-user').attr('disabled', false);
-      editView.get('btn__pre-user').attr('disabled', false);
     })
     .catch( function (e) {
-      console.log(e);
+      _resetTab( is_tab_fixed );
       cms.view.dialogLoading.close();
-      editView.get('btn__next-user').attr('disabled', false);
-      editView.get('btn__pre-user').attr('disabled', false);
     })
 
     cms.model.memoTemplate.getCache(
@@ -251,6 +275,8 @@
     // 初期化
     clearView();
 
+    _resetTab(false);
+
     // 現在画面を非表示
     $('.main-contents').removeClass('is-active');
 
@@ -261,17 +287,6 @@
   };
 
   clearView = function () {
-    // タブ位置を基本情報に戻す
-    _.each( editView.get('tab_bar'), function ( val,key ) {
-      $(val).removeClass('is-active');
-    });
-
-    _.each( editView.get('tab_panel'), function ( val, key ) {
-      $(val).removeClass('is-active');
-    });
-
-    editView.get('tab_bar__usr-base').addClass('is-active');
-    editView.get('tab_panel__usr-base').addClass('is-active');
 
     // タイトルの初期化
     cms.shell.changeTitle();
