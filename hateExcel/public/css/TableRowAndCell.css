@@ -794,6 +794,26 @@
   height: 100%;
 }
 
+#user-edit .user-edit__title {
+  height: 40px
+}
+
+.switch-user {
+  display: none;
+}
+
+#user-edit .switch-user {
+  float: right;
+}
+
+#user-edit .mdl-button {
+  font: 1.3em;
+  color: #696969;
+}
+
+#user-edit .switch-user .pre .material-icons {
+  transform: rotate(180deg);
+}
 
 /* メモリスト */
 .memos {
@@ -965,7 +985,7 @@
   width: 80%;
   height : 95%;
   min-width: 760px;
-  margin: 20px 20px 20px 30px;
+  margin: 6px 20px 20px 30px;
 }
 
 .user-edit__body {
@@ -986,18 +1006,6 @@
   text-align: right;
   padding-right: 20px;
 }
-
-/*.user-edit__header .btn--backList {*/
-.btn--backList {
-  height      : 21px;
-  background  : whitesmoke;
-  color       : #696969;
-  border      : none;
-  /*text-decoration : underline ;*/
-  cursor      : pointer;
-  margin-bottom: 14px;
-}
-
 
 .user-list,
 .partner-list,
