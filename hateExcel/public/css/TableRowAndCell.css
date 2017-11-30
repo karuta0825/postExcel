@@ -798,17 +798,14 @@
   height: 40px
 }
 
-.switch-user {
-  display: none;
+#user-edit .user-edit__title .mdl-button {
+  font: 1.3em;
+  color: #696969;
 }
 
 #user-edit .switch-user {
   float: right;
-}
-
-#user-edit .mdl-button {
-  font: 1.3em;
-  color: #696969;
+  /*display: none;*/
 }
 
 #user-edit .switch-user .pre .material-icons {

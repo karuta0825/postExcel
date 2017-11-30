@@ -12,6 +12,8 @@
         'back'        : '.btn--backList',
         'add-memo'    : '.memo-add',
         'filter-memo' : '.mdl-chip.filter',
+        'pre-user'    : '.mdl-button.pre',
+        'next-user'    : '.mdl-button.next'
       },
       'tab_bar' : {
         'usr-base'    : 'a[href="#usr-base-panel"]',
@@ -41,6 +43,7 @@
   , _openMemoDialog
   , _selectMemo
   , _filterMemo
+  , _nextUser
   , backUserTable
   , makeMemos
   , open
@@ -88,24 +91,41 @@
 
   };
 
+  _nextUser = function ( is_next ) {
+    const
+      kid = cms.model.userBaseInfo.getCache().kid
+    , next = cms.model.kids.getNeighborUser(kid, is_next)
+    ;
+    if ( next ) { open(next.id); }
+  };
+
   open = function ( kid ) {
+
+    // ローディングダイアログ表示
+    cms.view.dialogLoading.open();
+
+    // 次のユーザーボタンの使用不可
+    editView.get('btn__next-user').attr('disabled', true);
+    editView.get('btn__pre-user').attr('disabled', true);
 
     // 編集画面の初期化
     cms.view.editUsrs.clearView();
 
-    // 基本情報タブ　システム情報描画
+    // 基本情報タブ システム情報描画
     cms.model.userBaseInfo.fetch( kid, function (data) {
       cms.view.userBaseInfo.makeSystemInfo(data);
       cms.view.userBaseInfoContract.setViewInfo(data);
     });
 
-    // 基本情報タブ　拠点情報作成描画
-    cms.model.userCustomer.fetch(kid,
-      cms.view.userBaseInfo.makeCustomerInfo
-    );
-
-    cms.model.userNetwork.fetch(kid, function () {
-
+    // 基本情報タブ 拠点情報作成描画
+    cms.model.userCustomer.fetch(kid)
+    .then( function (r) {
+      cms.view.userBaseInfo.makeCustomerInfo(r);
+    })
+    .then( function () {
+      return cms.model.userNetwork.fetch(kid)
+    })
+    .then( function (r) {
       // ネットワークタブ描画
       cms.model.userNetwork.find({'is_mobile':0},
         cms.view.userFenics.drawTable
@@ -115,41 +135,61 @@
       cms.model.userNetwork.find({is_mobile : 1},
         cms.view.userMobile.drawTable
       );
-
-    });
-
+    })
     // クライアントテーブル描画
-    cms.model.userClients.fetch(kid,
-      cms.view.userClient.drawTable
-    );
-
+    .then( function () {
+     return cms.model.userClients.fetch(kid)
+    })
+    .then( function (r) {
+      cms.view.userClient.drawTable(r)
+    })
     // サービステーブル描画
-    cms.model.userLicense.fetch( kid,
-      cms.view.userService.setViewInfo
-    );
-
+    .then( function () {
+      return cms.model.userLicense.fetch(kid);
+    })
+    .then( function (r) {
+      cms.view.userService.setViewInfo(r);
+    })
     // パートナータブの描画
-    cms.model.userPartner.fetch( kid,
-      cms.view.userPartner.setInfo
-    );
-
+    .then( function () {
+      return cms.model.userPartner.fetch(kid)
+    })
+    .then( function (r) {
+      cms.view.userPartner.setInfo(r);
+    })
     // モバイルタブの描画
-    cms.model.userMobile.fetch( kid,
-      cms.view.userMobile.setInfo
-    );
-
+    .then( function () {
+      return cms.model.userMobile.fetch(kid)
+    })
+    .then( function (r) {
+      cms.view.userMobile.setInfo(r);
+    })
     // 履歴タブの描画
-    cms.model.userHistory.fetch( kid, function (r) {
-
+    .then( function () {
+      return cms.model.userHistory.fetch(kid);
+    })
+    .then( function (r) {
       cms.view.userHistory.drawTable(r);
       cms.view.userHistory.makeFilter();
-
-    });
-
+    })
     // メモ一覧作成
-    cms.model.userMemo.fetch( kid,
-      cms.view.editUsrs.makeMemos
-    );
+    .then( function () {
+      return cms.model.userMemo.fetch(kid)
+    })
+    .then( function (r) {
+      cms.view.editUsrs.makeMemos(r);
+    })
+    .then( function () {
+      cms.view.dialogLoading.close();
+      editView.get('btn__next-user').attr('disabled', false);
+      editView.get('btn__pre-user').attr('disabled', false);
+    })
+    .catch( function (e) {
+      console.log(e);
+      cms.view.dialogLoading.close();
+      editView.get('btn__next-user').attr('disabled', false);
+      editView.get('btn__pre-user').attr('disabled', false);
+    })
 
     cms.model.memoTemplate.getCache(
       cms.view.userMemo.makeTemplateOption
@@ -198,9 +238,8 @@
       (cms.model.userBaseInfo.getCache().user_name || '')
     );
 
-    $('.main-contents').removeClass('is-active');
-
     // クリックされたコンテンツにis-activeを付与
+    $('.main-contents').removeClass('is-active');
     var target = '.main-contents--edit-usr'
     $(target).addClass('is-active');
 
@@ -296,7 +335,9 @@
       'click btn__back'         : backUserTable,
       'click btn__add-memo'     : _openMemoDialog,
       'click memo__items'       : _selectMemo,
-      'change btn__filter-memo' : _filterMemo
+      'change btn__filter-memo' : _filterMemo,
+      'click btn__pre-user'     : function () { _nextUser(false); },
+      'click btn__next-user'    : function () { _nextUser(true); }
     });
 
   };
