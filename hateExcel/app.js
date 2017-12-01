@@ -700,29 +700,6 @@ function inet_aton(ip){
     return(dv.getUint32(0));
 }
 
-// app.post('/updateColumns', function ( req, res ) {
-//   var data = req.body;
-//   console.log(data);
-//   console.log( req.session.uid );
-//   datas.updateColumns( data, req.session.uid, function ( err ) {
-//     if ( err ) {
-//       res.status( 500 ).send( err.message );
-//       return;
-//     }
-//     res.redirect('/');
-//   });
-// });
-
-// アップロード用パス
-// app.post('/upload', index.upload );
-
-// app.post('/fncadd', function ( req, res ){
-//     var num = parseInt( req.body.num, 10 );
-//     res.header("Content-Type", "application/json; charset=utf-8");
-//     console.log( num );
-//     res.json( JSON.stringify( { data :  num + 1 } )) ;
-// });
-
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
