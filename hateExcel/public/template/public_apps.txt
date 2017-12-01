@@ -1,0 +1,13 @@
+
+. 'C:\Program Files\Citrix\XenApp Server SDK\Citrix.XenApp.Sdk.ps1'
+
+Add-XAApplicationAccount "LifeMark-WINCARE Cloud"  -Accounts "<%- server %>\Users<%- userkey %>"
+Add-XAApplicationAccount "DB Manager"  -Accounts "<%- server %>\Users<%- userkey %>"
+Add-XAApplicationAccount "WINCAREタスクマネージャ"  -Accounts "<%- server %>\Users<%- userkey %>"
+Add-XAApplicationAccount "オンラインヘルプ"  -Accounts "<%- server %>\Users<%- userkey %>"
+Add-XAApplicationAccount "レセプトチェックツール"  -Accounts "<%- server %>\Users<%- userkey %>"
+Add-XAApplicationAccount "ﾚﾍﾞﾙｱｯﾌﾟ適用確認結果"  -Accounts "<%- server %>\Users<%- userkey %>"
+Add-XAApplicationAccount "初回接続ツール"  -Accounts "<%- server %>\Users<%- userkey %>"
+Add-XAApplicationAccount "振替請求システム"  -Accounts "<%- server %>\Users<%- userkey %>"
+
+Read-Host "続けるには Enter キーを押してください..." 

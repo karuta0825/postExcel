@@ -25,7 +25,8 @@
         'open_notice'     : '.download--open-notice',
         'open_notice_add' : '.download--open-notice-for-add',
         'citrix_user'     : '.download--citrix-user',
-        'db_user'         : '.download--db-user'
+        'db_user'         : '.download--db-user',
+        'public_xenapps'  : '.download--public-xenapps'
       },
       'table'  : '.table--clients',
       'dialog' : {
@@ -43,6 +44,7 @@
   , _downloadIni
   , _downloadCitrixUser
   , _downloadDbUser
+  , _downloadPublicXenApps
   , _changeFenicsId
   , _changeEndOn
   , _save
@@ -176,7 +178,6 @@
       kid          =  cms.model.userBaseInfo.getCache().kid
     , file_name    = 'UserName_' + kid + '.ini'
     , downloadMap
-    , csv_header
     , blob
     ;
 
@@ -261,6 +262,31 @@
 
     // データ作成
     blob = util.makeTxt2Blob( complied(data) );
+
+    // ダウンロード
+    util.downloadFile( this, blob, file_name );
+
+  };
+
+  _downloadPublicXenApps = function () {
+
+    var
+      user      =  cms.model.userBaseInfo.getCache()
+    , file_name = 'PublicXenApps_' + user.kid + '.ps'
+    , tmpl      =  cms.db.getHtml('/template/public_apps.txt')
+    , complied  = _.template(tmpl)
+    , blob
+    ;
+
+    if ( !user.server || !user.userkey ) {
+      return;
+    }
+
+    // データ作成
+    blob = util.makeTxt2Blob( complied({
+      server  : user.server,
+      userkey : user.userkey
+    }));
 
     // ダウンロード
     util.downloadFile( this, blob, file_name );
@@ -454,6 +480,7 @@
       'click download__open_notice_add' : _downloadOpenNoticeForAdd,
       'click download__citrix_user'     : _downloadCitrixUser,
       'click download__db_user'         : _downloadDbUser,
+      'click download__public_xenapps'  : _downloadPublicXenApps,
       'click download__spla'            : function () { alert('download download__s')},
       'click download__mail'            : function () { alert('download download__m')},
       'change select-clients'           : _changeFenicsId,
