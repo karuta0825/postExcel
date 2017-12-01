@@ -202,6 +202,15 @@
       v.find('.item-value').val('');
     });
 
+    _.each( partnerView.get('input'), function (val, key){
+      val.find('.item-value').removeClass('is-edit');
+      val.find('.item-value').prop('disabled', true);
+    });
+
+    partnerView.get('btn__save').addClass('is-hidden');
+    partnerView.get('btn__cancel').addClass('is-hidden');
+    partnerView.get('btn__edit').removeClass('is-hidden');
+
   };
 
   /**
