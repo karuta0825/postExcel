@@ -28,7 +28,6 @@
   // public method
   , initModule
   , draw
-  , redraw
   , refresh
   , pushThisMonth
   ;
@@ -59,7 +58,7 @@
     var
       file_name = new moment().format('YYYYMMDD') + '_addInfo.csv'
     , downloadMap
-    , csv_header = ['月','ユーザ','クライアント','PC', 'バージョン']
+    , csv_header = ['月','ユーザ','ユーザ数(CitrixID数)','クライアント数(FENICSID数)', 'バージョン']
     , blob
     ;
 
@@ -86,22 +85,6 @@
 
     resize_chart[version] = new google.visualization.ColumnChart(viewGraph.get(version).get(0));
     resize_chart[version].draw(resize_data[version], resize_options[version]);
-
-  };
-
-  redraw = function () {
-    var model = _.where( customer.db.select('/select',{'table' : 'get_add_info_in_each_month'}), {version:'ES'});
-
-    model = _.map(model, function (v,k) {
-      delete v.version;
-      return v;
-    });
-
-    model = _.map( model, function ( v,k ) {
-      return _.values(v);
-    });
-
-    draw( model, ['','ユーザ','クライア ント', 'PC']);
 
   };
 

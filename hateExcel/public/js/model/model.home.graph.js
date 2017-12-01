@@ -74,7 +74,7 @@
     });
 
     // ヘッダー追加
-    list_select.unshift(['','ユーザ','クライアント', 'PC']);
+    list_select.unshift(['','ユーザ','ユーザ数(CitrixID数)', 'クライアント数(FENICSID数)']);
 
     return list_select;
 
