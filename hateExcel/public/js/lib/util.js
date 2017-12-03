@@ -286,6 +286,39 @@
 
   };
 
+  util.diffObj = function ( before, after ) {
+
+    if ( _.isObject(before) || _.isObject(after) ) {
+      return;
+    }
+
+    _.each( after, function (v,k) {
+
+      if ( before[k] === null && v && v !== '' ) {
+        result[k] = v;
+      }
+
+      if ( before[k] === '' && v && v !== '') {
+        result[k] = v;
+      }
+
+      if ( before[k] && before[k] !== '' && v === '' ) {
+        result[k] = v;
+      }
+
+      if ( before[k] && before[k] !== '' && v === null ) {
+        result[k] = v;
+      }
+
+      if ( before[k] && before[k] !== '' && v && v !== null && before[k] !== v ) {
+        result[k] = v;
+      }
+
+    });
+
+    return result;
+
+  }
 
   /**
    * [Validate description]
