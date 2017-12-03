@@ -187,19 +187,19 @@
 }
 
 .home-wrapper__left {
-  flex: 0.5;
+  flex: 0.6;
   margin-top: 15px;
   margin-left: 30px;
   margin-right: 30px;
 }
 
 .home-wrapper__center {
-  flex : 0.5;
+  flex : 0.8;
   margin-top: 15px;
 }
 
 .home-wrapper__right {
-  flex : 2;
+  flex : 1.6;
   margin: 15px 30px;
 }
 
