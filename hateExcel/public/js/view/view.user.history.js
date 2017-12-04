@@ -97,9 +97,13 @@
 
   };
 
-  refresh = function (data) {
-    drawTable(data);
-    makeFilter();
+  refresh = function () {
+    var kids_id = cms.model.userBaseInfo.getCache().id;
+    cms.model.userHistory.fetch( kids_id )
+    .then( function (r) {
+      drawTable(r);
+      makeFilter();
+    })
   };
 
   initModule = function () {

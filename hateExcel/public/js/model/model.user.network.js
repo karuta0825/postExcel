@@ -8,7 +8,14 @@
 
   var
     _model = new Model({
-      'table' : 'fenics'
+      'table' : 'fenics',
+      'tab_name' : 'Fenics',
+      'item_name_map' : {
+        fenics_ip : "fenicsIP",
+        pc_name   : "パソコン名",
+        start_on  : "fenics開始日",
+        end_on    : "fenics終了日"
+      }
     })
   , vl = new util.Validate({
       'kids_id'    : 'noCheck',
@@ -21,7 +28,8 @@
       'is_mobile'  : 'noCheck',
       'create_on'  : 'noCheck'
     })
-  , _diff
+  , _makeHistoryItems
+  , _updateHistorys
   // update候補のidのみ保存
   , makeFenicsDownloadMap
   , update
@@ -30,8 +38,45 @@
   , registerFenicsAccount
   ;
 
-  _diff = function ( view_data ) {
+  _makeHistoryItems = function ( view_data ) {
+
+    var
+      fenics_id = view_data.fenics_id
+    , before = _model.find({ fenics_id : fenics_id })[0]
+    , diff = util.diffObj( before, view_data )
+    , arys = []
+    ;
+
+    _.each( diff, function (v,k) {
+
+      arys.push({
+        kids_id      : before.kids_id,
+        type         : '更新',
+        content_name : 'ネットワーク',
+        item_name    : fenics_id + 'の' + _model.config.item_name_map[k],
+        before       : before[k],
+        after        : v
+      });
+
+    });
+
+    return arys;
+
   };
+
+  _updateHistorys = function ( view_data ) {
+
+    var items = _makeHistoryItems(view_data);
+
+    if (items.length === 0 ) { return Promise.resolve(); }
+
+    return cms.db.insert('/insert', {
+      data : items,
+      table : 'historys'
+    });
+
+  }
+
 
   update = function ( view_data, cb_success, cb_fail ) {
 
@@ -59,6 +104,9 @@
     })
     .then( function () {
       return cms.db.post('/updateFenics', { data : [view_data] })
+    })
+    .then( function () {
+      _updateHistorys(view_data)
     })
     .then( function () {
       return _model.fetchAsync( kids_id );
@@ -233,7 +281,7 @@
     makeAccountMapList    : makeAccountMapList,
     addFenicsAccount      : addFenicsAccount,
     registerFenicsAccount : registerFenicsAccount,
-    update                : update
+    update                : update,
   };
 
 }( jQuery, customer ));

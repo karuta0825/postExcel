@@ -288,9 +288,11 @@
 
   util.diffObj = function ( before, after ) {
 
-    if ( _.isObject(before) || _.isObject(after) ) {
+    if ( !_.isObject(before) || !_.isObject(after) ) {
       return;
     }
+
+    var result = {};
 
     _.each( after, function (v,k) {
 

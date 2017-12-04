@@ -66,6 +66,8 @@
 
   _setViewInfo = function ( data ) {
 
+    var data = _.clone(data);
+
     // input type date用にフォーマット
     data['start_on'] = moment(data['start_on']).format('YYYY-MM-DD');
     data['end_on'] = moment(data['end_on']).format('YYYY-MM-DD');
@@ -96,9 +98,9 @@
         cms.view.userMobile.drawTable
       );
 
-      cms.view.kids.refresh();
-
     })
+    .then( cms.view.kids.refresh )
+    .then( cms.view.userHistory.refresh )
     .catch( function (r) {
       console.log(r);
     })
