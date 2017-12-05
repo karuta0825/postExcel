@@ -213,8 +213,18 @@
    */
   _update = function ( can_add_fenicsId ) {
 
+    var kids_id = cms.model.userBaseInfo.getCache().id;
+
     if ( can_add_fenicsId ) {
-      customer.model.userNetwork.addFenicsAccount( getViewInfo() );
+      customer.model.userNetwork.addFenicsAccount( getViewInfo() )
+      .then( function () {
+        return customer.model.userNetwork.fetch( kids_id )
+      })
+      .then( function() {
+        cms.model.userNetwork.find( {is_mobile:0},
+          customer.view.userFenics.drawTable
+        );
+      });
     }
 
     customer.model.userBaseInfo.addClient( getViewInfo().client_number )

@@ -172,15 +172,7 @@
       number_pc_added : diff
     }
 
-    return customer.db.post('/addFenicsAccounts', { data  : post } )
-    .then( function () {
-      return customer.model.userNetwork.fetch( before.id );
-    })
-    .then( function (r) {
-      cms.model.userNetwork.find( {is_mobile:0},
-        customer.view.userFenics.drawTable
-      );
-    });
+    return customer.db.post('/addFenicsAccounts', { data  : post } );
 
   };
 
