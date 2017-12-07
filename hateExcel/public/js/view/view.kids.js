@@ -330,8 +330,10 @@
 
   refresh = function () {
 
+    var pageIndex = cms.model.kids.getPageIndex();
+
     cms.model.kids.fetch( null, function () {
-      cms.model.kids.getCondition( drawTable );
+      cms.model.kids.getCondition( drawTable, pageIndex );
       cms.view.userBaseInfo.refresh();
     });
 

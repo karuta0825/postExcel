@@ -109,15 +109,15 @@
 
   };
 
-  getCondition = function ( callback ) {
+  getCondition = function ( callback, pageIndex ) {
 
     _page.initialize( _model.find( _condition ), MAX_VISIBLE_NUMBER );
 
     if ( typeof callback === 'function' ) {
-      callback( _page.current() );
+      pageIndex ? callback( _page.get(pageIndex) ) : callback( _page.current() );
     }
     else {
-      return _page.current();
+      return pageIndex ? _page.get(pageIndex) : _page.current() ;
     }
 
 
