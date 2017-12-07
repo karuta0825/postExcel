@@ -163,7 +163,7 @@
     var diff   = after - before.number_pc;
 
     if ( diff < 1 ) {
-      return;
+      return Promise.resolve();
     }
 
     var post = {
