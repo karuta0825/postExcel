@@ -195,7 +195,10 @@
 
   _save = function () {
 
-    var errors = cms.model.userMobile.validate( getInfo() );
+    var
+      errors = cms.model.userMobile.validate( getInfo() )
+    , kids_id = cms.model.userBaseInfo.getCache().id
+    ;
 
     if ( _validate(errors) ) {
       return;
@@ -204,7 +207,18 @@
     // update
     cms.model.userMobile.addMobile( getInfo().client_number );
 
-    cms.model.userMobile.update( getInfo(), setInfo );
+    cms.model.userMobile.update( getInfo() );
+    cms.model.userMobile.fetch(kids_id)
+    .then( function (r) {
+      setInfo(r);
+    })
+    .then( function () {
+      return cms.model.userNetwork.fetch(kids_id);
+    })
+    .then( function () {
+      cms.model.userNetwork.find({is_mobile : 1}, drawTable);
+    })
+    ;
 
     // 参照モードに戻す
     _goViewMode();
