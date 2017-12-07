@@ -618,6 +618,31 @@ app.post('/updateClient', function (req, res) {
 
 });
 
+/**
+ * ユーザー登録（トランザクション処理）
+ */
+app.post('/user', function (req, res) {
+
+  var items = req.body.uploadData;
+
+  if ( !req.session.pass ) {
+    res.json(440, {result:'expired', message:'セッションが切れました。ログインからやり直してください。'});
+    return;
+  }
+
+  for ( var i in items ) {
+
+    if ( i === 'kids') {}
+    if ( i === 'customers') {}
+    if ( i === 'licenses') {}
+    if ( i === 'partners') {}
+    if ( i === 'mobiles') {}
+    if ( i === 'busivs') {}
+
+  }
+
+});
+
 app.post('/master/:table', function ( req, res ) {
 
   var

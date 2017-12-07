@@ -134,6 +134,16 @@
 
   upload = function () {
 
+    // cms.db.post('/user', uploadData )
+    // .then( function () {
+    //   cms.view.kids.refresh();
+    //   cms.view.regUsrs.showSuccess();
+    // })
+    // .catch( function (err) {
+    //   cms.view.regUsrs.showError(err.message);
+    // })
+    // ;
+
     // kids -端末数
     cms.model.kids.register({
       kid                      : uploadData.kid,
