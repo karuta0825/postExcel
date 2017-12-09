@@ -173,10 +173,12 @@
    */
   clear = function () {
 
-    _goViewMode();
-
     // チェックを外す
     cms.view.userFenics.releaseCheck();
+
+    if ( !cms.view.userBusiv.isHidden ) {
+      _goViewMode();
+    }
 
     if ( networkView.get('is-checked__fenics').hasClass('is-checked') ) {
       networkView.get('is-checked__fenics').click();
