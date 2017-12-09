@@ -42,10 +42,17 @@
   <tbody>
 
     <% _.each( list.body , function ( item ) { %>
+      <% if ( item.end_on !== null ) { %>    
+      <tr id="<%- item.id %>" class='end_user'>
+      <% } else { %>
       <tr id="<%- item.id %>">
+      <% } %>
         <td class="is_marked">
-          <% if ( item.is_marked === '1' ) { %>
+          <% if ( item.is_marked === '1' && item.end_on === null) { %>
             <i class="material-icons">star</i>
+          <% } %>
+          <% if ( item.end_on !== null ) { %>
+            <i class="material-icons">lock_outline</i>
           <% } %>
         </td>
         <td class="mdl-data-table__cell--non-numeric kid"> <%- item.kid %> </td>

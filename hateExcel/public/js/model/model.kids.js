@@ -9,6 +9,7 @@
       item_name_map : {
         'kid'           : 'KID',
         'register_on'   : '受付日',
+        'end_on'        : '解約日',
         'user_name'     : '事業者名',
         'server'        : 'サーバ',
         'userkey'       : 'ユーザーキー',

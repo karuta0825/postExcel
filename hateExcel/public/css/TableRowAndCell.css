@@ -760,6 +760,15 @@
   overflow:scroll;
 }
 
+.users-table__body .end_user {
+  background: #bfbfbf;
+}
+
+.users-table__body .end_user i{
+  color : white;
+}
+
+
 /* -------------------
   dialog users table column
 ---------------------- */

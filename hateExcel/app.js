@@ -1,5 +1,4 @@
-﻿
-/**
+﻿/**
  * Module dependencies.
  */
 
@@ -448,6 +447,18 @@ app.post('/update', function ( req, res ) {
       res.json({ result : 'ok'});
     });
     return;
+  }
+
+  if ( table === 'kids' ) {
+    for ( var i in data ) {
+      if ( i === 'register_on' && data[i] === '' ) {
+        data[i] = null;
+      }
+
+      if ( i === 'end_on' && data[i] === '' ) {
+        data[i] = null;
+      }
+    }
   }
 
   // ライセンステーブル以外の更新処理

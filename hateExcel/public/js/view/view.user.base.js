@@ -27,6 +27,7 @@
         'kid'              : '.kid',
         'input' : {
           'register_on'    : '.register_on',
+          'end_on'         : '.end_on',
           'kid'            : '.kid',
           'user_name'      : '.user_name',
           'server'         : '.server',
@@ -466,9 +467,7 @@
   _selectHasQa = function ( event ) {
 
     if ( $(event.target).parent('li').hasClass('is-edit') ) {
-
       systemView.get('choice__has_qa').toggleClass('choice--on');
-
     }
 
   };
@@ -485,8 +484,10 @@
       result = {}
     , select_network = systemView.get('environment__network').find('.choice--on')
     , register_on
+    , end_on
     ;
 
+    // 受付日
     if ( systemView.get('input__register_on').find('.item-value').val() === '' ) {
       register_on = null
     }
@@ -494,10 +495,20 @@
       register_on = moment(systemView.get('input__register_on').find('.item-value').val()).format('YYYY/MM/DD');
     }
 
+    // 解約日
+    if ( systemView.get('input__end_on').find('.item-value').val() === '' ) {
+      end_on = null
+    }
+    else {
+      end_on = moment(systemView.get('input__end_on').find('.item-value').val()).format('YYYY/MM/DD');
+    }
+
+    // その他の値
     result.system = {
       'id'            : customer.model.userBaseInfo.getCache().id,
       'kid'           : systemView.get('kid'                        ).find('.item-value').val(),
       'register_on'   : register_on,
+      'end_on'        : end_on,
       'user_name'     : systemView.get('input__user_name'           ).find('.item-value').val(),
       'server'        : systemView.get('input__server'              ).find('.item-value').val(),
       'userkey'       : systemView.get('input__userkey'             ).find('.item-value').val(),
@@ -562,7 +573,7 @@
     _.each( systemView.get('input'), function (v,k) {
 
       // 日付は変換
-      if ( k === 'register_on' ) {
+      if ( k === 'register_on' || k === 'end_on') {
         v.find('.item-value').val(
           moment(data[k]).format('YYYY-MM-DD')
         );

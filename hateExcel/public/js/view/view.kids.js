@@ -297,17 +297,23 @@
 
     var headerMap = customer.model.kids.getHeader();
 
-    delete headerMap.uid;
-
-    _.each( view.get('table__row'), function ( val, key) {
+    _.each( view.get('table__row'), function ( val, index) {
       // idだけは個別処理
-        $(val).attr('id', data[key].id );
+      $(val).attr('id', data[index].id );
+
+      // 解約日が設定されている場合、行の背景色変更
+      if ( data[index].end_on !== null ) {
+        $(val).addClass('end_user');
+      }
+      else {
+        $(val).removeClass('end_user');
+      }
 
       // 各々の列の値をクリアしてソートした値をセット
       _.each( headerMap, function ( v, k ) {
 
         if ( k === 'is_marked') {
-          if ( data[key][k] === '0' ) {
+          if ( data[index][k] === '0' ) {
             $(val).find('.' + k).empty();
           }
           else {
@@ -316,7 +322,11 @@
           return;
         }
 
-        $(val).find('.' + k).empty().append( data[key][k] );
+        if ( data[index]['end_on'] !== null ) {
+          $(val).find('.is_marked').empty().html('<i class="material-icons">lock_outline</i>');
+        }
+
+        $(val).find('.' + k).empty().append( data[index][k] );
 
       });
 
