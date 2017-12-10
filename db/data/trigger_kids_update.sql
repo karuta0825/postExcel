@@ -23,7 +23,7 @@ CREATE TRIGGER kids_update AFTER update ON kids FOR EACH ROW
     end if;
     
    if new.end_on is not null and old.end_on is null then
- 		update clients C set C.end_on = new.end_on where kids_id = old.id;
+ 		update clients C set C.end_on = new.end_on where kids_id = old.id and end_on is null;
    end if;
 
  END;
