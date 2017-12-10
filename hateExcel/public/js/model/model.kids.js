@@ -296,19 +296,6 @@
       update_data.kid = update_data.kid.substr(-5,5);
     }
 
-    // updateする対象が存在する場合
-    if ( _.keys(update_data).length > 0 ) {
-
-      // データの更新
-      customer.db.post('/update', {
-        data      : update_data,
-        condition : {'id' : view_data['id']},
-        table     : this['config']['table']
-      })
-      .then( cms.view.kids.refresh );
-
-    }
-
     // クライアント数に変更あった場合も更新する
     if ( _.keys(historyData).length > 0 ) {
 
@@ -324,6 +311,19 @@
     customer.model.userHistory.fetch( view_data['id'],
       customer.view.userHistory.drawTable
     );
+
+    // updateする対象が存在する場合
+    if ( _.keys(update_data).length > 0 ) {
+
+      // データの更新
+      return customer.db.post('/update', {
+        data      : update_data,
+        condition : {'id' : view_data['id']},
+        table     : this['config']['table']
+      })
+      .then( cms.view.kids.refresh );
+
+    }
 
   };
 

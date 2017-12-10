@@ -231,7 +231,7 @@
     customer.model.userBaseInfo.addClient( getViewInfo().client_number )
     .then( function () {
       customer.model.userCustomer.update( getViewInfo('customer'), makeCustomerInfo );
-      customer.model.kids.update( getViewInfo('system'), makeSystemInfo );
+      return customer.model.kids.update( getViewInfo('system'), makeSystemInfo );
     })
     .then( function () {
       // usekeyが更新されることがあるため更新
