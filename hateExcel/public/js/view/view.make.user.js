@@ -124,14 +124,6 @@
     , check_kid
     ;
 
-    if ( system_type === 'onpre' ) {
-      server = '';
-    }
-
-    if ( kid === '' ) {
-      kid = null;
-    }
-
     if ( system_type === 'docomo' ) {
       version = 'LM';
     }
@@ -142,7 +134,7 @@
     })[0].id;
 
     // KID入力内容のチェック
-    if ( kid && !kid.match(/^[0-9]+$/)  ) {
+    if ( kid !== '' && !kid.match(/^[0-9]+$/)  ) {
       makeUserView.get('select__kid').addClass('is-error');
       return;
     }
