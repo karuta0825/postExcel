@@ -22,6 +22,7 @@
         kid     : '.select-kid'
       },
       'server-title' : '.select-name.server',
+      'version-title' : '.select-name.version',
       'kid-title'    : '.select-name.kid',
       'dialog' : {
         confirm  : '#make-usr-confirm',
@@ -65,17 +66,38 @@
   };
 
   _selectSystem = function () {
+
      if ( $(this).val() ===  'onpre' ) {
+
       makeUserView.get('select__server').addClass('is-hidden');
       makeUserView.get('server-title').addClass('is-hidden');
+
+      makeUserView.get('select__version').removeClass('is-hidden');
+      makeUserView.get('version-title').removeClass('is-hidden');
 
       makeUserView.get('select__kid').removeClass('is-hidden');
       makeUserView.get('kid-title').removeClass('is-hidden');
 
      }
+     else if ( $(this).val() === 'docomo' ) {
+
+      makeUserView.get('select__server').addClass('is-hidden');
+      makeUserView.get('server-title').addClass('is-hidden');
+
+      makeUserView.get('select__version').addClass('is-hidden');
+      makeUserView.get('version-title').addClass('is-hidden');
+
+      makeUserView.get('select__kid').addClass('is-hidden');
+      makeUserView.get('kid-title').addClass('is-hidden');
+
+     }
      else {
+
       makeUserView.get('select__server').removeClass('is-hidden');
       makeUserView.get('server-title').removeClass('is-hidden');
+
+      makeUserView.get('select__version').removeClass('is-hidden');
+      makeUserView.get('version-title').removeClass('is-hidden');
 
       makeUserView.get('select__kid').addClass('is-hidden');
       makeUserView.get('kid-title').addClass('is-hidden');
@@ -97,10 +119,7 @@
     , system_type = makeUserView.get('select__system').val()
     , version     = makeUserView.get('select__version').val()
     , server      = makeUserView.get('select__server').val()
-    , env_id      = customer.model.environments.find({
-        'system_type' : system_type,
-        'version'     : version
-      })[0].id
+    , env_id
     , param
     , check_kid
     ;
@@ -112,6 +131,15 @@
     if ( kid === '' ) {
       kid = null;
     }
+
+    if ( system_type === 'docomo' ) {
+      version = 'LM';
+    }
+
+    env_id = customer.model.environments.find({
+      'system_type' : system_type,
+      'version'     : version
+    })[0].id;
 
     // KID入力内容のチェック
     if ( kid && !kid.match(/^[0-9]+$/)  ) {
@@ -125,7 +153,6 @@
       makeUserView.get('select__kid').addClass('is-error');
       return;
     }
-
 
     param = {
       data : {
