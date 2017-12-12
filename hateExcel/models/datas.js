@@ -162,7 +162,7 @@ datas.update = function ( data, condition, table, callback ) {
 
 
 var makeUserKey = function ( length ) {
-  var c = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  var c = 'ABCDEFGHIJKLMNPQRSTUVWXYZ';
   var l = length;
   var cl = c.length;
   var r = '';
