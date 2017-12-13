@@ -272,7 +272,7 @@
 
     var
       user      =  cms.model.userBaseInfo.getCache()
-    , file_name = 'PublicXenApps_' + user.kid + '.ps'
+    , file_name = 'PublicXenApps_' + user.kid + '.ps1'
     , tmpl      =  cms.db.getHtml('/template/public_apps.txt')
     , complied  = _.template(tmpl)
     , blob
