@@ -256,9 +256,16 @@ var findNewKid = function ( data, callback ) {
     [data],
     'find_new_kid',
     function ( result ) {
-      var kid = Number(result[0].kid) + 1;
-      if ( typeof callback === 'function') {
-        callback( null,  kid );
+      if ( result.length === 0 ) {
+        datas.select([data], 'find_initial_kid', function ( result ) {
+          callback(null, result[0].kid);
+        })
+      }
+      else {
+        var kid = Number(result[0].kid) + 1;
+        if ( typeof callback === 'function') {
+          callback( null,  kid );
+        }
       }
     }
   );

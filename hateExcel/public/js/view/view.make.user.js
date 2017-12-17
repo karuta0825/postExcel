@@ -22,6 +22,7 @@
         kid     : '.select-kid'
       },
       'server-title' : '.select-name.server',
+      'version-title' : '.select-name.version',
       'kid-title'    : '.select-name.kid',
       'dialog' : {
         confirm  : '#make-usr-confirm',
@@ -64,23 +65,74 @@
     makeUserView.get('dialog__kid').text( data.kid );
   };
 
+  _makeOption = function ( select, placeholder, options ) {
+
+    var ini = "<option value='' disabled selected style='display:none;'>" + placeholder + "</option>";
+    $(select).empty().append(ini);
+
+    _.each( options, function (v,k) {
+      $(select).append($('<option>', {
+        value : v,
+        text  : v
+      }));
+    });
+
+  }
+
   _selectSystem = function () {
-     if ( $(this).val() ===  'onpre' ) {
+
+    var
+      system_type = $(this).val()
+      versions = _.chain(cms.model.environments.find({system_type : system_type}))
+                  .pluck('version')
+                  .value()
+    ;
+
+    // バージョン選択肢を作成する
+    _makeOption(
+      makeUserView.get('select__version'),
+      'バージョンを選択してください',
+      versions
+    );
+
+    _clear();
+
+    if ( system_type ===  'onpre' ) {
+
       makeUserView.get('select__server').addClass('is-hidden');
       makeUserView.get('server-title').addClass('is-hidden');
+
+      makeUserView.get('select__version').removeClass('is-hidden');
+      makeUserView.get('version-title').removeClass('is-hidden');
 
       makeUserView.get('select__kid').removeClass('is-hidden');
       makeUserView.get('kid-title').removeClass('is-hidden');
 
-     }
-     else {
-      makeUserView.get('select__server').removeClass('is-hidden');
-      makeUserView.get('server-title').removeClass('is-hidden');
+      return;
+    }
+
+    if ( system_type === 'docomo' ) {
+
+      makeUserView.get('select__server').addClass('is-hidden');
+      makeUserView.get('server-title').addClass('is-hidden');
+
+      makeUserView.get('select__version').addClass('is-hidden');
+      makeUserView.get('version-title').addClass('is-hidden');
 
       makeUserView.get('select__kid').addClass('is-hidden');
       makeUserView.get('kid-title').addClass('is-hidden');
+      return;
+    }
 
-     }
+    makeUserView.get('select__server').removeClass('is-hidden');
+    makeUserView.get('server-title').removeClass('is-hidden');
+
+    makeUserView.get('select__version').removeClass('is-hidden');
+    makeUserView.get('version-title').removeClass('is-hidden');
+
+    makeUserView.get('select__kid').addClass('is-hidden');
+    makeUserView.get('kid-title').addClass('is-hidden');
+
   };
 
   _makeSelectServer = function () {
@@ -97,24 +149,31 @@
     , system_type = makeUserView.get('select__system').val()
     , version     = makeUserView.get('select__version').val()
     , server      = makeUserView.get('select__server').val()
-    , env_id      = customer.model.environments.find({
-        'system_type' : system_type,
-        'version'     : version
-      })[0].id
+    , environment
+    , env_id
     , param
     , check_kid
     ;
 
-    if ( system_type === 'onpre' ) {
-      server = '';
+    if ( system_type === 'docomo' ) {
+      version = 'LM';
     }
 
-    if ( kid === '' ) {
-      kid = null;
+    environment = customer.model.environments.find({
+      'system_type' : system_type,
+      'version'     : version
+    });
+
+    if ( environment.length === 0 ) {
+      makeUserView.get('select__system').addClass('is-error');
+      makeUserView.get('select__version').addClass('is-error');
+      return;
     }
+
+    env_id = environment[0].id;
 
     // KID入力内容のチェック
-    if ( kid && !kid.match(/^[0-9]+$/)  ) {
+    if ( kid !== '' && !kid.match(/^[0-9]+$/)  ) {
       makeUserView.get('select__kid').addClass('is-error');
       return;
     }
@@ -125,7 +184,6 @@
       makeUserView.get('select__kid').addClass('is-error');
       return;
     }
-
 
     param = {
       data : {
@@ -174,6 +232,15 @@
     });
 
     makeUserView.initElement( elements );
+
+    // システムの選択肢を作成する
+    _.each( cms.model.environments.getNames(), function (v,k) {
+      var el = $('<option>', {
+        text : v,
+        val : cms.model.environments.find({name:v})[0].system_type
+      });
+      makeUserView.get('select__system').append(el);
+    });
 
     makeUserView.addListener({
       'click btn__ok'          : _openConfirm,
