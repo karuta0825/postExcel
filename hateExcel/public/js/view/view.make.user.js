@@ -65,6 +65,17 @@
     makeUserView.get('dialog__kid').text( data.kid );
   };
 
+  _makeOption = function ( select, placeholder, options ) {
+
+    var ini = "<option value='' disabled selected style='display:none;'>" + placeholder + "</option>";
+    $(select).empty().append(ini);
+
+    _.each( options, function (v,k) {
+      $(select).append(v);
+    });
+
+  }
+
   _selectSystem = function () {
 
      if ( $(this).val() ===  'onpre' ) {
@@ -78,8 +89,10 @@
       makeUserView.get('select__kid').removeClass('is-hidden');
       makeUserView.get('kid-title').removeClass('is-hidden');
 
+      return;
      }
-     else if ( $(this).val() === 'docomo' ) {
+
+     if ( $(this).val() === 'docomo' ) {
 
       makeUserView.get('select__server').addClass('is-hidden');
       makeUserView.get('server-title').addClass('is-hidden');
@@ -89,9 +102,8 @@
 
       makeUserView.get('select__kid').addClass('is-hidden');
       makeUserView.get('kid-title').addClass('is-hidden');
-
+      return;
      }
-     else {
 
       makeUserView.get('select__server').removeClass('is-hidden');
       makeUserView.get('server-title').removeClass('is-hidden');
@@ -102,7 +114,6 @@
       makeUserView.get('select__kid').addClass('is-hidden');
       makeUserView.get('kid-title').addClass('is-hidden');
 
-     }
   };
 
   _makeSelectServer = function () {
@@ -193,6 +204,15 @@
     });
 
     makeUserView.initElement( elements );
+
+    // システムの選択肢を作成する
+    _.each( cms.model.environments.getNames(), function (v,k) {
+      var el = $('<option>', {
+        text : v,
+        val : cms.model.environments.find({name:v})[0].system_type
+      });
+      makeUserView.get('select__system').append(el);
+    });
 
     makeUserView.addListener({
       'click btn__ok'          : _openConfirm,
