@@ -71,14 +71,33 @@
     $(select).empty().append(ini);
 
     _.each( options, function (v,k) {
-      $(select).append(v);
+      $(select).append($('<option>', {
+        value : v,
+        text  : v
+      }));
     });
 
   }
 
   _selectSystem = function () {
 
-     if ( $(this).val() ===  'onpre' ) {
+    var
+      system_type = $(this).val()
+      versions = _.chain(cms.model.environments.find({system_type : system_type}))
+                  .pluck('version')
+                  .value()
+    ;
+
+    // バージョン選択肢を作成する
+    _makeOption(
+      makeUserView.get('select__version'),
+      'バージョンを選択してください',
+      versions
+    );
+
+    _clear();
+
+    if ( system_type ===  'onpre' ) {
 
       makeUserView.get('select__server').addClass('is-hidden');
       makeUserView.get('server-title').addClass('is-hidden');
@@ -90,9 +109,9 @@
       makeUserView.get('kid-title').removeClass('is-hidden');
 
       return;
-     }
+    }
 
-     if ( $(this).val() === 'docomo' ) {
+    if ( system_type === 'docomo' ) {
 
       makeUserView.get('select__server').addClass('is-hidden');
       makeUserView.get('server-title').addClass('is-hidden');
@@ -103,16 +122,16 @@
       makeUserView.get('select__kid').addClass('is-hidden');
       makeUserView.get('kid-title').addClass('is-hidden');
       return;
-     }
+    }
 
-      makeUserView.get('select__server').removeClass('is-hidden');
-      makeUserView.get('server-title').removeClass('is-hidden');
+    makeUserView.get('select__server').removeClass('is-hidden');
+    makeUserView.get('server-title').removeClass('is-hidden');
 
-      makeUserView.get('select__version').removeClass('is-hidden');
-      makeUserView.get('version-title').removeClass('is-hidden');
+    makeUserView.get('select__version').removeClass('is-hidden');
+    makeUserView.get('version-title').removeClass('is-hidden');
 
-      makeUserView.get('select__kid').addClass('is-hidden');
-      makeUserView.get('kid-title').addClass('is-hidden');
+    makeUserView.get('select__kid').addClass('is-hidden');
+    makeUserView.get('kid-title').addClass('is-hidden');
 
   };
 
@@ -130,6 +149,7 @@
     , system_type = makeUserView.get('select__system').val()
     , version     = makeUserView.get('select__version').val()
     , server      = makeUserView.get('select__server').val()
+    , environment
     , env_id
     , param
     , check_kid
@@ -139,10 +159,18 @@
       version = 'LM';
     }
 
-    env_id = customer.model.environments.find({
+    environment = customer.model.environments.find({
       'system_type' : system_type,
       'version'     : version
-    })[0].id;
+    });
+
+    if ( environment.length === 0 ) {
+      makeUserView.get('select__system').addClass('is-error');
+      makeUserView.get('select__version').addClass('is-error');
+      return;
+    }
+
+    env_id = environment[0].id;
 
     // KID入力内容のチェック
     if ( kid !== '' && !kid.match(/^[0-9]+$/)  ) {
