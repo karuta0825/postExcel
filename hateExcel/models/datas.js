@@ -685,18 +685,22 @@ datas.makeUser = function ( input_map, callback ) {
       set['create_user_id'] = input_map['create_user_id'];
       set['create_on']      = new Date();
 
+      if ( input_map.system_type === 'docomo' ) {
+        set['is_replaced_from_another'] = 1;
+      }
+
       console.log(set);
 
       datas.insert( set, 'make_user', function ( err, result ) {
         // 連続insertでKIDが重複していた場合、再作成
         if ( err && err.errno === 1062 ){
-          delete input_map.kid;
-          datas.makeUser( input_map, callback );
+          callback( '指定システム環境で作成できるKID上限数を超えましたので、作成できませんでした', null );
+          return;
         }
-        else {
-          set['kids_id'] = result.insertId;
-          callback(set);
-        }
+
+        set['kids_id'] = result.insertId;
+        callback(null, set);
+
       });
   });
 };

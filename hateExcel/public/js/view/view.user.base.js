@@ -252,6 +252,7 @@
     , has_fenics = getViewInfo('customer').has_fenics
     , has_mobile = getViewInfo('customer').has_mobile
     , kid
+    , environment_id = cms.model.userBaseInfo.getCache().environment_id
     , unique_err_number = 0
     ;
 
@@ -298,17 +299,19 @@
     }
 
       // userKey
-    kid = customer.db.select('/isUniqueUserKey',{ userkey : getViewInfo('system').userkey } );
-    if ( kid[0] && kid[0].kid !== cms.model.userBaseInfo.getCache().kid.slice(3)) {
+    if ( environment_id !== 5 ) {
+      kid = customer.db.select('/isUniqueUserKey',{ userkey : getViewInfo('system').userkey } );
+      if ( kid[0] && kid[0].kid !== cms.model.userBaseInfo.getCache().kid.slice(3)) {
 
-      // エラー画面をだす
-      systemView.get('input__userkey')
-      .find('.item-value')
-      .addClass('is-error')
-      ;
+        // エラー画面をだす
+        systemView.get('input__userkey')
+        .find('.item-value')
+        .addClass('is-error')
+        ;
 
-      unique_err_number += 1;
+        unique_err_number += 1;
 
+      }
     }
 
     kid = customer.db.select('/isUniqueDBPass',{ db_password : getViewInfo('system').db_password} );

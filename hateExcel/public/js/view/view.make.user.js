@@ -203,6 +203,9 @@
     .then(function(){
       _clear();
     })
+    .catch( function (err) {
+      customer.view.dialogAlert.open( err.responseJSON.message );
+    })
 
   };
 

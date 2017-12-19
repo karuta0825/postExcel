@@ -81,15 +81,12 @@ customer.db = ( function (){
     .catch(function(err){
       // セッション切れのとき
       if ( err.responseJSON.result === 'expired' ) {
-
         customer.view.dialogAlert.onClose( function () {
           location.href = '/login';
         });
-
         customer.view.dialogAlert.open( err.responseJSON.message );
-
       }
-      
+
       return Promise.reject(err);
 
     });
