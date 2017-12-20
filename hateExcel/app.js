@@ -630,16 +630,8 @@ app.post('/user', function (req, res) {
     return;
   }
 
-  for ( var i in items ) {
-
-    if ( i === 'kids') {}
-    if ( i === 'customers') {}
-    if ( i === 'licenses') {}
-    if ( i === 'partners') {}
-    if ( i === 'mobiles') {}
-    if ( i === 'busivs') {}
-
-  }
+  // DB接続
+  // クエリ情報と対応するパラメータ情報を渡す
 
 });
 
