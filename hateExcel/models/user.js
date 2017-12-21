@@ -8,20 +8,59 @@ const
 
 function register ( items, callback ) {
 
-  let qrys, params;
+  let
+    qrys   = []
+  , params = []
+  , kid    = items.kid.substr(-5,5)
+  , condition
+  ;
+
+  delete items.kid;
+  delete items.clients;
+  delete items.mobiles;
 
   // テーブルごとの個別処理
-  for ( var i in itmes ) {
 
-    if ( i === 'kids') {}
-    if ( i === 'customers') {}
-    if ( i === 'licenses') {}
-    if ( i === 'partners') {}
-    if ( i === 'mobiles') {}
-    if ( i === 'busivs') {}
+  // kids
+  items['kids']['kid']                      = kid;
+  items['kids']['has_qa']                   = ( items['kids']['has_qa']                   ) ? '1' : '0';
+  items['kids']['is_new_contract']          = ( items['kids']['is_new_contract']          ) ? '1' : '0';
+  items['kids']['is_replaced_from_cj']      = ( items['kids']['is_replaced_from_cj']      ) ? '1' : '0';
+  items['kids']['is_replaced_from_wc']      = ( items['kids']['is_replaced_from_wc']      ) ? '1' : '0';
+  items['kids']['is_replaced_from_another'] = ( items['kids']['is_replaced_from_another'] ) ? '1' : '0';
+  items['kids']['register_on'] = moment().format('YYYY-MM-DD');
+  items['kids']['is_registered'] = 1
+  qrys.push( querys.update['kids'] )
+  params.push( [ items['kids'], { 'id' : items['kids'].kids_id } ] );
 
-  }
+  // customers;
+  condition = items['customers']['kids_id'];
+  delete items['customers']['kids_id'];
+  qrys.push( querys.update['customers']);
+  params.push( [ items['customers'], { 'kids_id' : condition }]);
 
+  // licenses;
+  // condition = items['licenses']['kids_id'];
+  // delete items['licenses']['kids_id'];
+  // qrys.push( querys.update['licenses']);
+  // params.push( [ items['licenses'], { 'kids_id' : condition }]);
+
+  // partners;
+  condition = items['partners']['kids_id'];
+  delete items['partners']['kids_id'];
+  qrys.push( querys.update['partners']);
+  params.push( [ items['partners'], { 'kids_id' : condition }]);
+
+  // busivs
+  // condition = items['busivs']['kids_id'];
+  // delete items['busivs']['kids_id'];
+  // qrys.push( querys.update['busivs']);
+  // params.push( [ items['busivs'], { 'kids_id' : condition }]);
+
+  console.log(qrys);
+  console.log(params);
+
+  // callback(null,'test');
   db.transaction( qrys, params, callback );
 
 }
