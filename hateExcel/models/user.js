@@ -3,6 +3,7 @@ const
   database = require('./database')
 , querys   = require('./list_query')
 , moment = require('../public/js/lib/moment.min')
+, _ = require('../public/js/lib/underscore')
 , db = database.createClient()
 ;
 
@@ -40,10 +41,24 @@ function register ( items, callback ) {
   params.push( [ items['customers'], { 'kids_id' : condition }]);
 
   // licenses;
-  // condition = items['licenses']['kids_id'];
-  // delete items['licenses']['kids_id'];
-  // qrys.push( querys.update['licenses']);
-  // params.push( [ items['licenses'], { 'kids_id' : condition }]);
+  condition = items['licenses']['kids_id'];
+  delete items['licenses']['kids_id'];
+  qrys.push( querys.update['licenses']);
+
+  var ary = [];
+  _.each( items['licenses'], function (v,k) {
+    if ( v === '1') {
+      ary.push(k);
+    }
+  });
+  var license;
+  if ( ary.length > 1 ) {
+    license = { 'services' : ary.join(':') };
+  }
+  else {
+    license = { services : ary[0] };
+  }
+  params.push([ license, { 'kids_id' : condition } ]);
 
   // partners;
   condition = items['partners']['kids_id'];
@@ -52,10 +67,11 @@ function register ( items, callback ) {
   params.push( [ items['partners'], { 'kids_id' : condition }]);
 
   // busivs
-  // condition = items['busivs']['kids_id'];
-  // delete items['busivs']['kids_id'];
-  // qrys.push( querys.update['busivs']);
-  // params.push( [ items['busivs'], { 'kids_id' : condition }]);
+  condition = items['busivs']['kids_id'];
+  delete items['busivs']['kids_id'];
+  qrys.push( querys.update['busivs']);
+  var information = JSON.stringify(items['busivs']);
+  params.push([ {'information' : information}, { 'kids_id' : condition } ]);
 
   console.log(qrys);
   console.log(params);
