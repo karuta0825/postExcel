@@ -21,7 +21,6 @@ function register ( items, callback ) {
   delete items.mobiles;
 
   // テーブルごとの個別処理
-
   // kids
   qrys.push( querys.update['kids'] )
   params.push( _mkParamForKids(kid, items['kids']) );
@@ -36,7 +35,7 @@ function register ( items, callback ) {
 
   // partners;
   qrys.push( querys.update['partners']);
-  params.push( _mkParamForBusiv(items['partners']));
+  params.push( _mkParamForPartners(items['partners']));
 
   // busivs
   qrys.push( querys.update['busivs']);
@@ -63,7 +62,7 @@ function _mkParamForKids ( kid, obj ) {
   result['is_replaced_from_another'] = ( obj['is_replaced_from_another'] ) ? '1' : '0';
   result['register_on'] = moment().format('YYYY-MM-DD');
   result['is_registered'] = 1
-  return [ obj,  { 'id' : items['kids'].kids_id } ];
+  return [ obj,  { 'id' : obj.kids_id } ];
 }
 
 function _mkParamForCustomers ( obj ) {
@@ -113,7 +112,7 @@ function _mkParamForPartners ( obj ) {
  */
 function _mkParamForBusiv ( obj ) {
   let result = _.clone(obj);
-  let condition = resutl['kids_id'];
+  let condition = result['kids_id'];
   delete result['kids_id'];
   return [
     {'information' : JSON.stringify(result) },
