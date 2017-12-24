@@ -23,64 +23,103 @@ function register ( items, callback ) {
   // テーブルごとの個別処理
 
   // kids
-  items['kids']['kid']                      = kid;
-  items['kids']['has_qa']                   = ( items['kids']['has_qa']                   ) ? '1' : '0';
-  items['kids']['is_new_contract']          = ( items['kids']['is_new_contract']          ) ? '1' : '0';
-  items['kids']['is_replaced_from_cj']      = ( items['kids']['is_replaced_from_cj']      ) ? '1' : '0';
-  items['kids']['is_replaced_from_wc']      = ( items['kids']['is_replaced_from_wc']      ) ? '1' : '0';
-  items['kids']['is_replaced_from_another'] = ( items['kids']['is_replaced_from_another'] ) ? '1' : '0';
-  items['kids']['register_on'] = moment().format('YYYY-MM-DD');
-  items['kids']['is_registered'] = 1
   qrys.push( querys.update['kids'] )
-  params.push( [ items['kids'], { 'id' : items['kids'].kids_id } ] );
+  params.push( _mkParamForKids(kid, items['kids']) );
 
   // customers;
-  condition = items['customers']['kids_id'];
-  delete items['customers']['kids_id'];
   qrys.push( querys.update['customers']);
-  params.push( [ items['customers'], { 'kids_id' : condition }]);
+  params.push( _mkParamForCustomers(items['customers']) );
 
   // licenses;
-  condition = items['licenses']['kids_id'];
-  delete items['licenses']['kids_id'];
   qrys.push( querys.update['licenses']);
-
-  var ary = [];
-  _.each( items['licenses'], function (v,k) {
-    if ( v === '1') {
-      ary.push(k);
-    }
-  });
-  var license;
-  if ( ary.length > 1 ) {
-    license = { 'services' : ary.join(':') };
-  }
-  else {
-    license = { services : ary[0] };
-  }
-  params.push([ license, { 'kids_id' : condition } ]);
+  params.push( _mkParamForLicenses(items['licenses']) );
 
   // partners;
-  condition = items['partners']['kids_id'];
-  delete items['partners']['kids_id'];
   qrys.push( querys.update['partners']);
-  params.push( [ items['partners'], { 'kids_id' : condition }]);
+  params.push( _mkParamForBusiv(items['partners']));
 
   // busivs
-  condition = items['busivs']['kids_id'];
-  delete items['busivs']['kids_id'];
   qrys.push( querys.update['busivs']);
-  var information = JSON.stringify(items['busivs']);
-  params.push([ {'information' : information}, { 'kids_id' : condition } ]);
+  params.push( _mkParamForBusiv(items['busivs']));
 
   console.log(qrys);
   console.log(params);
 
-  // callback(null,'test');
   db.transaction( qrys, params, callback );
 
 }
 
+/**
+ * KIDテーブル更新に必要なパラメータを生成
+ * @return {Array}
+ */
+function _mkParamForKids ( kid, obj ) {
+  let result = {};
+  result['kid']                      = kid;
+  result['has_qa']                   = ( obj['has_qa']                   ) ? '1' : '0';
+  result['is_new_contract']          = ( obj['is_new_contract']          ) ? '1' : '0';
+  result['is_replaced_from_cj']      = ( obj['is_replaced_from_cj']      ) ? '1' : '0';
+  result['is_replaced_from_wc']      = ( obj['is_replaced_from_wc']      ) ? '1' : '0';
+  result['is_replaced_from_another'] = ( obj['is_replaced_from_another'] ) ? '1' : '0';
+  result['register_on'] = moment().format('YYYY-MM-DD');
+  result['is_registered'] = 1
+  return [ obj,  { 'id' : items['kids'].kids_id } ];
+}
+
+function _mkParamForCustomers ( obj ) {
+  let result = _.clone(obj);
+  let condition = obj['kids_id'];
+  delete result['kids_id'];
+  return [ result, { 'kids_id' : condition }];
+}
+
+/**
+ * ライセンステーブル更新に必要なパラメータを生成
+ * @return {Array}
+ */
+function _mkParamForLicenses ( obj ) {
+  let result = _.clone(obj);
+  let condition = obj['kids_id'];
+  let license
+  delete result['kids_id'];
+
+  // オブジェクトからコロン区切りのライセンス情報を生成
+  license = {
+    services : _.chain(result)
+                .pick( function (v) {return v === '1'} )
+                .keys()
+                .value()
+                .join(':')
+  }
+
+  return [ license, { 'kids_id' : condition } ];
+
+}
+
+/**
+ * パートナーテーブル更新に必要なパラメータを生成
+ * @return {Array}
+ */
+function _mkParamForPartners ( obj ) {
+  let result = _.clone(obj);
+  let condition = result['kids_id'];
+  delete result['kids_id'];
+  return [ result, { 'kids_id' : condition }];
+}
+
+/**
+ * ビジVテーブル更新に必要なパラメータを生成
+ * @return {Array}
+ */
+function _mkParamForBusiv ( obj ) {
+  let result = _.clone(obj);
+  let condition = resutl['kids_id'];
+  delete result['kids_id'];
+  return [
+    {'information' : JSON.stringify(result) },
+    { 'kids_id' : condition }
+  ];
+}
 
 exports.register = register;
 

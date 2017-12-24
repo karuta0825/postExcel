@@ -134,79 +134,39 @@
 
   upload = function () {
 
-    cms.db.post('/user', {'data': uploadData});
-
-    // cms.db.post('/user', uploadData )
-    // .then( function () {
-    //   cms.view.kids.refresh();
-    //   cms.view.regUsrs.showSuccess();
-    // })
-    // .catch( function (err) {
-    //   cms.view.regUsrs.showError(err.message);
-    // })
-    // ;
-
-    // // kids -端末数
-    // cms.model.kids.register({
-    //   kid                      : uploadData.kid,
-    //   user_name                : uploadData['kids']['user_name'],
-    //   kana                     : uploadData['kids']['kana'],
-    //   number_pc                : uploadData['kids']['number_pc'],
-    //   has_qa                   : ( uploadData['kids']['has_qa']                   === '1') ? '1' : '0',
-    //   is_new_contract          : ( uploadData['kids']['is_new_contract']          === '1') ? '1' : '0',
-    //   is_replaced_from_cj      : ( uploadData['kids']['is_replaced_from_cj']      === '1') ? '1' : '0',
-    //   is_replaced_from_wc      : ( uploadData['kids']['is_replaced_from_wc']      === '1') ? '1' : '0',
-    //   is_replaced_from_another : ( uploadData['kids']['is_replaced_from_another'] === '1') ? '1' : '0',
-    //   register_on              : moment().format('YYYY-MM-DD'),
-    //   is_registered            : 1
-    // })
-    // // customers
-    // .then( function () {
-    //   return cms.model.userCustomer.register( uploadData.customers );
-    // })
-    // // licenses
-    // .then( function () {
-    //   return customer.model.userLicense.register( uploadData.licenses );
-    // })
-    // // partners
-    // .then( function () {
-    //   return cms.model.userPartner.register( uploadData.partners );
-    // })
-    // .then( function () {
-    //   return cms.model.userBusiv.register( uploadData.busivs );
-    // })
-    // // クライアント - ユーザー数
-    // .then( function () {
-    //   // kid , userkey が必要
-    //   return cms.model.userBaseInfo.registerClient({
-    //     kids_id             : uploadData['kids']['id'],
-    //     userkey             : cms.model.kids.find({'kid' : uploadData.kid})[0].userkey,
-    //     number_client_added : uploadData['clients']['number']
-    //   });
-    // })
-    // // ネットワーク - クライアント数
-    // .then( function () {
-    //   if ( uploadData['customers']['has_fenics'] === 1 ) {
-    //     return cms.model.userNetwork.registerFenicsAccount({
-    //       kids_id         : uploadData['kids']['id'],
-    //       fenics_key      : cms.model.kids.find({'kid' : uploadData.kid})[0].fenics_key,
-    //       number_pc_added : uploadData['kids']['number_pc']
-    //     });
-    //   }
-    // })
-    // // mobiles
-    // .then( function () {
-    //   return cms.model.userMobile.register( uploadData.mobiles );
-    // })
-    // // all refresh
-    // .then( function () {
-    //   cms.view.kids.refresh();
-    //   cms.view.regUsrs.showSuccess();
-    // })
-    // .catch( function (err) {
-    //   cms.view.regUsrs.showError(err.message);
-    // })
-    // ;
+    cms.db.post('/user', {'data': uploadData})
+    // クライアント - ユーザー数
+    .then( function () {
+      // kid , userkey が必要
+      return cms.model.userBaseInfo.registerClient({
+        kids_id             : uploadData['kids']['id'],
+        userkey             : cms.model.kids.find({'kid' : uploadData.kid})[0].userkey,
+        number_client_added : uploadData['clients']['number']
+      });
+    })
+    // ネットワーク - クライアント数
+    .then( function () {
+      if ( uploadData['customers']['has_fenics'] === 1 ) {
+        return cms.model.userNetwork.registerFenicsAccount({
+          kids_id         : uploadData['kids']['id'],
+          fenics_key      : cms.model.kids.find({'kid' : uploadData.kid})[0].fenics_key,
+          number_pc_added : uploadData['kids']['number_pc']
+        });
+      }
+    })
+    // モバイル数
+    .then( function () {
+      return cms.model.userMobile.register( uploadData.mobiles );
+    })
+    // all refresh
+    .then( function () {
+      cms.view.kids.refresh();
+      cms.view.regUsrs.showSuccess();
+    })
+    .catch( function (err) {
+      cms.view.regUsrs.showError(err.message);
+    })
+    ;
 
 
   };
