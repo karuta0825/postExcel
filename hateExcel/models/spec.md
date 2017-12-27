@@ -31,11 +31,58 @@ actionCreaterは、業務の言葉で表現できるものだと言える。
                            -> DB
 
 2の場合、Otherクラスがたくさん出来るイメージだな。  
-User.registereメソッドが出来る度に、専用のパラメータ作成用の関数ができていく感じなので、まとめるのが大変。  
+User.registerなどのサービスメソッドが出来る度に、専用のパラメータ作成用の関数ができていく。専用パラメータ関数をどうまとめるのかが問題。  
 
 1の場合、一つのクラスにパラメータ作成関数とサービス関数があるので、  
 ファイルを横断しなくて済むけど、パラメータ作成関数をテストするためだけにpublicメソッドにする必要があり、  
 これはこれで気持ち悪い。
+
+## フォルダ構成をどうするか？
+
+
+## いまの関数を整理してみるのはどうか（ボトムアップ式）
+
+### private method
+- makeUserKey
+- makeFenicsKey
+- makeMobileFenicsKey
+- makeMobileAdminPw
+- makeNewFenicsIp
+- makeNewFenicsId
+- makeNewClientId
+- makeFenicsAccount
+- makeClient
+- makeService
+- makeServer
+- makeNewMobileFenicsId
+- makeNewMobileFenicsIp
+- makeMobileUser
+- findNewDbPass
+- findNewUserKey
+- findNewKid
+- findNewFenicsKey
+- findNewMobileFenicsKey
+- findEnvironmentId
+- findLastBaseId
+- getNextZeroPadData
+
+### public method
++ insert
++ delete
++ update
++ authenticate
++ makeLoginAccount
++ makeFenicsList
++ makeClientList
++ makeServiceList
++ makeServerList
++ makeMobileList
++ makeUser
++ makeMemo
++ getAddInfo
++ getLicense
+
+
 
 
 
