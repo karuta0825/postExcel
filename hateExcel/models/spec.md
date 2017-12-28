@@ -39,21 +39,28 @@ User.registerなどのサービスメソッドが出来る度に、専用のパ�
 
 ## フォルダ構成をどうするか？
 
+router
+models
+  |-- tables
+  |     |-- Kids
+  |     |-- Customers
+  |     |-- Licenses
+  `-- util
+  こうすると、table配下のプライベートメソッドのテストができない。
 
 ## いまの関数を整理してみるのはどうか（ボトムアップ式）
 
-### private method
+### private method 
 - makeUserKey
 - makeFenicsKey
 - makeMobileFenicsKey
+- makeFenicsKey
 - makeMobileAdminPw
 - makeNewFenicsIp
 - makeNewFenicsId
 - makeNewClientId
 - makeFenicsAccount
 - makeClient
-- makeService
-- makeServer
 - makeNewMobileFenicsId
 - makeNewMobileFenicsIp
 - makeMobileUser
@@ -62,9 +69,11 @@ User.registerなどのサービスメソッドが出来る度に、専用のパ�
 - findNewKid
 - findNewFenicsKey
 - findNewMobileFenicsKey
-- findEnvironmentId
 - findLastBaseId
 - getNextZeroPadData
+// - findEnvironmentId
+// - makeService
+// - makeServer
 
 ### public method
 + insert
@@ -81,6 +90,89 @@ User.registerなどのサービスメソッドが出来る度に、専用のパ�
 + makeMemo
 + getAddInfo
 + getLicense
+
+### privateの整理
+
+#### tableごとに必要なものにわけてみる
+
++ kids
++ customers
++ licenses
++ fenics
++ busivs
++ partners
++ mobiles
+  - makeMobileFenicsKey
+  - makeMobileAdminPw
+  - findNewMobileFenicsKey
++ historys
+
+- makeUserKey -> kid
+- makeFenicsKey -> fenics
+- makeMobileFenicsKey -> fenics
+- makeFenicsKey -> kid
+- makeMobileAdminPw -> mobile
+- makeNewFenicsIp -> fenics
+- makeNewFenicsId -> fenics
+- makeNewClientId -> client
+- makeFenicsAccount -> fenics
+- makeClient -> client
+// - makeService
+// - makeServer
+- makeNewMobileFenicsId -> fenics
+- makeNewMobileFenicsIp -> fenics
+- makeMobileUser -> mobiles
+- findNewDbPass -> kids
+- findNewUserKey -> kids
+- findNewKid -> kids
+- findNewFenicsKey -> fenics
+- findNewMobileFenicsKey
+// - findEnvironmentId
+- findLastBaseId -> customers
+- getNextZeroPadData -> util
+
+#### 呼び出し順序の確認
+- makeMobileAdminPw
+  <- makeBase
+
+- makeFenicsAccount
+  - makeNewFenicsIp
+  - makeNewFenicsId
+    - getNextZeroPadData
+  <- makeFenicsList
+
+- makeClient
+  - makeNewClientId
+    - getNextZeroPadData
+  <- makeClientList
+
+- makeMobileUser
+  - makeNewMobileFenicsId
+    - getNextZeroPadData
+  - makeNewMobileFenicsIp
+
+- findNewDbPass
+  <- makeUser
+
+- findNewUserKey
+  - makeUserKey
+
+- findNewKid
+
+- findNewFenicsKey
+  - makeFenicsKey
+  <- makeUser
+
+- findNewMobileFenicsKey
+  - makeMobileFenicsKey
+    - makeFenicsKey
+
+// - findEnvironmentId
+- findLastBaseId
+  <- makeBase
+
+//- makeService
+//- makeServer
 
 
 
