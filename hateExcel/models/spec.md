@@ -48,6 +48,10 @@ models
   `-- util
   こうすると、table配下のプライベートメソッドのテストができない。
 
+  設計において考慮することは
+  - ファイル分割、コンポーネント指向
+  - テストし易いつくり
+
 ## いまの関数を整理してみるのはどうか（ボトムアップ式）
 
 ### private method 
@@ -94,7 +98,6 @@ models
 ### privateの整理
 
 #### tableごとに必要なものにわけてみる
-
 + kids
 + customers
 + licenses
@@ -102,77 +105,48 @@ models
 + busivs
 + partners
 + mobiles
-  - makeMobileFenicsKey
-  - makeMobileAdminPw
-  - findNewMobileFenicsKey
 + historys
 
-- makeUserKey -> kid
-- makeFenicsKey -> fenics
-- makeMobileFenicsKey -> fenics
-- makeFenicsKey -> kid
-- makeMobileAdminPw -> mobile
-- makeNewFenicsIp -> fenics
-- makeNewFenicsId -> fenics
-- makeNewClientId -> client
-- makeFenicsAccount -> fenics
-- makeClient -> client
-// - makeService
-// - makeServer
-- makeNewMobileFenicsId -> fenics
-- makeNewMobileFenicsIp -> fenics
-- makeMobileUser -> mobiles
-- findNewDbPass -> kids
-- findNewUserKey -> kids
-- findNewKid -> kids
-- findNewFenicsKey -> fenics
-- findNewMobileFenicsKey
-// - findEnvironmentId
-- findLastBaseId -> customers
-- getNextZeroPadData -> util
+- makeUserKey            -> kids
+- makeFenicsKey          -> kids
+- findNewDbPass          -> kids
+- findNewUserKey         -> kids
+- findNewKid             -> kids
+- findLastBaseId         -> customers
+- makeFenicsKey          -> fenics
+- makeMobileFenicsKey    -> fenics
+- makeNewFenicsIp        -> fenics
+- makeNewFenicsId        -> fenics
+- makeFenicsAccount      -> fenics
+- makeNewMobileFenicsId  -> fenics
+- makeNewMobileFenicsIp  -> fenics
+- findNewFenicsKey       -> fenics
+- makeNewClientId        -> client
+- makeClient             -> client
+- makeMobileUser         -> mobiles
+- makeMobileAdminPw      -> mobile
+- findNewMobileFenicsKey -> mobiles
+- getNextZeroPadData     -> util
 
-#### 呼び出し順序の確認
-- makeMobileAdminPw
-  <- makeBase
++ insert
++ delete
++ update
++ authenticate
++ makeLoginAccount -> logins
++ makeFenicsList   -> fenics
++ makeClientList   -> client
++ makeServiceList  -> services
++ makeServerList   -> servers
++ makeMobileList   -> mobiles
++ makeUser         -> kids
++ makeMemo         -> memos
++ getAddInfo       -> historys
++ getLicense       -> license
 
-- makeFenicsAccount
-  - makeNewFenicsIp
-  - makeNewFenicsId
-    - getNextZeroPadData
-  <- makeFenicsList
+### privateはutilにまとめるのもメンテは楽だ
 
-- makeClient
-  - makeNewClientId
-    - getNextZeroPadData
-  <- makeClientList
-
-- makeMobileUser
-  - makeNewMobileFenicsId
-    - getNextZeroPadData
-  - makeNewMobileFenicsIp
-
-- findNewDbPass
-  <- makeUser
-
-- findNewUserKey
-  - makeUserKey
-
-- findNewKid
-
-- findNewFenicsKey
-  - makeFenicsKey
-  <- makeUser
-
-- findNewMobileFenicsKey
-  - makeMobileFenicsKey
-    - makeFenicsKey
-
-// - findEnvironmentId
-- findLastBaseId
-  <- makeBase
-
-//- makeService
-//- makeServer
+- utilsの中にtablesごとのをファイルをつくるか？
+- find, make, getなどのメソッド系でわける。
 
 
 
