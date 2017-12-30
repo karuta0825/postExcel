@@ -193,8 +193,6 @@
 
     view.initElement( elements );
 
-    cms.model.fenics.fetch( null, drawTable );
-
     view.addListener({
       'click edit-icon'     : _edit,
       'click btn__save'     : _save,
