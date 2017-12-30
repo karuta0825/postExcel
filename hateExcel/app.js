@@ -694,7 +694,7 @@ app.post('/updateLogin', function ( req, res ) {
   datas.update( data, condition, 'login_user_info', function (err) {
 
     if ( err ) {
-      res.status(500).send({ result : 'fail ', err : err});
+      res.status(500).send({ result : 'fail', err : err});
       return;
     }
 
