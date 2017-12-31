@@ -1,11 +1,13 @@
 <table class='fenics-table mdl-data-table mdl-js-data-table mdl-data-table--selectable'>
   <thead>
     <th class='mdl-data-table__cell--non-numeric id'>no</th>
+    <th class='mdl-data-table__cell--non-numeric kid'>KID</th>
     <th class='mdl-data-table__cell--non-numeric fenics_id'>Fenics ID</th>
     <th class='mdl-data-table__cell--non-numeric password'>パスワード</th>
     <th class='mdl-data-table__cell--non-numeric fenics_ip'>ip</th>
     <th class='mdl-data-table__cell--non-numeric start_on'>開始日</th>
     <th class='mdl-data-table__cell--non-numeric end_on'>終了日</th>
+    <th class='mdl-data-table__cell--non-numeric category'>分類</th>
     <th class='mdl-data-table__cell--non-numeric create_on'>作成日</th>
     <th class='mdl-data-table__cell--non-numeric edit'>編集</th>
   </thead>
@@ -14,6 +16,7 @@
     <% _.each( list, function ( item, num ) { %>
       <tr id='<%- item.fenics_id %>'>
         <td class='mdl-data-table__cell--non-numeric id'><%- item.id %></td>
+        <td class='mdl-data-table__cell--non-numeric kid'><%- item.kid %></td>
         <td class='mdl-data-table__cell--non-numeric fenics_id'><%- item.fenics_id %></td>
         <td class='mdl-data-table__cell--non-numeric password'><%- item.password %></td>
         <td class='mdl-data-table__cell--non-numeric fenics_ip'><%- item.fenics_ip %></td>
@@ -22,6 +25,9 @@
         </td>
         <td class='mdl-data-table__cell--non-numeric end_on'>
           <%- item.end_on %>
+        </td>
+        <td class='mdl-data-table__cell--non-numeric category'>
+          <%- item.category %>
         </td>
         <td class='mdl-data-table__cell--non-numeric create_on'><%- item.create_on %></td>
         <td class='mdl-data-table__cell--non-numeric edit'>

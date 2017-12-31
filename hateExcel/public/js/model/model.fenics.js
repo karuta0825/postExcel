@@ -185,22 +185,44 @@
       data = getCache()
     , from_num = util.inet_aton(from)
     , to_num = util.inet_aton(to)
+    , filterd
     ;
 
-    return _.filter( data, function (item) {
+    if ( from_num === 0 || to_num === 0) {
+      _page.initialize( data, MAX_VISIBLE_NUMBER );
+      return _page.current();
+    }
+
+    if ( from_num > to_num ) {
+      _page.initialize( data, MAX_VISIBLE_NUMBER );
+      return _page.current();
+    }
+
+    filtered = _.filter( data, function (item) {
       return (
         from_num <= item['fenics_ip_num'] &&
         item['fenics_ip_num'] <= to_num
       );
     });
 
+    _page.initialize( filtered, MAX_VISIBLE_NUMBER );
+
+    return filtered;
+
   };
 
   sort = function (key, isAsc) {
     var data = getCache();
-    return _.sortBy( data , function (v) {
-      return ( isAsc ) ? v[key] : -v[key];
-    });
+    if ( isAsc ) {
+      return _.sortBy( data , function (v) {
+        return v[key];
+      });
+    }
+    else {
+      return _.sortBy( data , function (v) {
+        return -v[key];
+      });
+    }
   }
 
   // to public

@@ -11,51 +11,39 @@
       'btn' : {
         'download' : '.btn--download',
         'save'     : '.btn--save',
-        'cancel'   : '.btn--cancel'
+        'cancel'   : '.btn--cancel',
+        'listPage' : '.page_list',
+        'nextPage' : '.next',
+        'prevPage' : '.prev',
+        'searchIp' : '.search_ips'
+      },
+      'ip' : {
+        'from' : '.ip_from',
+        'to' : '.ip_to'
       },
       'wrap'        : '.fenics-wrap',
       'header'      : '.fenics-header',
       'action'      : '.fenics-action',
       'fenics-list' : '.fenics-list',
-      'edit-icon'   : 'td.edit',
-      'dialog'      : {
-        'edit'   : '#edit-fenics-item',
-        'error'  : '#dialog-fenics-edit-error'
-      },
-      'input'       : {
-        'fenics_id' : '.fenics_id .input',
-        'password'  : '.password .input',
-        'fenics_ip' : '.fenics_ip .input',
-        'start_on'  : '.start_on .input',
-        'end_on'    : '.end_on .input'
-      }
+      'fenics-header' : 'th',
+      'edit-icon'   : 'td.edit'
     }
   // private methos
-  , _showError
   , _edit
   , _save
   , _cancel
   , _getSelectItem
+  , _selectPage
+  , _highlightIndexPage
   , _getViewInfo
+  , _searchIps
   , _download
+  , _onClickColumn
   // public method
   , drawTable
+  , makePageButton
   , initModule
   ;
-
-  _showError = function ( err_keys ) {
-
-    _.each( view.get('input'), function (val, key){
-      val.find('.item-value').removeClass('is-error');
-    });
-
-    _.each( err_keys, function ( v,k ) {
-      view.get('input__' + v ).addClass('is-error');
-    });
-
-    view.get('dialog__error').get(0).showModal();
-
-  };
 
   _edit = function () {
 
@@ -67,16 +55,7 @@
 
     item = cms.model.fenics.find({ 'fenics_id' : fenics_id })[0];
 
-    // input type date用にフォーマット
-    item['start_on'] = moment(item['start_on']).format('YYYY-MM-DD');
-    item['end_on'] = moment(item['end_on']).format('YYYY-MM-DD');
-
-    _.each( view.get('input'), function (v,k) {
-      v.val( item[k] );
-    });
-
-    // モーダル表示
-    view.get('dialog__edit').get(0).showModal();
+    cms.view.dialogFenics.open(item);
 
   };
 
@@ -84,30 +63,7 @@
    * 保存ボタン押下時の処理
    */
   _save = function () {
-
-    // 更新
     cms.model.fenics.update( _getViewInfo(), _cancel, _showError );
-
-
-  };
-
-  /**
-   * キャンセルボタン押下時の処理
-   */
-  _cancel = function () {
-
-    // エラーの初期化
-    _.each( view.get('input'), function (val, key){
-      val.removeClass('is-error');
-    });
-
-    view.get('dialog__edit').get(0).close();
-
-    // 画面データ消去
-    _.each( view.get('input'), function (v,k) {
-      v.val('');
-    });
-
   };
 
   /**
@@ -124,15 +80,66 @@
 
   };
 
-  _getViewInfo = function () {
+  _selectPage = function (e) {
 
-    var result = {};
+    var
+      el = $(e.target)
+    , page = Number(el.text())
+    , is_button = el.hasClass('page')
+    ;
 
-    _.each( view.get('input'), function (v,k) {
-      result[k] = v.val();
+    if ( is_button ) {
+      cms.model.fenics.getPage(page, drawTable);
+    }
+
+  };
+
+  _highlightIndexPage = function ( page_index ) {
+
+    _.each( view.get('btn__listPage').find('.page'), function (v,k) {
+      if ( Number($(v).text()) === page_index  ) {
+        $(v).addClass('accent-font');
+      }
     });
 
-    return result;
+  };
+
+  _searchIps = function () {
+
+    var
+      from = view.get('ip__from').val()
+    , to = view.get('ip__to').val()
+    ;
+
+    drawTable(cms.model.fenics.filterIp( from, to ));
+
+  };
+
+  _onClickColumn = function (e) {
+
+    var
+      list_class = $(e.target).attr('class').split(' ')
+    , column = list_class[1]
+    , sort = list_class[2]
+    ;
+
+    // view.get('fenics-header')
+    // .removeClass('asc')
+    // .removeClass('desc')
+    // ;
+
+    if ( sort === 'desc') {
+      drawTable( cms.model.fenics.sort(column, true) );
+      $(e.target).addClass('asc');
+    }
+    else if ( sort === 'asc' ) {
+      drawTable( cms.model.fenics.sort(column, false) );
+      $(e.target).addClass('desc');
+    }
+    else {
+      drawTable( cms.model.fenics.sort(column, false) );
+      $(e.target).addClass('desc');
+    }
 
   };
 
@@ -168,15 +175,39 @@
     , complied = _.template( tmpl )
     ;
 
-    // 空にして
-    view.get('fenics-list').empty();
+    view.get('fenics-list')
+    .empty()
+    .append( complied(data) )
+    ;
 
-    // 詰めて
-    view.get('fenics-list').append( complied(data) );
+    view.updateElement('fenics-header');
 
     // MDL表示用に更新
     componentHandler.upgradeElement( view.get('fenics-list').find('table').get(0) );
+    makePageButton(cms.model.fenics.getPageList());
+    _highlightIndexPage( cms.model.fenics.getPageIndex() );
 
+  };
+
+  makePageButton = function (list) {
+
+    var el;
+
+    view.get('btn__listPage').empty();
+
+    _.each( list, function (number,idx) {
+
+      if ( number === '' ) {
+        el = $('<span>', { 'text': '..' } );
+      }
+      else {
+        el = $('<button>', {
+          'class' : 'page mdl-button',
+          'text': number
+        });
+      }
+      view.get('btn__listPage').append(el);
+    });
   };
 
   initModule = function () {
@@ -185,19 +216,23 @@
 
     view.wrap.append( customer.db.getHtml('template/fenics.html'));
 
-    util.alert({
-      selector : view.top,
-      id       : 'dialog-fenics-edit-error',
-      msg      : '入力に誤りがあります'
-    });
-
     view.initElement( elements );
+
+    cms.model.fenics.fetch()
+    .then( function (r) {
+      drawTable(r);
+    });
 
     view.addListener({
       'click edit-icon'     : _edit,
       'click btn__save'     : _save,
       'click btn__cancel'   : _cancel,
-      'click btn__download' : _download
+      'click btn__download' : _download,
+      'click btn__nextPage' : function () { cms.model.fenics.nextPage( drawTable );},
+      'click btn__prevPage' : function () { cms.model.fenics.prevPage( drawTable );},
+      'click btn__listPage' : _selectPage,
+      'click btn__searchIp' : _searchIps,
+      'click fenics-header' : _onClickColumn
     });
 
   };
@@ -205,7 +240,8 @@
   // to public
   cms.view.fenics = {
     initModule : initModule,
-    drawTable  : drawTable
+    drawTable  : drawTable,
+    test : function () { return view; }
   };
 
 } ( jQuery, customer ));

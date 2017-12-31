@@ -1199,39 +1199,65 @@
    fenics list
 ---------------------- */
 .fenics-wrap {
-  width: 50%;
-  margin: 20px auto;
-  min-width: 765px;
+  display :-webkit-flex;
   height: 100%;
+  width : 100%;
 }
 
-.fenics-header {
-  position: fixed;
-  top: 0;
-  z-index: 100;
-  width: 800px;
-  height: 54px;
-  padding-top: 77px;
-  background: whitesmoke;
+.fenics-wrap .filter {
+  width : 220px;
+  min-width: 220px;
 }
 
-.fenics-action {
-  width: 117px;
-  position: absolute;
-  right: 0;
+.fenics-wrap .content {
+  flex: 1;
 }
 
-.fenics-body {
-  margin-top: 75px;
+.fenics-wrap .content .frame {
+  width : 90%;
+  height : 100%;
+  margin : 0 auto;
 }
 
-.fenics-body .fenics-list {
-  margin-bottom: 20px;
+.fenics-wrap .filter .ip-range-title {
+  display: inline-block;
+  width : 45px;
 }
 
-.fenics-list .edit {
-  cursor: pointer;
+.fenics-wrap .filter .ip input {
+  display: inline-block;
+  width : 70%;
 }
+
+.fenics-wrap .filter .search_ips {
+  margin : 10px 0 0 0;
+}
+
+.fenics-wrap .fenics-action {
+  margin: 20px 0px 0px 0px;
+  text-align: right;
+}
+
+.fenics-wrap .second_layer {
+  margin : 10px 0 0 0;
+}
+
+.fenics-wrap .fenics-body {
+  max-height: 90%;
+  min-height: 60%;
+  overflow : scroll;
+}
+
+.fenics-wrap .fenics-table {
+  width:100%;
+}
+
+.fenics-wrap .btn.prev,
+.fenics-wrap .btn.next,
+.fenics-wrap .page_list {
+  display: inline-block;
+}
+
 
 /* 編集モーダル画面*/
 #dialog-edit-fenics {

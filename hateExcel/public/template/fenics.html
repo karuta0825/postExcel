@@ -1,54 +1,60 @@
 <div class='fenics-wrap'>
 
-<div class='fenics-header'>
-  <div class='fenics-action'>
-    <a class='btn btn--download mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored' href='#'>ダウンロード</a>
-  </div>
-</div>
+  <div class='filter mdl-card mdl-shadow--2dp'>
 
-<div class='fenics-body'>
-  <div class='fenics-list'></div>
-</div>
+    <div class='filter__title'>
+      <span class='icon-name-super'>フィルター</span>
+    </div>
 
-</div>
+    <div class='filter__body'>
+      <!-- システム環境 -->
+      <div class='filter-item ip_range'>
+        <div class='filter-item__title'>
+          <i class="material-icons">network_wifi</i>
+          <span class='icon-name-super'>IPアドレス</span>
+        </div>
+        <div class='filter-item__body'>
+          <div class='ip'>
+            <span class='ip-range-title'>From</span>
+            <input class="mdl-textfield__input ip_from" type="text">
+          </div>
+          <div class='ip'>
+            <span class='ip-range-title'>To</span>
+            <input class="mdl-textfield__input ip_to" type="text">
+          </div>
+          <button class='search_ips mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect'>検索</button>
+        </div>
+      </div>
 
-<dialog class="mdl-dialog" id='edit-fenics-item'>
-  <h6 class="mdl-dialog__title">FenicsIDの編集</h6>
-  <div class="mdl-dialog__content">
-
-    <ul class='input-list'>
-
-      <li class='fenics_id'>
-        <span class='input-name'>FenicsID</span>
-        <input class='input' type='text' disabled='disabled'></input>
-      </li>
-
-      <li class='password'>
-        <span class='input-name'>パスワード</span>
-        <input class='input' type='text' disabled='disabled'></input>
-      </li>
-
-      <li class='fenics_ip'>
-        <span class='input-name'>IP</span>
-        <input class='input' type='text'></input>
-      </li>
-
-      <li class='start_on'>
-        <span class='input-name'>開始日</span>
-        <input class='input' type='date' value=''></input>
-      </li>
-
-      <li class='end_on'>
-        <span class='input-name'>終了日</span>
-        <input class='input' type='date' value=''></input>
-      </li>
-
-    </ul>
+    </div>
 
   </div>
-  <div class="mdl-dialog__actions">
-    <button type="button" class="btn btn--save mdl-button">保存</button>
-    <button type="button" class="btn btn--cancel mdl-button">キャンセル</button>
-  </div>
-</dialog>
 
+  <div class='content'>
+    <div class='frame'>
+
+      <div class='fenics-header'>
+        <div class='fenics-action'>
+
+          <div class='first_layer'>
+          <button class='btn btn--del mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect' href='#edit-usr'>削除</button>
+            <a class='btn btn--download mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored' href='#'>ダウンロード</a>
+          </div>
+
+          <div class='second_layer'>
+            <button class='btn prev mdl-button'>前の50件</button>
+            <div class='page_list'></div>
+            <button class='btn next mdl-button'>次の50件</button>
+          </div>
+
+        </div>
+      </div>
+
+      <div class='fenics-body'>
+        <div class='fenics-list'></div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
