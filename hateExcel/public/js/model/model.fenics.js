@@ -10,6 +10,23 @@
     _cache
   , _page = new Page([],1)
   , MAX_VISIBLE_NUMBER = 50
+  , _sortOrder = 1
+  , _sortHeaderMap = {
+      'id'         : '',
+      'kid'        : '',
+      'fenics_id'  : '',
+      'fenics_ip'  : '',
+      'password'   : '',
+      'start_on'   : '',
+      'end_on'     : '',
+      'is_mobile'  : '',
+      'create_on'  : '',
+      'category'   : ''
+    }
+  , _filterInfo = {
+      search : '',
+      ip : { from : '', to : '' }
+    }
   , vl = new util.Validate({
       'id'         : 'noCheck',
       'kid'        : 'noCheck',
@@ -30,6 +47,9 @@
   , getCache
   , filterIp
   , sort
+  , setSortInfo
+  , getSortInfo
+  , getFiltered
   ;
 
   // 成功時と失敗時のコールバックを引数にすることで
@@ -188,14 +208,17 @@
     , filterd
     ;
 
+    _filterInfo['ip']['from'] = from;
+    _filterInfo['ip']['to'] = to;
+
     if ( from_num === 0 || to_num === 0) {
       _page.initialize( data, MAX_VISIBLE_NUMBER );
-      return _page.current();
+      return data;
     }
 
     if ( from_num > to_num ) {
       _page.initialize( data, MAX_VISIBLE_NUMBER );
-      return _page.current();
+      return data;
     }
 
     filtered = _.filter( data, function (item) {
@@ -211,18 +234,73 @@
 
   };
 
-  sort = function (key, isAsc) {
-    var data = getCache();
-    if ( isAsc ) {
-      return _.sortBy( data , function (v) {
-        return v[key];
-      });
+  sort = function (column) {
+    var
+      data = getFiltered()
+    , isAsc = ( getSortInfo(column) === 'asc' ) ? true : false
+    , filtered
+    ;
+
+    if ( column === 'fenics_ip' ) { column = 'fenics_ip_num' }
+
+    filtered = data.sort( function ( item1, item2 ) {
+      item1 = _.isString( item1[column] ) && item1[column].toString().toLowerCase() || item1[column];
+      item2 = _.isString( item2[column] ) && item2[column].toString().toLowerCase() || item2[column];
+      if ( item1 < item2 ) {
+        return -1 * _sortOrder;
+      }
+      else if ( item1 > item2 ) {
+        return 1 * _sortOrder;
+      }
+    });
+
+    _sortOrder = ( isAsc ) ? -1 : 1;
+
+    _page.initialize( filtered, MAX_VISIBLE_NUMBER );
+    return filtered;
+
+  };
+
+  setSortInfo = function ( column ) {
+
+    if ( !_sortHeaderMap.hasOwnProperty(column) ) {
+      throw new Error( column + 'をキーに持たないためソートできません');
+    }
+
+    var before = getSortInfo(column);
+
+    // all clear
+    for (var i in _sortHeaderMap ) {
+      _sortHeaderMap[i] = '';
+    };
+
+    // set
+    if ( before === 'asc' ) {
+      _sortHeaderMap[column] = 'desc';
+    }
+    else if ( before === 'desc' ) {
+      _sortHeaderMap[column] = 'asc';
     }
     else {
-      return _.sortBy( data , function (v) {
-        return -v[key];
-      });
+      _sortHeaderMap[column] = 'asc';
     }
+
+  };
+
+  getSortInfo = function ( column ) {
+    if (!column) {
+      return _sortHeaderMap;
+    }
+    return _sortHeaderMap[column];
+  };
+
+  getFiltered = function () {
+    var filter;
+    filter = filterIp( _filterInfo['ip']['from'], _filterInfo['ip']['to']);
+    if ( !filter ) {
+      return getCache();
+    }
+    return filter;
   }
 
   // to public
@@ -239,7 +317,9 @@
     getPage      : $.proxy( _page.get, _page ),
     getPageIndex : $.proxy( _page.getIndex, _page ),
     getPageList  : $.proxy( _page.getPageList, _page ),
-    getCurrent   : $.proxy( _page.current, _page )
+    getCurrent   : $.proxy( _page.current, _page ),
+    setSortInfo  : setSortInfo,
+    getSortInfo  : getSortInfo
   };
 
 } ( jQuery, customer ));

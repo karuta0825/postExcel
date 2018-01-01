@@ -26,7 +26,8 @@
       'action'      : '.fenics-action',
       'fenics-list' : '.fenics-list',
       'fenics-header' : 'th',
-      'edit-icon'   : 'td.edit'
+      'edit-icon'   : 'td.edit',
+      'search' : '.search'
     }
   // private methos
   , _edit
@@ -111,36 +112,20 @@
     , to = view.get('ip__to').val()
     ;
 
-    drawTable(cms.model.fenics.filterIp( from, to ));
+    cms.model.fenics.filterIp( from, to );
+    drawTable( cms.model.fenics.getCurrent() );
 
   };
 
   _onClickColumn = function (e) {
-
     var
       list_class = $(e.target).attr('class').split(' ')
     , column = list_class[1]
-    , sort = list_class[2]
     ;
 
-    // view.get('fenics-header')
-    // .removeClass('asc')
-    // .removeClass('desc')
-    // ;
-
-    if ( sort === 'desc') {
-      drawTable( cms.model.fenics.sort(column, true) );
-      $(e.target).addClass('asc');
-    }
-    else if ( sort === 'asc' ) {
-      drawTable( cms.model.fenics.sort(column, false) );
-      $(e.target).addClass('desc');
-    }
-    else {
-      drawTable( cms.model.fenics.sort(column, false) );
-      $(e.target).addClass('desc');
-    }
-
+    cms.model.fenics.setSortInfo(column);
+    cms.model.fenics.sort(column);
+    drawTable( cms.model.fenics.getCurrent() );
   };
 
   _download = function () {
@@ -149,7 +134,6 @@
       ids      = _getSelectItem()
     , filename = new moment().format('YYYYMMDD') + '_Fenics_List.csv'
     , header   = 'no,kid,fenics_key,fenics_id,password,ip,開始日,終了日,モバイルフラグ,作成日'
-    // , data     = customer.model.fenics.find( ids )
     , data     = customer.model.fenics.getCache()
     , Blob
     ;
@@ -173,6 +157,7 @@
       data     = { list : data }
     , tmpl     = customer.db.getHtml('template/fenics.list.html')
     , complied = _.template( tmpl )
+    , sort
     ;
 
     view.get('fenics-list')
@@ -181,6 +166,13 @@
     ;
 
     view.updateElement('fenics-header');
+
+    // set sort info into th element' class.
+    _.each( cms.model.fenics.getSortInfo(), function (v,k) {
+      if ( v !== '' ) {
+        view.wrap.find('th.' + k).addClass(v);
+      }
+    });
 
     // MDL表示用に更新
     componentHandler.upgradeElement( view.get('fenics-list').find('table').get(0) );
@@ -232,7 +224,8 @@
       'click btn__prevPage' : function () { cms.model.fenics.prevPage( drawTable );},
       'click btn__listPage' : _selectPage,
       'click btn__searchIp' : _searchIps,
-      'click fenics-header' : _onClickColumn
+      'click fenics-header' : _onClickColumn,
+      'keyup search' : function (e) { console.log(e.target.value)}
     });
 
   };
