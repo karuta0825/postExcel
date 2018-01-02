@@ -15,19 +15,20 @@
         'listPage' : '.page_list',
         'nextPage' : '.next',
         'prevPage' : '.prev',
-        'searchIp' : '.search_ips'
+        'search' : '.search'
       },
+      'keyword' : '.keyword',
       'ip' : {
         'from' : '.ip_from',
         'to' : '.ip_to'
       },
+      'search' : '.search',
       'wrap'        : '.fenics-wrap',
       'header'      : '.fenics-header',
       'action'      : '.fenics-action',
       'fenics-list' : '.fenics-list',
       'fenics-header' : 'th',
       'edit-icon'   : 'td.edit',
-      'search' : '.search'
     }
   // private methos
   , _edit
@@ -37,6 +38,7 @@
   , _selectPage
   , _highlightIndexPage
   , _getViewInfo
+  , _searchKeyword
   , _searchIps
   , _download
   , _onClickColumn
@@ -108,13 +110,22 @@
   _searchIps = function () {
 
     var
-      from = view.get('ip__from').val()
+      keyword = view.get('search').val()
+    , from = view.get('ip__from').val()
     , to = view.get('ip__to').val()
     ;
 
+    cms.model.fenics.setFilterInfo('ip', { 'from' : from, 'to' : to });
     cms.model.fenics.filterIp( from, to );
     drawTable( cms.model.fenics.getCurrent() );
 
+  };
+
+  _searchKeyword = function () {
+    var keyword = $(this).val();
+    cms.model.fenics.setFilterInfo('search', keyword);
+    cms.model.fenics.search(keyword);
+    drawTable( cms.model.fenics.getCurrent() );
   };
 
   _onClickColumn = function (e) {
@@ -223,9 +234,11 @@
       'click btn__nextPage' : function () { cms.model.fenics.nextPage( drawTable );},
       'click btn__prevPage' : function () { cms.model.fenics.prevPage( drawTable );},
       'click btn__listPage' : _selectPage,
-      'click btn__searchIp' : _searchIps,
+      // 'click btn__searchIp' : _sear  ch,
       'click fenics-header' : _onClickColumn,
-      'keyup search' : function (e) { console.log(e.target.value)}
+      'keyup keyword' : _searchKeyword,
+      'keyup ip__from' : _searchIps,
+      'keyup ip__to' : _searchIps
     });
 
   };
@@ -234,7 +247,6 @@
   cms.view.fenics = {
     initModule : initModule,
     drawTable  : drawTable,
-    test : function () { return view; }
   };
 
 } ( jQuery, customer ));

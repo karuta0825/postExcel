@@ -49,6 +49,7 @@
   , sort
   , setSortInfo
   , getSortInfo
+  , setFilterInfo
   , getFiltered
   ;
 
@@ -168,14 +169,15 @@
 
   };
 
-  search = function ( keyword, callback ) {
+  search = function ( keyword, model  ) {
 
     var
-      reg = new RegExp(keyword, 'i')
+      data = model || getFiltered()
+    , reg = new RegExp(keyword, 'i')
     , ary = []
     ;
 
-    _.each( getCache(), function (item,idx) {
+    _.each( data, function (item,idx) {
 
       var is_match = 0;
 
@@ -191,25 +193,18 @@
 
     });
 
-    if ( typeof callback  === 'function') {
-      callback( ary );
-    }
-    else {
-      return ary;
-    }
+    _page.initialize(ary, MAX_VISIBLE_NUMBER);
+    return ary;
 
   };
 
-  filterIp = function ( from, to ) {
+  filterIp = function ( from, to, model ) {
     var
-      data = getCache()
+      data = model || getFiltered()
     , from_num = util.inet_aton(from)
     , to_num = util.inet_aton(to)
     , filterd
     ;
-
-    _filterInfo['ip']['from'] = from;
-    _filterInfo['ip']['to'] = to;
 
     if ( from_num === 0 || to_num === 0) {
       _page.initialize( data, MAX_VISIBLE_NUMBER );
@@ -296,12 +291,20 @@
 
   getFiltered = function () {
     var filter;
-    filter = filterIp( _filterInfo['ip']['from'], _filterInfo['ip']['to']);
+
+    filter = filterIp( _filterInfo['ip']['from'], _filterInfo['ip']['to'], getCache() );
+    filter = search( _filterInfo['search'], filter );
+
     if ( !filter ) {
       return getCache();
     }
+
     return filter;
-  }
+  };
+
+  setFilterInfo = function (key, value) {
+    _filterInfo[key] = value;
+  };
 
   // to public
   cms.model.fenics = {
@@ -319,7 +322,8 @@
     getPageList  : $.proxy( _page.getPageList, _page ),
     getCurrent   : $.proxy( _page.current, _page ),
     setSortInfo  : setSortInfo,
-    getSortInfo  : getSortInfo
+    getSortInfo  : getSortInfo,
+    setFilterInfo : setFilterInfo
   };
 
 } ( jQuery, customer ));
