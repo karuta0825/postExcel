@@ -9,20 +9,19 @@
     view
   , elements = {
       'btn' : {
+        'delete'   : '.btn--del',
+        'updates'  : '.btn--updates',
         'download' : '.btn--download',
-        'save'     : '.btn--save',
-        'cancel'   : '.btn--cancel',
         'listPage' : '.page_list',
         'nextPage' : '.next',
-        'prevPage' : '.prev',
-        'search' : '.search'
+        'prevPage' : '.prev'
       },
       'keyword' : '.keyword',
       'ip' : {
         'from' : '.ip_from',
         'to' : '.ip_to'
       },
-      'search' : '.search',
+      'isMobile' : '.isMobile',
       'wrap'        : '.fenics-wrap',
       'header'      : '.fenics-header',
       'action'      : '.fenics-action',
@@ -32,8 +31,8 @@
     }
   // private methos
   , _edit
-  , _save
-  , _cancel
+  , _delete
+  , _updates
   , _getSelectItem
   , _selectPage
   , _highlightIndexPage
@@ -62,11 +61,34 @@
 
   };
 
-  /**
-   * 保存ボタン押下時の処理
-   */
-  _save = function () {
-    cms.model.fenics.update( _getViewInfo(), _cancel, _showError );
+  _delete = function () {
+
+    var list = _getSelectItem();
+
+    if ( list.length < 1 ) {
+      alert('削除するものを選択してください');
+      return;
+    }
+
+    // Promiseを使ったループ削除
+
+  };
+
+  _updates = function () {
+
+    var list = _getSelectItem();
+
+    if ( list.length < 1 ) {
+      alert('更新するものを選択してください');
+      return;
+    }
+
+    // 専用ダイアログ
+    // 更新可能なもの
+    // - 分類
+    // - 開始日
+    // - 終了日
+
   };
 
   /**
@@ -110,8 +132,7 @@
   _searchIps = function () {
 
     var
-      keyword = view.get('search').val()
-    , from = view.get('ip__from').val()
+      from = view.get('ip__from').val()
     , to = view.get('ip__to').val()
     ;
 
@@ -228,13 +249,12 @@
 
     view.addListener({
       'click edit-icon'     : _edit,
-      'click btn__save'     : _save,
-      'click btn__cancel'   : _cancel,
+      'click btn__delete'   : _delete,
+      'click btn__updates'  : _updates,
       'click btn__download' : _download,
       'click btn__nextPage' : function () { cms.model.fenics.nextPage( drawTable );},
       'click btn__prevPage' : function () { cms.model.fenics.prevPage( drawTable );},
       'click btn__listPage' : _selectPage,
-      // 'click btn__searchIp' : _sear  ch,
       'click fenics-header' : _onClickColumn,
       'keyup keyword' : _searchKeyword,
       'keyup ip__from' : _searchIps,
@@ -246,7 +266,7 @@
   // to public
   cms.view.fenics = {
     initModule : initModule,
-    drawTable  : drawTable,
+    drawTable  : drawTable
   };
 
 } ( jQuery, customer ));

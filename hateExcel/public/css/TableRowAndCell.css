@@ -1219,6 +1219,10 @@
   margin : 0 auto;
 }
 
+.fenics-wrap .filter .keyword {
+  width: 90%;
+}
+
 .fenics-wrap .filter .ip-range-title {
   display: inline-block;
   width : 45px;
@@ -1226,7 +1230,7 @@
 
 .fenics-wrap .filter .ip input {
   display: inline-block;
-  width : 70%;
+  width : 65%;
 }
 
 .fenics-wrap .filter .search_ips {
