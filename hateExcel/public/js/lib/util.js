@@ -320,6 +320,21 @@
 
     return result;
 
+  };
+
+  util.loopWithPromise = function ( fn, params, i, end ) {
+    return fn.apply(null, params[i])
+    .then( () => {
+      if ( i < end ) {
+        return util.loopWithPromise( fn, params, i+1, end)
+      }
+      else {
+        return Promise.resolve('end');
+      }
+    })
+    .catch( (err) => {
+      console.log(err);
+    });
   }
 
   /**
@@ -523,7 +538,7 @@
   util.inet_ntoa = function ( number ) {
     var nbuffer = new ArrayBuffer(4);
     var ndv = new DataView(nbuffer);
-    ndv.setUint32(0, number);
+    ndv.setUint32(0, number); 
 
     var a = new Array();
     for(var i = 0; i < 4; i++){

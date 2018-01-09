@@ -41,6 +41,7 @@
   // private method
   , _findUnion
   , _findOneCondition
+  , _delete
   // public method
   , update
   , fetch
@@ -51,7 +52,16 @@
   , getSortInfo
   , setFilterInfo
   , getFiltered
+  , deletes
   ;
+
+  _delete = function ( fenics_id ) {
+    var params = {
+      table : 'fenics',
+      data : [fenics_id]
+    };
+    return cms.db.post('/delete', params );
+  };
 
   // 成功時と失敗時のコールバックを引数にすることで
   // viewの負担が減る
@@ -306,6 +316,19 @@
     _filterInfo[key] = value;
   };
 
+  deletes = function ( fenics_ids ) {
+
+    var length = fenics_ids.length;
+
+    return util.loopWithPromise(
+      _delete,
+      _.map(fenics_ids, function (v) { return [v] }),
+      0,
+      length-1
+    );
+
+  };
+
   // to public
   cms.model.fenics = {
     update       : update,
@@ -323,7 +346,8 @@
     getCurrent   : $.proxy( _page.current, _page ),
     setSortInfo  : setSortInfo,
     getSortInfo  : getSortInfo,
-    setFilterInfo : setFilterInfo
+    setFilterInfo : setFilterInfo,
+    deletes       : deletes
   };
 
 } ( jQuery, customer ));
