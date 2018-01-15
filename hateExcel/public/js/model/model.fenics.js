@@ -42,6 +42,7 @@
   , _findUnion
   , _findOneCondition
   , _delete
+  , _update
   // public method
   , update
   , fetch
@@ -65,42 +66,25 @@
 
   // 成功時と失敗時のコールバックを引数にすることで
   // viewの負担が減る
-  update = function ( view_data, cb_success, cb_fail ) {
+  update = function ( fenics_id, updateObj ) {
 
     var
-      errs = vl.validate( view_data );
+      now = _.clone(find({fenics_id : fenics_id})[0])
+    , updateInfo = Object.assign({}, now, updateObj)
+    , diffInfo = util.diffObj( now, updateInfo )
+    ;
 
-    if ( errs && errs.length > 0 ) {
-      cb_fail( errs );
-      return;
-    }
-
-    cms.db.post('/isUniqueIp', { ip : view_data['fenics_ip']})
-    .then( function (result) {
-
-      // 重複で更新不可
-      if ( result.length > 0 && result[0]['fenics_id'] !== view_data['fenics_id']) {
-
-        cb_fail( ['fenics_ip'] );
-
-      }
-      // 更新可能
-      else {
-
-        cms.db.post('/updateFenics', { data : [view_data] })
-        .then( function () {
-          _model.fetchAsync( null, cms.view.fenics.drawTable );
-        })
-        .then ( function (result) {
-          cb_success();
-        })
-        .fail( function (err) {
-          throw Error(err);
-        });
-
-      }
-
-    });
+    console.log(updateInfo);
+    console.log(diffInfo);
+    return cms.db.post('/updateFenics', { data : [updateInfo] })
+    .then( function () {
+      // 履歴作成
+      // cms.db.insert('/insert', {
+      //   data  : diffInfo,
+      //   table : 'historys'
+      // });
+    })
+    ;
 
   };
 
@@ -322,7 +306,20 @@
 
     return util.loopWithPromise(
       _delete,
-      _.map(fenics_ids, function (v) { return [v] }),
+      _.map( fenics_ids, function (v) { return [v] }),
+      0,
+      length-1
+    );
+
+  };
+
+  updates = function ( fenics_ids, updateObj ) {
+
+    var length = fenics_ids.length;
+
+    return util.loopWithPromise(
+      update,
+      _.map( fenics_ids, function (v) { return [v.fenics_id, updateObj] }),
       0,
       length-1
     );
@@ -332,6 +329,7 @@
   // to public
   cms.model.fenics = {
     update       : update,
+    updates      : updates,
     fetch        : fetch,
     getCache     : getCache,
     find         : find,
@@ -347,7 +345,7 @@
     setSortInfo  : setSortInfo,
     getSortInfo  : getSortInfo,
     setFilterInfo : setFilterInfo,
-    deletes       : deletes
+    deletes       : deletes,
   };
 
 } ( jQuery, customer ));

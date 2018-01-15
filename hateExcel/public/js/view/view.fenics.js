@@ -14,7 +14,7 @@
         'download' : '.btn--download',
         'listPage' : '.page_list',
         'nextPage' : '.next',
-        'prevPage' : '.prev'
+        'prevPage' : '.prev',
       },
       'dialog' : {
         'delete' : '#modal-delete-fenics'
@@ -88,23 +88,7 @@
 
     var list = _getSelectItem();
 
-    if ( list.length < 1 ) {
-      alert('更新するものを選択してください');
-      return;
-    }
-
-    // 専用ダイアログ
-    // 更新可能なもの
-    // - 分類
-    // - 開始日
-    // - 終了日
-
-    // 考慮項目
-    // update後の履歴管理
-    // 履歴テーブルに情報を記入する(ここトリガーにしたいわ)
-    // i)非トリガーの場合
-    // kids_idが必要だが、これはkids_idをもたせるか検索するか
-
+    cms.view.dialogBulkFenics.open(list);
 
   };
 
@@ -249,6 +233,7 @@
       }
       view.get('btn__listPage').append(el);
     });
+
   };
 
   initModule = function () {
@@ -280,9 +265,9 @@
       'click btn__prevPage' : function () { cms.model.fenics.prevPage( drawTable );},
       'click btn__listPage' : _selectPage,
       'click fenics-header' : _onClickColumn,
-      'keyup keyword' : _searchKeyword,
-      'keyup ip__from' : _searchIps,
-      'keyup ip__to' : _searchIps
+      'keyup keyword'       : _searchKeyword,
+      'keyup ip__from'      : _searchIps,
+      'keyup ip__to'        : _searchIps
     });
 
   };

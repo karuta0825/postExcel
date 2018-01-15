@@ -572,6 +572,8 @@ app.post('/updateFenics', function (req, res) {
       item.fenics_ip = inet_aton(data[i].fenics_ip);
     }
 
+    item.category = data[i].category || '';
+
     condition = data[i].fenics_id;
 
     datas.update( item, condition, 'fenics', function ( err ) {
