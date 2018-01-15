@@ -16,6 +16,9 @@
         'nextPage' : '.next',
         'prevPage' : '.prev'
       },
+      'dialog' : {
+        'delete' : '#modal-delete-fenics'
+      },
       'keyword' : '.keyword',
       'ip' : {
         'from' : '.ip_from',
@@ -71,6 +74,13 @@
     }
 
     // Promiseを使ったループ削除
+    cms.model.fenics.deletes( list )
+    .then( function () {
+      return cms.model.fenics.fetch()
+    })
+    .then( function (r) {
+      drawTable(r);
+    })
 
   };
 
@@ -88,6 +98,13 @@
     // - 分類
     // - 開始日
     // - 終了日
+
+    // 考慮項目
+    // update後の履歴管理
+    // 履歴テーブルに情報を記入する(ここトリガーにしたいわ)
+    // i)非トリガーの場合
+    // kids_idが必要だが、これはkids_idをもたせるか検索するか
+
 
   };
 
@@ -238,7 +255,14 @@
 
     view = new Controller('.main-contents--view-fenics');
 
-    view.wrap.append( customer.db.getHtml('template/fenics.html'));
+    view.wrap.append( customer.db.getHtml('html/fenics.html'));
+
+    util.confirm({
+      selector : '.main-contents--view-fenics',
+      id       : 'modal-delete-fenics',
+      msg      : '選択したものを削除しますか?',
+      yes      : _delete
+    });
 
     view.initElement( elements );
 
@@ -249,7 +273,7 @@
 
     view.addListener({
       'click edit-icon'     : _edit,
-      'click btn__delete'   : _delete,
+      'click btn__delete'   : function () { view.get('dialog__delete').get(0).showModal(); },
       'click btn__updates'  : _updates,
       'click btn__download' : _download,
       'click btn__nextPage' : function () { cms.model.fenics.nextPage( drawTable );},
