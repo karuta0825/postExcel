@@ -286,7 +286,7 @@
 
   };
 
-  util.diffObj = function ( before, after ) {
+  util.diffObj = function ( before, after, deletable ) {
 
     if ( !_.isObject(before) || !_.isObject(after) ) {
       return;
@@ -304,7 +304,7 @@
         result[k] = v;
       }
 
-      if ( before[k] && before[k] !== '' && v === '' ) {
+      if ( deletable && before[k] && before[k] !== '' && v === '' ) {
         result[k] = v;
       }
 

@@ -43,7 +43,7 @@
     var
       fenics_id = view_data.fenics_id
     , before = _model.find({ fenics_id : fenics_id })[0]
-    , diff = util.diffObj( before, view_data )
+    , diff = util.diffObj( before, view_data, true )
     , arys = []
     ;
 

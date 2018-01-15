@@ -71,7 +71,7 @@
     var
       now = _.clone(find({fenics_id : fenics_id})[0])
     , updateInfo = Object.assign({}, now, updateObj)
-    , diffInfo = util.diffObj( now, updateInfo )
+    , diffInfo = util.diffObj( now, updateInfo, false )
     ;
 
     console.log(updateInfo);
