@@ -79,4 +79,34 @@
     </div>
   </div>
 
+
+  <!-- 一括更新用ダイアログ -->
+  <dialog class="mdl-dialog" id="modal-update-fenics">
+    <h5 class="mdl-dialog__title">fenics一括更新</h5>
+    <div class="mdl-dialog__content">
+      <ul class='input-list'>
+
+        <li class='start_on'>
+          <span class='input-name'>開始日</span>
+          <input class='input' type='date' value=''></input>
+        </li>
+
+        <li class='end_on'>
+          <span class='input-name'>終了日</span>
+          <input class='input' type='date' value=''></input>
+        </li>
+
+        <li class='category'>
+          <span class='input-name'>カテゴリ</span>
+          <input class='input' type='text' value=''></input>
+        </li>
+
+      </ul>
+    </div>
+    <div class="mdl-dialog__actions">
+        <button type="button" class="mdl-button btn--exec">実行</button>
+        <button type="button" class="mdl-button btn--close">閉じる</button>
+    </div>
+  </dialog>
+
 </div>
