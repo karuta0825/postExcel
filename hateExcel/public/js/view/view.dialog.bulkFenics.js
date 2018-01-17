@@ -55,8 +55,10 @@
     .then( function () {
       return cms.model.fenics.fetch()
     })
-    .then( function (r) {
-      cms.view.fenics.drawTable(r);
+    .then( function () {
+      cms.view.fenics.drawTable(
+        cms.model.fenics.getFiltered()
+      );
     });
     ;
 

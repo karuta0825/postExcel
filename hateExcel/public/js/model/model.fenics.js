@@ -345,6 +345,7 @@
     setSortInfo  : setSortInfo,
     getSortInfo  : getSortInfo,
     setFilterInfo : setFilterInfo,
+    getFiltered : getFiltered,
     deletes       : deletes,
   };
 
