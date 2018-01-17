@@ -38,6 +38,11 @@
       'is_mobile'  : 'noCheck',
       'create_on'  : 'noCheck'
     })
+  , item_name = {
+      category  : "カテゴリ",
+      start_on  : "fenics開始日",
+      end_on    : "fenics終了日"
+    }
   // private method
   , _findUnion
   , _findOneCondition
@@ -64,6 +69,28 @@
     return cms.db.post('/delete', params );
   };
 
+  _makeHistoryItems = function ( before, diff ) {
+
+    var
+     fenics_id = before.fenics_id
+    , arys = []
+    ;
+
+    _.each( diff, function (v,k) {
+      arys.push({
+        kids_id      : before.kids_id,
+        type         : '更新',
+        content_name : 'ネットワーク',
+        item_name    : fenics_id + 'の' + item_name[k],
+        before       : before[k],
+        after        : v
+      })
+    });
+
+    return arys;
+
+  };
+
   // 成功時と失敗時のコールバックを引数にすることで
   // viewの負担が減る
   update = function ( fenics_id, updateObj ) {
@@ -72,17 +99,16 @@
       now = _.clone(find({fenics_id : fenics_id})[0])
     , updateInfo = Object.assign({}, now, updateObj)
     , diffInfo = util.diffObj( now, updateInfo, false )
+    , history = _makeHistoryItems(now,diffInfo)
     ;
 
-    console.log(updateInfo);
-    console.log(diffInfo);
     return cms.db.post('/updateFenics', { data : [updateInfo] })
     .then( function () {
       // 履歴作成
-      // cms.db.insert('/insert', {
-      //   data  : diffInfo,
-      //   table : 'historys'
-      // });
+      cms.db.insert('/insert', {
+        data  : history,
+        table : 'historys'
+      });
     })
     ;
 
