@@ -83,7 +83,7 @@
 
   initModule = function () {
 
-    view = new Controller('#modal-update-fenics');
+    view = new Controller('#dialog-update-fenics');
 
     util.confirm({
       selector : view.top,

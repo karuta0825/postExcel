@@ -1264,26 +1264,33 @@
 
 
 /* 編集モーダル画面*/
-#dialog-edit-fenics {
+#dialog-edit-fenics,
+#dialog-update-fenics {
   width: 50%;
 }
 
-#dialog-edit-fenics .input-list {
+#dialog-edit-fenics .input-list,
+#dialog-update-fenics .input-list {
   list-style: none;
   padding-left: 0px;
 }
 
-#dialog-edit-fenics li {
+#dialog-edit-fenics li,
+#dialog-update-fenics li {
   margin: 10px 0 0 10px;
 }
 
-#dialog-edit-fenics .input-name {
+#dialog-edit-fenics .input-name,
+#dialog-update-fenics .input-name
+{
   display: inline-block;
   width:15%;
   margin-right: 20px;
 }
 
-#dialog-edit-fenics .input {
+#dialog-edit-fenics .input,
+#dialog-update-fenics .input
+{
   width: 70%;
 }
 
