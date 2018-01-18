@@ -99,14 +99,14 @@
       now = _.clone(find({fenics_id : fenics_id})[0])
     , updateInfo = Object.assign({}, now, updateObj)
     , diffInfo = util.diffObj( now, updateInfo, false )
-    , history = _makeHistoryItems(now,diffInfo)
+    , historyItems = _makeHistoryItems(now,diffInfo)
     ;
 
     return cms.db.post('/updateFenics', { data : [updateInfo] })
     .then( function () {
       // 履歴作成
       cms.db.insert('/insert', {
-        data  : history,
+        data  : historyItems,
         table : 'historys'
       });
     })
