@@ -14,7 +14,8 @@
         fenics_ip : "fenicsIP",
         pc_name   : "パソコン名",
         start_on  : "fenics開始日",
-        end_on    : "fenics終了日"
+        end_on    : "fenics終了日",
+        category  : "カテゴリ"
       }
     })
   , vl = new util.Validate({
@@ -25,6 +26,7 @@
       'fenics_ip'  : 'isIp',
       'start_on'   : 'noCheck',
       'end_on'     : 'noCheck',
+      'category'   : 'noCheck',
       'is_mobile'  : 'noCheck',
       'create_on'  : 'noCheck'
     })
@@ -82,7 +84,8 @@
 
     var
       errs    = vl.validate( view_data )
-    , kids_id = cms.model.userBaseInfo.getCache().id
+    // , kids_id = cms.model.userBaseInfo.getCache().id
+    , kids_id = cms.model.fenics.find({ fenics_id : view_data.fenics_id })[0].kids_id
     ;
 
     if ( errs && errs.length > 0 ) {

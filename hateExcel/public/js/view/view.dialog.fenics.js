@@ -20,7 +20,8 @@
         'pc_name'   : '.pc_name .input',
         'fenics_ip' : '.fenics_ip .input',
         'start_on'  : '.start_on .input',
-        'end_on'    : '.end_on .input'
+        'end_on'    : '.end_on .input',
+        'category'  : '.category .input'
       },
       'dialog'  : {
         'delete' : '#confirm-delete-fenics-account2',
@@ -84,6 +85,7 @@
 
   /**
    * 保存する
+   * TODO: fenicsリストから使用したときにkids_idがなくてうまく動かない
    */
   _save = function () {
 
