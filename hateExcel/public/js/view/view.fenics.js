@@ -47,6 +47,7 @@
   // public method
   , drawTable
   , makePageButton
+  , refresh
   , initModule
   ;
 
@@ -236,6 +237,20 @@
 
   };
 
+  // TODO:更新前の表示画面まで戻す
+  refresh = function () {
+
+    var pageIndex = cms.model.fenics.getPageIndex();
+    cms.model.fenics.fetch()
+    .then( function () {
+      cms.model.fenics.getFiltered();
+      drawTable( cms.model.fenics.getPage(pageIndex) );
+      makePageButton(cms.model.fenics.getPageList());
+      _highlightIndexPage(pageIndex);
+    });
+
+  };
+
   initModule = function () {
 
     view = new Controller('.main-contents--view-fenics');
@@ -275,7 +290,8 @@
   // to public
   cms.view.fenics = {
     initModule : initModule,
-    drawTable  : drawTable
+    drawTable  : drawTable,
+    refresh : refresh
   };
 
 } ( jQuery, customer ));

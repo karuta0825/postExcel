@@ -93,6 +93,7 @@
 
   // 成功時と失敗時のコールバックを引数にすることで
   // viewの負担が減る
+  // TODO: 一括用のupdateに限定されており、IPの変更などができない
   update = function ( fenics_id, updateObj ) {
 
     var
@@ -319,6 +320,7 @@
       return getCache();
     }
 
+    _page.initialize( filter, MAX_VISIBLE_NUMBER );
     return filter;
   };
 

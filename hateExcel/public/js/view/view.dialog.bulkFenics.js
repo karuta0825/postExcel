@@ -53,13 +53,8 @@
       _close();
     })
     .then( function () {
-      return cms.model.fenics.fetch()
+      cms.view.fenics.refresh();
     })
-    .then( function () {
-      cms.view.fenics.drawTable(
-        cms.model.fenics.getFiltered()
-      );
-    });
     ;
 
   };

@@ -102,6 +102,8 @@
 
     })
     .then( cms.view.kids.refresh )
+    .then( cms.view.fenics.refresh )
+    // fenicsリストから個別更新だとここでkids_idがなくて失敗する
     .then( cms.view.userHistory.refresh )
     .catch( function (r) {
       console.log(r);
