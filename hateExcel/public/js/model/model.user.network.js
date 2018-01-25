@@ -84,7 +84,6 @@
 
     var
       errs    = vl.validate( view_data )
-    // , kids_id = cms.model.userBaseInfo.getCache().id
     , kids_id = cms.model.fenics.find({ fenics_id : view_data.fenics_id })[0].kids_id
     ;
 
