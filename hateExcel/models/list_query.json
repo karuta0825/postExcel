@@ -5,7 +5,7 @@
     "customers"                       : "SELECT * FROM CUSTOMERS WHERE kids_id = ?;",
     "licenses"                        : "SELECT * FROM licenses WHERE kids_id = ?;" ,
     "clients"                         : "SELECT kids_id, client_id, client_pass, create_user_id, DATE_FORMAT( create_on, '%Y-%m-%d') as create_on, fenics_id, DATE_FORMAT( end_on, '%Y-%m-%d') as end_on, is_admin FROM clients where kids_id = ? order by client_id;",
-    "fenics"                          : "SELECT kids_id, fenics_id, `password`, inet_ntoa(fenics_ip) as fenics_ip, pc_name, DATE_FORMAT( create_on, '%Y/%m/%d') as create_on, DATE_FORMAT( start_on, '%Y-%m-%d') as start_on, DATE_FORMAT( end_on, '%Y-%m-%d') as end_on, is_mobile FROM fenics WHERE kids_id = ?;",
+    "fenics"                          : "SELECT kids_id, fenics_id, `password`, inet_ntoa(fenics_ip) as fenics_ip, pc_name, DATE_FORMAT( create_on, '%Y/%m/%d') as create_on, DATE_FORMAT( start_on, '%Y-%m-%d') as start_on, DATE_FORMAT( end_on, '%Y-%m-%d') as end_on, category, is_mobile FROM fenics WHERE kids_id = ?;",
     "busivs"                          : "select * from busivs where kids_id = ?;",
     "partners"                        : "SELECT * FROM partners WHERE kids_id = ?;",
     "mobiles"                         : "SELECT M.kids_id, M.base_id, M.fenics_key, IFNULL(S.client_number, 0) AS client_number, M.admin_id, M.admin_pw, M.city_cd, M.office_cd, M.disk_name, M.disk_size FROM mobiles M LEFT JOIN (SELECT kids_id, COUNT(kids_id) AS client_number FROM fenics WHERE is_mobile = 1 GROUP BY kids_id) S ON M.kids_id = S.kids_id WHERE M.kids_id = ?;",

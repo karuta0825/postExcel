@@ -6,6 +6,7 @@
     <th class='mdl-data-table__cell--non-numeric fenics_ip'>ip</th>
     <th class='mdl-data-table__cell--non-numeric start_on'>開始日</th>
     <th class='mdl-data-table__cell--non-numeric end_on'>終了日</th>
+    <th class='mdl-data-table__cell--non-numeric category'>分類</th>
     <th class='mdl-data-table__cell--non-numeric create_on'>作成日</th>
     <th class='mdl-data-table__cell--non-numeric edit'>編集</th>
   </thead>
@@ -36,6 +37,10 @@
 
         <td class='mdl-data-table__cell--non-numeric end_on'>
           <%- item.end_on %>
+        </td>
+
+        <td class='mdl-data-table__cell--non-numeric category'>
+          <%- item.category %>
         </td>
 
         <td class='mdl-data-table__cell--non-numeric create_on'>
