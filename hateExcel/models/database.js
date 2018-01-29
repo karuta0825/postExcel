@@ -3,7 +3,7 @@
 // This file is released under New BSD License.
 
 var mysql = require('mysql');
-var config = require('../config');
+var config = require('../config/mysql');
 
 // ModelBase: Modelのベースクラス
 var Database = function () {};
