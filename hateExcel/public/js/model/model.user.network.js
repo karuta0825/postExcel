@@ -170,7 +170,7 @@
 
     var post = {
       kids_id         : before.id,
-      fenics_key      : before.fenics_key,
+      fenics_key      : view_data.fenics_key,
       number_pc_added : diff
     }
 
