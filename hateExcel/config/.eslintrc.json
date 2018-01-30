@@ -1,0 +1,12 @@
+{
+    "extends": "airbnb-base",
+    "rules" : {
+      "func-names" : "off"
+    },
+    "globals" : {
+      "_" : true,
+      "jQuery" : true,
+      "Page" : true,
+      "moment" :  true
+    }
+}
