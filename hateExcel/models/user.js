@@ -1,11 +1,9 @@
 // import module
-const
-  database = require('./database')
-, querys   = require('./list_query')
-, moment = require('../public/js/lib/moment.min')
-, _ = require('../public/js/lib/underscore')
-, db = database.createClient()
-;
+const database = require('./database');
+const querys   = require('./list_query');
+const moment   = require('../public/js/lib/moment.min');
+const _        = require('../public/js/lib/underscore');
+const db       = database.createClient();
 
 function register ( items, callback ) {
 
@@ -40,9 +38,6 @@ function register ( items, callback ) {
   // busivs
   qrys.push( querys.update['busivs']);
   params.push( _mkParamForBusiv(items['busivs']));
-
-  console.log(qrys);
-  console.log(params);
 
   db.transaction( qrys, params, callback );
 
