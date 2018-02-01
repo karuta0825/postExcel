@@ -133,10 +133,9 @@
     return  _.map( list_clients, function ( val, key ) {
 
       fenics_account = cms.model.userNetwork.find({ 'fenics_id' : val.fenics_id })[0];
-      pc_name_on_buisv = fenics_key + '01' + val.client_id.match(/[0-9]+/)[0].slice(1);
 
       result = {
-        'hostname'        : fenics_account && fenics_account.pc_name || pc_name_on_buisv || '',
+        'hostname'        : fenics_account && fenics_account.pc_name || '',
         'fenics_id'       : val.fenics_id && 'hopecl-' + val.fenics_id || '',
         'password'        : val.fenics_id || '',
         'client_id'       : val.client_id,
