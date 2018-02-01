@@ -7,6 +7,7 @@ var http = require('http');
 var path = require('path');
 var datas = require('./models/datas');
 var _ = require('./public/js/lib/underscore');
+var User = require('./models/User');
 // var log4js = require('log4js');
 
 var app = express();
@@ -633,6 +634,36 @@ app.post('/updateClient', function (req, res) {
     });
 
   }
+
+});
+
+/**
+ * ユーザー登録（トランザクション処理）
+ */
+app.post('/user', function (req, res) {
+
+  var items = req.body.data;
+
+  if ( !req.session.pass ) {
+    res.json(440, {result:'expired', message:'セッションが切れました。ログインからやり直してください。'});
+    return;
+  }
+
+  // DB接続
+  // クエリ情報と対応するパラメータ情報を渡す
+  User.register( items, function (err,result) {
+
+    if (err) {
+      console.log(err);
+      res.json(400, { result :'failed', message: err });
+      return;
+    };
+
+    console.log('second');
+
+    res.json({'result' : 'success', 'message' : '登録完了しました'});
+
+  });
 
 });
 

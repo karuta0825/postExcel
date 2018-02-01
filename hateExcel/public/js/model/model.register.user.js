@@ -134,32 +134,7 @@
 
   upload = function () {
 
-    // kids -端末数
-    cms.model.kids.register({
-      kid                      : uploadData.kid,
-      user_name                : uploadData['kids']['user_name'],
-      kana                     : uploadData['kids']['kana'],
-      number_pc                : uploadData['kids']['number_pc'],
-      has_qa                   : ( uploadData['kids']['has_qa']                   === '1') ? '1' : '0',
-      is_new_contract          : ( uploadData['kids']['is_new_contract']          === '1') ? '1' : '0',
-      is_replaced_from_cj      : ( uploadData['kids']['is_replaced_from_cj']      === '1') ? '1' : '0',
-      is_replaced_from_wc      : ( uploadData['kids']['is_replaced_from_wc']      === '1') ? '1' : '0',
-      is_replaced_from_another : ( uploadData['kids']['is_replaced_from_another'] === '1') ? '1' : '0',
-      register_on              : moment().format('YYYY-MM-DD'),
-      is_registered            : 1
-    })
-    // customers
-    .then( function () {
-      return cms.model.userCustomer.register( uploadData.customers );
-    })
-    // licenses
-    .then( function () {
-      return customer.model.userLicense.register( uploadData.licenses );
-    })
-    // partners
-    .then( function () {
-      return cms.model.userPartner.register( uploadData.partners );
-    })
+    cms.db.post('/user', {'data': uploadData})
     // クライアント - ユーザー数
     .then( function () {
       // kid , userkey が必要
@@ -168,7 +143,6 @@
         userkey             : cms.model.kids.find({'kid' : uploadData.kid})[0].userkey,
         number_client_added : uploadData['clients']['number']
       });
-
     })
     // ネットワーク - クライアント数
     .then( function () {
@@ -180,12 +154,9 @@
         });
       }
     })
-    // mobiles
+    // モバイル数
     .then( function () {
       return cms.model.userMobile.register( uploadData.mobiles );
-    })
-    .then( function () {
-      return cms.model.userBusiv.register( uploadData.busivs );
     })
     // all refresh
     .then( function () {
