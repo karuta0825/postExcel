@@ -130,7 +130,7 @@
 
   };
 
-  open = function ( kid,  is_tab_fixed  ) {
+  open = function ( kid,  is_tab_fixed ) {
 
     // ローディングダイアログ表示
     cms.view.dialogLoading.open();
@@ -266,6 +266,11 @@
     $('.main-contents').removeClass('is-active');
     var target = '.main-contents--edit-usr'
     $(target).addClass('is-active');
+
+    let fenics_key = cms.model.userBaseInfo.getCache().fenics_key;
+    if ( cms.model.kids.find({fenics_key: fenics_key}).length > 1 ) {
+      cms.view.userBaseInfo.alertFenics();
+    }
 
   };
 

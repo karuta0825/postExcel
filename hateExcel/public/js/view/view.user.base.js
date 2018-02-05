@@ -15,7 +15,8 @@
         'alert'         : '#modal-baseInfo-alert',
         'alert-network' : '#modal-baseInfo-notHasNetwork-alert',
         'confirm'       : '#modal-baseInfo-fenicsAdd-confirm',
-        'alert-unique'  : '#modal-baseInfo-unique-error'
+        'alert-unique'  : '#modal-baseInfo-unique-error',
+        'fenicskey-unique-alert' : '#modal-fenicsKey-unique-alert'
       },
       'base' : {
         'btn' : {
@@ -771,6 +772,12 @@
       msg      : 'ネットワーク情報（ユニバあるいはビジV）を決めてください'
     });
 
+    util.alert({
+      selector : commonView.top,
+      id       : 'modal-fenicsKey-unique-alert',
+      msg      : 'fenicsKeyが重複しているので変更してください',
+    });
+
     util.confirmYesNo({
       selector : commonView.top,
       id       : 'modal-baseInfo-fenicsAdd-confirm',
@@ -808,7 +815,8 @@
     reset        : reset,
     clear        : clear,
     refresh      : refresh,
-    getViewInfo  : getViewInfo
+    getViewInfo  : getViewInfo,
+    alertFenics  : function () { commonView.get('fenicskey-unique-alert').get(0).showModal(); }
   };
 
 
