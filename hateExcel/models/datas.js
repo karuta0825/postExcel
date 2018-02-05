@@ -671,6 +671,7 @@ datas.makeUser = function ( input_map, callback ) {
         findNewUserkey(null, callback );
       },
       function(callback) {
+        // 意味なし
         findNewFenicsKey(null, callback);
       }
   ], function(err, results) {
@@ -679,7 +680,7 @@ datas.makeUser = function ( input_map, callback ) {
       set['kid']            = input_map.kid || results[0];
       set['userkey']        = results[1];
       set['db_password']    = findNewDbPass(results[1]);
-      set['fenics_key']     = results[2];
+      set['fenics_key']     = results[1].substr(0,4).toLowerCase();
       set['server']         = input_map['server'];
       set['environment_id'] = input_map['environment_id'];
       set['create_user_id'] = input_map['create_user_id'];
@@ -704,6 +705,7 @@ datas.makeUser = function ( input_map, callback ) {
       });
   });
 };
+
 
 
 var findLastBaseId = function ( kids_id ) {
@@ -844,73 +846,5 @@ datas.getLicense = function ( kids_id, callback ) {
   );
 
 };
-
-
-///////////////
-// unit test //
-///////////////
-
-// for( var i = 0; i < 100; i += 1) {
-  // make_user(4, 1);
-// }
-
-// findNewFenicsKey('nfg');
-// makeNewFenicsIp();
-
-// makeNewFenicsId({ fenics_key : 'busiv', kid : 'KID77576' }, function( err, result ) {
-//   console.log(result);
-// });
-
-// makeNewClient({kid : 'KID77160'});
-
-// datas.getLicense('KID92468');
-// datas.getLicense('KID02907');
-
-
-// 複数インサートテスト
-// var lists = [
-//   {          service_id : 'B1', service_name : 'B1', version : 'LM' },
-//   {          service_id : 'B3', service_name : 'B2', version : 'LM' },
-//   {          service_id : 'B4', service_name : 'B2', version : 'LM' },
-//   {          service_id : 'B5', service_name : 'B2', version : 'LM' },
-//   {          service_id : 'B6', service_name : 'B2', version : 'LM' },
-//   {          service_id : 'B7', service_name : 'B2', version : 'LM' },
-//   { id : 70, service_id : 'A1', service_name : 'A1', version : 'LM' },
-//   { id : 73, service_id : 'A4', service_name : 'A4', version : 'LM' },
-//   {          service_id : 'B2', service_name : 'B2', version : 'LM' },
-//   {          service_id : 'B8', service_name : 'B2', version : 'LM' },
-//   {          service_id : 'B9', service_name : 'B2', version : 'LM' },
-//   {          service_id : 'M2', service_name : 'B2', version : 'LM' },
-//   {          service_id : 'M3', service_name : 'B2', version : 'LM' },
-//   {          service_id : 'M4', service_name : 'B2', version : 'LM' },
-//   {          service_id : 'M5', service_name : 'B2', version : 'LM' },
-//   {          service_id : 'M6', service_name : 'B2', version : 'LM' },
-//   {          service_id : 'M7', service_name : 'B2', version : 'LM' },
-//   {          service_id : 'M8', service_name : 'B2', version : 'LM' },
-//   {          service_id : 'M9', service_name : 'B2', version : 'LM' },
-//   { id : 71, service_id : 'A2', service_name : 'A2', version : 'LM' },
-//   { id : 72, service_id : 'A3', service_name : 'A3', version : 'LM' }
-// ];
-// datas.makeServiceList( lists, lists.length, function (result) {
-//   console.log( result );
-// });
-
-// モバイルユーザー追加用
-// datas.makeMobileUserList({kid:'KID98375', fenics_key : 'm4wlm' }, 3, function (err) {
-//   console.log('heelo');
-// });
-
-// ビジVテスト
-// datas.insert({ kid : 'KID77777' }, 'make_busiv', function (err, result) {
-//   console.log(result.insertId);
-//   console.log(result);
-// });
-
-// 拠点追加テスト
-// datas.makeBase({kid:'KID77777'}, function () {
-//     console.log('finish');
-// });
-
-
 
 
