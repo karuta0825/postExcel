@@ -76,6 +76,12 @@
         return false;
       }
 
+      let fenics_key = cms.model.kids.find({kid:kid})[0].fenics_key;
+      if ( cms.model.kids.find({fenics_key:fenics_key}).length > 1 ) {
+        _alertDialog('fenicsKeyが重複しているため登録できません。fenicsKeyを変更してください。');
+        return false;
+      }
+
       // データ作成
       try {
         cms.model.regUsrs.makeUploadData( list_oneline, kid );
