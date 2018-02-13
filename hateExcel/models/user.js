@@ -50,6 +50,8 @@ function register ( items, callback ) {
 function _mkParamForKids ( kid, obj ) {
   let result = {};
   result['kid']                      = kid;
+  result['user_name']                = obj.user_name;
+  result['kana']                     = obj.kana;
   result['has_qa']                   = ( obj['has_qa']                   ) ? '1' : '0';
   result['is_new_contract']          = ( obj['is_new_contract']          ) ? '1' : '0';
   result['is_replaced_from_cj']      = ( obj['is_replaced_from_cj']      ) ? '1' : '0';
@@ -57,7 +59,7 @@ function _mkParamForKids ( kid, obj ) {
   result['is_replaced_from_another'] = ( obj['is_replaced_from_another'] ) ? '1' : '0';
   result['register_on'] = moment().format('YYYY-MM-DD');
   result['is_registered'] = 1
-  return [ obj,  { 'id' : obj.kids_id } ];
+  return [ result,  { 'id' : obj.id } ];
 }
 
 function _mkParamForCustomers ( obj ) {
