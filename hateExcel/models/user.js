@@ -52,6 +52,7 @@ function _mkParamForKids ( kid, obj ) {
   result['kid']                      = kid;
   result['user_name']                = obj.user_name;
   result['kana']                     = obj.kana;
+  result['number_pc']                = obj.number_pc;
   result['has_qa']                   = ( obj['has_qa']                   ) ? '1' : '0';
   result['is_new_contract']          = ( obj['is_new_contract']          ) ? '1' : '0';
   result['is_replaced_from_cj']      = ( obj['is_replaced_from_cj']      ) ? '1' : '0';
