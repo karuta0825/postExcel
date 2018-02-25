@@ -24,7 +24,11 @@
         'from' : '.ip_from',
         'to' : '.ip_to'
       },
-      'isMobile' : '.isMobile',
+      'device' : {
+        'wrap'   : '.device .filter-item__body',
+        'mobile' : '.btn--isMobile',
+        'pc'     : '.btn--isPC'
+      },
       'wrap'        : '.fenics-wrap',
       'header'      : '.fenics-header',
       'action'      : '.fenics-action',
@@ -44,6 +48,7 @@
   , _searchIps
   , _download
   , _onClickColumn
+  , _selectDevice
   // public method
   , drawTable
   , makePageButton
@@ -184,6 +189,26 @@
 
   };
 
+  _selectDevice = function ( event ) {
+
+    var list_class = $( event.target ).attr('class').split(' ');
+
+    switch ( list_class[1] ) {
+      case 'btn--isMobile' :
+        view.get('device__mobile').toggleClass('btn--on');
+        cms.model.fenics.setFilterInfo('is_mobile', 1);
+        drawTable( cms.model.fenics.getFiltered() );
+        break;
+      case 'btn--isPC' :
+        view.get('device__pc').toggleClass('btn--on');
+        cms.model.fenics.setFilterInfo('is_mobile', 0);
+        drawTable( cms.model.fenics.getFiltered() );
+        break;
+      default:
+        break;
+    }
+
+  };
 
   drawTable = function ( data ) {
 
@@ -282,7 +307,8 @@
       'click fenics-header' : _onClickColumn,
       'keyup keyword'       : _searchKeyword,
       'keyup ip__from'      : _searchIps,
-      'keyup ip__to'        : _searchIps
+      'keyup ip__to'        : _searchIps,
+      'click device__wrap' : _selectDevice
     });
 
   };

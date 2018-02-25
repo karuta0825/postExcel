@@ -25,7 +25,8 @@
     }
   , _filterInfo = {
       search : '',
-      ip : { from : '', to : '' }
+      ip : { from : '', to : '' },
+      isMoible : ''
     }
   , vl = new util.Validate({
       'id'         : 'noCheck',
@@ -313,7 +314,14 @@
   getFiltered = function () {
     var filter;
 
-    filter = filterIp( _filterInfo['ip']['from'], _filterInfo['ip']['to'], getCache() );
+    if ( find({is_mobile : _filterInfo.is_mobile}).length < 1) {
+      filter = getCache();
+    }
+    else {
+      filter = find({is_mobile : _filterInfo.is_mobile});
+    }
+
+    filter = filterIp( _filterInfo['ip']['from'], _filterInfo['ip']['to'], filter );
     filter = search( _filterInfo['search'], filter );
 
     if ( !filter ) {
