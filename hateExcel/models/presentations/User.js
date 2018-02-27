@@ -1,9 +1,11 @@
 // import module
-const database = require('./database');
-const querys   = require('./list_query');
-const moment   = require('../public/js/lib/moment.min');
-const _        = require('../public/js/lib/underscore');
+const database = require('../mysql/database');
+const querys   = require('../mysql/list_query');
+const moment   = require('../../public/js/lib/moment.min');
+const _        = require('../../public/js/lib/underscore');
 const db       = database.createClient();
+const Customers = require('../tables/Customer');
+const Busivs = require('../tables/Busiv');
 
 function register ( items, callback ) {
 
@@ -118,5 +120,51 @@ function _mkParamForBusiv ( obj ) {
   ];
 }
 
-exports.register = register;
+/**
+ * [create description]
+ * @param  {{}} input_map [description]
+ * @return {Promise<>}           [description]
+ */
+function create(input_map) {
+  return Kids.addRow(input_map)
+  .then( r => {
+    return addBase(r.kids_id);
+  })
+}
+
+/**
+ * 拠点追加
+ * @param {String} kids_id [description]
+ * @return {Promise<>} [description]
+ */
+function addBase(kids_id) {
+  if (!kids_id) { throw new Error('kids_idを指定してください'); }
+  let stock = {kids_id : kids_id};
+
+  return Customers.addRow(kids_id)
+  .then( () => {
+    return Customers.findLastBaseId(kids_id)
+  })
+  .then( base_id => {
+    stock.base_id = base_id;
+    return Busiv.addRow(kids_id, base_id);
+  })
+  .then( () => {
+    return Mobile.findNewFenicsKey()
+  })
+  .then(mobile_fenicskey => {
+    return Mobile.addRow(
+      stock.kids_id,
+      stock.base_id,
+      mobile_fenicskey
+    );
+  });
+}
+
+
+module.exports = {
+  create : create,
+  register : register,
+  addBase : addBase
+};
 

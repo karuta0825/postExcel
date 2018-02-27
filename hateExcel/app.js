@@ -7,7 +7,7 @@ var http = require('http');
 var path = require('path');
 var datas = require('./models/datas');
 var _ = require('./public/js/lib/underscore');
-var User = require('./models/User');
+var User = require('./models/presentations/User');
 // var log4js = require('log4js');
 
 var app = express();

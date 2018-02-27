@@ -38,19 +38,16 @@ User.registerなどのサービスメソッドが出来る度に、専用のパ�
 これはこれで気持ち悪い。
 
 ## フォルダ構成をどうするか？
+```
+  models
+    |-- mysql
+    |-- tables
+    |-- presentations
+    `-- util
 
-router
-models
-  |-- tables
-  |     |-- Kids
-  |     |-- Customers
-  |     |-- Licenses
-  `-- util
-  こうすると、table配下のプライベートメソッドのテストができない。
-
-  設計において考慮することは
-  - ファイル分割、コンポーネント指向
-  - テストし易いつくり
+    router -> presentations -> tables -> mysql
+           -> tables -> mysql
+```
 
 ## いまの関数を整理してみるのはどうか（ボトムアップ式）
 

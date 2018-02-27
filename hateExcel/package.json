@@ -8,7 +8,7 @@
     "st": "cp -r e2e test;flow-remove-types e2e/ -d test/; mocha --require intelli-espower-loader --timeout 1000000 ./test/scenario/",
     "flow": "flow",
     "build": "cp -r e2e test;flow-remove-types e2e/ -d test/",
-    "stest" : "mocha --require intelli-espower-loader ./test/sUnit/",
+    "stest": "mocha --require intelli-espower-loader ./test/sUnit/",
     "lint": "eslint -c ./config/.eslintrc.json ./public/js/class/Page.js"
   },
   "dependencies": {
@@ -30,6 +30,7 @@
     "flow-typed": "^2.1.5",
     "intelli-espower-loader": "^1.0.1",
     "istanbul-instrumenter-loader": "^2.0.0",
+    "jsdoc": "^3.5.5",
     "json-loader": "^0.5.7",
     "karma": "^1.7.1",
     "karma-chrome-launcher": "^2.2.0",
