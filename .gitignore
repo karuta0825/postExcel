@@ -1,5 +1,7 @@
 /hateExcel/node_modules/
 /hateExcel/logs/
 /hateExcel/coverage/
-/hateExcel/test/
+/hateExcel/test/e2e/
+/hateExcel/test/fixtures/
+/hateExcel/test/scenario/
 /hateExcel/npm-debug.log
