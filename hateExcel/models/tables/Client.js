@@ -10,18 +10,18 @@ const flow = require('../util/flow');
 
 /**
  * [makeId description]
- * @param  {[type]} input_map [description]
+ * @param  {{kids_id:String, userkey:String, create_user_id:Number}} input_map [description]
  * @return {[type]}           [description]
  */
-function makeId(input_map) {
+function makeId({kids_id, userkey, create_user_id}) {
   let client = {};
-  return findNewId(input_map)
+  return findNewId({kids_id,userkey})
   .then( client_id => {
-    client['kids_id']        = input_map.kids_id
+    client['kids_id']        = kids_id
     client['client_id']      = client_id;
     client['client_pass']    = client_id;
     client['create_on']      = new Date();
-    client['create_user_id'] = input_map.create_user_id;
+    client['create_user_id'] = create_user_id;
     client['is_admin']       = 0;
   })
   .then( () => {
