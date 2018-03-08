@@ -133,6 +133,11 @@
     // 取得データからモデルにデータ検索
     downloadMap = cms.model.userClients.makeOpenNotice( list_checked, false);
 
+    if ( downloadMap.header === null ) {
+      cms.view.dialogAlert.open('接続先のAPサーバが設定しないため正常に作成できません');
+      return;
+    }
+
     csv_header = _.values(downloadMap.header).join(',');
 
     // データ作成
@@ -162,6 +167,11 @@
     // 取得データからモデルにデータ検索
     downloadMap = cms.model.userClients.makeOpenNotice( list_checked, true);
 
+    if ( downloadMap.header === null ) {
+      cms.view.dialogAlert.open('接続先のAPサーバが設定しないため正常に作成できません');
+      return;
+    }
+
     csv_header = _.values(downloadMap.header).join(',');
 
     // データ作成
@@ -182,6 +192,11 @@
     ;
 
     downloadMap = cms.model.userClients.makeBatInfo();
+
+    if ( downloadMap === null ) {
+      cms.view.dialogAlert.open('接続先のAPサーバが設定しないため正常に作成できません');
+      return;
+    }
 
     // データ作成
     blob = util.makeMapList2Txt( downloadMap );
@@ -279,6 +294,7 @@
     ;
 
     if ( !user.server || !user.userkey ) {
+      cms.view.dialogAlert.open('接続先のAPサーバかユーザーキーが設定されていないため正常に作成できません');
       return;
     }
 
@@ -436,6 +452,12 @@
       if ( $(val).hasClass('is-checked') ) {
         $(val).trigger('click');
       }
+    });
+
+    // download状況を初期化
+    _.each(clientView.get('download'), function (val, key) {
+      $(val).attr('href','#');
+      $(val).removeAttr('download');
     });
 
     _backMode();
