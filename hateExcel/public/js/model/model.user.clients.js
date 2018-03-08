@@ -97,8 +97,12 @@
 
     var
       base = cms.model.userBaseInfo.getCache()
-    , ip = cms.model.servers.find({ name : base.server })[0].ip
+    , server = cms.model.servers.find({ name : base.server })
     ;
+
+    if ( server.length < 1 ) {
+      return null;
+    }
 
     return {
       'user_name'    : base.user_name,
@@ -106,9 +110,10 @@
       'userkey'      : base.userkey,
       'db_password'  : base.db_password,
       'domain'       : base.server,
-      'ap_address'   : ip,
-      'citrix_url'   : 'http://' + ip + '/Citrix/PNagent/config.xml'
+      'ap_address'   : server[0].ip,
+      'citrix_url'   : 'http://' + server[0].ip + '/Citrix/PNagent/config.xml'
     };
+
 
   };
 
@@ -171,12 +176,16 @@
     var
       base = cms.model.userBaseInfo.getCache()
     , ap = base.server
-    , db = cms.model.servers.find({ name : ap })[0].connect_db
+    , server = cms.model.servers.find({ name : ap })
     ;
+
+    if( server.length < 1 ) {
+      return null;
+    }
 
     return {
       '[USER]'   : '',
-      'DBName='  : db || '',
+      'DBName='  : server[0].connect_db || '',
       'User='    : base.userkey || '',
       'Password=' : base.db_password || ''
     };
