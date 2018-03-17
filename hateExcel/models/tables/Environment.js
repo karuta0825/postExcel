@@ -6,11 +6,8 @@ const {DbSugar} = require('../mysql/DbSugar');
  * @param  {{system_type:String, version:String}} data [description]
  * @return {Promise<Number| null>}      [description]
  */
-function findId(data) {
-  let params = [
-    data.system_type,
-    data.version
-  ];
+function findId({system_type, version} = {}) {
+  let params = [system_type, version];
   return DbSugar.select(params,'find_environment_id')
   .then( r => {
     if ( r && r.length > 0 && r[0].id ) {
