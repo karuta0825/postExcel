@@ -4,8 +4,22 @@ const Fenics = require('../../models/tables/Fenics');
 
 describe('Fenicsモジュール', () => {
 
-  describe('Fenicsクライアント追加', () => {
-    it('');
+  describe('makeUser', () => {
+
+    // it('PC用のユーザーを追加', () => {
+    //   return Fenics.makeUser({kids_id:'2729', fenics_key:'pdlj'},false)
+    //   .then( r => {
+    //     assert(r.affectedRows === 1);
+    //   })
+    // });
+
+    // it('mobile用のユーザーを追加', () => {
+    //   return Fenics.makeUser({kids_id:'2729', fenics_key:'m4wbn'},true)
+    //   .then( r => {
+    //     assert(r.affectedRows === 1);
+    //   })
+    // });
+
   });
 
   describe('Fenicsクライアント更新', () => {
@@ -45,6 +59,14 @@ describe('Fenicsモジュール', () => {
         assert( err.message === '引数が正しくありません');
       })
     });
+
+    it('引数がないと、エラーオブジェクトが返る', () => {
+      return Fenics.findNewMobileId()
+      .catch( err => {
+        assert( err.message === '引数が正しくありません');
+      })
+    });
+
 
   });
 
