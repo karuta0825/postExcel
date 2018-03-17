@@ -30,43 +30,87 @@ describe('Fenicsモジュール', () => {
     it('');
   });
 
-  describe('findNewMobileFenicsIdメソッド', () => {
+  describe('findNewIdメソッド', () => {
 
-    it('すでに存在しているfenics_keyを指定すると、最後のid+1のfenics_idが返る', () => {
-      return Fenics.findNewMobileId({kids_id:'2729', fenics_key:'m4wbn'})
-      .then( r => {
-        assert(r === 'm4wbn006');
-      })
+    describe('is pc', () => {
+
+
+      it('すでに存在しているfenics_keyを指定すると、最後のid+1のfenics_idが返る', ()=> {
+        return Fenics.findNewId({kids_id})
+        .then( r => {
+          assert( r === '' );
+        })
+      });
+
+      it('存在していないfenics_keyを指定すると、[fenics_key]01001が返る', () => {
+        return Fenics.findNewId({})
+        .then( r => {
+          assert( r === '' );
+        })
+      });
+
+      it('引数にkids_idがないと、エラーオブジェクトが返る', () => {
+        return Fenics.findNewId({fenics_key:''})
+        .catch( err => {
+          assert( err.message === '引数が正しくありません');
+        })
+      });
+
+      it('引数にfenics_keyがないと、エラーオブジェクトが返る', () => {
+        return Fenics.findNewId({kids_id:'2729'})
+        .catch( err => {
+          assert( err.message === '引数が正しくありません');
+        })
+      });
+
+      it('引数がないと、エラーオブジェクトが返る', () => {
+        return Fenics.findNewId()
+        .catch( err => {
+          assert( err.message === '引数が正しくありません');
+        })
+      });
+
+
     });
 
-    it('存在していないfenics_keyを指定すると、[fenics_key]001が返る', () => {
-      return Fenics.findNewMobileId({kids_id:'111', fenics_key: 'm4nwm'})
-      .then( r => {
-        assert(r === 'm4nwm001');
-      })
-    });
+    describe('is mobile', () => {
 
-    it('引数にkids_idがないと、エラーオブジェクトが返る', () => {
-      return Fenics.findNewMobileId({fenics_key:'m4wbn'})
-      .catch( err => {
-        assert( err.message === '引数が正しくありません');
-      })
-    });
+      it('すでに存在しているfenics_keyを指定すると、最後のid+1のfenics_idが返る', () => {
+        return Fenics.findNewId({kids_id:'2729', fenics_key:'m4wbn'}, true)
+        .then( r => {
+          assert(r === 'm4wbn006');
+        })
+      });
 
-    it('引数にfenics_keyがないと、エラーオブジェクトが返る', () => {
-      return Fenics.findNewMobileId({kids_id:'2729'})
-      .catch( err => {
-        assert( err.message === '引数が正しくありません');
-      })
-    });
+      it('存在していないfenics_keyを指定すると、[fenics_key]001が返る', () => {
+        return Fenics.findNewId({kids_id:'111', fenics_key: 'm4nwm'}, true)
+        .then( r => {
+          assert(r === 'm4nwm001');
+        })
+      });
 
-    it('引数がないと、エラーオブジェクトが返る', () => {
-      return Fenics.findNewMobileId()
-      .catch( err => {
-        assert( err.message === '引数が正しくありません');
-      })
-    });
+      it('引数にkids_idがないと、エラーオブジェクトが返る', () => {
+        return Fenics.findNewId({fenics_key:'m4wbn'}, true)
+        .catch( err => {
+          assert( err.message === '引数が正しくありません');
+        })
+      });
 
+      it('引数にfenics_keyがないと、エラーオブジェクトが返る', () => {
+        return Fenics.findNewId({kids_id:'2729'}, true)
+        .catch( err => {
+          assert( err.message === '引数が正しくありません');
+        })
+      });
+
+      it('引数がないと、エラーオブジェクトが返る', () => {
+        return Fenics.findNewId()
+        .catch( err => {
+          assert( err.message === '引数が正しくありません');
+        })
+      });
+
+    });
 
   });
 
