@@ -20,23 +20,15 @@ function findNewId({kids_id, fenics_key}={}, is_mobile=false) {
   if (is_mobile) {
     return DbSugar.select(kids_id, 'find_last_mobile_fenics_id')
     .then( r => {
-      if (r.length === 0) {
-        return fenics_key + '001';
-      }
-      else {
-        return u_others.getNextZeroPadData( r[0].fenics_id );
-      }
+      if (r.length === 0) { return fenics_key + '001';}
+      return u_others.getNextZeroPadData( r[0].fenics_id );
     });
   }
 
   return DbSugar.select(kids_id, 'find_last_fenics_id')
   .then( r => {
-    if (r.length === 0) {
-      return fenics_key + '01001';
-    }
-    else {
-      return u_others.getNextZeroPadData( r[0].fenics_id );
-    }
+    if (r.length === 0) { return fenics_key + '01001';}
+    return u_others.getNextZeroPadData( r[0].fenics_id );
   });
 
 }
@@ -82,8 +74,7 @@ function makeUser({kids_id,fenics_key}={}, is_mobile=false) {
 }
 
 module.exports = {
-  findNewId : findNewId,
-  findNewMobileId : findNewMobileId,
-  makeUser : makeUser,
+  findNewId,
+  makeUser,
   makeUsers : flow.makeSyncLoop(makeUser),
 };
