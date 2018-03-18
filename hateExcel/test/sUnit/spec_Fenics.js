@@ -6,12 +6,12 @@ describe('Fenicsモジュール', () => {
 
   describe('makeUser', () => {
 
-    it('PC用のユーザーを追加', () => {
-      return Fenics.makeUser({kids_id:'2729', fenics_key:'pdlj'},false)
-      .then( r => {
-        assert(r.affectedRows === 1);
-      })
-    });
+    // it('PC用のユーザーを追加', () => {
+    //   return Fenics.makeUser({kids_id:'2729', fenics_key:'pdlj'},false)
+    //   .then( r => {
+    //     assert(r.affectedRows === 1);
+    //   })
+    // });
 
     // it('mobile用のユーザーを追加', () => {
     //   return Fenics.makeUser({kids_id:'2729', fenics_key:'m4wbn'},true)
