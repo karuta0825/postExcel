@@ -2,8 +2,6 @@
 
 const {DbSugar} = require('../mysql/DbSugar');
 const u_others = require('../util/u_others');
-const flow = require('../util/flow');
-
 
 /**
  * [makeFenicsId description]
@@ -12,9 +10,9 @@ const flow = require('../util/flow');
  *
  * @throws {Promise<Exception>}
  */
-function findNewId({kids_id, fenics_key}={}, is_mobile=false) {
+async function findNewId({kids_id, fenics_key}={}, is_mobile=false) {
   if (!kids_id || !fenics_key) {
-    return Promise.reject(new Error('引数が正しくありません'));
+    return new Error('引数が正しくありません');
   }
 
   if (is_mobile) {
@@ -51,30 +49,39 @@ function findNextFenicsIp() {
  * @param  {Boolean} is_mobile            [description]
  * @return {[type]}                       [description]
  */
-function makeUser({kids_id,fenics_key}={}, is_mobile=false) {
+async function makeUser({kids_id,fenics_key}={}, is_mobile=false) {
   let fenics_account = {};
-
-  return Promise.all([
+  let [fenics_id,fenics_ip] = await Promise.all([
     findNewId({kids_id,fenics_key},is_mobile),
     findNextFenicsIp(null)
-  ])
-  .then( function (results) {
-    fenics_account['kids_id']    = kids_id;
-    fenics_account['fenics_id']  = results[0];
-    fenics_account['password']   = results[0];
-    fenics_account['pc_name']    = is_mobile ? '' : results[0].toUpperCase();
-    fenics_account['fenics_ip']  = results[1];
-    fenics_account['start_on']   = new Date();
-    fenics_account['create_on']  = new Date();
-    fenics_account['is_mobile']  = is_mobile ? 1 : 0;
-  })
-  .then( () => {
-    return DbSugar.insert(fenics_account, 'make_fenics_account')
-  });
+  ]);
+
+  // エラーの場合
+  if (fenics_id.message) {
+    return new Error(fenics_id.message);
+  }
+
+  fenics_account['kids_id']   = kids_id;
+  fenics_account['fenics_id'] = fenics_id;
+  fenics_account['password']  = fenics_id;
+  fenics_account['pc_name']   = is_mobile ? '' : fenics_id.toUpperCase();
+  fenics_account['fenics_ip'] = fenics_ip;
+  fenics_account['start_on']  = new Date();
+  fenics_account['create_on'] = new Date();
+  fenics_account['is_mobile'] = is_mobile ? 1 : 0;
+
+  return DbSugar.insert(fenics_account, 'make_fenics_account');
+}
+
+async function makeUsers({kids_id,fenics_key}, is_mobile, count) {
+  for (let i = 0; i < count; i += 1) {
+    await makeUser({kids_id,fenics_key}, is_mobile);
+  }
+  return count;
 }
 
 module.exports = {
   findNewId,
   makeUser,
-  makeUsers : flow.makeSyncLoop(makeUser),
+  makeUsers
 };

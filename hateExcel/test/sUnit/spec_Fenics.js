@@ -6,12 +6,12 @@ describe('Fenicsモジュール', () => {
 
   describe('makeUser', () => {
 
-    // it('PC用のユーザーを追加', () => {
-    //   return Fenics.makeUser({kids_id:'2729', fenics_key:'pdlj'},false)
-    //   .then( r => {
-    //     assert(r.affectedRows === 1);
-    //   })
-    // });
+    it('PC用のユーザーを追加', () => {
+      return Fenics.makeUser({kids_id:'2729', fenics_key:'pdlj'},false)
+      .then( r => {
+        assert(r.affectedRows === 1);
+      })
+    });
 
     // it('mobile用のユーザーを追加', () => {
     //   return Fenics.makeUser({kids_id:'2729', fenics_key:'m4wbn'},true)
@@ -22,13 +22,28 @@ describe('Fenicsモジュール', () => {
 
   });
 
-  describe('Fenicsクライアント更新', () => {
-    it('');
+  describe('makeUsersメソッド', () => {
+
+    it('1ユーザー作成する', () => {
+
+    });
+
+    // it('複数ユーザー作成する', () => {
+    //   return Fenics.makeUsers({kids_id:'2729',fenics_key:'pdlj'}, false, 3)
+    //   .then( r => {
+    //     assert( r === 3 );
+    //   })
+    // });
+
+    it('エラーを起こす', () => {
+      return Fenics.makeUsers({kids_id:'2729'}, false, 3)
+      .catch( err => {
+        assert( err.message === '引数が正しくありません' );
+      })
+    })
+
   });
 
-  describe('Fenicsクライアント削除', () => {
-    it('');
-  });
 
   describe('findNewIdメソッド', () => {
 
