@@ -2,7 +2,7 @@ const assert = require('power-assert');
 const sinon = require('sinon');
 const Login = require('../../models/tables/Login');
 
-describe('Mobileモジュール', () => {
+describe('Loginモジュール', () => {
 
   describe('authenticateメソッド', () => {
 
@@ -11,9 +11,9 @@ describe('Mobileモジュール', () => {
       .then( r => {
         assert.deepEqual(r,{
           id:1,
-          uid:'aka', 
-          name:'赤鬼', 
-          newadd:0, 
+          uid:'aka',
+          name:'赤鬼',
+          newadd:0,
           is_admin:1
         });
       });
@@ -28,8 +28,28 @@ describe('Mobileモジュール', () => {
 
   });
 
-  describe('makeLoginAccountメソッド', () => {
-    it('');
+  describe('addRowメソッド', () => {
+
+    // it('1行追加', () => {
+    //   return Login.addRow({
+    //     uid : 1,
+    //     name : 'testtest',
+    //     password : 'testtest',
+    //     newadd : 0
+    //   })
+    //   .then( r => {
+    //     assert(r.affectedRows === 1)
+    //   })
+    // });
+
+    it('引数たりないと、エラーが返る', () => {
+      return Login.addRow()
+      .catch( err => {
+        assert(err.message === '引数が正しくありません');
+      })
+    });
+
+
   });
 
 });

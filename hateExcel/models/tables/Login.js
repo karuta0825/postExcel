@@ -23,14 +23,20 @@ function authenticate(data) {
 
 /**
  * [makeLoginAccount description]
- * @param  {{}} data [description]
+ * @param  {Number} options.uid      [description]
+ * @param  {String} options.name     [description]
+ * @param  {String} options.password [description]
+ * @param  {String} options.newadd   [description]
  * @return {Promise<{}>}      [description]
  */
-function makeLoginAccount(data) {
-  return DbSugar.insert(data,'make_login_account')
+async function addRow({uid,name,password,newadd=1}={}) {
+  if (!uid || !name || !password) {
+    return new Error('引数が正しくありません');
+  }
+  return DbSugar.insert({uid,name,password,newadd},'make_login_account')
 }
 
 module.exports = {
   authenticate,
-  makeLoginAccount
+  addRow
 };
