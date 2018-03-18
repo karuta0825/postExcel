@@ -18,5 +18,5 @@ function findId({system_type, version} = {}) {
 }
 
 module.exports = {
-  findId : findId
+  findId
 };

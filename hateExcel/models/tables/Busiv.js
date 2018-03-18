@@ -15,5 +15,5 @@ function addRow(kids_id, base_id) {
 }
 
 module.exports = {
-  addRow : addRow
+  addRow
 };

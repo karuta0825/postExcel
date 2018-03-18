@@ -68,6 +68,6 @@ function addRow(kids_id, base_id, fenicskey) {
 
 
 module.exports = {
-  findNewFenicsKey : findNewFenicsKey,
-  addRow : addRow
+  findNewFenicsKey,
+  addRow
 };

@@ -125,9 +125,9 @@ function addRow(input_map) {
 
 // exports
 module.exports = {
-  findNewKid : findNewKid,
-  findNewUserKey : findNewUserKey,
-  findNewFenicsKey : findNewFenicsKey,
-  findNewDbPass : findNewDbPass,
-  addRow : addRow
+  findNewKid,
+  findNewUserKey,
+  findNewFenicsKey,
+  findNewDbPass,
+  addRow
 };

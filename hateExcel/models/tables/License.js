@@ -59,5 +59,5 @@ function get(kids_id) {
 }
 
 module.exports = {
-  get : get
+  get
 };

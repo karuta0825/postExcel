@@ -31,6 +31,6 @@ function makeLoginAccount(data) {
 }
 
 module.exports = {
-  authenticate :authenticate,
-  makeLoginAccount : makeLoginAccount
+  authenticate,
+  makeLoginAccount
 };

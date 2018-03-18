@@ -52,7 +52,7 @@ function findNewId({kids_id, userkey}) {
 }
 
 module.exports = {
-  findNewId : findNewId,
-  makeId : makeId,
+  findNewId,
+  makeId,
   makeIds : flow.makeSyncLoop(makeId)
 };

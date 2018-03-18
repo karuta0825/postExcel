@@ -163,8 +163,8 @@ function addBase(kids_id) {
 
 
 module.exports = {
-  create : create,
-  register : register,
-  addBase : addBase
+  create,
+  register,
+  addBase
 };
 

@@ -6,5 +6,5 @@ function addMemo(input_map) {
 }
 
 module.exports = {
-  addMemo : addMemo
+  addMemo
 }

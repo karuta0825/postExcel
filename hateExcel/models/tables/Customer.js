@@ -26,6 +26,6 @@ function addRow(kids_id) {
 }
 
 module.exports = {
-  findLastBaseId : findLastBaseId,
-  addRow : addRow
+  findLastBaseId,
+  addRow
 };
