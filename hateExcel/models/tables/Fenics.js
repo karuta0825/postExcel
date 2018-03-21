@@ -74,6 +74,7 @@ async function makeUser({kids_id,fenics_key}={}, is_mobile=false) {
 }
 
 async function makeUsers({kids_id,fenics_key}, is_mobile, count) {
+  if ( count < 1 ) { return new Error('ループ回数は1以上指定してください')}
   for (let i = 0; i < count; i += 1) {
     await makeUser({kids_id,fenics_key}, is_mobile);
   }
