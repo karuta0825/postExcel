@@ -33,7 +33,7 @@ Database.prototype.end = function (callback) {
   }
 };
 
-Database.prototype.transaction = function ( querys, params, callback ) {
+Database.prototype.transaction = function (querys, params) {
   var client = this._getClient();
   var size = querys.length;
 
@@ -58,7 +58,7 @@ Database.prototype.transaction = function ( querys, params, callback ) {
           // 終了
           client.commit( function (err) {
             if (err) {reject(err);}
-            resolve('ends');
+            resolve('end');
           });
         }
 
@@ -67,24 +67,17 @@ Database.prototype.transaction = function ( querys, params, callback ) {
         client.rollback( function () {
           reject(err)
         });
-      });
+      })
 
     }
 
     // メインループ処理
     client.beginTransaction( function (err) {
       if( err ) { reject(err) };
-      loop(0);
+      return loop(0);
     });
 
   })
-  .then( function (r) {
-    callback(null, r);
-  })
-  .catch( function (err) {
-    callback(err, null);
-  })
-  ;
 
 }
 
