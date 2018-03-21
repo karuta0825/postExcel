@@ -51,16 +51,17 @@ function findNewFenicsKey(fenicskey) {
  * @param {String} fenicskey [description]
  * @return {Promise<>} [description]
  */
-function addRow(kids_id, base_id, fenicskey) {
-  if (!kids_id || !base_id || !fenicskey) {
-    throw new Error('引数が存在してません');
+async function addRow(kids_id, base_id, fenics_key) {
+  if (!kids_id || !base_id || !fenics_key) {
+    return new Error('引数が存在してません');
   }
 
   let params = {
     kids_id : kids_id,
     base_id : base_id,
-    admin_id : fenicskey,
-    admin_pw : _makeAdminPw(fenicskey)
+    fenics_key : fenics_key,
+    admin_id : fenics_key,
+    admin_pw : _makeAdminPw(fenics_key)
   };
 
   return DbSugar.insert(params, 'make_mobiles');

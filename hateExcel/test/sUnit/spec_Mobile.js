@@ -31,10 +31,35 @@ describe('Mobileモジュール', () => {
   });
 
   describe('addRowメソッド', () => {
-    it('kids_id, base_id, fenicskeyを与えると、mobilesテーブルに行追加');
-    it('kids_idを与えないと、エラーオブジェクト返す');
-    it('base_idを与えないと、エラーオブジェクトを返す');
-    it('fenicskeyを与えないと、エラーオブジェクト返す');
+    it('ok_kids_id, base_id, fenicskeyを与えると、mobilesテーブルに行追加')
+    // it('kids_id, base_id, fenicskeyを与えると、mobilesテーブルに行追加', () => {
+    //   return Mobile.addRow('1', '1', 'mobil')
+    //   .then( r => {
+    //     assert( r.affectedRows === 1 );
+    //   })
+    // });
+
+    it('kids_idを与えないと、エラーオブジェクト返す', () => {
+      return Mobile.addRow()
+      .catch( err => {
+        assert( err.message === '引数が存在してません')
+      })
+    });
+
+    it('base_idを与えないと、エラーオブジェクトを返す', () => {
+      return Mobile.addRow('1')
+      .catch( err => {
+        assert( err.message === '引数が存在してません')
+      })
+    });
+
+    it('fenicskeyを与えないと、エラーオブジェクト返す', () => {
+      return Mobile.addRow('1','1')
+      .catch( err => {
+        assert( err.message === '引数が存在してません')
+      })
+    });
+
   });
 
 });
