@@ -8,7 +8,7 @@ describe('Licenseモジュール', () => {
     it('kid_idを指定すると、使用しているライセンス情報をobjectで返す', () => {
       return License.get('5')
       .then( r => {
-        assert(r === {});
+        assert( typeof r === 'object');
       })
     })
   });
