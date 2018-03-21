@@ -92,31 +92,40 @@ describe('Kidsモジュール', () => {
 
   describe('addRowメソッド', () => {
 
-    // it('kidを指定せずに通常ユーザー作成', () => {
-
-    //   var params = {
-    //     system_type : '',
-    //     version : 'LM',
-    //     environment_id : '2',
-    //     server : 'LAP1-1',
-    //     create_user_id : '1'
+    it('ok_kidを指定せずにドコモユーザー作成')
+    // it('kidを指定せずにドコモユーザー作成', () => {
+    //   let params = {
+    //     system_type: 'docomo',
+    //     version: 'LM',
+    //     environment_id: '2',
+    //     server: 'LAP1-1',
+    //     create_user_id: '1'
     //   };
 
-    //   return Kid.makeUser(params)
+    //   return Kid.addRow(params)
     //   .then( r => {
     //     console.log(r);
-    //     assert.deepEqual( r, {
-    //       version : 'LM',
-    //       environment_id : '2',
-    //       server : 'LAP1-1'
-    //     })
-    //   });
-
+    //     assert( r.kid !== null );
+    //     assert( r.userkey !== null );
+    //     assert( r.db_password !== '' );
+    //   })
     // });
 
-    it('kidを指定せずにドコモユーザー作成');
+    it('既に存在しているKIDが指定されると、重複エラーを返す', () => {
+      let params = {
+        kid : '42357',
+        system_type: '',
+        version: 'LM',
+        environment_id: '2',
+        server: 'LAP1-1',
+        create_user_id: '1'
+      };
 
-    it('既に存在しているKIDが指定されると、重複エラーを返す')
+      return Kid.addRow(params)
+      .catch( err => {
+        assert(err.message === '指定システム環境で作成できるKID上限数を超えましたので、作成できませんでした');
+      })
+    })
 
   });
 

@@ -85,12 +85,12 @@ function findNewDbPass (userkey) {
  * @param  {{kid:String, system_type:String, version:String, environemnt_id:String, server:String}} input_map parameter object for make user.
  * @return {Promise<{}>}           [description]
  */
-function addRow(input_map) {
+function addRow({kid,system_type,version,environment_id,server,create_user_id}={}) {
   let set = {};
 
-  return findNewKid(input_map.environment_id)
+  return findNewKid(environment_id)
   .then( r => {
-    set.kid = input_map.kid || r[0].kid;
+    set.kid = kid || r[0].kid;
   })
   .then( () => {
     return findNewUserKey();
@@ -99,12 +99,12 @@ function addRow(input_map) {
     set.userkey = r;
     set['db_password']    = findNewDbPass( set.userkey );
     set['fenics_key']     = set.userkey.substr(0,4).toLowerCase();
-    set['server']         = input_map['server'];
-    set['environment_id'] = input_map['environment_id'];
-    set['create_user_id'] = input_map['create_user_id'];
+    set['server']         = server;
+    set['environment_id'] = environment_id;
+    set['create_user_id'] = create_user_id;
     set['create_on']      = new Date();
     // ドコモユーザーのとき
-    if ( input_map.system_type === 'docomo' ) {
+    if ( system_type === 'docomo' ) {
       set['is_replaced_from_another'] = 1;
     }
   })
