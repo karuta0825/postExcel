@@ -34,5 +34,5 @@ function register(version, params) {
 }
 
 module.exports = {
-  register : register
+  register
 }
