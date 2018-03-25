@@ -4,10 +4,12 @@ const querys   = require('../mysql/list_query');
 const moment   = require('../../public/js/lib/moment.min');
 const _        = require('../../public/js/lib/underscore');
 const db       = database.createClient();
-const Customers = require('../tables/Customer');
-const Busivs = require('../tables/Busiv');
+const Customer = require('../tables/Customer');
+const Busiv    = require('../tables/Busiv');
+const Kid      = require('../tables/Kid');
+const Mobile   = require('../tables/Mobile');
 
-function register ( items, callback ) {
+function register(items) {
 
   let
     qrys   = []
@@ -41,7 +43,7 @@ function register ( items, callback ) {
   qrys.push( querys.update['busivs']);
   params.push( _mkParamForBusiv(items['busivs']));
 
-  db.transaction( qrys, params, callback );
+  return db.transaction(qrys, params);
 
 }
 
@@ -122,14 +124,23 @@ function _mkParamForBusiv ( obj ) {
 
 /**
  * [create description]
- * @param  {{}} input_map [description]
- * @return {Promise<>}           [description]
+ * @param  {[type]} options.kid            [description]
+ * @param  {[type]} options.system_type    [description]
+ * @param  {[type]} options.version        [description]
+ * @param  {[type]} options.environment_id [description]
+ * @param  {[type]} options.server         [description]
+ * @param  {[type]} options.create_user_id [description]
+ * @return {[type]}                        [description]
+ * TODO: environment_idがあればsystem_typeとversionはいらない
+ *
  */
-function create(input_map) {
-  return Kids.addRow(input_map)
-  .then( r => {
-    return addBase(r.kids_id);
-  })
+async function create({kid,system_type,version,environment_id,server,create_user_id}) {
+  try  {
+    const recordInfo = await Kid.addRow({kid,system_type,version,environment_id,server,create_user_id});
+    return addBase(recordInfo.kids_id);
+  } catch(e) {
+    return e;
+  }
 }
 
 /**
@@ -137,30 +148,26 @@ function create(input_map) {
  * @param {String} kids_id [description]
  * @return {Promise<>} [description]
  */
-function addBase(kids_id) {
-  if (!kids_id) { throw new Error('kids_idを指定してください'); }
-  let stock = {kids_id : kids_id};
+async function addBase(kids_id) {
+  if (!kids_id) { return new Error('kids_idを指定してください'); }
 
-  return Customers.addRow(kids_id)
-  .then( () => {
-    return Customers.findLastBaseId(kids_id)
-  })
-  .then( base_id => {
-    stock.base_id = base_id;
-    return Busiv.addRow(kids_id, base_id);
-  })
-  .then( () => {
-    return Mobile.findNewFenicsKey()
-  })
-  .then(mobile_fenicskey => {
-    return Mobile.addRow(
-      stock.kids_id,
-      stock.base_id,
-      mobile_fenicskey
-    );
-  });
+  try {
+    // customer
+    await Customer.addRow(kids_id);
+
+    // busiv
+    const base_id: string = await Customer.findLastBaseId(kids_id);
+    await Busiv.addRow(kids_id, base_id);
+
+    // mobile
+    const fenics_key = await Mobile.findNewFenicsKey();
+    return Mobile.addRow(kids_id,base_id,fenics_key);
+
+  } catch(e) {
+    return e;
+  }
+
 }
-
 
 module.exports = {
   create,
