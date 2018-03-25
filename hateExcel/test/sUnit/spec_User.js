@@ -9,9 +9,7 @@ describe('Userモジュール', () => {
     it('ok_ユーザー作成');
     // it('ユーザー作成', () => {
     //   return User.create({
-    //     kid:'10000',
-    //     system_type: 'cloud',
-    //     version: 'LM',
+    //     kid:'10001',
     //     environment_id: 4,
     //     server: 'LAP1-1',
     //     create_user_id:1

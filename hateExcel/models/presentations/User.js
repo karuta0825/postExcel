@@ -126,21 +126,18 @@ function _mkParamForBusiv ( obj ) {
 /**
  * [create description]
  * @param  {[type]} options.kid            [description]
- * @param  {[type]} options.system_type    [description]
- * @param  {[type]} options.version        [description]
  * @param  {[type]} options.environment_id [description]
  * @param  {[type]} options.server         [description]
  * @param  {[type]} options.create_user_id [description]
  * @return {[type]}                        [description]
- * TODO: environment_idがあればsystem_typeとversionはいらない
  *
  */
-async function create({kid,system_type,version,environment_id,server,create_user_id}) {
+async function create({kid,environment_id,server,create_user_id}) {
   try  {
-    const recordInfo = await Kid.addRow({kid,system_type,version,environment_id,server,create_user_id});
+    const recordInfo = await Kid.addRow({kid,environment_id,server,create_user_id});
     return addBase(recordInfo.kids_id);
   } catch(e) {
-    return e;
+    throw e;
   }
 }
 
@@ -153,11 +150,11 @@ async function addBase(kids_id) {
   if (!kids_id) { return new Error('kids_idを指定してください'); }
 
   try {
-    // customer
-    await Customer.addRow(kids_id);
+    // customer 初回作成時は不要だが、拠点追加時は必要となる
+    // await Customer.addRow(kids_id);
 
     // busiv
-    const base_id: string = await Customer.findLastBaseId(kids_id);
+    const base_id = await Customer.findLastBaseId(kids_id);
     await Busiv.addRow(kids_id, base_id);
 
     // mobile
@@ -165,7 +162,7 @@ async function addBase(kids_id) {
     return Mobile.addRow(kids_id,base_id,fenics_key);
 
   } catch(e) {
-    return e;
+    throw e;
   }
 
 }
