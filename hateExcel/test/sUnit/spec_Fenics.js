@@ -49,7 +49,7 @@ describe('Fenicsモジュール', () => {
       })
     })
 
-    it('エラーを起こす', () => {
+    it('引数にfenics_keyが存在しないと、エラーを返す', () => {
       return Fenics.makeUsers({kids_id:'2729'}, false, 3)
       .catch( err => {
         assert( err.message === '引数が正しくありません' );

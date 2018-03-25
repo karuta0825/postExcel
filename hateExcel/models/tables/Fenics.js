@@ -50,27 +50,30 @@ function findNextFenicsIp() {
  * @return {[type]}                       [description]
  */
 async function makeUser({kids_id,fenics_key}={}, is_mobile=false) {
-  let fenics_account = {};
-  let [fenics_id,fenics_ip] = await Promise.all([
-    findNewId({kids_id,fenics_key},is_mobile),
-    findNextFenicsIp(null)
-  ]);
+  const fenics_account = {};
 
-  // エラーの場合
-  if (fenics_id.message) {
-    throw new Error(fenics_id.message);
+  try {
+
+    let [fenics_id,fenics_ip] = await Promise.all([
+      findNewId({kids_id,fenics_key},is_mobile),
+      findNextFenicsIp(null)
+    ]);
+
+    fenics_account['kids_id']   = kids_id;
+    fenics_account['fenics_id'] = fenics_id;
+    fenics_account['password']  = fenics_id;
+    fenics_account['pc_name']   = is_mobile ? '' : fenics_id.toUpperCase();
+    fenics_account['fenics_ip'] = fenics_ip;
+    fenics_account['start_on']  = new Date();
+    fenics_account['create_on'] = new Date();
+    fenics_account['is_mobile'] = is_mobile ? 1 : 0;
+
+    return DbSugar.insert(fenics_account, 'make_fenics_account');
+
+  }catch(e) {
+    throw e;
   }
 
-  fenics_account['kids_id']   = kids_id;
-  fenics_account['fenics_id'] = fenics_id;
-  fenics_account['password']  = fenics_id;
-  fenics_account['pc_name']   = is_mobile ? '' : fenics_id.toUpperCase();
-  fenics_account['fenics_ip'] = fenics_ip;
-  fenics_account['start_on']  = new Date();
-  fenics_account['create_on'] = new Date();
-  fenics_account['is_mobile'] = is_mobile ? 1 : 0;
-
-  return DbSugar.insert(fenics_account, 'make_fenics_account');
 }
 
 async function makeUsers({kids_id,fenics_key}, is_mobile, count) {
