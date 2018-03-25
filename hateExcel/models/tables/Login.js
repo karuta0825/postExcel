@@ -10,7 +10,7 @@ const {DbSugar} = require('../mysql/DbSugar');
  */
 async function authenticate({user,pass}={}) {
   if (!user || !pass) {
-    return new Error('引数を指定してください');
+    throw new Error('引数を指定してください');
   }
 
   return DbSugar.select([user,pass], 'users')
@@ -33,7 +33,7 @@ async function authenticate({user,pass}={}) {
  */
 async function addRow({uid,name,password,newadd=1}={}) {
   if (!uid || !name || !password) {
-    return new Error('引数が正しくありません');
+    throw new Error('引数が正しくありません');
   }
   return DbSugar.insert({uid,name,password,newadd},'make_login_account')
 }

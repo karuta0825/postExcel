@@ -53,7 +53,7 @@ function findNewFenicsKey(fenicskey) {
  */
 async function addRow(kids_id, base_id, fenics_key) {
   if (!kids_id || !base_id || !fenics_key) {
-    return new Error('引数が存在してません');
+    throw new Error('引数が存在してません');
   }
 
   let params = {

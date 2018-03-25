@@ -21,7 +21,7 @@ function findLastBaseId (kids_id) {
  * @param {String} kids_id [description]
  */
 async function addRow(kids_id) {
-  if (!kids_id) { return new Error('kids_idを指定してください'); }
+  if (!kids_id) { throw new Error('引数を指定してください'); }
   return DbSugar.insert({kids_id:kids_id}, 'add_base');
 }
 

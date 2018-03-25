@@ -18,7 +18,7 @@ const flow = require('../util/flow');
 async function makeId({kids_id, userkey, create_user_id}={}) {
 
   if (!kids_id || !userkey || !create_user_id) {
-    return new Erorr('引数が正しくありません');
+    throw new Erorr('引数が正しくありません');
   }
 
   let client = {};
@@ -44,7 +44,7 @@ async function makeId({kids_id, userkey, create_user_id}={}) {
  */
 async function findNewId({kids_id, userkey}={}) {
   if (!kids_id || !userkey) {
-    return ('正しい引数を指定してください');
+    throw new Error('正しい引数を指定してください');
   }
 
   return DbSugar.select(kids_id,'find_last_client_id')
@@ -67,7 +67,7 @@ async function findNewId({kids_id, userkey}={}) {
  */
 async function makeIds({kids_id,userkey,create_user_id}, count=0) {
   if (count<1) {
-    return new Error('1以上を指定してください');
+    throw new Error('1以上を指定してください');
   }
 
   for (let i = 0; i < count; i += 1 ) {

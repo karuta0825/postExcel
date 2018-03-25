@@ -12,7 +12,7 @@ const u_others = require('../util/u_others');
  */
 async function findNewId({kids_id, fenics_key}={}, is_mobile=false) {
   if (!kids_id || !fenics_key) {
-    return new Error('引数が正しくありません');
+    throw new Error('引数が正しくありません');
   }
 
   if (is_mobile) {
@@ -58,7 +58,7 @@ async function makeUser({kids_id,fenics_key}={}, is_mobile=false) {
 
   // エラーの場合
   if (fenics_id.message) {
-    return new Error(fenics_id.message);
+    throw new Error(fenics_id.message);
   }
 
   fenics_account['kids_id']   = kids_id;
@@ -74,7 +74,7 @@ async function makeUser({kids_id,fenics_key}={}, is_mobile=false) {
 }
 
 async function makeUsers({kids_id,fenics_key}, is_mobile, count) {
-  if ( count < 1 ) { return new Error('ループ回数は1以上指定してください')}
+  if ( count < 1 ) { throw new Error('ループ回数は1以上指定してください')}
   for (let i = 0; i < count; i += 1) {
     await makeUser({kids_id,fenics_key}, is_mobile);
   }

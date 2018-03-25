@@ -35,14 +35,14 @@ describe('Clientモジュール', () => {
     it('引数にkids_idがないと、エラーオブジェクトが返る', () => {
       return Client.findNewId({userkey: 'LDTQRV'})
       .catch( err => {
-        assert(err === '正しい引数を指定してください');
+        assert(err.message === '正しい引数を指定してください');
       });
     });
 
     it('引数にusekeyがないと、エラーオブジェクトが返る', () => {
       return Client.findNewId({kids_id:'2736'})
       .catch( err => {
-        assert(err === '正しい引数を指定してください');
+        assert(err.message === '正しい引数を指定してください');
       });
     });
 
