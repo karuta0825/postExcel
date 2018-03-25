@@ -9,7 +9,7 @@
     "flow": "flow",
     "build": "cp -r e2e test;flow-remove-types e2e/ -d test/",
     "stest": "mocha --require intelli-espower-loader ./test/sUnit/",
-    "lint": "eslint ./models",
+    "lint": "eslint ./models/presentations/",
     "lint:fix": "eslint ./models --fix"
   },
   "dependencies": {

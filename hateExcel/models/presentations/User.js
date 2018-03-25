@@ -1,3 +1,4 @@
+// @flow
 // import module
 const database = require('../mysql/database');
 const querys   = require('../mysql/list_query');
