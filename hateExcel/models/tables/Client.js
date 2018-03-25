@@ -10,10 +10,17 @@ const flow = require('../util/flow');
 
 /**
  * [makeId description]
- * @param  {{kids_id:String, userkey:String, create_user_id:Number}} input_map [description]
- * @return {[type]}           [description]
+ * @param  {[type]} options.kids_id          [description]
+ * @param  {[type]} options.userkey          [description]
+ * @param  {Object} options.create_user_id} [description]
+ * @return {[type]}                          [description]
  */
-function makeId({kids_id, userkey, create_user_id}) {
+async function makeId({kids_id, userkey, create_user_id}={}) {
+
+  if (!kids_id || !userkey || !create_user_id) {
+    return new Erorr('引数が正しくありません');
+  }
+
   let client = {};
   return findNewId({kids_id,userkey})
   .then( client_id => {
@@ -35,10 +42,9 @@ function makeId({kids_id, userkey, create_user_id}) {
  * @param  {[type]} options.userkey [description]
  * @return {[type]}                 [description]
  */
-function findNewId({kids_id, userkey}) {
-
+async function findNewId({kids_id, userkey}={}) {
   if (!kids_id || !userkey) {
-    return Promise.reject('正しい引数を指定してください');
+    return ('正しい引数を指定してください');
   }
 
   return DbSugar.select(kids_id,'find_last_client_id')
@@ -51,8 +57,27 @@ function findNewId({kids_id, userkey}) {
 
 }
 
+/**
+ * [makeIds description]
+ * @param  {[type]} options.kids_id        [description]
+ * @param  {[type]} options.userkey        [description]
+ * @param  {[type]} options.create_user_id [description]
+ * @param  {[type]} count                  [description]
+ * @return {[type]}                        [description]
+ */
+async function makeIds({kids_id,userkey,create_user_id}, count=0) {
+  if (count<1) {
+    return new Error('1以上を指定してください');
+  }
+
+  for (let i = 0; i < count; i += 1 ) {
+    await makeId({kids_id,userkey,create_user_id});
+  }
+  return count;
+}
+
 module.exports = {
   findNewId,
   makeId,
-  makeIds : flow.makeSyncLoop(makeId)
+  makeIds
 };
