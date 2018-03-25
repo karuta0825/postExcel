@@ -27,7 +27,7 @@ describe('Userモジュール', () => {
   describe('addBaseメソッド', () => {
     it('ok_KID10000の拠点追加を行う');
     // it('KID10000の拠点追加を行う', () => {
-    //   return User.addBase(10000)
+    //   return User.addBase(10000,false)
     //   .then( r => {
     //     assert(r.affectedRows === 1);
     //   })

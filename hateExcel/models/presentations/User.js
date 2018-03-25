@@ -135,7 +135,7 @@ function _mkParamForBusiv ( obj ) {
 async function create({kid,environment_id,server,create_user_id}) {
   try  {
     const recordInfo = await Kid.addRow({kid,environment_id,server,create_user_id});
-    return addBase(recordInfo.kids_id);
+    return addBase(recordInfo.kids_id, true);
   } catch(e) {
     throw e;
   }
@@ -146,12 +146,15 @@ async function create({kid,environment_id,server,create_user_id}) {
  * @param {String} kids_id [description]
  * @return {Promise<>} [description]
  */
-async function addBase(kids_id) {
+async function addBase(kids_id, is_first=false) {
   if (!kids_id) { return new Error('kids_idを指定してください'); }
 
   try {
-    // customer 初回作成時は不要だが、拠点追加時は必要となる
-    // await Customer.addRow(kids_id);
+
+    // 初回作成時は不要だが、拠点追加時は必要となる
+    if (!is_first) {
+      await Customer.addRow(kids_id);
+    }
 
     // busiv
     const base_id = await Customer.findLastBaseId(kids_id);
