@@ -147,7 +147,7 @@ async function create({kid,environment_id,server,create_user_id}) {
  * @return {Promise<>} [description]
  */
 async function addBase(kids_id, is_first=false) {
-  if (!kids_id) { return new Error('kids_idを指定してください'); }
+  if (!kids_id) { throw new Error('kids_idを指定してください'); }
 
   try {
 
