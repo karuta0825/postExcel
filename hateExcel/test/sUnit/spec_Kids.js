@@ -8,25 +8,25 @@ describe('Kidsモジュール', () => {
   describe('findNewKidメソッド', () => {
 
     it('environemnt_idのユーザー存在しないと、environmentsテーブルにある初期kidが返る', () => {
-      return Kid.findNewKid('7')
+      return Kid.findNewKid(7)
       .then( r => {
-        assert( r[0].kid === '99999' );
+        assert( r === '99999' );
       });
     });
 
     // このテストは難しい
     // テストの度にDatabaseの中身を固定させないといけない
     it('environment_idのユーザーが存在すると、最も数値の高いKID+1が返る', () => {
-      return Kid.findNewKid('2')
+      return Kid.findNewKid(2)
       .then( r => {
-        assert( r[0].kid === 83023 );
+        assert( r === 83023 );
       });
     });
 
     it('存在しないenvironment_idを指定すると、空の配列が返る', () => {
-      return Kid.findNewKid('99999')
+      return Kid.findNewKid(99999)
       .then( r => {
-        assert.deepEqual(r, []);
+        assert( r === null );
       });
     });
 
@@ -92,31 +92,45 @@ describe('Kidsモジュール', () => {
 
   describe('addRowメソッド', () => {
 
-    it('ok_kidを指定せずにドコモユーザー作成')
-    // it('kidを指定せずにドコモユーザー作成', () => {
-    //   let params = {
-    //     system_type: 'docomo',
-    //     version: 'LM',
-    //     environment_id: '2',
+    it('ok_kidを指定して非ドコモユーザー作成')
+    // it('kidを指定して非ドコモユーザー作成', () => {
+    //   const params = {
+    //     kid: '98386',
+    //     environment_id: 4,
     //     server: 'LAP1-1',
     //     create_user_id: '1'
     //   };
 
     //   return Kid.addRow(params)
     //   .then( r => {
-    //     console.log(r);
-    //     assert( r.kid !== null );
-    //     assert( r.userkey !== null );
-    //     assert( r.db_password !== '' );
+    //     assert(r.kid === params.kid);
+    //     assert(r.hasOwnProperty('userkey') === true);
+    //     assert(r.hasOwnProperty('db_password') === true);
+    //   })
+
+    // });
+
+    it('ok_kidを指定せずにドコモユーザー作成')
+    // it('kidを指定せずにドコモユーザー作成', () => {
+    //   let params = {
+    //     environment_id: 6,
+    //     server: 'LAP1-1',
+    //     create_user_id: '1'
+    //   };
+
+    //   return Kid.addRow(params)
+    //   .then( r => {
+    //     assert(r.hasOwnProperty('kid') === true);
+    //     assert(r.hasOwnProperty('userkey') === true);
+    //     assert(r.hasOwnProperty('db_password') === true);
+    //     assert(r.is_replaced_from_another === 1);
     //   })
     // });
 
     it('既に存在しているKIDが指定されると、重複エラーを返す', () => {
       let params = {
         kid : '42357',
-        system_type: '',
-        version: 'LM',
-        environment_id: '2',
+        environment_id: 2,
         server: 'LAP1-1',
         create_user_id: '1'
       };

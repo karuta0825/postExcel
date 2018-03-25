@@ -4,6 +4,7 @@
 
 const {DbSugar} = require('../mysql/DbSugar')
 const u_others = require('../util/u_others');
+const Environment = require('./Environment');
 
 /**
  * [findNewKid description]
@@ -15,9 +16,13 @@ function findNewKid (environment_id) {
   return DbSugar.select(environment_id, 'find_new_kid')
   .then( (result) => {
     if ( result.length === 0 ) {
-      return DbSugar.select(environment_id, 'find_initial_kid');
+      return DbSugar.select(environment_id, 'find_initial_kid')
+      .then( r => {
+        if (r[0]) { return r[0].kid};
+        return null;
+      });
     }
-    return Promise.resolve([{ kid : Number(result[0].kid) + 1}]);
+    return Promise.resolve(Number(result[0].kid) + 1);
   })
   ;
 
@@ -82,45 +87,40 @@ function findNewDbPass (userkey) {
 
 /**
  * add one row to kids table.
- * @param  {{kid:String, system_type:String, version:String, environemnt_id:String, server:String}} input_map parameter object for make user.
+ * @param  {{kid:String, environemnt_id:String, server:String}} input_map parameter object for make user.
  * @return {Promise<{}>}           [description]
  */
-function addRow({kid,system_type,version,environment_id,server,create_user_id}={}) {
-  let set = {};
+async function addRow({kid,environment_id,server,create_user_id}={}) {
+  const set = {};
 
-  return findNewKid(environment_id)
-  .then( r => {
-    set.kid = kid || r[0].kid;
-  })
-  .then( () => {
-    return findNewUserKey();
-  })
-  .then( r => {
-    set.userkey = r;
-    set['db_password']    = findNewDbPass( set.userkey );
-    set['fenics_key']     = set.userkey.substr(0,4).toLowerCase();
+  try {
+    const new_kid = await findNewKid(environment_id);
+    const userkey = await findNewUserKey();
+    const {system_type} = await Environment.findById(environment_id);
+
+    set.kid = kid || new_kid;
+    set.userkey = userkey;
+    set['db_password']    = findNewDbPass(userkey);
+    set['fenics_key']     = userkey.substr(0,4).toLowerCase();
     set['server']         = server;
     set['environment_id'] = environment_id;
     set['create_user_id'] = create_user_id;
     set['create_on']      = new Date();
-    // ドコモユーザーのとき
-    if ( system_type === 'docomo' ) {
+
+    if (system_type === 'docomo') {
       set['is_replaced_from_another'] = 1;
     }
-  })
-  .then( () => {
-    return DbSugar.insert(set, 'make_user')
-  })
-  .then( r => {
-    set.kids_id = r.insertId;
+
+    const record = await DbSugar.insert(set, 'make_user');
+    set.kids_id = record.insertId;
     return set;
-  })
-  .catch( err => {
+
+  }catch(err){
     if (err.errno === 1062) {
       throw new Error('指定システム環境で作成できるKID上限数を超えましたので、作成できませんでした');
     }
     throw err;
-  });
+  }
 }
 
 // exports
