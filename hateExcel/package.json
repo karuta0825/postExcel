@@ -29,7 +29,7 @@
     "eslint-plugin-flowtype": "^2.46.1",
     "eslint-plugin-flowtype-errors": "^3.5.1",
     "eslint-plugin-import": "^2.8.0",
-    "flow-bin": "^0.53.1",
+    "flow-bin": "^0.68.0",
     "flow-remove-types": "^1.2.1",
     "flow-typed": "^2.1.5",
     "intelli-espower-loader": "^1.0.1",
