@@ -88,7 +88,7 @@ function _mkParamForLicenses ( obj ) {
   // オブジェクトからコロン区切りのライセンス情報を生成
   license = {
     services : _.chain(result)
-                .pick( function (v) {return v === '1'} )
+                .pick(v => (v === '1'))
                 .keys()
                 .value()
                 .join(':')
