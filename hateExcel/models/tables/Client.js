@@ -70,10 +70,14 @@ async function makeIds({kids_id,userkey,create_user_id}, count=0) {
     throw new Error('1以上を指定してください');
   }
 
-  for (let i = 0; i < count; i += 1 ) {
-    await makeId({kids_id,userkey,create_user_id});
+  try {
+    for (let i = 0; i < count; i += 1 ) {
+      await makeId({kids_id,userkey,create_user_id});
+    }
+    return count;
+  }catch(e) {
+    throw e;
   }
-  return count;
 }
 
 module.exports = {
