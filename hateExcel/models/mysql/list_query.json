@@ -25,6 +25,7 @@
     "find_new_kid"                    : "SELECT kid FROM kids WHERE environment_id = ? order by kid desc;",
     "find_initial_kid"                : "SELECT kid FROM environments where id = ?",
     "find_new_db_password"            : "SELECT db_password from kids WHERE db_password = ?;",
+    "find_type_and_version_by_id"     : "SELECT system_type, version from environments where id = ?",
     "environments"                    : "SELECT * FROM environments;",
     "find_environment_id"             : "select id from environments where system_type = ? and version = ?;",
     "is_unique_fenicskey"             : "SELECT fenics_key FROM kids WHERE fenics_key = ?;",

@@ -43,4 +43,23 @@ describe('Environmentモジュール', () => {
 
   });
 
+  describe('findByIdメソッド', () => {
+
+    it('idを指定すると、そのsystem_typeとversionを返す', () => {
+      return Environment.findById(1)
+      .then( r => {
+        assert(r.system_type === 'onpre');
+        assert(r.version === 'ES');
+      })
+    });
+
+    it('引数がない場合、エラーが返る', () => {
+      return Environment.findById()
+      .catch( err => {
+        assert(err.message === '引数を指定してください');
+      })
+    })
+
+  });
+
 });
