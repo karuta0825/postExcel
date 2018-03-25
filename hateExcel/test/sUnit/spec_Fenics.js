@@ -58,6 +58,13 @@ describe('Fenicsモジュール', () => {
 
   });
 
+  describe('updateメソッド', () => {
+    it('idと更新内容を受け取ると、該当行を更新する');
+  });
+
+  describe('deleteメソッド', () => {
+    it('idを受け取ると、該当行のidを削除する');
+  })
 
   describe('findNewIdメソッド', () => {
 

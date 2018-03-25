@@ -4,16 +4,28 @@ const Client = require('../../models/tables/Client');
 
 describe('Clientモジュール', () => {
 
-  describe('クライアント追加', () => {
-    it('');
+  describe('makeIdメソッド', () => {
+    it('正しい引数を受け取ると、1行追加情報を取得する');
+
+    it('引数が足りないと、エラーを返す')
   });
 
-  describe('クライアント更新', () => {
-    it('');
+  describe('makeIdsメソッド', () => {
+    it('count=1を指定し、1ユーザー作成する');
+
+    it('count=4を指定し、4ユーザー作成する');
+
+    it('count=0を指定し、エラーを返す');
+
+    it('count=-1を指定し、エラーを返す');
   });
 
-  describe('クライアント削除', () => {
-    it('');
+  describe('updateメソッド', () => {
+    it('idと更新内容を受け取ると、該当のidの行を更新する');
+  });
+
+  describe('deleteメソッド', () => {
+    it('idを受け取ると、該当行のidを削除する');
   });
 
   describe('findNewIdメソッド', () => {

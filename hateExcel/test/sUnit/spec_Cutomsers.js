@@ -8,14 +8,14 @@ describe('Customersモジュール', () => {
   describe('findLastBaseIdメソッド', () => {
 
     it('kids_id(79)を指定すると、拠点id(5)を返す', () => {
-      return Customer.findLastBaseId('79')
+      return Customer.findLastBaseId(79)
       .then( r => {
         assert( r === 5 );
       });
     });
 
     it('複数のbase_idを持つkids_idを指定すると、最後のbase_idを返す', () => {
-      return Customer.findLastBaseId('2736')
+      return Customer.findLastBaseId(2736)
       .then( r => {
         assert( r === 206 );
       });
@@ -47,6 +47,10 @@ describe('Customersモジュール', () => {
       })
     });
 
+  });
+
+  describe('updateメソッド', () => {
+    it('idと更新内容を受け取ると、該当行を更新する');
   });
 
 });
