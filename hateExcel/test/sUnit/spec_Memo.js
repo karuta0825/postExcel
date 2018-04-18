@@ -24,11 +24,35 @@ describe('Memoモジュール', () => {
   });
 
   describe('updateメソッド', () => {
-    it('idと更新内容を受け取ると、該当行を更新する');
+    it('idと更新内容を受け取ると、該当行を更新する', () => {
+
+      const data = {
+        title : 'chnage'
+      };
+      const condition = {id: 177};
+      const access = 'memos'
+
+      return Memo.update(data,condition,access)
+      .then(r => {
+        assert(r === null);
+      })
+
+    });
   });
 
   describe('deleteメソッド', () => {
-    it('idを受け取ると、該当行のidを削除する');
+    it('ok_idを受け取ると、該当行のidを削除する')
+    // it('idを受け取ると、該当行のidを削除する', () => {
+
+    //   const condition = {id:186};
+    //   const access = 'memos';
+
+    //   return Memo.delete(condition, access)
+    //   .then( r => {
+    //     assert(r.affectedRows === 1);
+    //   });
+
+    // });
   });
 
 });

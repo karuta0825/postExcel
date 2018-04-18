@@ -3,6 +3,7 @@ const assert = require('power-assert');
 const sinon = require('sinon');
 const Mobile = require('../../models/tables/Mobile');
 
+
 describe('Mobileモジュール', () => {
 
   describe('findNewFenicsKeyメソッド', () => {
@@ -63,7 +64,16 @@ describe('Mobileモジュール', () => {
   });
 
   describe('updateメソッド', () => {
-    it('idと更新内容を受け取ると、該当行を更新する');
+    it('kids_idと更新内容を受け取ると、該当行を更新する');
+    // it('kids_idと更新内容を受け取ると、該当行を更新する', () => {
+    //   const condition = {kids_id:186};
+    //   const access = 'mobiles';
+
+    //   return Memo.delete(condition, access)
+    //   .then( r => {
+    //     assert(r.affectedRows === 1);
+    //   });
+    // });
   });
 
 });

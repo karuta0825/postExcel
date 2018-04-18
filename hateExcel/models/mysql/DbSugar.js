@@ -68,8 +68,18 @@ class DbSugar {
    * [delete description]
    * @return {Promise<Array<*>>} [description]
    */
-  static delete() {
-
+  static delete(condition, access) {
+    return new Promise((res, rej) => {
+      db.query(
+        querys.delete[access],
+         condition,
+         ( err, results, fields ) => {
+          db.end();
+          if ( err ) {rej(err);}
+          res(results);
+         }
+      );
+    });
   }
 
   /**
@@ -78,7 +88,7 @@ class DbSugar {
    * @param  {String} access [description]
    * @return {Promise<Array<*>>}        [description]
    */
-  static update(data, access) {
+  static update(data, condition, access) {
     return new Promise((res, rej) => {
       db.query(
         querys.update[access],

@@ -27,48 +27,54 @@ function _makeFenicsKey() {
   return 'm' + num + u_others.makeFenicsKey(3);
 };
 
-/**
- * [findNewFenicsKey description]
- * @param  {String} fenicskey [description]
- * @return {Promise<String>}           [description]
- */
-function findNewFenicsKey(fenicskey) {
-  let newFenicskey = fenicskey || _makeFenicsKey();
+class Mobile extends DbSugar {
 
-  return DbSugar.select(newFenicskey,'is_unique_mobile_fenicskey')
-  .then( r => {
-    if ( r.length !== 0 ) {
-      newFenicskey = _makeFenicsKey();
-      return findNewFenicsKey(newFenicskey);
-    }
-    return Promise.resolve(newFenicskey);
-  })
-}
+  /**
+   * [findNewFenicsKey description]
+   * @param  {String} fenicskey [description]
+   * @return {Promise<String>}           [description]
+   */
+  static findNewFenicsKey(fenicskey) {
+    let newFenicskey = fenicskey || _makeFenicsKey();
 
-/**
- * @param {String} kids_id   [description]
- * @param {Number} base_id   [description]
- * @param {String} fenicskey [description]
- * @return {Promise<>} [description]
- */
-async function addRow(kids_id, base_id, fenics_key) {
-  if (!kids_id || !base_id || !fenics_key) {
-    throw new Error('引数が存在してません');
+    return DbSugar.select(newFenicskey,'is_unique_mobile_fenicskey')
+    .then( r => {
+      if ( r.length !== 0 ) {
+        newFenicskey = _makeFenicsKey();
+        return this.findNewFenicsKey(newFenicskey);
+      }
+      return Promise.resolve(newFenicskey);
+    })
   }
 
-  let params = {
-    kids_id : kids_id,
-    base_id : base_id,
-    fenics_key : fenics_key,
-    admin_id : fenics_key,
-    admin_pw : _makeAdminPw(fenics_key)
-  };
+  /**
+   * @param {String} kids_id   [description]
+   * @param {Number} base_id   [description]
+   * @param {String} fenicskey [description]
+   * @return {Promise<>} [description]
+   */
+  static async addRow(kids_id, base_id, fenics_key) {
+    if (!kids_id || !base_id || !fenics_key) {
+      throw new Error('引数が存在してません');
+    }
 
-  return DbSugar.insert(params, 'make_mobiles');
+    let params = {
+      kids_id : kids_id,
+      base_id : base_id,
+      fenics_key : fenics_key,
+      admin_id : fenics_key,
+      admin_pw : _makeAdminPw(fenics_key)
+    };
+
+    return DbSugar.insert(params, 'make_mobiles');
+  }
+
 }
 
 
-module.exports = {
-  findNewFenicsKey,
-  addRow
-};
+module.exports = Mobile
+
+// module.exports = {
+//   findNewFenicsKey,
+//   addRow
+// };

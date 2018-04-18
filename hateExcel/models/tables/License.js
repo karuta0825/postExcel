@@ -1,10 +1,12 @@
 const {DbSugar} = require('../mysql/DbSugar');
+const _ = require('underscore');
+
 
 /**
- * [_convertString2Array description]
- * @param  {String} str_licenses [description]
- * @return {Array}              [description]
- */
+* [_convertString2Array description]
+* @param  {String} str_licenses [description]
+* @return {Array}              [description]
+*/
 function _convertString2Array(str_licenses) {
   let licenses = str_licenses || '';
   let list_licenses;
@@ -20,10 +22,10 @@ function _convertString2Array(str_licenses) {
 }
 
 /**
- * [_setLicenseInfo description]
- * @param {Object} init     [description]
- * @param {String} licenses [description]
- */
+* [_setLicenseInfo description]
+* @param {Object} init     [description]
+* @param {String} licenses [description]
+*/
 function _setLicenseInfo(init, licenses) {
   let list_licenses = _convertString2Array(licenses);
   let result = Object.assign(init);
@@ -33,31 +35,50 @@ function _setLicenseInfo(init, licenses) {
   return result;
 }
 
-/**
- * [get description]
- * @param  {String} kids_id [description]
- * @return {Object<{kids_id:String,license:String}>} [description]
- */
-function get(kids_id) {
-  let result = {};
-  return DbSugar.select(kids_id,'get_version_by_kid')
-  .then( r => {
-    return DbSugar.select(r[0].version,'get_services_by_version')
-  })
-  .then( services => {
-    // 初期化オブジェクト生成
-    for (let i = 0; i < services.length; i += 1) {
-      result[ services[i].service_id ] = 0;
-    }
-    return DbSugar.select(kids_id, 'licenses')
-  })
-  .then( r => {
-    result = _setLicenseInfo(result, r[0].services);
-    result.kids_id = r[0].kids_id;
-    return result;
-  })
+
+class License extends DbSugar {
+
+  /**
+   * [get description]
+   * @param  {String} kids_id [description]
+   * @return {Object<{kids_id:String,license:String}>} [description]
+   */
+   static get(kids_id) {
+    let result = {};
+    return super.select(kids_id,'get_version_by_kid')
+    .then( r => {
+      return super.select(r[0].version,'get_services_by_version')
+    })
+    .then( services => {
+      // 初期化オブジェクト生成
+      for (let i = 0; i < services.length; i += 1) {
+        result[ services[i].service_id ] = 0;
+      }
+      return super.select(kids_id, 'licenses')
+    })
+    .then( r => {
+      result = _setLicenseInfo(result, r[0].services);
+      result.kids_id = r[0].kids_id;
+      return result;
+    })
+  }
+
+  static _convertObj2String(obj) {
+    let services = _.chain(obj)
+                   .pick( v =>  v === '1')
+                   .keys()
+                   .value()
+                   .join(':')
+                   ;
+
+    return { services: services };
+  }
+
+  // @override
+  static update(data, condition) {
+    let licenses = this._convertObj2String(data);
+    return super.update(licenses, condition, 'licenses')
+  }
 }
 
-module.exports = {
-  get
-};
+module.exports = License;

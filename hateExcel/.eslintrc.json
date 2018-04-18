@@ -12,7 +12,8 @@
     "flowtype-errors"
   ],
   "rules": {
-    "func-names" : "off",
+    "func-names": "off",
+    "camelcase": "off",
     "flowtype/boolean-style": [
       2,
       "boolean"

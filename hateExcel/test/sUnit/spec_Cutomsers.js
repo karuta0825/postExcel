@@ -50,7 +50,32 @@ describe('Customersモジュール', () => {
   });
 
   describe('updateメソッド', () => {
-    it('idと更新内容を受け取ると、該当行を更新する');
+    it('kids_idと更新内容を受け取ると、該当行を更新する', () => {
+      const data = {
+        base_name: 'updated',
+        address: '住所はここだ',
+      };
+      const condition = {kids_id: 2840};
+      const access = 'customers'
+
+      return Customer.update(data,condition,access)
+      .then(r => {
+        assert(r === null);
+      })
+    });
   });
+
+  describe('deleteメソッド', () => {
+    it('ok_kids_idを指定すると、該当行を削除する');
+    // it('kids_idを指定すると、該当行を削除する', () => {
+    //   const condition = {kids_id:10000};
+    //   const access = 'customers';
+
+    //   return Customer.delete(condition, access)
+    //   .then( r => {
+    //     assert(r.affectedRows === 1);
+    //   });
+    // })
+  })
 
 });

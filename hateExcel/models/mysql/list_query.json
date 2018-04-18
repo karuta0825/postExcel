@@ -98,6 +98,7 @@
     "services" : "DELETE FROM services where version = ?;",
     "servers"  : "DELETE FROM servers where version = ?;",
     "memo_templates" : "DELETE FROM memo_templates where ?;",
-    "usrHistorys" : "DELETE FROM historys where ?;"
+    "usrHistorys" : "DELETE FROM historys where ?;",
+    "customers" : "DELETE FROM customers where ?;"
   }
 }
