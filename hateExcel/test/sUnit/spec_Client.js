@@ -3,11 +3,10 @@ const sinon = require('sinon');
 const Client = require('../../models/tables/Client');
 
 describe('Clientモジュール', () => {
-
   describe('makeIdメソッド', () => {
     it('正しい引数を受け取ると、1行追加情報を取得する');
 
-    it('引数が足りないと、エラーを返す')
+    it('引数が足りないと、エラーを返す');
   });
 
   describe('makeIdsメソッド', () => {
@@ -29,36 +28,24 @@ describe('Clientモジュール', () => {
   });
 
   describe('findNewIdメソッド', () => {
+    it('すでに存在しているuserkeyを指定すると、最後のclient_id+1が返る', () => Client.findNewId({ kids_id: '152', userkey: 'ZXYNFA' })
+      .then((r) => {
+        assert(r === 'ZXYNFA0003');
+      }));
 
-    it('すでに存在しているuserkeyを指定すると、最後のclient_id+1が返る', () => {
-      return Client.findNewId({kids_id:'152', userkey: 'ZXYNFA'})
-      .then( r => {
-        assert(r === 'ZXYNFA0003')
-      });
-    });
+    it('存在していないuserkeyを指定すると、userkey0001が返る', () => Client.findNewId({ kids_id: '2736', userkey: 'MNLXIR' })
+      .then((r) => {
+        assert(r === 'MNLXIR0001');
+      }));
 
-    it('存在していないuserkeyを指定すると、userkey0001が返る', () => {
-      return Client.findNewId({kids_id:'2736', userkey: 'MNLXIR'})
-      .then( r => {
-        assert(r === 'MNLXIR0001')
-      });
-    });
-
-    it('引数にkids_idがないと、エラーオブジェクトが返る', () => {
-      return Client.findNewId({userkey: 'LDTQRV'})
-      .catch( err => {
+    it('引数にkids_idがないと、エラーオブジェクトが返る', () => Client.findNewId({ userkey: 'LDTQRV' })
+      .catch((err) => {
         assert(err.message === '正しい引数を指定してください');
-      });
-    });
+      }));
 
-    it('引数にusekeyがないと、エラーオブジェクトが返る', () => {
-      return Client.findNewId({kids_id:'2736'})
-      .catch( err => {
+    it('引数にusekeyがないと、エラーオブジェクトが返る', () => Client.findNewId({ kids_id: '2736' })
+      .catch((err) => {
         assert(err.message === '正しい引数を指定してください');
-      });
-    });
-
-
+      }));
   });
-
 });

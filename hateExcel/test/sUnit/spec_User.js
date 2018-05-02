@@ -4,7 +4,6 @@ const sinon = require('sinon');
 const User = require('../../models/presentations/User.js');
 
 describe('Userモジュール', () => {
-
   describe('createメソッド', () => {
     it('ok_ユーザー作成');
     // it('ユーザー作成', () => {
@@ -18,7 +17,7 @@ describe('Userモジュール', () => {
     //     assert(r.affectedRows === 1);
     //   })
     // });
-  })
+  });
 
   describe('registerメソッド', () => {
     it('ユーザー登録');
@@ -33,5 +32,4 @@ describe('Userモジュール', () => {
     //   })
     // });
   });
-
 });
