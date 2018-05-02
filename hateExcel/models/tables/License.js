@@ -1,4 +1,4 @@
-const {DbSugar} = require('../mysql/DbSugar');
+const { DbSugar } = require('../mysql/DbSugar');
 const _ = require('underscore');
 
 
@@ -8,15 +8,13 @@ const _ = require('underscore');
 * @return {Array}              [description]
 */
 function _convertString2Array(str_licenses) {
-  let licenses = str_licenses || '';
+  const licenses = str_licenses || '';
   let list_licenses;
 
-  if ( str_licenses.indexOf(':') > 0 ) {
-     list_licenses = str_licenses.split(':');
-  } else {
-    if ( str_licenses ) {
-      list_licenses = [ str_licenses ];
-    }
+  if (str_licenses.indexOf(':') > 0) {
+    list_licenses = str_licenses.split(':');
+  } else if (str_licenses) {
+    list_licenses = [str_licenses];
   }
   return list_licenses;
 }
@@ -27,8 +25,8 @@ function _convertString2Array(str_licenses) {
 * @param {String} licenses [description]
 */
 function _setLicenseInfo(init, licenses) {
-  let list_licenses = _convertString2Array(licenses);
-  let result = Object.assign(init);
+  const list_licenses = _convertString2Array(licenses);
+  const result = Object.assign(init);
   for (let i = 0; i < list_licenses.length; i += 1) {
     init[list_licenses[i]] = 1;
   }
@@ -37,47 +35,42 @@ function _setLicenseInfo(init, licenses) {
 
 
 class License extends DbSugar {
-
   /**
    * [get description]
    * @param  {String} kids_id [description]
    * @return {Object<{kids_id:String,license:String}>} [description]
    */
-   static get(kids_id) {
+  static get(kids_id) {
     let result = {};
-    return super.select(kids_id,'get_version_by_kid')
-    .then( r => {
-      return super.select(r[0].version,'get_services_by_version')
-    })
-    .then( services => {
+    return super.select(kids_id, 'get_version_by_kid')
+      .then(r => super.select(r[0].version, 'get_services_by_version'))
+      .then((services) => {
       // 初期化オブジェクト生成
-      for (let i = 0; i < services.length; i += 1) {
-        result[ services[i].service_id ] = 0;
-      }
-      return super.select(kids_id, 'licenses')
-    })
-    .then( r => {
-      result = _setLicenseInfo(result, r[0].services);
-      result.kids_id = r[0].kids_id;
-      return result;
-    })
+        for (let i = 0; i < services.length; i += 1) {
+          result[services[i].service_id] = 0;
+        }
+        return super.select(kids_id, 'licenses');
+      })
+      .then((r) => {
+        result = _setLicenseInfo(result, r[0].services);
+        result.kids_id = r[0].kids_id;
+        return result;
+      });
   }
 
   static _convertObj2String(obj) {
-    let services = _.chain(obj)
-                   .pick( v =>  v === '1')
-                   .keys()
-                   .value()
-                   .join(':')
-                   ;
-
-    return { services: services };
+    const services = _.chain(obj)
+      .pick(v => v === '1')
+      .keys()
+      .value()
+      .join(':');
+    return { services };
   }
 
   // @override
   static update(data, condition) {
-    let licenses = this._convertObj2String(data);
-    return super.update(licenses, condition, 'licenses')
+    const licenses = this._convertObj2String(data);
+    return super.update(licenses, condition, 'licenses');
   }
 }
 

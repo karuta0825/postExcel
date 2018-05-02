@@ -1,6 +1,6 @@
 
 
-const {DbSugar} = require('../mysql/DbSugar');
+const { DbSugar } = require('../mysql/DbSugar');
 const u_others = require('../util/u_others');
 
 /**
@@ -10,25 +10,24 @@ const u_others = require('../util/u_others');
  *
  * @throws {Promise<Exception>}
  */
-async function findNewId({kids_id, fenics_key}={}, is_mobile=false) {
+async function findNewId({ kids_id, fenics_key } = {}, is_mobile = false) {
   if (!kids_id || !fenics_key) {
     throw new Error('引数が正しくありません');
   }
 
   if (is_mobile) {
     return DbSugar.select(kids_id, 'find_last_mobile_fenics_id')
-    .then( r => {
-      if (r.length === 0) { return fenics_key + '001';}
-      return u_others.getNextZeroPadData( r[0].fenics_id );
-    });
+      .then((r) => {
+        if (r.length === 0) { return `${fenics_key}001`; }
+        return u_others.getNextZeroPadData(r[0].fenics_id);
+      });
   }
 
   return DbSugar.select(kids_id, 'find_last_fenics_id')
-  .then( r => {
-    if (r.length === 0) { return fenics_key + '01001';}
-    return u_others.getNextZeroPadData( r[0].fenics_id );
-  });
-
+    .then((r) => {
+      if (r.length === 0) { return `${fenics_key}01001`; }
+      return u_others.getNextZeroPadData(r[0].fenics_id);
+    });
 }
 
 /**
@@ -36,10 +35,8 @@ async function findNewId({kids_id, fenics_key}={}, is_mobile=false) {
  * @return {Promise<String>} [description]
  */
 function findNextFenicsIp() {
-  return DbSugar.select(null,'get_new_fenics_ip')
-  .then( r => {
-    return r[0].next_ip
-  })
+  return DbSugar.select(null, 'get_new_fenics_ip')
+    .then(r => r[0].next_ip);
 }
 
 /**
@@ -49,37 +46,34 @@ function findNextFenicsIp() {
  * @param  {Boolean} is_mobile            [description]
  * @return {[type]}                       [description]
  */
-async function makeUser({kids_id,fenics_key}={}, is_mobile=false) {
+async function makeUser({ kids_id, fenics_key } = {}, is_mobile = false) {
   const fenics_account = {};
 
   try {
-
-    let [fenics_id,fenics_ip] = await Promise.all([
-      findNewId({kids_id,fenics_key},is_mobile),
-      findNextFenicsIp(null)
+    const [fenics_id, fenics_ip] = await Promise.all([
+      findNewId({ kids_id, fenics_key }, is_mobile),
+      findNextFenicsIp(null),
     ]);
 
-    fenics_account['kids_id']   = kids_id;
-    fenics_account['fenics_id'] = fenics_id;
-    fenics_account['password']  = fenics_id;
-    fenics_account['pc_name']   = is_mobile ? '' : fenics_id.toUpperCase();
-    fenics_account['fenics_ip'] = fenics_ip;
-    fenics_account['start_on']  = new Date();
-    fenics_account['create_on'] = new Date();
-    fenics_account['is_mobile'] = is_mobile ? 1 : 0;
+    fenics_account.kids_id = kids_id;
+    fenics_account.fenics_id = fenics_id;
+    fenics_account.password = fenics_id;
+    fenics_account.pc_name = is_mobile ? '' : fenics_id.toUpperCase();
+    fenics_account.fenics_ip = fenics_ip;
+    fenics_account.start_on = new Date();
+    fenics_account.create_on = new Date();
+    fenics_account.is_mobile = is_mobile ? 1 : 0;
 
     return DbSugar.insert(fenics_account, 'make_fenics_account');
-
-  }catch(e) {
+  } catch (e) {
     throw e;
   }
-
 }
 
-async function makeUsers({kids_id,fenics_key}, is_mobile, count) {
-  if ( count < 1 ) { throw new Error('ループ回数は1以上指定してください')}
+async function makeUsers({ kids_id, fenics_key }, is_mobile, count) {
+  if (count < 1) { throw new Error('ループ回数は1以上指定してください'); }
   for (let i = 0; i < count; i += 1) {
-    await makeUser({kids_id,fenics_key}, is_mobile);
+    await makeUser({ kids_id, fenics_key }, is_mobile);
   }
   return count;
 }
@@ -87,5 +81,5 @@ async function makeUsers({kids_id,fenics_key}, is_mobile, count) {
 module.exports = {
   findNewId,
   makeUser,
-  makeUsers
+  makeUsers,
 };

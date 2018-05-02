@@ -2,20 +2,17 @@
  * Cutomersテーブ
  */
 
-const {DbSugar} = require('../mysql/DbSugar');
+const { DbSugar } = require('../mysql/DbSugar');
 
 class Customer extends DbSugar {
-
   /**
   * [findLastBaseId description]
-  * @param  {String} kids_id 
-  * @return {Promise<Number>} 
+  * @param  {String} kids_id
+  * @return {Promise<Number>}
   */
-  static findLastBaseId (kids_id) {
+  static findLastBaseId(kids_id) {
     return super.select(kids_id, 'find_last_base_id')
-    .then( r => {
-      return r[0].base_id;
-    });
+      .then(r => r[0].base_id);
   }
 
   /**
@@ -24,9 +21,8 @@ class Customer extends DbSugar {
    */
   static async addRow(kids_id) {
     if (!kids_id) { throw new Error('引数を指定してください'); }
-    return super.insert({kids_id:kids_id}, 'add_base');
+    return super.insert({ kids_id }, 'add_base');
   }
-
 }
 
 

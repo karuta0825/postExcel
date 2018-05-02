@@ -26,13 +26,11 @@ async function findById(environment_id) {
   if (!environment_id) {
     return new Error('引数を指定してください');
   }
-  return DbSugar.select([environment_id],'find_type_and_version_by_id')
-  .then((r) => {
-    return r[0];
-  });
+  return DbSugar.select([environment_id], 'find_type_and_version_by_id')
+    .then(r => r[0]);
 }
 
 module.exports = {
   findId,
-  findById
+  findById,
 };

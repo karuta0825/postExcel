@@ -1,6 +1,7 @@
 const database = require('../mysql/database');
-const querys   = require('../mysql/list_query');
-const db       = database.createClient();
+const querys = require('../mysql/list_query');
+
+const db = database.createClient();
 
 /**
  * [register description]
@@ -16,23 +17,23 @@ const db       = database.createClient();
  */
 function register(version, params) {
   // 全削除クエリ
-  let qs = [querys.delete.services];
+  const qs = [querys.delete.services];
 
   // 追加文のクエリ
-  for ( var i=0; i< params.length; i+=1 ) {
+  for (let i = 0; i < params.length; i += 1) {
     qs.push(querys.insert.services);
-  };
+  }
 
   // 削除対象のパラメータ追加
   params.unshift(version);
 
   return db.transaction(qs, params)
-  .then( r => {
-    db.end();
-    return r;
-  })
+    .then((r) => {
+      db.end();
+      return r;
+    });
 }
 
 module.exports = {
-  register
-}
+  register,
+};

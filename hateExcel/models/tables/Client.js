@@ -1,5 +1,5 @@
 
-const {DbSugar} = require('../mysql/DbSugar')
+const { DbSugar } = require('../mysql/DbSugar');
 const u_others = require('../util/u_others');
 const flow = require('../util/flow');
 
@@ -15,25 +15,22 @@ const flow = require('../util/flow');
  * @param  {Object} options.create_user_id} [description]
  * @return {[type]}                          [description]
  */
-async function makeId({kids_id, userkey, create_user_id}={}) {
-
+async function makeId({ kids_id, userkey, create_user_id } = {}) {
   if (!kids_id || !userkey || !create_user_id) {
     throw new Erorr('引数が正しくありません');
   }
 
-  let client = {};
-  return findNewId({kids_id,userkey})
-  .then( client_id => {
-    client['kids_id']        = kids_id
-    client['client_id']      = client_id;
-    client['client_pass']    = client_id;
-    client['create_on']      = new Date();
-    client['create_user_id'] = create_user_id;
-    client['is_admin']       = 0;
-  })
-  .then( () => {
-    return DbSugar.insert(client, 'make_client');
-  })
+  const client = {};
+  return findNewId({ kids_id, userkey })
+    .then((client_id) => {
+      client.kids_id = kids_id;
+      client.client_id = client_id;
+      client.client_pass = client_id;
+      client.create_on = new Date();
+      client.create_user_id = create_user_id;
+      client.is_admin = 0;
+    })
+    .then(() => DbSugar.insert(client, 'make_client'));
 }
 
 /**
@@ -42,19 +39,18 @@ async function makeId({kids_id, userkey, create_user_id}={}) {
  * @param  {[type]} options.userkey [description]
  * @return {[type]}                 [description]
  */
-async function findNewId({kids_id, userkey}={}) {
+async function findNewId({ kids_id, userkey } = {}) {
   if (!kids_id || !userkey) {
     throw new Error('正しい引数を指定してください');
   }
 
-  return DbSugar.select(kids_id,'find_last_client_id')
-  .then( r => {
-    if ( r.length === 0 ) {
-      return userkey + '0001';
-    }
-    return u_others.getNextZeroPadData(r[0].client_id);
-  })
-
+  return DbSugar.select(kids_id, 'find_last_client_id')
+    .then((r) => {
+      if (r.length === 0) {
+        return `${userkey}0001`;
+      }
+      return u_others.getNextZeroPadData(r[0].client_id);
+    });
 }
 
 /**
@@ -65,17 +61,17 @@ async function findNewId({kids_id, userkey}={}) {
  * @param  {[type]} count                  [description]
  * @return {[type]}                        [description]
  */
-async function makeIds({kids_id,userkey,create_user_id}, count=0) {
-  if (count<1) {
+async function makeIds({ kids_id, userkey, create_user_id }, count = 0) {
+  if (count < 1) {
     throw new Error('1以上を指定してください');
   }
 
   try {
-    for (let i = 0; i < count; i += 1 ) {
-      await makeId({kids_id,userkey,create_user_id});
+    for (let i = 0; i < count; i += 1) {
+      await makeId({ kids_id, userkey, create_user_id });
     }
     return count;
-  }catch(e) {
+  } catch (e) {
     throw e;
   }
 }
@@ -83,5 +79,5 @@ async function makeIds({kids_id,userkey,create_user_id}, count=0) {
 module.exports = {
   findNewId,
   makeId,
-  makeIds
+  makeIds,
 };
