@@ -23,9 +23,8 @@ describe('Memoモジュール', () => {
         title: 'chnage',
       };
       const condition = { id: 177 };
-      const access = 'memos';
 
-      return Memo.update(data, condition, access)
+      return Memo.update(data, condition)
         .then((r) => {
           assert(r === null);
         });
@@ -38,7 +37,7 @@ describe('Memoモジュール', () => {
     //   const condition = { id: 221 };
     //   const access = 'memos';
 
-    //   return Memo.remove(condition, access)
+    //   return Memo.remove(condition)
     //     .then((r) => {
     //       assert(r.affectedRows === 1);
     //     });
