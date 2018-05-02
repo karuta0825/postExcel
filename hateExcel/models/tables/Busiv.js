@@ -1,5 +1,5 @@
 
-const {DbSugar} = require('../mysql/DbSugar');
+const { DbSugar } = require('../mysql/DbSugar');
 
 /**
  * 拠点テーブルに指定したkid_idの行を追加する
@@ -12,11 +12,16 @@ const {DbSugar} = require('../mysql/DbSugar');
  */
 async function addRow(kids_id, base_id) {
   if (!kids_id || !base_id) {
-    return new Error('引数を指定してください');
+    throw new Error('引数を指定してください');
   }
-  return DbSugar.insert({kids_id,base_id}, 'make_busiv');
+  return DbSugar.insert({ kids_id, base_id }, 'make_busiv');
+}
+
+function update(input_map, condition) {
+  return DbSugar.update(input_map, condition, 'busivs');
 }
 
 module.exports = {
-  addRow
+  addRow,
+  update,
 };
