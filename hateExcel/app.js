@@ -99,14 +99,6 @@ app.get('/', function ( req, res ) {
   }
 });
 
-app.get('/all', function ( req, res ) {
-  res.header("Content-Type", "application/json; charset=utf-8");
-  datas.getAll( function (results){
-    res.json(results);
-  });
-
-});
-
 app.post('/select', function ( req, res ) {
   var
     condition = req.body.condition

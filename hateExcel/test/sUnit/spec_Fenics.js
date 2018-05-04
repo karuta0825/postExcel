@@ -4,9 +4,9 @@ const Fenics = require('../../models/tables/Fenics');
 describe('Fenicsモジュール', () => {
   describe('selectメソッド', () => {
     it('kids_idを指定すると、fenicsユーザーリストを返す', () => Fenics.select('74')
-        .then((r) => {
-          assert(r.length === 1);
-        }));
+      .then((r) => {
+        assert(r.length === 1);
+      }));
   });
 
   describe('makeUser', () => {
