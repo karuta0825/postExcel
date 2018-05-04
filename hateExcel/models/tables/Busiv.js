@@ -2,6 +2,18 @@
 const { DbSugar } = require('../mysql/DbSugar');
 
 /**
+ * @param  {string} kids_id
+ * @return {[{
+ *           kid_id: string,
+ *           base_id: string,
+ *           information: any
+ *         }]}
+ */
+function select(kids_id) {
+  return DbSugar.select(kids_id, 'busivs');
+}
+
+/**
  * 拠点テーブルに指定したkid_idの行を追加する
  * @param {String} kids_id [description]
  * @param {Number} base_id [description]
@@ -21,7 +33,13 @@ function update(input_map, condition) {
   return DbSugar.update(input_map, condition, 'busivs');
 }
 
+function remove(condition) {
+  return DbSugar.delete(condition, 'busivs');
+}
+
 module.exports = {
+  select,
   addRow,
   update,
+  remove,
 };

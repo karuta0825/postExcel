@@ -11,7 +11,9 @@
   // "parser": "babel-eslint",
   "rules": {
     "func-names": "off",
-    "camelcase": "off"
+    "camelcase": "off",
+    "no-await-in-loop": "off",
+    "no-underscore-dangle": "off"
   }
   // "plugins": [
   //   "flowtype",

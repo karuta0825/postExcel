@@ -3,14 +3,18 @@ const assert = require('power-assert');
 const Busiv = require('../../models/tables/Busiv.js');
 
 describe('Busivモジュール', () => {
+  describe('selectメソッド', () => {
+    it('kids_idを指定すると、ビジV情報のリストを返す', () => Busiv.select('5')
+      .then((r) => {
+        assert(r.length === 1);
+      }));
+  });
+
   describe('addRowメソッド', () => {
-    it('ok_kids_id, base_idを与えると、busivsテーブルに行追加');
-    // it('kids_id, base_idを与えると、busivsテーブルに行追加', () => {
-    //   return Busiv.addRow(1,99999)
-    //   .then( r => {
-    //     assert( r.affectedRows === 1 );
-    //   });
-    // });
+    it('kids_id, base_idを与えると、busivsテーブルに行追加', () => Busiv.addRow('1', '99999')
+      .then((r) => {
+        assert(r.affectedRows === 1);
+      }));
 
     it('引数をひとつも渡さないと、エラーオブジェクトを返す', () => Busiv.addRow()
       .catch((err) => {
@@ -58,5 +62,14 @@ describe('Busivモジュール', () => {
           assert(r === null);
         });
     });
+  });
+
+  describe('removeメソッド', () => {
+    it('base_idをプロパティに持つオブジェクトを与えると、該当行を削除する', () => Busiv.remove({
+      base_id: '99999',
+    })
+      .then((r) => {
+        assert(r.affectedRows === 1);
+      }));
   });
 });

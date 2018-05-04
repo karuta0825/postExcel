@@ -4,26 +4,63 @@
 
 const { DbSugar } = require('../mysql/DbSugar');
 
-class Customer extends DbSugar {
-  /**
-  * [findLastBaseId description]
-  * @param  {String} kids_id
-  * @return {Promise<Number>}
-  */
-  static findLastBaseId(kids_id) {
-    return super.select(kids_id, 'find_last_base_id')
-      .then(r => r[0].base_id);
-  }
-
-  /**
-   * 拠点追加これは必要だ
-   * @param {String} kids_id [description]
-   */
-  static async addRow(kids_id) {
-    if (!kids_id) { throw new Error('引数を指定してください'); }
-    return super.insert({ kids_id }, 'add_base');
-  }
+/**
+ * [select description]
+ * @param  {string} kids_id
+ * @return {[{
+ *           kid_id: string,
+ *           base_id: number,
+ *           base_name: string,
+ *           postal_cd: string,
+ *           address: string,
+ *           owner: string,
+ *           affiliation: string,
+ *           tel: string,
+ *           fax: string,
+ *           email: string,
+ *           has_busiv: number,
+ *           has_fenics: number,
+ *           has_mobile: number,
+ *         }]}
+ */
+async function select(kids_id) {
+  if (!kids_id) { throw new Error('引数を指定してください'); }
+  return DbSugar.select(kids_id, 'customers');
 }
 
+/**
+* [findLastBaseId description]
+* @param  {string} kids_id
+* @return {Promise<Number>}
+*/
+async function findLastBaseId(kids_id) {
+  if (!kids_id) { throw new Error('引数を指定してください'); }
+  return DbSugar.select(kids_id, 'find_last_base_id')
+    .then(r => r[0].base_id);
+}
 
-module.exports = Customer;
+/**
+ * 拠点追加これは必要だ
+ * @param {String} kids_id
+ */
+async function addRow(kids_id) {
+  if (!kids_id) { throw new Error('引数を指定してください'); }
+  return DbSugar.insert({ kids_id }, 'add_base');
+}
+
+function update(input_map, condition) {
+  return DbSugar.update(input_map, condition, 'customers');
+}
+
+function remove(condition) {
+  return DbSugar.delete(condition, 'customers');
+}
+
+module.exports = {
+  select,
+  findLastBaseId,
+  addRow,
+  update,
+  remove,
+};
+

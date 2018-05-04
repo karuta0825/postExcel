@@ -3,33 +3,31 @@ import FakeServer from './FakeServer';
 import DATA from '../data/memo.template';
 
 export default class MemoTemplateSrv extends FakeServer {
-
-  constructor(obj,method) {
-    super( obj, method );
+  constructor(obj, method) {
+    super(obj, method);
   }
 
-  setFetch () {
+  setFetch() {
     this.server
-    .withArgs('/select')
-    .returns( Promise.resolve( DATA.fetch.out ));
+      .withArgs('/select')
+      .returns(Promise.resolve(DATA.fetch.out));
   }
 
-  setUpdate () {
+  setUpdate() {
     this.server
-    .withArgs('/update')
-    .returns( Promise.resolve( DATA.update.out ));
+      .withArgs('/update')
+      .returns(Promise.resolve(DATA.update.out));
   }
 
-  setInsert () {
+  setInsert() {
     this.server
-    .withArgs('/insert')
-    .returns( Promise.resolve( DATA.insert.out ));
+      .withArgs('/insert')
+      .returns(Promise.resolve(DATA.insert.out));
   }
 
-  setDelete () {
+  setDelete() {
     this.server
-    .withArgs('/delete')
-    .returns( Promise.resolve( DATA.delete.out ));
+      .withArgs('/delete')
+      .returns(Promise.resolve(DATA.delete.out));
   }
-
 }

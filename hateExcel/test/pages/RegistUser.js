@@ -1,30 +1,27 @@
-//      
+//
 const MainMenu = require('./MainMenu').MainMenu;
+
 const entryPoint = '.main-contents--reg-usr';
 const elements = {
-  'upload' : '.upload',
-  'btn' : {
-    'upload' : '.btn--upload'
+  upload: '.upload',
+  btn: {
+    upload: '.btn--upload',
   },
-  'alert'  : '#modal-alert-register',
-  'finish' : '#modal-finish-register'
+  alert: '#modal-alert-register',
+  finish: '#modal-finish-register',
 };
 
 class RegistUser extends MainMenu {
-
-  constructor ( driver     , by     , until      ) {
-    super(driver,by, until, entryPoint );
+  constructor(driver, by, until) {
+    super(driver, by, until, entryPoint);
     super.initElements(elements);
   }
 
   // ここは特別のクラスを作ったほうがいいね
-  isActive ()                   {
+  isActive() {
     return super.getEntryDom().getAttribute('class')
-    .then( (r) => {
-      return r.match(/is-active/) !== null;
-    });
+      .then(r => r.match(/is-active/) !== null);
   }
-
 }
 
 exports.RegistUser = RegistUser;

@@ -1,62 +1,46 @@
- //      
+//
 /**
  * Pageクラス
  * 全てのページの基本となるスーパークラス
  */
 
-var _ = require('underscore');
+const _ = require('underscore');
 
 class Page {
-
-                   
-                   
-                   
-                      
-                   
-                   
-
-  constructor ( driver     , By     , until     , entryPoint         ) {
-    this.driver     = driver;
-    this.By         = By;
-    this.until      = until;
+  constructor(driver, By, until, entryPoint) {
+    this.driver = driver;
+    this.By = By;
+    this.until = until;
     this.entryPoint = entryPoint;
-    this.entryDom   = driver.findElement( By.css(entryPoint) );
+    this.entryDom = driver.findElement(By.css(entryPoint));
   }
 
   // private method
-  _deep ( obj      ) {
-
-    if ( _.isObject(obj) ) {
-      return _.mapObject( obj, function (v,k) {
+  _deep(obj) {
+    if (_.isObject(obj)) {
+      return _.mapObject(obj, function (v, k) {
         return this._deep(v);
-      },this);
+      }, this);
     }
-    else {
-      return this._findElementByCss( obj );
-    }
-
+    return this._findElementByCss(obj);
   }
 
-  _findElementByCss ( selector         )       {
-    return this.driver.findElement(
-      this.By.css( this.entryPoint + ' ' + selector )
-    );
+  _findElementByCss(selector) {
+    return this.driver.findElement(this.By.css(`${this.entryPoint} ${selector}`));
   }
 
   // public method
-  initElements ( elements       ) {
+  initElements(elements) {
     this.elements = this._deep(elements);
   }
 
-  get( accesser         ) {
+  get(accesser) {
 
   }
 
-  getEntryDom () {
+  getEntryDom() {
     return this.entryDom;
   }
-
-
 }
 
-exports.Page = Page
+exports.Page = Page;

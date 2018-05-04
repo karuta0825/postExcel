@@ -3,6 +3,13 @@ const sinon = require('sinon');
 const Environment = require('../../models/tables/Environment');
 
 describe('Environmentモジュール', () => {
+  describe('selectメソッド', () => {
+    it('システム環境のリストを返す', () => Environment.select()
+      .then((r) => {
+        assert(r.length === 7);
+      }));
+  });
+
   describe('findIdメソッド', () => {
     it('system_type,versionを指定すると、該当のidを返す', () => Environment.findId({ system_type: 'cloud', version: 'LM' })
       .then((r) => {

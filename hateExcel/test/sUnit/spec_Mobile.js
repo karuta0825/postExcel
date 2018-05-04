@@ -1,14 +1,31 @@
 
 const assert = require('power-assert');
-const sinon = require('sinon');
 const Mobile = require('../../models/tables/Mobile');
 
 
 describe('Mobileモジュール', () => {
-  describe('findNewFenicsKeyメソッド', () => {
-    it('すでに存在しているfenicsKeyを指定すると、新しいユニークなfenicsKeyを返す', () => Mobile.findNewFenicsKey('m4vtv')
+  describe('selectメソッド', () => {
+    it('kids_idをプロパティにもつオブジェクトを与えると、該当レコードを返す', () => Mobile.select(149)
       .then((r) => {
-        assert(r !== 'm4vtv');
+        assert.deepEqual(r[0], {
+          kids_id: '149',
+          base_id: 137,
+          fenics_key: 'm1adz',
+          client_number: 0,
+          admin_id: 'm1adz',
+          admin_pw: 'm1adz20',
+          city_cd: null,
+          office_cd: null,
+          disk_name: null,
+          disk_size: null,
+        });
+      }));
+  });
+
+  describe('findNewFenicsKeyメソッド', () => {
+    it('すでに存在しているfenicsKeyを指定すると、新しいユニークなfenicsKeyを返す', () => Mobile.findNewFenicsKey('m4snw')
+      .then((r) => {
+        assert(r !== 'm4snw');
       }));
 
     it('存在していないfenicsKeyを引数に指定すると、その値を返す', () => Mobile.findNewFenicsKey('aaab')
@@ -48,15 +65,33 @@ describe('Mobileモジュール', () => {
   });
 
   describe('updateメソッド', () => {
-    it('kids_idと更新内容を受け取ると、該当行を更新する');
+    it('ok_kids_idと更新内容を受け取ると、該当行を更新する');
     // it('kids_idと更新内容を受け取ると、該当行を更新する', () => {
-    //   const condition = {kids_id:186};
-    //   const access = 'mobiles';
+    //   const condition = { kids_id: 149 };
+    //   const input_map = {
+    //     admin_id: 'm1adb',
+    //   };
 
-    //   return Memo.delete(condition, access)
-    //   .then( r => {
-    //     assert(r.affectedRows === 1);
-    //   });
+    //   return Mobile.update(input_map, condition)
+    //     .then((r) => {
+    //       assert(r === null);
+    //       return Mobile.select(149);
+    //     })
+    //     .then((r) => {
+    //       assert.deepEqual(r[0], {
+    //         kids_id: '149',
+    //         base_id: 137,
+    //         fenics_key: 'm1adz',
+    //         client_number: 0,
+    //         admin_id: 'm1adb',
+    //         admin_pw: 'm1adz20',
+    //         city_cd: null,
+    //         office_cd: null,
+    //         disk_name: null,
+    //         disk_size: null,
+    //       });
+    //     });
     // });
   });
 });
+

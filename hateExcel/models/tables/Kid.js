@@ -6,6 +6,11 @@ const { DbSugar } = require('../mysql/DbSugar');
 const u_others = require('../util/u_others');
 const Environment = require('./Environment');
 
+function select(kids_id) {
+  if (!kids_id) { throw new Error('引数を指定してください'); }
+  return DbSugar.select(kids_id, 'kid');
+}
+
 /**
  * [findNewKid description]
  * @param  {String} environment_id [description]
@@ -25,6 +30,13 @@ function findNewKid(environment_id) {
     });
 }
 
+async function findFenicsKey(kids_id) {
+  const kidsInfo = await select(kids_id);
+  if (kidsInfo.length > 0) {
+    return kidsInfo[0].fenics_key;
+  }
+  return null;
+}
 
 /**
  * [findNewUserKey description]
@@ -83,8 +95,12 @@ function findNewDbPass(userkey) {
 
 /**
  * add one row to kids table.
- * @param  {{kid:String, environemnt_id:String, server:String}} input_map parameter object for make user.
- * @return {Promise<{}>}           [description]
+ * @param  {{
+ *           kid:string,
+ *           environemnt_id:string,
+ *           server:String
+ *         }} input_map parameter object for make user.
+ * @return {Promise<{affectedRows: number}>}
  */
 async function addRow({
   kid, environment_id, server, create_user_id,
@@ -120,11 +136,23 @@ async function addRow({
   }
 }
 
+function remove(condition) {
+  return DbSugar.delete(condition, 'kids');
+}
+
+function update(input_map, condition) {
+  return DbSugar.update(input_map, condition, 'kids');
+}
+
 // exports
 module.exports = {
+  select,
+  findFenicsKey,
   findNewKid,
   findNewUserKey,
   findNewFenicsKey,
   findNewDbPass,
   addRow,
+  remove,
+  update,
 };

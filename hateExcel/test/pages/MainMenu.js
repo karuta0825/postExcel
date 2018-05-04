@@ -1,19 +1,15 @@
-//      
+//
 const Page = require('./Page').Page;
 
 class MainMenu extends Page {
-
-  constructor ( driver     , by     , until     , entryPoint         ) {
-    super(driver,by, until, entryPoint );
+  constructor(driver, by, until, entryPoint) {
+    super(driver, by, until, entryPoint);
   }
 
-  isActive ()                   {
+  isActive() {
     return super.getEntryDom().getAttribute('class')
-    .then( (r) => {
-      return r.match(/is-active/) !== null;
-    });
+      .then(r => r.match(/is-active/) !== null);
   }
-
 }
 
 exports.MainMenu = MainMenu;

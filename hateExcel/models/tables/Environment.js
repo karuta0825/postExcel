@@ -1,6 +1,10 @@
 
 const { DbSugar } = require('../mysql/DbSugar');
 
+function select() {
+  return DbSugar.selectAll('environments');
+}
+
 /**
  * [findEnvironmentId description]
  * @param  {{system_type:String, version:String}} data [description]
@@ -31,6 +35,7 @@ async function findById(environment_id) {
 }
 
 module.exports = {
+  select,
   findId,
   findById,
 };

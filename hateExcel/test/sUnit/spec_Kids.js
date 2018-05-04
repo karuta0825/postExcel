@@ -1,16 +1,21 @@
 
 const assert = require('power-assert');
-const sinon = require('sinon');
 const Kid = require('../../models/tables/Kid.js');
 
 describe('Kidsモジュール', () => {
+  describe('selectメソッド', () => {
+    it('kids_idを指定すると、kid情報を返す', () => Kid.select('10')
+      .then((r) => {
+        assert(r.length === 1);
+      }));
+  });
+
   describe('findNewKidメソッド', () => {
     it('environemnt_idのユーザー存在しないと、environmentsテーブルにある初期kidが返る', () => Kid.findNewKid(7)
       .then((r) => {
         assert(r === '99999');
       }));
 
-    // このテストは難しい
     // テストの度にDatabaseの中身を固定させないといけない
     it('environment_idのユーザーが存在すると、最も数値の高いKID+1が返る', () => Kid.findNewKid(2)
       .then((r) => {
@@ -59,45 +64,42 @@ describe('Kidsモジュール', () => {
 
   describe('findNewDbPassメソッド', () => {
     it('変換対象の文字列すべてをつかうと、すべて変換される', () => {
-      assert(Kid.findNewDbPass('ABEGIOSTZ') === 'U53R' + '483610572');
+      assert(Kid.findNewDbPass('ABEGIOSTZ') === 'U53R483610572');
     });
   });
 
   describe('addRowメソッド', () => {
-    it('ok_kidを指定して非ドコモユーザー作成');
-    // it('kidを指定して非ドコモユーザー作成', () => {
-    //   const params = {
-    //     kid: '98386',
-    //     environment_id: 4,
-    //     server: 'LAP1-1',
-    //     create_user_id: '1'
-    //   };
+    it('kidを指定して非ドコモユーザー作成', () => {
+      const params = {
+        kid: '98387',
+        environment_id: 4,
+        server: 'LAP1-1',
+        create_user_id: '1',
+      };
 
-    //   return Kid.addRow(params)
-    //   .then( r => {
-    //     assert(r.kid === params.kid);
-    //     assert(r.hasOwnProperty('userkey') === true);
-    //     assert(r.hasOwnProperty('db_password') === true);
-    //   })
+      return Kid.addRow(params)
+        .then((r) => {
+          assert(r.kid === params.kid);
+          assert(r.userkey !== undefined);
+          assert(r.db_password !== undefined);
+        });
+    });
 
-    // });
+    it('kidを指定せずにドコモユーザー作成', () => {
+      const params = {
+        environment_id: 6,
+        server: 'LAP1-1',
+        create_user_id: '1',
+      };
 
-    it('ok_kidを指定せずにドコモユーザー作成');
-    // it('kidを指定せずにドコモユーザー作成', () => {
-    //   let params = {
-    //     environment_id: 6,
-    //     server: 'LAP1-1',
-    //     create_user_id: '1'
-    //   };
-
-    //   return Kid.addRow(params)
-    //   .then( r => {
-    //     assert(r.hasOwnProperty('kid') === true);
-    //     assert(r.hasOwnProperty('userkey') === true);
-    //     assert(r.hasOwnProperty('db_password') === true);
-    //     assert(r.is_replaced_from_another === 1);
-    //   })
-    // });
+      return Kid.addRow(params)
+        .then((r) => {
+          assert(r.kid !== undefined);
+          assert(r.userkey !== undefined);
+          assert(r.db_password !== undefined);
+          assert(r.is_replaced_from_another === 1);
+        });
+    });
 
     it('既に存在しているKIDが指定されると、重複エラーを返す', () => {
       const params = {
@@ -115,10 +117,28 @@ describe('Kidsモジュール', () => {
   });
 
   describe('updateメソッド', () => {
-    it('idと更新内容を受け取ると、該当行を更新する');
+    it('idと更新内容を受け取ると、該当行を更新する', () => Kid.update(
+      {
+        userkey: 'PRINTR',
+        server: 'AP1-1',
+      },
+      {
+        kid: '98386',
+      },
+    )
+      .then(() => Kid.select('2918'))
+      .then((r) => {
+        assert(r[0].userkey === 'PRINTR');
+        assert(r[0].server === 'AP1-1');
+      }));
   });
 
   describe('deleteメソッド', () => {
-    it('idを受け取ると、該当行のidを削除する');
+    it('kidを与えると、該当行を削除する', () => Kid.remove({
+      kid: '98387',
+    })
+      .then((r) => {
+        assert(r.affectedRows === 1);
+      }));
   });
 });

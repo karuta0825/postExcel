@@ -3,6 +3,13 @@ const assert = require('power-assert');
 const Memo = require('../../models/tables/Memo');
 
 describe('Memoモジュール', () => {
+  describe('selectメソッド', () => {
+    it('kids_idを指定すると、メモのリストを返す', () => Memo.select('7')
+      .then((r) => {
+        assert(r.length === 2);
+      }));
+  });
+
   describe('addRowメソッド', () => {
     it('メモ追加する', () => Memo.addRow({
       kids_id: '1',
