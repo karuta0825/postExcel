@@ -10,6 +10,20 @@ describe('Kidsモジュール', () => {
       }));
   });
 
+  describe('findUserkeyメソッド', () => {
+    it('kids_idを与えると、userkeyを返す', () => Kid.findUserkey('2840')
+      .then((r) => {
+        assert(r === 'NZNQID');
+      }));
+  });
+
+  describe('findFenicsKeyメソッド', () => {
+    it('kids_idを与えると、fenicskeyを返す', () => Kid.findFenicsKey('2840')
+      .then((r) => {
+        assert(r === 'nznq');
+      }));
+  });
+
   describe('findNewKidメソッド', () => {
     it('environemnt_idのユーザー存在しないと、environmentsテーブルにある初期kidが返る', () => Kid.findNewKid(7)
       .then((r) => {

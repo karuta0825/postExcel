@@ -38,6 +38,14 @@ async function findFenicsKey(kids_id) {
   return null;
 }
 
+async function findUserkey(kids_id) {
+  const kidsInfo = await select(kids_id);
+  if (kidsInfo.length > 0) {
+    return kidsInfo[0].userkey;
+  }
+  return null;
+}
+
 /**
  * [findNewUserKey description]
  * @param  {String} userkey [description]
@@ -148,6 +156,7 @@ function update(input_map, condition) {
 module.exports = {
   select,
   findFenicsKey,
+  findUserkey,
   findNewKid,
   findNewUserKey,
   findNewFenicsKey,
