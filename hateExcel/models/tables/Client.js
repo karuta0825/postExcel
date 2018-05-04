@@ -1,14 +1,23 @@
 
 const { DbSugar } = require('../mysql/DbSugar');
 const u_others = require('../util/u_others');
+const Kid = require('./Kid');
 
 // クライアント数と実際の個数があっていないバグを見つけた
 // 98399
 
 /**
- * [select description]
- * @param  {[type]} kids_id [description]
- * @return {[type]}         [description]
+ * @param  {string} kids_id
+ * @return {Promise<[{
+ *           kids_id: string,
+ *           client_id: string,
+ *           client_pass: string,
+ *           create_on: string,
+ *           create_user_id: string,
+ *           fenics_id: string,
+ *           is_admin: number,
+ *           end_on: string,
+ *         }]>}
  */
 function select(kids_id) {
   return DbSugar.select(kids_id, 'clients');
@@ -16,14 +25,16 @@ function select(kids_id) {
 
 /**
  * [findNewId description]
- * @param  {[type]} options.kids_id [description]
- * @param  {[type]} options.userkey [description]
- * @return {[type]}                 [description]
+ * @param  {string} kids_id
+ * @return {Promise<string>}
  */
-async function findNewId({ kids_id, userkey } = {}) {
-  if (!kids_id || !userkey) {
+async function findNewId(kids_id) {
+  if (!kids_id) {
     throw new Error('正しい引数を指定してください');
   }
+
+  const userkey = await Kid.findUserkey(kids_id);
+  if (!userkey) { throw new Error('ユーザーキーが設定されていません'); }
 
   return DbSugar.select(kids_id, 'find_last_client_id')
     .then((r) => {
@@ -35,20 +46,17 @@ async function findNewId({ kids_id, userkey } = {}) {
 }
 
 /**
- * [makeId description]
- * @param  {string} options.kids_id          [description]
- * @param  {string} options.userkey          [description]
- * @param  {number} options.create_user_id} [description]
+ * @param  {string} kids_id
+ * @param  {number} create_user_id
  * @return {Promise<{affectedRows: number}>}
- * TODO: need not userkey because the kids_id should decide this value.
  */
-async function makeId({ kids_id, userkey, create_user_id } = {}) {
-  if (!kids_id || !userkey || !create_user_id) {
+async function makeId(kids_id, create_user_id) {
+  if (!kids_id || !create_user_id) {
     throw new Error('引数が正しくありません');
   }
 
   const client = {};
-  return findNewId({ kids_id, userkey })
+  return findNewId(kids_id)
     .then((client_id) => {
       client.kids_id = kids_id;
       client.client_id = client_id;
@@ -63,19 +71,18 @@ async function makeId({ kids_id, userkey, create_user_id } = {}) {
 
 /**
  * [makeIds description]
- * @param  {string} options.kids_id        [description]
- * @param  {string} options.userkey        [description]
- * @param  {number} options.create_user_id [description]
- * @param  {number} count                  [description]
+ * @param  {string} kids_id
+ * @param  {number} create_user_id
+ * @param  {number} count
  * @return {Promise<number>}
  */
-async function makeIds({ kids_id, userkey, create_user_id }, count = 0) {
+async function makeIds(kids_id, create_user_id, count = 0) {
   if (count < 1) {
     throw new Error('1以上を指定してください');
   }
   try {
     for (let i = 0; i < count; i += 1) {
-      await makeId({ kids_id, userkey, create_user_id });
+      await makeId(kids_id, create_user_id);
     }
     return count;
   } catch (e) {
@@ -93,7 +100,7 @@ function update(input_map, client_id) {
 }
 
 /**
- * @param  {{client_id: string}} condition
+ * @param  {{client_id: string} || {kids_id: string}} condition
  * @return {Promise<{affectedRows: number}>}
  */
 function remove(condition) {
