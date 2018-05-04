@@ -3,8 +3,8 @@ const sinon = require('sinon');
 const License = require('../../models/tables/License');
 
 describe('Licenseモジュール', () => {
-  describe('getメソッド', () => {
-    it('kid_idを指定すると、使用しているライセンス情報をobjectで返す', () => License.get('5')
+  describe('selectメソッド', () => {
+    it('kid_idを指定すると、使用しているライセンス情報をobjectで返す', () => License.select('5')
       .then((r) => {
         assert(typeof r === 'object');
       }));
