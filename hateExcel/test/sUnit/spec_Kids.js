@@ -8,6 +8,11 @@ describe('Kidsモジュール', () => {
       .then((r) => {
         assert(r.length === 1);
       }));
+
+    it('kids_idを指定しないと、全ユーザー情報を返す', () => Kid.select()
+      .then((r) => {
+        assert(r.length > 1);
+      }));
   });
 
   describe('findUserkeyメソッド', () => {

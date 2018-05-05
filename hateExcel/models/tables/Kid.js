@@ -7,7 +7,10 @@ const u_others = require('../util/u_others');
 const Environment = require('./Environment');
 
 function select(kids_id) {
-  if (!kids_id) { throw new Error('引数を指定してください'); }
+  if (!kids_id) {
+    return DbSugar.selectAll('kids');
+  }
+
   return DbSugar.select(kids_id, 'kid');
 }
 
