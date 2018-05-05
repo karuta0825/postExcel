@@ -14,6 +14,7 @@
     "usrHistorys"                     : "SELECT H.id, type, content_name, item_name, `before`, `after`, CASE WHEN type = '更新' THEN CASE WHEN (`before` = '' or `before` is null) and ( `after` != '' or `after` != null )THEN CONCAT(`after`, 'に設定されました') WHEN (`before` != '' or `before` != null) and (`after` = '' or `after` is null )THEN CONCAT(`before`, 'が削除されました') ELSE CONCAT(`before`, 'から', `after`, 'に更新されました') END WHEN type = '削除' THEN CONCAT(`item_name`, 'が削除されました') WHEN type = '追加' then concat(item_name, 'が追加されました') ELSE NULL END AS msg, DATE_FORMAT(create_on, '%Y-%m-%d %H:%i:%s') AS create_on, L.name AS creater FROM HISTORYS H LEFT JOIN login_users L ON H.create_user_id = L.id WHERE kids_id = ? ORDER BY create_on DESC;",
 
     "servers"                         : "SELECT * FROM servers order by name, ip, version;",
+    "memo_template"                   : "SELECT id, title, msg, LEFT(msg, 15) as short_msg FROM memo_templates where id = ?",
     "memo_templates"                  : "SELECT id, title, msg, LEFT(msg, 15) as short_msg FROM memo_templates order by id;",
     "users"                           : "SELECT * FROM login_users where uid = ? and password = ?;",
     "header"                          : "SELECT * FROM columns where uid = ?;",
