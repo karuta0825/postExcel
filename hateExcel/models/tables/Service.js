@@ -1,7 +1,12 @@
 const database = require('../mysql/database');
 const querys = require('../mysql/list_query');
+const { DbSugar } = require('../mysql/DbSugar');
 
 const db = database.createClient();
+
+function select() {
+  return DbSugar.selectAll('services');
+}
 
 /**
  * [register description]
@@ -35,5 +40,6 @@ function register(version, params) {
 }
 
 module.exports = {
+  select,
   register,
 };
