@@ -10,7 +10,8 @@ const { DbSugar } = require('../mysql/DbSugar');
  *         }]}
  */
 function select(kids_id) {
-  return DbSugar.select(kids_id, 'busivs');
+  return DbSugar.select(kids_id, 'busivs')
+    .then(r => r.map(item => JSON.parse(item.information)));
 }
 
 /**
