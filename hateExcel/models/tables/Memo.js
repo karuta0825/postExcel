@@ -37,7 +37,9 @@ function addRow(input_map) {
  * @return {[type]}           [description]
  */
 function update(input_map, condition) {
-  return DbSugar.update(input_map, condition, 'memos');
+  const data = Object.assign({}, input_map);
+  data.update_on = new Date();
+  return DbSugar.update(data, condition, 'memos');
 }
 
 /**
