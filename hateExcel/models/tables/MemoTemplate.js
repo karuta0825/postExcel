@@ -23,10 +23,10 @@ function addRow(input_map) {
 /**
  * [update description]
  * @param {{
- *          title: string,
- *          msg: string,
- *          create_user_id: number,
- *          create_on: string['YYYY-MM-DD'],
+ *          title?: string,
+ *          msg?: string,
+ *          create_user_id?: number,
+ *          create_on?: string['YYYY-MM-DD'],
  *        }} input_map
  * @param  {{id: number}} condition [description]
  * @return {Promise<null>}
