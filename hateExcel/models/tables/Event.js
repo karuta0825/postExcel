@@ -33,11 +33,11 @@ function addRow(input_map) {
 
 /**
  * @param  {{
- *           title: string,
- *           message: string,
- *           start_on: string,
- *           start_time: string,
- *           is_finished: number[0|1],
+ *           title?: string,
+ *           message?: string,
+ *           start_on?: string,
+ *           start_time?: string,
+ *           is_finished?: number[0|1],
  *           }} input_map
  * @param  {id: number} condition
  * @return {Promise<null>}
