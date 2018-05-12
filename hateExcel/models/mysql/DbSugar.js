@@ -102,6 +102,11 @@ class DbSugar {
     });
   }
 
+  static mkPlan(fn, ...params) {
+    return function () {
+      return fn(...params);
+    };
+  }
 }
 
 // export
