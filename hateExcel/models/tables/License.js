@@ -7,14 +7,15 @@ const _ = require('underscore');
 * @return {Array}              [description]
 */
 function _convertString2Array(str_licenses) {
-  let list_licenses;
+  if (!str_licenses) {
+    return [];
+  }
 
   if (str_licenses.indexOf(':') > 0) {
-    list_licenses = str_licenses.split(':');
-  } else if (str_licenses) {
-    list_licenses = [str_licenses];
+    return str_licenses.split(':');
   }
-  return list_licenses;
+
+  return [str_licenses];
 }
 
 /**
@@ -59,7 +60,7 @@ function select(kids_id) {
     .then((r) => {
       result = _setLicenseInfo(result, r[0].services);
       result.kids_id = r[0].kids_id;
-      return result;
+      return [result];
     });
 }
 
