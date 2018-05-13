@@ -72,4 +72,42 @@ describe('Busivモジュール', () => {
         assert(r.affectedRows === 1);
       }));
   });
+
+  describe('planUpdateメソッド', () => {
+    it('実行すると、関数が返る', () => {
+      const plan = Busiv.planUpdate();
+      assert(plan instanceof Function);
+    });
+
+    it('返り値の関数にbase_idと更新対象のオブジェクトを渡して関数適用すると、更新される', () => {
+      const data = {
+        information: JSON.stringify({
+          cc_ip: 'b',
+          sx_ip: 'b',
+          has_L3: 'b',
+          has_cc: 'b',
+          has_sx: 'b',
+          w_router: 'b',
+          w_subnet: 'b',
+          has_carte: 'b',
+          open_date: 'b',
+          w_network: 'b',
+          carte_system: 'b',
+          circuit_name: 'b',
+          auth_server_ip: 'b',
+          circuit_service: 'b',
+          how_to_cooperate: 'b',
+          carte_html_save_ip: 'b',
+          download_server_ip: 'b',
+        }),
+      };
+      const condition = { base_id: 218 };
+      const plan = Busiv.planUpdate(data, condition);
+      return plan()
+        .then(() => Busiv.select(10000))
+        .then((r) => {
+          assert(r[0].cc_ip === 'b');
+        });
+    });
+  });
 });
