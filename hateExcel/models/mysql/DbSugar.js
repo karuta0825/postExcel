@@ -2,10 +2,10 @@
 // imports
 const database = require('./database');
 const querys = require('./list_query');
+
 const db = database.createClient();
 
 class DbSugar {
-
   /**
    * [selectAll description]
    * @param  {String} access [description]
@@ -15,9 +15,9 @@ class DbSugar {
     return new Promise((res, rej) => {
       db.query(
         querys.select[access],
-        ( err, results, fields ) => {
+        (err, results) => {
           db.end();
-          if ( err ) { rej(err); }
+          if (err) { rej(err); }
           res(results);
         }
       );
@@ -31,13 +31,13 @@ class DbSugar {
    * @return {Promise<Array<*>>}           [description]
    */
   static select(condition, access) {
-    return new Promise( (res, rej) => {
+    return new Promise((res, rej) => {
       db.query(
         querys.select[access],
         condition,
-        ( err, results, fields ) => {
+        (err, results) => {
           db.end();
-          if ( err ) { rej(err);}
+          if (err) { rej(err); }
           res(results);
         }
       );
@@ -55,9 +55,9 @@ class DbSugar {
       db.query(
         querys.insert[access],
         data,
-        ( err, results, fileds ) => {
+        (err, results) => {
           db.end();
-          if ( err ) { rej(err); }
+          if (err) { rej(err); }
           res(results);
         }
       );
@@ -72,12 +72,12 @@ class DbSugar {
     return new Promise((res, rej) => {
       db.query(
         querys.delete[access],
-         condition,
-         ( err, results, fields ) => {
+        condition,
+        (err, results) => {
           db.end();
-          if ( err ) {rej(err);}
+          if (err) { rej(err); }
           res(results);
-         }
+        }
       );
     });
   }
@@ -92,19 +92,21 @@ class DbSugar {
     return new Promise((res, rej) => {
       db.query(
         querys.update[access],
-        [ data, condition ],
-         err => {
+        [data, condition],
+        (err) => {
           db.end();
-          if ( err ) { rej(err);}
+          if (err) { rej(err); }
           res(null);
         }
       );
     });
   }
 
-  static mkPlan(fn, ...params) {
-    return function () {
-      return fn(...params);
+  static mkPlan(fn) {
+    return function (...params) {
+      return function () {
+        return fn(...params);
+      };
     };
   }
 }

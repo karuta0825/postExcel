@@ -38,5 +38,4 @@ describe('Serviceモジュール', () => {
         assert(r.length === 43);
       }));
   });
-
 });

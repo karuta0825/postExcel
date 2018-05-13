@@ -12,6 +12,29 @@ function getAvailableUser() {
   return DbSugar.selectAll('available_number_in_each_server');
 }
 
+function remove(version) {
+  return DbSugar.delete(version, 'servers');
+}
+
+function addRow(input_map) {
+  return DbSugar.insert(input_map, 'servers');
+}
+
+function register(version, params) {
+  const planDel = DbSugar.mkPlan(remove)(version);
+  const plans = [planDel];
+
+  params.forEach((param) => {
+    plans.push(DbSugar.mkPlan(addRow)(param));
+  });
+
+  return db.trans(plans)
+    .then((r) => {
+      db.end();
+      return r;
+    });
+}
+
 /**
  * [register description]
  * @param  {String} version [description]
@@ -27,24 +50,24 @@ function getAvailableUser() {
  * @return {Promise<String>} 'end'
  * @throws {Promise<Exception>} If db transaction fail
  */
-function register(version, params) {
-  // 全削除クエリ
-  const qs = [querys.delete.servers];
+// function register(version, params) {
+//   // 全削除クエリ
+//   const qs = [querys.delete.servers];
 
-  // 追加文のクエリ
-  for (let i = 0; i < params.length; i += 1) {
-    qs.push(querys.insert.servers);
-  }
+//   // 追加文のクエリ
+//   for (let i = 0; i < params.length; i += 1) {
+//     qs.push(querys.insert.servers);
+//   }
 
-  // 削除対象のパラメータ追加
-  params.unshift(version);
+//   // 削除対象のパラメータ追加
+//   params.unshift(version);
 
-  return db.transaction(qs, params)
-    .then((r) => {
-      db.end();
-      return r;
-    });
-}
+//   return db.transaction(qs, params)
+//     .then((r) => {
+//       db.end();
+//       return r;
+//     });
+// }
 
 module.exports = {
   select,
