@@ -64,13 +64,13 @@ async function addRow(kids_id, base_id, fenics_key) {
 
 /**
  * @param  {{
- *           [fenics_key]: string,
- *           [admin_id]: string,
- *           [admin_pw]: string,
- *           [city_cd]: string,
- *           [office_cd]: string,
- *           [disk_name]: string,
- *           [disk_size]: string,
+ *           fenics_key?: string,
+ *           admin_id?: string,
+ *           admin_pw?: string,
+ *           city_cd?: string,
+ *           office_cd?: string,
+ *           disk_name?: string,
+ *           disk_size?: string,
  *         }} input_map
  * @param  {{kids_id: string}} condition
  * @return {Promise<null>}
@@ -111,9 +111,18 @@ function remove(condition) {
   return DbSugar.delete(condition, 'mobiles');
 }
 
+async function isUniqueFenicskey(fenicskey, kids_id) {
+  if (!fenicskey || !kids_id) {
+    throw new Error('引数が正しくありません');
+  }
+  return DbSugar.select([fenicskey, kids_id], 'is_unique_mobile_fenicskey_for_update')
+    .then(({ length }) => length > 0);
+}
+
 module.exports = {
   findFenicsKey,
   findNewFenicsKey,
+  isUniqueFenicskey,
   addRow,
   update,
   select,

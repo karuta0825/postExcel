@@ -39,8 +39,15 @@ describe('Mobileモジュール', () => {
       }));
   });
 
+  describe('isUniqueFenicskeyメソッド', () => {
+    it('すでに存在するfenicskeyとkids_idを与えると、falseを返す', () => Mobile.isUniqueFenicskey('m3fey', '3086')
+      .then((r) => {
+        assert(r === false);
+      }));
+  });
+
   describe('addRowメソッド', () => {
-    it('ok_kids_id, base_id, fenicskeyを与えると、mobilesテーブルに行追加');
+    it('ok_kids_id, base_id, fenicskeyを与えと、mobilesテーブルに行追加');
     // it('kids_id, base_id, fenicskeyを与えると、mobilesテーブルに行追加', () => {
     //   return Mobile.addRow('1', '1', 'mobil')
     //   .then( r => {
