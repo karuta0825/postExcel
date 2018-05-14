@@ -59,4 +59,31 @@ describe('Licenseモジュール', () => {
         });
     });
   });
+
+  describe('planUpdateメソッド', () => {
+    it('実行すると、関数が返る', () => {
+      const plan = License.planUpdate();
+      assert(plan instanceof Function);
+    });
+
+    it('返り値の関数に条件kidと更新内容を渡して関数適用すると、更新される', () => {
+      const data = {
+        K1: '1',
+        K2: '0',
+        U1: '1',
+        U2: '1',
+        U4: '1',
+        U5: '0',
+        U8: '0',
+      };
+      const condition = { kids_id: '111' };
+      const plan = License.planUpdate(data, condition);
+
+      return plan()
+        .then(() => License.select(condition.kids_id))
+        .then((r) => {
+          assert(r[0].U8 === 0);
+        });
+    });
+  });
 });

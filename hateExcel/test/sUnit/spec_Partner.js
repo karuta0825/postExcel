@@ -56,4 +56,23 @@ describe('Partnerモジュール', () => {
         assert(r[0].sa_company === '販社名変更しました');
       }));
   });
+
+  describe('planUpdateメソッド', () => {
+    it('実行すると、関数が返る', () => {
+      const plan = Partner.planUpdate();
+      assert(plan instanceof Function);
+    });
+
+    it('返り値の関数に条件kids_idと更新内容を渡して関数適用すると、更新される', () => {
+      const data = { sa_company: '販社名は変更された' };
+      const condition = { kids_id: '107' };
+      const plan = Partner.planUpdate(data, condition);
+      return plan()
+        .then(() => Partner.select(condition.kids_id))
+        .then((r) => {
+          assert(r.length === 1);
+          assert(r[0].sa_company === data.sa_company);
+        });
+    });
+  });
 });

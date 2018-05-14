@@ -69,4 +69,5 @@ function update(input_map, condition) {
 module.exports = {
   select,
   update,
+  planUpdate: DbSugar.mkPlan(update),
 };

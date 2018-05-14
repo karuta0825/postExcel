@@ -74,4 +74,5 @@ module.exports = {
   select,
   update,
   _convertObj2String,
+  planUpdate: DbSugar.mkPlan(update),
 };
