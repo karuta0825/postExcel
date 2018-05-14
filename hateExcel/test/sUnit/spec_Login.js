@@ -21,6 +21,18 @@ describe('Loginモジュール', () => {
       }));
   });
 
+  describe('selectメソッド', () => {
+    it('引数を与えないと、ユーザーリストを返す', () => Login.select()
+      .then((r) => {
+        assert(r.length === 9);
+      }));
+
+    it('uidを与えると、該当のユーザー情報を返す', () => Login.select(null, 1)
+      .then((r) => {
+        assert(r === true);
+      }));
+  });
+
   describe('addRowメソッド', () => {
     // it('1行追加', () => {
     //   return Login.addRow({

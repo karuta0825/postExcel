@@ -1,7 +1,7 @@
 const { DbSugar } = require('../mysql/DbSugar');
 
 
-function select(uid) {
+function select(some, uid) {
   if (!uid) {
     return DbSugar.selectAll('show_columns');
   }

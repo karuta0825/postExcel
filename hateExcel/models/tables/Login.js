@@ -1,10 +1,23 @@
 
 const { DbSugar } = require('../mysql/DbSugar');
 
+function select(some, uid) {
+  if (!uid) {
+    return DbSugar.selectAll('login_users');
+  }
+  return DbSugar.select(uid, 'login_user');
+}
+
 /**
  * [authenticate description]
- * @param  {{user:String, pass:String}} data [description]
- * @return {Promise<{id:Number, uid:String, name:String, newadd:Number, is_admin:Number}| null>}      [description]
+ * @param  {{user:String, pass:String}} data
+ * @return {Promise<{
+ *           id: number,
+ *           uid: string,
+ *           name: string,
+ *           newadd: number,
+ *           is_admin: number
+ *           }| null>}
  *
  * @throws {Promise<Exception>}
  */
@@ -42,7 +55,13 @@ async function addRow({
   }, 'make_login_account');
 }
 
+function update(input_map, condition) {
+  return DbSugar.update(input_map, condition, 'login_user_info');
+}
+
 module.exports = {
+  select,
   authenticate,
   addRow,
+  update,
 };
