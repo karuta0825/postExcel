@@ -87,6 +87,18 @@ describe('Fenicsモジュール', () => {
       }));
   });
 
+  describe('isUniqueIpメソッド', () => {
+    it('すでに存在するfenicsIPを与えると、falseを返す', () => Fenics.isUniqueIp('172.20.0.12')
+      .then((r) => {
+        assert(r === false);
+      }));
+
+    it('存在しないfenicsIPを与えると、trueを返す', () => Fenics.isUniqueIp('172.20.0.1')
+      .then((r) => {
+        assert(r === true);
+      }));
+  });
+
   describe('findNewIdメソッド', () => {
     describe('is pc', () => {
       it('fenics_keyがすでに存在しているkids_idを指定すると、最後のid+1のfenics_idが返る', () => Fenics.findNewId('2728', false)

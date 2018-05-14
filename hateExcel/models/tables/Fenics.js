@@ -1,5 +1,3 @@
-
-
 const { DbSugar } = require('../mysql/DbSugar');
 const u_others = require('../util/u_others');
 const Kid = require('./Kid');
@@ -20,7 +18,15 @@ const Mobile = require('./Mobile');
  *         }]>}
  */
 function select(kids_id) {
+  if (!kids_id) {
+    return DbSugar.selectAll('all_fenics');
+  }
   return DbSugar.select(kids_id, 'fenics');
+}
+
+function isUniqueIp(ip) {
+  return DbSugar.select(ip, 'is_unique_fenics_ip')
+    .then(r => !(r.length > 0));
 }
 
 /**
@@ -79,7 +85,7 @@ async function makeUser(kids_id, is_mobile = false) {
 
   const [fenics_id, fenics_ip] = await Promise.all([
     findNewId(kids_id, is_mobile),
-    findNextFenicsIp(null),
+    findNextFenicsIp(),
   ]);
 
   fenics_account.kids_id = kids_id;
@@ -106,12 +112,18 @@ function update(input_map, fenics_id) {
   return DbSugar.update(input_map, fenics_id, 'fenics');
 }
 
+/**
+ * [remove description]
+ * @param  {} condition
+ * @return {Promise<>}
+ */
 function remove(condition) {
   return DbSugar.delete(condition, 'fenics');
 }
 
 module.exports = {
   select,
+  isUniqueIp,
   findNewId,
   makeUser,
   makeUsers,
