@@ -1,6 +1,9 @@
 const { DbSugar } = require('../mysql/DbSugar');
 
 function select(kids_id) {
+  if (!kids_id) {
+    return DbSugar.selectAll('historys');
+  }
   return DbSugar.select(kids_id, 'usrHistorys');
 }
 
