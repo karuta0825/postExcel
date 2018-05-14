@@ -68,7 +68,6 @@ async function makeId(kids_id, create_user_id) {
     .then(() => DbSugar.insert(client, 'make_client'));
 }
 
-
 /**
  * [makeIds description]
  * @param  {string} kids_id
@@ -76,7 +75,7 @@ async function makeId(kids_id, create_user_id) {
  * @param  {number} count
  * @return {Promise<number>}
  */
-async function makeIds(kids_id, create_user_id, count = 0) {
+async function makeIds(kids_id, create_user_id, count = 1) {
   if (count < 1) {
     throw new Error('1以上を指定してください');
   }
@@ -114,4 +113,5 @@ module.exports = {
   makeIds,
   update,
   remove,
+  planMakeId: DbSugar.mkPlan(makeId),
 };

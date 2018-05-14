@@ -101,12 +101,12 @@ describe('Clientモジュール', () => {
 
   describe('orderMakeIdメソッド', () => {
     it('実行すると、関数が帰ること', () => {
-      const result = Client.orderMakeId('2840', 1);
+      const result = Client.planMakeId('2840', 1);
       assert(result instanceof Function === true);
     });
 
     it('実行して得られた関数にkids_idとcreate_user_idを与えると、ユーザーが作成される', () => {
-      const result = Client.orderMakeId('2840', 1);
+      const result = Client.planMakeId('2840', 1);
       result()
         .then((r) => {
           assert(r.affectedRows === 1);

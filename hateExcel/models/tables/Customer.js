@@ -62,5 +62,6 @@ module.exports = {
   addRow,
   update,
   remove,
+  planUpdate: DbSugar.mkPlan(update),
 };
 

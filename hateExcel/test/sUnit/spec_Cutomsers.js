@@ -64,4 +64,26 @@ describe('Customersモジュール', () => {
         });
     });
   });
+
+  describe('planUpdateメソッド', () => {
+    it('実行すると、関数が返る', () => {
+      const plan = Customer.planUpdate();
+      assert(plan instanceof Function);
+    });
+
+    it('返り値の関数に条件kids_idと更新内容を渡して関数適用すると、更新される', () => {
+      const data = {
+        base_name: 'updated',
+        address: '住所はここだった',
+      };
+      const condition = { kids_id: 2840 };
+      const plan = Customer.planUpdate(data, condition);
+
+      return plan()
+        .then(() => Customer.select(2840))
+        .then((r) => {
+          assert(r[0].address === '住所はここだった');
+        });
+    });
+  });
 });
