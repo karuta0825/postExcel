@@ -78,7 +78,7 @@ function setAPI(app, version) {
   app.get('/api/v1/mobiles/:kids_id', Get.mobile);
   app.get('/api/v1/partners/:kids_id', Get.partner);
   app.get('/api/v1/historys/:kids_id', Get.historys);
-  app.get('/api/v1/environment/:kids_id', Get.environment);
+  app.get('/api/v1/environments', Get.environments);
   app.get('/api/v1/memoTemplates', Get.memoTemplates);
   app.get('/api/v1/servers', Get.servers);
   app.get('/api/v1/services', Get.services);
@@ -87,7 +87,7 @@ function setAPI(app, version) {
   app.get('/api/v1/servers/availableUsers', Get.availableUsers);
   app.get('/api/v1/environments/:id', Get.environmentFindTypeVersion);
   app.get('/api/v1/environments/:system_type/:version', Get.environmentFindId);
-  app.get('/api/v1/login/', Get.userInfo);
+  app.get('/api/v1/addInfo/:yearMonth', Get.addInfo);
 
   // check
   app.get('/api/v1/check/unique/fenics/ip/:ip', Get.isfenicsUniqueIp);

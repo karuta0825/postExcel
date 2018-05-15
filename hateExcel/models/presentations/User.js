@@ -9,6 +9,8 @@ const Customer = require('../tables/Customer');
 const Busiv = require('../tables/Busiv');
 const Kid = require('../tables/Kid');
 const Mobile = require('../tables/Mobile');
+const Partner = require('../tables/Partner');
+const License = require('../tables/License');
 
 /**
  * KIDテーブル更新に必要なパラメータを生成
@@ -88,32 +90,51 @@ function register(items) {
   const qrys = [];
   const params = [];
   const kid = items.kid.substr(-5, 5);
-  delete items.kid;
-  delete items.clients;
-  delete items.mobiles;
+  const clone = Object.assign(items);
+  const plans = [];
+  let param;
+  delete clone.kid;
+  delete clone.clients;
+  delete clone.mobiles;
+
 
   // テーブルごとの個別処理
-  // kids
   qrys.push(querys.update.kids);
-  params.push(_mkParamForKids(kid, items.kids));
+  params.push(_mkParamForKids(kid, clone.kids));
 
-  // customers;
   qrys.push(querys.update.customers);
-  params.push(_mkParamForCustomers(items.customers));
+  params.push(_mkParamForCustomers(clone.customers));
 
-  // licenses;
   qrys.push(querys.update.licenses);
-  params.push(_mkParamForLicenses(items.licenses));
+  params.push(_mkParamForLicenses(clone.licenses));
 
-  // partners;
   qrys.push(querys.update.partners);
-  params.push(_mkParamForPartners(items.partners));
+  params.push(_mkParamForPartners(clone.partners));
 
-  // busivs
   qrys.push(querys.update.busivs);
-  params.push(_mkParamForBusiv(items.busivs));
+  params.push(_mkParamForBusiv(clone.busivs));
 
   return db.transaction(qrys, params);
+
+  // const condition = { kids_id: clone.kids.id };
+
+  // param = _mkParamForKids(kid, clone.kids);
+  // plans.push(Kid.planUpdate(...param));
+
+  // param = _mkParamForCustomers(clone.customers);
+  // plans.push(Customer.planUpdate(...param));
+
+  // const data = clone.licenses;
+  // delete data.kids_id;
+  // plans.push(License.planUpdate(data, condition));
+
+  // param = _mkParamForPartners(clone.partners);
+  // plans.push(Partner.planUpdate(...param));
+
+  // param = _mkParamForBusiv(clone.busivs);
+  // plans.push(Busiv.planUpdate(...param));
+
+  // return db.trans(plans);
 }
 
 /**
@@ -124,22 +145,18 @@ function register(items) {
 async function addBase(kids_id, is_first = false) {
   if (!kids_id) { throw new Error('kids_idを指定してください'); }
 
-  try {
-    // 初回作成時は不要だが、拠点追加時は必要となる
-    if (!is_first) {
-      await Customer.addRow(kids_id);
-    }
-
-    // busiv
-    const base_id = await Customer.findLastBaseId(kids_id);
-    await Busiv.addRow(kids_id, base_id);
-
-    // mobile
-    const fenics_key = await Mobile.findNewFenicsKey();
-    return Mobile.addRow(kids_id, base_id, fenics_key);
-  } catch (e) {
-    throw e;
+  // 初回作成時は不要だが、拠点追加時は必要となる
+  if (!is_first) {
+    await Customer.addRow(kids_id);
   }
+
+  // busiv
+  const base_id = await Customer.findLastBaseId(kids_id);
+  await Busiv.addRow(kids_id, base_id);
+
+  // mobile
+  const fenics_key = await Mobile.findNewFenicsKey();
+  return Mobile.addRow(kids_id, base_id, fenics_key);
 }
 
 /**
@@ -148,20 +165,17 @@ async function addBase(kids_id, is_first = false) {
  * @param  {[type]} options.environment_id [description]
  * @param  {[type]} options.server         [description]
  * @param  {[type]} options.create_user_id [description]
- * @return {[type]}                        [description]
+ * @return {Promise<kid:string>}
  *
  */
 async function create({
   kid, environment_id, server, create_user_id,
 }) {
-  try {
-    const recordInfo = await Kid.addRow({
-      kid, environment_id, server, create_user_id,
-    });
-    return addBase(recordInfo.kids_id, true);
-  } catch (e) {
-    throw e;
-  }
+  const recordInfo = await Kid.addRow({
+    kid, environment_id, server, create_user_id,
+  });
+  return addBase(recordInfo.kids_id, true)
+    .then(() => recordInfo);
 }
 
 
