@@ -3,7 +3,7 @@
 // This file is released under New BSD License.
 
 var mysql = require('mysql');
-var config = require('../config/mysql');
+var config = require('../../config/mysql');
 
 // ModelBase: Modelのベースクラス
 var Database = function () {};
@@ -33,7 +33,43 @@ Database.prototype.end = function (callback) {
   }
 };
 
-Database.prototype.transaction = function ( querys, params, callback ) {
+Database.prototype.trans = function (plans) {
+  const client = this._getClient();
+  const len = plans.length;
+
+  return new Promise((resolve, reject) => {
+    // 再起処理関数の作成
+    function loop(i) {
+      return plans[i]()
+        .then(() => {
+          const count = i + 1;
+          if (count < len) {
+            // 次の処理
+            loop(count);
+          } else {
+            // 終了
+            client.commit((err) => {
+              if (err) { reject(err); }
+              resolve('end');
+            });
+          }
+        })
+        .catch((err) => {
+          client.rollback(() => {
+            reject(err);
+          });
+        });
+    }
+
+    // メインループ処理
+    client.beginTransaction((err) => {
+      if (err) { reject(err); }
+      return loop(0);
+    });
+  });
+};
+
+Database.prototype.transaction = function (querys, params) {
   var client = this._getClient();
   var size = querys.length;
 
@@ -58,7 +94,7 @@ Database.prototype.transaction = function ( querys, params, callback ) {
           // 終了
           client.commit( function (err) {
             if (err) {reject(err);}
-            resolve('ends');
+            resolve('end');
           });
         }
 
@@ -67,24 +103,17 @@ Database.prototype.transaction = function ( querys, params, callback ) {
         client.rollback( function () {
           reject(err)
         });
-      });
+      })
 
     }
 
     // メインループ処理
     client.beginTransaction( function (err) {
       if( err ) { reject(err) };
-      loop(0);
+      return loop(0);
     });
 
   })
-  .then( function (r) {
-    callback(null, r);
-  })
-  .catch( function (err) {
-    callback(err, null);
-  })
-  ;
 
 }
 

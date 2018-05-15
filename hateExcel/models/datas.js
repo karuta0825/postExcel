@@ -1,9 +1,9 @@
 // メンバ変数の宣言
 var
   async    = require('async')
-  database = require('./database'),
-  querys   = require('./list_query'),
-  flow     = require('./flow'),
+  database = require('./mysql/database'),
+  querys   = require('./mysql/list_query'),
+  flow     = require('./util/flow'),
   moment   = require('../public/js/lib/moment.min'),
   db = database.createClient(),
   datas = exports
@@ -313,7 +313,6 @@ var findNewMobileFenicsKey = function ( data, callback ) {
   );
 };
 
-
 var findEnvironmentId = function ( data, callback ) {
 
   var params = [
@@ -411,6 +410,7 @@ var getNextZeroPadData = function ( value ) {
     return nextData;
 };
 
+
 /**
  * 新たなfenicsアカウントを作成
  * @param  {Object}   input_map
@@ -500,46 +500,48 @@ var makeClient = function ( input_map, idx, callback ) {
 
 };
 
-var makeService = function ( list_item, idx, callback ) {
+// // TODO:
+// var makeService = function ( list_item, idx, callback ) {
 
-  var data = list_item[idx];
-  datas.insert( data, 'services', function ( err, results ) {
-    // 連続insertでKIDが重複していた場合、再作成
-    if ( err ){
-      console.log(err);
-      callback( err );
-      return;
-    }
+//   var data = list_item[idx];
+//   datas.insert( data, 'services', function ( err, results ) {
+//     // 連続insertでKIDが重複していた場合、再作成
+//     if ( err ){
+//       console.log(err);
+//       callback( err );
+//       return;
+//     }
 
-    if ( typeof callback === 'function') {
-      callback({ result : 'OK'});
-    }
+//     if ( typeof callback === 'function') {
+//       callback({ result : 'OK'});
+//     }
 
-  });
+//   });
 
-};
+// };
 
-var makeServer = function ( list_item, idx, callback ) {
+// // TODO:
+// var makeServer = function ( list_item, idx, callback ) {
 
-  var data = list_item[idx];
-  console.log(idx);
-  console.log(data);
+//   var data = list_item[idx];
+//   console.log(idx);
+//   console.log(data);
 
-  datas.insert( data, 'servers', function ( err, results ) {
-    // 連続insertでKIDが重複していた場合、再作成
-    if ( err ){
-      console.log(err);
-      callback( err );
-      return;
-    }
+//   datas.insert( data, 'servers', function ( err, results ) {
+//     // 連続insertでKIDが重複していた場合、再作成
+//     if ( err ){
+//       console.log(err);
+//       callback( err );
+//       return;
+//     }
 
-    if ( typeof callback === 'function') {
-      callback({ result : 'OK'});
-    }
+//     if ( typeof callback === 'function') {
+//       callback({ result : 'OK'});
+//     }
 
-  });
+//   });
 
-};
+// };
 
 var makeNewMobileFenicsId = function ( data, callback ) {
 
@@ -776,6 +778,7 @@ datas.makeMemo = function ( input_map, callback ) {
  * @param  {String} month
  * @return {Array}
  */
+// TODO:
 datas.getAddInfo = function ( month, callback ) {
 
   var
@@ -799,6 +802,7 @@ datas.getAddInfo = function ( month, callback ) {
  * @param  {Function} callback
  * @return {Object}
  */
+// TODO:
 datas.getLicense = function ( kids_id, callback ) {
   datas.select(
     [kids_id],
