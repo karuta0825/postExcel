@@ -95,7 +95,7 @@ describe('Clientモジュール', () => {
       kids_id: '2840',
     })
       .then((r) => {
-        assert(r.affectedRows === 5);
+        assert(r.affectedRows === 6);
       }));
   });
 

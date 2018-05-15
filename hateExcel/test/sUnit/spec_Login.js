@@ -29,7 +29,7 @@ describe('Loginモジュール', () => {
 
     it('uidを与えると、該当のユーザー情報を返す', () => Login.select(null, 1)
       .then((r) => {
-        assert(r === true);
+        assert(r[0].name === '赤鬼');
       }));
   });
 

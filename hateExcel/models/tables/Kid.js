@@ -107,9 +107,9 @@ function findNewDbPass(userkey) {
 /**
  * add one row to kids table.
  * @param  {{
- *           kid:string,
- *           environemnt_id:string,
- *           server:String
+ *           kid?: string,
+ *           environemnt_id: string,
+ *           server?: string
  *         }} input_map parameter object for make user.
  * @return {Promise<{affectedRows: number}>}
  */
@@ -152,7 +152,39 @@ function remove(condition) {
 }
 
 function update(input_map, condition) {
-  return DbSugar.update(input_map, condition, 'kids');
+  const data = Object.assign({}, input_map);
+
+  for (const i in data) {
+    if (i === 'register_on' && data[i] === '') {
+      data[i] = null;
+    }
+
+    if (i === 'end_on' && data[i] === '') {
+      data[i] = null;
+    }
+  }
+
+  return DbSugar.update(data, condition, 'kids');
+}
+
+function isUnique(kid) {
+  return DbSugar.select(kid, 'is_unique_kid_for_update')
+    .then(r => !(r.length > 0));
+}
+
+function isUniqueFenicskey(fenicskey) {
+  return DbSugar.select(fenicskey, 'is_unique_fenicskey_for_update')
+    .then(r => !(r.length > 0));
+}
+
+function isUniqueUserkey(userkey) {
+  return DbSugar.select(userkey, 'is_unique_userkey_for_update')
+    .then(r => !(r.length > 0));
+}
+
+function isUniqueDBPass(db_password) {
+  return DbSugar.select(db_password, 'is_unique_db_password_for_update')
+    .then(r => !(r.length > 0));
 }
 
 // exports
@@ -164,7 +196,12 @@ module.exports = {
   findNewUserKey,
   findNewFenicsKey,
   findNewDbPass,
+  isUnique,
+  isUniqueFenicskey,
+  isUniqueUserkey,
+  isUniqueDBPass,
   addRow,
   remove,
   update,
+  planUpdate: DbSugar.mkPlan(update),
 };

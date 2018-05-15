@@ -87,6 +87,74 @@ describe('Kidsモジュール', () => {
     });
   });
 
+  describe('isUniqueメソッド', () => {
+    it('存在するkidを与えると、falseを返す', () => Kid.isUnique('98400')
+      .then((r) => {
+        assert(r === false);
+      }));
+
+    it('存在しないkidを与えると、trueを返す', () => Kid.isUnique('20000')
+      .then((r) => {
+        assert(r === true);
+      }));
+
+    it('引数を与えないと、errを返す', () => Kid.isUnique()
+      .catch((err) => {
+        assert(err instanceof Error);
+      }));
+  });
+
+  describe('isUniqueFenicskeyメソッド', () => {
+    it('存在するfenicskeyを与えると、falseを返す', () => Kid.isUniqueFenicskey('atw')
+      .then((r) => {
+        assert(r === false);
+      }));
+
+    it('存在しないfenicskeyを与えると、trueを返す', () => Kid.isUniqueFenicskey('xxx')
+      .then((r) => {
+        assert(r === true);
+      }));
+
+    it('引数を与えないと、エラーを返す', () => Kid.isUniqueFenicskey()
+      .catch((err) => {
+        assert(err instanceof Error);
+      }));
+  });
+
+  describe('isUniqueUserkeyメソッド', () => {
+    it('存在するuserkeyを与えると、falseを返す', () => Kid.isUniqueUserkey('YYYYY')
+      .then((r) => {
+        assert(r === false);
+      }));
+
+    it('存在しないuserkeyを与えると、trueを返す', () => Kid.isUniqueUserkey('XXXXX')
+      .then((r) => {
+        assert(r === true);
+      }));
+
+    it('引数を与えないと、エラーを返す', () => Kid.isUniqueUserkey()
+      .catch((err) => {
+        assert(err instanceof Error);
+      }));
+  });
+
+  describe('isUniqueDBPassメソッド', () => {
+    it('存在するdb passwordを与えると、falseを返す', () => Kid.isUniqueDBPass('U53RUPH2QH')
+      .then((r) => {
+        assert(r === false);
+      }));
+
+    it('存在しないdb passwordを与えると、trueを返す', () => Kid.isUniqueDBPass('AAAAAAAAA')
+      .then((r) => {
+        assert(r === true);
+      }));
+
+    it('引数を与えないと、エラーを返す', () => Kid.isUniqueDBPass()
+      .catch((err) => {
+        assert(err instanceof Error);
+      }));
+  });
+
   describe('addRowメソッド', () => {
     it('kidを指定して非ドコモユーザー作成', () => {
       const params = {
@@ -159,5 +227,32 @@ describe('Kidsモジュール', () => {
       .then((r) => {
         assert(r.affectedRows === 1);
       }));
+  });
+
+  describe('planUpdateメソッド', () => {
+    it('実行すると、関数が返る', () => {
+      const plan = Kid.planUpdate();
+      assert(plan instanceof Function);
+    });
+
+
+    it('返り値の関数に条件kidと更新内容を渡して関数適用すると、更新される', () => {
+      const plan = Kid.planUpdate(
+        {
+          userkey: 'PRINTK',
+          server: 'AP1-2',
+        },
+        {
+          kid: '98386',
+        },
+      );
+
+      plan()
+        .then(() => Kid.select('2918'))
+        .then((r) => {
+          assert(r[0].userkey === 'PRINTK');
+          assert(r[0].server === 'AP1-2');
+        });
+    });
   });
 });
