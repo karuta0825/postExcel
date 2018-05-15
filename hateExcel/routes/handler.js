@@ -10,34 +10,26 @@ const Memo = require('../models/tables/Memo');
 const Mobile = require('../models/tables/Mobile');
 const Server = require('../models/tables/Server');
 const Service = require('../models/tables/Service');
+const Column = require('../models/tables/Column');
+const User = require('../models/presentations/User');
+const { dispatcher } = require('./dispatcher');
+const u_others = require('../models/util/u_others');
 
 // 関数名は[HTTP-METHOD_URI]とする
 
-function checkSession(req, res, next) {
-  if ( !req.session.pass ) {
-    res.json(440, {result:'expired', message:'セッションが切れました。ログインからやり直してください。'});
-    return;
-  }
-  next();
-}
-
-function setHeader(req, res, next) {
-  res.header("Content-Type", "application/json; charset=utf-8");
-}
-
 function get_login(req, res) {
-  res.render('login', { message : ''} );
+  res.render('login', { message: '' });
 }
 
-function post_login(req,res) {
+function post_login(req, res) {
   return Login.authenticate(req.body)
-  .then( r => {
-    if ( r !== null ) {
-      req.session.pass = true;
-      req.session.uid = r.id;
-    }
-    res.redirect('/');
-  });
+    .then((r) => {
+      if (r !== null) {
+        req.session.pass = true;
+        req.session.uid = r.id;
+      }
+      res.redirect('/');
+    });
 }
 
 function get_logout(req, res) {
@@ -45,164 +37,377 @@ function get_logout(req, res) {
   res.redirect('/');
 }
 
+function get_tableHeader(req, res) {
+  Column.select()
+    .then((r) => {
+      res.json(r);
+    });
+}
+
 function post_makeLoginAccount(req, res) {
-  let data = {
-    uid      : req.body.id  ,
-    name     : req.body.name,
-    password : req.body.pass,
-    newadd   : 1
+  const data = {
+    uid: req.body.id,
+    name: req.body.name,
+    password: req.body.pass,
+    newadd: 1,
   };
 
   return Login.makeLoginAccount(data)
-  .then( r => {
-    res.render('complete');
-  });
+    .then(() => {
+      res.render('complete');
+    });
 }
 
-function get_route(req, res) {
-  if ( !req.session.pass ) {
+function get_root(req, res) {
+  if (!req.session.pass) {
     res.redirect('/login');
-    return;
-  }
-  else {
+  } else {
     res.render('index');
-    return;
   }
-}
-
-function get_all(req, res) {
-  res.header("Content-Type", "application/json; charset=utf-8");
-  datas.getAll( function (results){
-    res.json(results);
-  });
 }
 
 function post_select(req, res) {
+  const { condition, table } = req.body;
+  const { uid } = req.session;
 
-}
-
-function post_column(req, res) {
-  var
-    data = req.body.data,
-    uid  = req.session.uid
-    ;
-
-  datas.update( data, uid, 'columns', function ( err ) {
-    if ( err ) {
-      res.status( 500 ).send( err.message );
-      return;
-    }
-    res.json({ result : 'ok'});
-  });
-}
-
-function post_insert(req, res) {
-  //post送信で渡ってきたデータ
-  var
-    data = req.body.data
-  , table = req.body.table
-  , idx = 0
-  ;
-
-  if ( !req.session.pass ) {
-    res.json(440, {result:'expired', message:'セッションが切れました。ログインからやり直してください。'});
+  if (table === 'available_number_in_each_server') {
+    Server.getAvailableUser()
+      .then((r) => {
+        res.json(r);
+      })
+      .catch((err) => {
+        res.status(500).send(err.message);
+      });
     return;
   }
 
-  // dataがArrayであることが前提だね
-  if ( Object.prototype.toString.call( data ) === '[object Array]' ) {
-    for ( var i = 0; i < data.length; i+= 1 ) {
-      data[i]['create_user_id'] = req.session.uid;
-      data[i]['create_on'] = new Date();
+  const dp = dispatcher(table);
+  dp.select(condition, uid)
+    .then((r) => {
+      res.json(r);
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
+}
 
-      datas.insert( data[i], table, function ( err ) {
-        // insert時のエラー処理
-        if (err) {
-          console.log(err);
-          res.status( 500 ).send( {error : err} );
-          return;
-        }
+function post_column(req, res) {
+  const { data } = req.body;
+  const { uid } = req.session;
 
-        idx++;
-        console.log(table);
-        console.log('idx increment');
-        console.log(idx);
+  const dp = dispatcher('header');
+  dp.update(data, uid)
+    .then(() => {
+      res.json({ result: 'ok' });
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
+}
 
-        console.log( idx === data.length );
+async function post_delete(req, res) {
+  const { data, table } = req.body;
+  const dp = dispatcher(table);
 
-        if ( idx === data.length ) {
-          console.log('end');
-          res.json({'result' : 'ok'});
-        }
-
-      });
+  try {
+    for (let i = 0; i < data.length; i += 1) {
+      await dp.remove(data[i]);
     }
+    res.json({ result: 'ok' });
+  } catch (e) {
+    res.status(500).send({ error: e });
+  }
+}
+
+function post_update(req, res) {
+  const { data, condition, table } = req.body;
+  const dp = dispatcher(table);
+
+  if (table === 'memos') {
+    data.update_user_id = req.session.uid;
+  }
+
+  dp.update(data, condition)
+    .then(() => {
+      res.json({ result: 'ok' });
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
+}
+
+async function post_insert(req, res) {
+  const { data, table } = req.body;
+  const dp = dispatcher(table);
+
+  try {
+    for (let i = 0; i < data.length; i += 1) {
+      data[i].create_user_id = req.session.uid;
+      data[i].create_on = new Date();
+      await dp.addRow(data[i]);
+    }
+    res.json({ result: 'ok' });
+  } catch (e) {
+    res.status(500).send({ error: e });
   }
 }
 
 function post_addFenicsAccounts(req, res) {
-  var data = req.body.data;
-
-  // if ( !req.session.pass ) {
-  //   res.json(440, {result:'expired', message:'セッションが切れました。ログインからやり直してください。'});
-  //   return;
-  // }
-
+  const { data } = req.body;
   data.create_user_id = req.session.uid;
-  return Fenics.makeids( data, data.number_pc_added, () => {
-    res.json({'result' : 'ok'});
-  });
+
+  Fenics.makeUsers(data.kids_id, false, data.number_pc_added)
+    .then(() => {
+      res.json({ result: 'ok' });
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
 }
 
 function post_addClient(req, res) {
-  var data = req.body.data;
+  const { data } = req.body;
 
-  // if ( !req.session.pass ) {
-  //   res.json(440, {result:'expired', message:'セッションが切れました。ログインからやり直してください。'});
-  //   return;
-  // }
-
-  data.create_user_id = req.session.uid;
-
-  Fenics.makeUsers( data, data.number_client_added, function () {
-    res.json({'result' : 'ok'});
-  });
+  Client.makeIds(data.kids_id, req.session.uid, data.number_client_added)
+    .then(() => {
+      res.json({ result: 'ok' });
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
 }
 
 function post_addMobileClient(req, res) {
-  var data = req.body.data;
+  const { data } = req.body;
 
-  // if ( !req.session.pass ) {
-  //   res.json(440, {result:'expired', message:'セッションが切れました。ログインからやり直してください。'});
-  //   return;
-  // }
+  Fenics.makeUsers(data.kids_id, true, data.number_client_added)
+    .then(() => {
+      res.json({ result: 'ok' });
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
+}
 
+function post_makeUser(req, res) {
+  const { data } = req.body;
   data.create_user_id = req.session.uid;
 
-  Fenics.makeMobileUsers( data, data.number_client_added, function (err) {
-    res.json({'result' : 'ok'});
-  });
+  User.create(data)
+    .then((r) => {
+      res.json(r);
+    })
+    .catch((err) => {
+      res.json(440, { result: 'falied', message: err.message });
+    });
 }
 
-function post_makeUser(req, res) {}
-function post_makeUser(req, res) {}
-function post_addBase(req, res) {}
-function post_makeMemo(req, res) {}
-function post_delete(req, res) {}
-function post_update(req, res) {}
-function post_isUnique_kid(req, res) {}
-function post_isUniqueIp(req, res) {}
-function post_isUniqueFenicsKey(req, res) {}
-function post_isUniqueUserKey(req, res) {}
-function post_isUniqueDBPass(req, res) {}
-function post_updateFenics(req, res) {}
-function post_updateClient(req, res) {}
-function post_user(req, res) {}
-function post_master_table(req, res) {}
-function post_updateLogin(req, res) {}
+function post_addBase(req, res) {
+  const { kids_id } = req.body;
+  User.addBase(kids_id)
+    .then(() => {
+      res.json({ result: 'ok' });
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
+}
+
+function post_makeMemo(req, res) {
+  const { data } = req.body;
+  data.create_user_id = req.session.uid;
+  data.create_on = new Date();
+
+  Memo.addRow(data)
+    .then(() => {
+      res.json({ result: 'ok' });
+    })
+    .catch((err) => {
+      res.json({ result: 'fail', err: err.message });
+    });
+}
+
+async function post_updateFenics(req, res) {
+  const { data } = req.body;
+  const item = {};
+  let condition;
+  let i;
+
+  try {
+    for (i = 0; i < data.length; i += 1) {
+      item.fenics_id = data[i].fenics_id || '';
+      item.start_on = (data[i].start_on) ? data[i].start_on : null;
+      item.end_on = (data[i].end_on && data[i].end_on !== '') ? data[i].end_on : null;
+      item.pc_name = data[i].pc_name || '';
+      if (data[i].fenics_ip) {
+        item.fenics_ip = u_others.inet_aton(data[i].fenics_ip);
+      }
+      item.category = data[i].category || '';
+
+      condition = data[i].fenics_id;
+
+      await Fenics.update(item, condition);
+    }
+  } catch (err) {
+    res.status(500).send({ error: err });
+  }
+
+  res.json({ result: 'success', number: i });
+}
+
+async function post_updateClient(req, res) {
+  const { data } = req.body;
+  const item = {};
+  let condition;
+  let i = 0;
+
+  try {
+    for (i = 0; i < data.length; i += 1) {
+      item.fenics_id = data[i].fenics_id || '';
+      item.end_on = (data[i].end_on && data[i].end_on !== '') ? data[i].end_on : null;
+      condition = data[i].client_id;
+
+      await Client.update(item, condition);
+    }
+  } catch (err) {
+    res.json({ result: 'fail', err: err.message });
+  }
+
+  res.json({ result: 'success', number: i });
+}
+
+
+function post_user(req, res) {
+  const { data } = req.body;
+  User.register(data)
+    .then(() => {
+      res.json({ result: 'success', message: '登録完了しました' });
+    })
+    .catch((err) => {
+      res.json(400, { result: 'failed', message: err.message });
+    });
+}
+
+function post_master_table(req, res) {
+  const { items } = req.body;
+  const { table } = req.params;
+  const { version } = items[0];
+
+  const dp = dispatcher(table);
+  dp.register(version, items)
+    .then(() => {
+      res.json({ result: 'ok' });
+    })
+    .catch((err) => {
+      res.json(440, { result: 'failed', message: err.message });
+    });
+}
+
+function post_isUnique_kid(req, res) {
+  const { kid } = req.body;
+  Kid.isUnique(kid)
+    .then((r) => {
+      res.json(r);
+    });
+}
+
+function post_isUniqueIp(req, res) {
+  const { ip } = req.body;
+  Fenics.isUniqueIp(ip)
+    .then((r) => {
+      res.json(r);
+    })
+    .catch((err) => {
+      res.json(400, { result: 'fail', message: err.message });
+    });
+}
+
+function post_isUniqueFenicskey(req, res) {
+  const { fenicsKey } = req.body;
+  Kid.isUniqueFenicskey(fenicsKey)
+    .then((r) => {
+      res.json(r);
+    })
+    .catch((err) => {
+      res.json(440, { result: 'fail', err: err.message });
+    });
+}
+
+function post_isUniqueUserkey(req, res) {
+  const { userkey } = req.body;
+  Kid.isUniqueUserkey(userkey)
+    .then((r) => {
+      res.json(r);
+    })
+    .catch((err) => {
+      res.json(440, { result: 'fail', err: err.message });
+    });
+}
+
+function post_isUniqueDBPass(req, res) {
+  const { db_password } = req.body;
+  Kid.isUniqueDBPass(db_password)
+    .then((r) => {
+      res.json(r);
+    })
+    .catch((err) => {
+      res.json(440, { result: 'fail', err: err.message });
+    });
+}
+
+function post_isUniqueMobileFenicskey(req, res) {
+  const { kids_id, fenicsKey } = req.body;
+  Mobile.isUniqueFenicskey(kids_id, fenicsKey)
+    .then((r) => {
+      res.json(r);
+    })
+    .catch((err) => {
+      res.json(440, { result: 'fail', err: err.message });
+    });
+}
+
+function post_updateLogin(req, res) {
+  const { data } = req.body;
+  const condition = (data.id) ? { id: data.id } : { id: req.session.uid };
+
+  delete data.id;
+
+  Login.update(data, condition)
+    .then(() => {
+      res.json({ result: 'success' });
+    })
+    .catch((err) => {
+      res.status(500).send({ result: 'fail', err: err.message });
+    });
+}
 
 module.exports = {
-  checkSession : checkSession,
-  setHeader : setHeader,
-  post_makeUser : post_makeUser
-}
+  get_login,
+  post_login,
+  get_logout,
+  get_root,
+  get_tableHeader,
+  post_makeLoginAccount,
+  post_addMobileClient,
+  post_makeUser,
+  post_select,
+  post_insert,
+  post_delete,
+  post_update,
+  post_column,
+  post_addFenicsAccounts,
+  post_addClient,
+  post_isUnique_kid,
+  post_makeMemo,
+  post_updateFenics,
+  post_updateClient,
+  post_addBase,
+  post_user,
+  post_master_table,
+  post_isUniqueIp,
+  post_isUniqueFenicskey,
+  post_isUniqueMobileFenicskey,
+  post_isUniqueUserkey,
+  post_isUniqueDBPass,
+  post_updateLogin,
+};
