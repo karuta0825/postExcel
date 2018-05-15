@@ -178,14 +178,19 @@ describe('Kidsモジュール', () => {
         server: 'LAP1-1',
         create_user_id: '1',
       };
+      let kid;
 
       return Kid.addRow(params)
         .then((r) => {
+          kid = r.kid;
           assert(r.kid !== undefined);
           assert(r.userkey !== undefined);
           assert(r.db_password !== undefined);
           assert(r.is_replaced_from_another === 1);
-        });
+        })
+        .then(() => Kid.remove({
+          kid,
+        }));
     });
 
     it('既に存在しているKIDが指定されると、重複エラーを返す', () => {
