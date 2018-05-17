@@ -54,7 +54,7 @@
   ;
 
   fetch = function ( condition, callback ) {
-    return _model.fetchAsync(null)
+    return _model.fetchAsync()
     .then(function (r) {
       _page.initialize(r, MAX_VISIBLE_NUMBER);
       callback(_page.get(1));
