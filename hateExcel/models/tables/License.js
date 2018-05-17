@@ -58,8 +58,10 @@ function select(kids_id) {
       return DbSugar.select(kids_id, 'licenses');
     })
     .then((r) => {
-      result = _setLicenseInfo(result, r[0].services);
-      result.kids_id = r[0].kids_id;
+      if (r.length > 0 && r[0].services) {
+        result = _setLicenseInfo(result, r[0].services);
+      }
+      result.kids_id = kids_id;
       return [result];
     });
 }

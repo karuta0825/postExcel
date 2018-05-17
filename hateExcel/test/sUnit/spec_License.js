@@ -4,9 +4,14 @@ const License = require('../../models/tables/License');
 
 describe('Licenseモジュール', () => {
   describe('selectメソッド', () => {
-    it('kid_idを指定すると、使用しているライセンス情報をobjectで返す', () => License.select('5')
+    it('kids_idを指定すると、使用しているライセンス情報をobjectで返す', () => License.select('5')
       .then((r) => {
         assert(typeof r === 'object');
+      }));
+
+    it('使用ライセンスがないkids_idを指定すると、空のオブジェクトを返す', () => License.select('3086')
+      .then((r) => {
+        assert.deepEqual(r, [{ kids_id: '3086' }]);
       }));
   });
 
