@@ -99,42 +99,42 @@ function register(items) {
 
 
   // テーブルごとの個別処理
-  qrys.push(querys.update.kids);
-  params.push(_mkParamForKids(kid, clone.kids));
+  // qrys.push(querys.update.kids);
+  // params.push(_mkParamForKids(kid, clone.kids));
 
-  qrys.push(querys.update.customers);
-  params.push(_mkParamForCustomers(clone.customers));
+  // qrys.push(querys.update.customers);
+  // params.push(_mkParamForCustomers(clone.customers));
 
-  qrys.push(querys.update.licenses);
-  params.push(_mkParamForLicenses(clone.licenses));
+  // qrys.push(querys.update.licenses);
+  // params.push(_mkParamForLicenses(clone.licenses));
 
-  qrys.push(querys.update.partners);
-  params.push(_mkParamForPartners(clone.partners));
+  // qrys.push(querys.update.partners);
+  // params.push(_mkParamForPartners(clone.partners));
 
-  qrys.push(querys.update.busivs);
-  params.push(_mkParamForBusiv(clone.busivs));
+  // qrys.push(querys.update.busivs);
+  // params.push(_mkParamForBusiv(clone.busivs));
 
-  return db.transaction(qrys, params);
+  // return db.transaction(qrys, params);
 
-  // const condition = { kids_id: clone.kids.id };
+  const condition = { kids_id: clone.kids.id };
 
-  // param = _mkParamForKids(kid, clone.kids);
-  // plans.push(Kid.planUpdate(...param));
+  param = _mkParamForKids(kid, clone.kids);
+  plans.push(Kid.planUpdate(...param));
 
-  // param = _mkParamForCustomers(clone.customers);
-  // plans.push(Customer.planUpdate(...param));
+  param = _mkParamForCustomers(clone.customers);
+  plans.push(Customer.planUpdate(...param));
 
-  // const data = clone.licenses;
-  // delete data.kids_id;
-  // plans.push(License.planUpdate(data, condition));
+  const data = clone.licenses;
+  delete data.kids_id;
+  plans.push(License.planUpdate(data, condition));
 
-  // param = _mkParamForPartners(clone.partners);
-  // plans.push(Partner.planUpdate(...param));
+  param = _mkParamForPartners(clone.partners);
+  plans.push(Partner.planUpdate(...param));
 
-  // param = _mkParamForBusiv(clone.busivs);
-  // plans.push(Busiv.planUpdate(...param));
+  param = _mkParamForBusiv(clone.busivs);
+  plans.push(Busiv.planUpdate(...param));
 
-  // return db.trans(plans);
+  return db.transaction(plans);
 }
 
 /**
