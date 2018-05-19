@@ -11,7 +11,8 @@ describe('Licenseモジュール', () => {
 
     it('使用ライセンスがないkids_idを指定すると、空のオブジェクトを返す', () => License.select('3086')
       .then((r) => {
-        assert.deepEqual(r, [{ kids_id: '3086' }]);
+        assert(r[0].kids_id === '3086');
+        assert(r[0].K1 === 0);
       }));
   });
 
@@ -42,7 +43,7 @@ describe('Licenseモジュール', () => {
       };
 
       const expected = '';
-      assert.deepEqual(License._convertObj2String(input), { services: '' });
+      assert.deepEqual(License._convertObj2String(input), { services: expected });
     });
   });
 
