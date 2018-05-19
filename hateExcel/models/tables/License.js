@@ -52,9 +52,10 @@ function select(kids_id) {
     .then(r => DbSugar.select(r[0].version, 'get_services_by_version'))
     .then((services) => {
     // 初期化オブジェクト生成
-      for (let i = 0; i < services.length; i += 1) {
-        result[services[i].service_id] = 0;
-      }
+      services.forEach((service) => {
+        result[service.service_id] = 0;
+      });
+
       return DbSugar.select(kids_id, 'licenses');
     })
     .then((r) => {
