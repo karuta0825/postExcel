@@ -28,7 +28,7 @@ function register(version, params) {
     plans.push(DbSugar.mkPlan(addRow)(param));
   });
 
-  return db.trans(plans)
+  return db.transaction(plans)
     .then((r) => {
       db.end();
       return r;
