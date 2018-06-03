@@ -137,6 +137,7 @@
     cms.db.post('/user', {'data': uploadData})
     .then( function () {
       cms.view.kids.refresh();
+      cms.view.fenics.refresh();
       cms.view.regUsrs.showSuccess();
     })
     .catch( function (err) {
