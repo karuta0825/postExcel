@@ -60,7 +60,7 @@ class Database {
       // メインループ処理
       client.beginTransaction((err) => {
         if (err) { reject(err); }
-        return loop(0);
+        loop(0);
       });
     });
   }

@@ -11,6 +11,8 @@ const Kid = require('../tables/Kid');
 const Mobile = require('../tables/Mobile');
 const Partner = require('../tables/Partner');
 const License = require('../tables/License');
+const Client = require('../tables/Client');
+const Fenics = require('../tables/Fenics');
 
 /**
  * KIDテーブル更新に必要なパラメータを生成
@@ -48,16 +50,7 @@ function _mkParamForLicenses(obj) {
   const condition = obj.kids_id;
   delete result.kids_id;
 
-  // オブジェクトからコロン区切りのライセンス情報を生成
-  const license = {
-    services: _.chain(result)
-      .pick(v => (v === '1'))
-      .keys()
-      .value()
-      .join(':'),
-  };
-
-  return [license, { kids_id: condition }];
+  return [result, { kids_id: condition }];
 }
 
 /**
@@ -87,36 +80,10 @@ function _mkParamForBusiv(obj) {
 
 
 function register(items) {
-  const qrys = [];
-  const params = [];
   const kid = items.kid.substr(-5, 5);
   const clone = Object.assign(items);
   const plans = [];
   let param;
-  delete clone.kid;
-  delete clone.clients;
-  delete clone.mobiles;
-
-
-  // テーブルごとの個別処理
-  // qrys.push(querys.update.kids);
-  // params.push(_mkParamForKids(kid, clone.kids));
-
-  // qrys.push(querys.update.customers);
-  // params.push(_mkParamForCustomers(clone.customers));
-
-  // qrys.push(querys.update.licenses);
-  // params.push(_mkParamForLicenses(clone.licenses));
-
-  // qrys.push(querys.update.partners);
-  // params.push(_mkParamForPartners(clone.partners));
-
-  // qrys.push(querys.update.busivs);
-  // params.push(_mkParamForBusiv(clone.busivs));
-
-  // return db.transaction(qrys, params);
-
-  const condition = { kids_id: clone.kids.id };
 
   param = _mkParamForKids(kid, clone.kids);
   plans.push(Kid.planUpdate(...param));
@@ -124,15 +91,23 @@ function register(items) {
   param = _mkParamForCustomers(clone.customers);
   plans.push(Customer.planUpdate(...param));
 
-  const data = clone.licenses;
-  delete data.kids_id;
-  plans.push(License.planUpdate(data, condition));
+  param = _mkParamForLicenses(clone.licenses);
+  plans.push(License.planUpdate(...param));
 
   param = _mkParamForPartners(clone.partners);
   plans.push(Partner.planUpdate(...param));
 
   param = _mkParamForBusiv(clone.busivs);
   plans.push(Busiv.planUpdate(...param));
+
+  param = [clone.clients.kids_id, 1, clone.clients.number];
+  plans.push(Client.planMakeIds(...param));
+
+  param = [clone.mobiles.kids_id, true, clone.mobiles.number];
+  plans.push(Fenics.planMakeIds(...param));
+
+  param = [clone.kids.id, false, clone.kids.number_pc];
+  plans.push(Fenics.planMakeIds(...param));
 
   return db.transaction(plans);
 }

@@ -121,6 +121,7 @@ function remove(condition) {
   return DbSugar.delete(condition, 'fenics');
 }
 
+
 module.exports = {
   select,
   isUniqueIp,
@@ -129,4 +130,5 @@ module.exports = {
   makeUsers,
   update,
   remove,
+  planMakeIds: DbSugar.mkPlan(makeUsers),
 };

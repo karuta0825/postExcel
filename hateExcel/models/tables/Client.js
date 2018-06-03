@@ -113,5 +113,5 @@ module.exports = {
   makeIds,
   update,
   remove,
-  planMakeId: DbSugar.mkPlan(makeId),
+  planMakeIds: DbSugar.mkPlan(makeIds),
 };
