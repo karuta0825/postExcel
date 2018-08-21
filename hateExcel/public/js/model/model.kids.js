@@ -32,7 +32,8 @@
       server      : 'all',
       has_mobile  : 'all',
       has_busiv   : 'all',
-      has_fenics  : 'all'
+      has_fenics  : 'all',
+      is_marked   : 'all',
     }
   , _sortOrder = 1
   , MAX_VISIBLE_NUMBER = 30
@@ -54,7 +55,7 @@
   ;
 
   fetch = function ( condition, callback ) {
-    return _model.fetchAsync()
+    return _model.fetchAsync(null)
     .then(function (r) {
       _page.initialize(r, MAX_VISIBLE_NUMBER);
       callback(_page.get(1));
@@ -156,7 +157,11 @@
    */
   search = function ( keyword, callback ) {
 
-    _page.initialize( _model.search( keyword ), MAX_VISIBLE_NUMBER );
+    if (keyword.length === 0) {
+      _page.initialize( _model.getCache(), MAX_VISIBLE_NUMBER );
+    }else {
+      _page.initialize( _model.search( keyword ), MAX_VISIBLE_NUMBER );
+    }
 
     if ( typeof callback === 'function' ) {
       callback( _page.current() );
