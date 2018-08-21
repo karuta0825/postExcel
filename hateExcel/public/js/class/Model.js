@@ -137,8 +137,6 @@
       result = this.findOneCondition( conditions );
     }
 
-    this['_filterList'] = result;
-
     if ( typeof callback === 'function' ) {
       callback( result );
     }
