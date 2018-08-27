@@ -60,6 +60,7 @@
 
     }
 
+    map.licenses.UI = map.licenses.UE;
   };
 
   /**
@@ -135,9 +136,32 @@
   upload = function () {
 
     cms.db.post('/user', {'data': uploadData})
+    // クライアント - ユーザー数
+    .then( function () {
+      // kid , userkey が必要
+      return cms.model.userBaseInfo.registerClient({
+        kids_id             : uploadData['kids']['id'],
+        userkey             : cms.model.kids.find({'kid' : uploadData.kid})[0].userkey,
+        number_client_added : uploadData['clients']['number']
+      });
+    })
+    // ネットワーク - クライアント数
+    .then( function () {
+      if ( uploadData['customers']['has_fenics'] === 1 ) {
+        return cms.model.userNetwork.registerFenicsAccount({
+          kids_id         : uploadData['kids']['id'],
+          fenics_key      : cms.model.kids.find({'kid' : uploadData.kid})[0].fenics_key,
+          number_pc_added : uploadData['kids']['number_pc']
+        });
+      }
+    })
+    // モバイル数
+    .then( function () {
+      return cms.model.userMobile.register( uploadData.mobiles );
+    })
+    // all refresh
     .then( function () {
       cms.view.kids.refresh();
-      cms.view.fenics.refresh();
       cms.view.regUsrs.showSuccess();
     })
     .catch( function (err) {
