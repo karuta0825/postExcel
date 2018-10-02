@@ -28,6 +28,16 @@ app.use(express.session({ secret: 'password' }));
 
 app.use(express.favicon());
 // app.use(log4js.connectLogger(logger['request'], { level :  log4js.levels.INFO} ));
+
+// cors対応
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', req.headers.origin);
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Credentials', true);
+  next();
+});
+
 app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
@@ -35,6 +45,8 @@ app.use(express.bodyParser({ uploadDir: './uploads' }));
 app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
+
+
 // エラーハンドリング
 app.use((err, req, res, next) => {
   console.error(err.message);
