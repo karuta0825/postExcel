@@ -6,7 +6,10 @@
     "Page" : true,
     "moment" :  true,
     "describe": true,
-    "it": true
+    "it": true,
+    "Model": true,
+    "customer": true,
+    "Controller": true
   },
   "parser": "babel-eslint",
   "plugins": [
