@@ -90,15 +90,15 @@ function setAPI(app) {
   app.get('/api/v1/servers/availableUsers', Get.availableUsers);
   app.get('/api/v1/environments/:id', Get.environmentFindTypeVersion);
   app.get('/api/v1/environments/:system_type/:version', Get.environmentFindId);
-  // app.get('/api/v1/addInfo/:yearMonth', Get.addInfo);
+  app.get('/api/v1/addInfo/:yearMonth', Get.addInfo);
 
   // check
-  // app.get('/api/v1/check/unique/fenics/ip/:ip', Get.isfenicsUniqueIp);
-  // app.get('/api/v1/check/unique/kids/kid/:kid', Get.isfenicsUniqueIp);
-  // app.get('/api/v1/check/unique/kids/fenicskey/:fenicskey', Get.isfenicsUniqueIp);
-  // app.get('/api/v1/check/unique/kids/userkey/:userkey', Get.isfenicsUniqueIp);
-  // app.get('/api/v1/check/unique/kids/dbpassword/:dbpassword', Get.isfenicsUniqueIp);
-  // app.get('/api/v1/check/unique/mobilds/fenicskey/:fenicskey', Get.isUniqueMobileFenicskey);
+  app.get('/api/v1/check/unique/fenics/ip/:ip', Get.isUniqueFenicsIp);
+  app.get('/api/v1/check/unique/kids/kid/:kid', Get.isUniqueKid);
+  app.get('/api/v1/check/unique/kids/fenicskey/:fenicskey', Get.isUniqueFenicskey);
+  app.get('/api/v1/check/unique/kids/userkey/:userkey', Get.isUniqueUserkey);
+  app.get('/api/v1/check/unique/kids/dbpassword/:dbpassword', Get.isUniqueDbpassword);
+  app.get('/api/v1/check/unique/mobilds/fenicskey/:fenicskey', Get.isUniqueMobileFenicskey);
 
   // insert
   // app.post('/api/v1/clients/:kids_id', Post.clientAdd);

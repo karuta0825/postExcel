@@ -169,37 +169,49 @@ exports.environmentFindTypeVersion = (req, res) => {
 exports.environmentFindId = (req, res) => {
   const { system_type, version } = req.params;
   Environment.findId({ system_type, version })
-    .then((r) => {
-      res.json(r);
-    });
+    .then(r => res.json(r));
 };
 
 
 exports.addInfo = (req, res) => {
-
+  const { yearMonth } = req.params;
+  AddInfo.select(yearMonth)
+    .then(r => res.json(r));
 };
 
 exports.isUniqueFenicsIp = (req, res) => {
-
+  const { ip } = req.params;
+  Fenics.isUniqueIp(ip)
+    .then(r => res.json(r));
 };
 
 exports.isUniqueKid = (req, res) => {
-
+  const { kid } = req.params;
+  Kid.isUnique(kid)
+    .then(r => res.json(r));
 };
 
 exports.isUniqueFenicskey = (req, res) => {
-
+  const { fenicskey } = req.params;
+  Kid.isUniqueFenicskey(fenicskey)
+    .then(r => res.json(r));
 };
 
 exports.isUniqueUserkey = (req, res) => {
-
+  const { userkey } = req.params;
+  Kid.isUniqueUserkey(userkey)
+    .then(r => res.json(r));
 };
 
-exports.isUniqueDbPassword = (req, res) => {
-
+exports.isUniqueDbpassword = (req, res) => {
+  const { dbpassword } = req.params;
+  Kid.isUniqueDbPassword(dbpassword)
+    .then(r => res.json(r));
 };
 
-exports.isUniqueMobileFenicsKey = (req, res) => {
-
+exports.isUniqueMobileFenicskey = (req, res) => {
+  const { fenicskey } = req.params;
+  Mobile.isUniqueFenicskey(fenicskey)
+    .then(r => res.json(r));
 };
 
