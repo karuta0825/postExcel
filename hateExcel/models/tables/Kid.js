@@ -5,13 +5,23 @@
 const { DbSugar } = require('../mysql/DbSugar');
 const u_others = require('../util/u_others');
 const Environment = require('./Environment');
+const _ = require('../../public/js/lib/underscore');
 
 function select(kids_id) {
-  if (!kids_id) {
+  let id;
+  if (_.isArray(kids_id)) { [id] = kids_id; }
+  if (id === '') {
     return DbSugar.selectAll('kids');
   }
 
   return DbSugar.select(kids_id, 'kid');
+}
+
+function selectByKid(kid) {
+  if (!kid) {
+    return DbSugar.selectAll('kids');
+  }
+  return DbSugar.select(kid, 'kidBykid');
 }
 
 /**
@@ -190,6 +200,7 @@ function isUniqueDBPass(db_password) {
 // exports
 module.exports = {
   select,
+  selectByKid,
   findFenicsKey,
   findUserkey,
   findNewKid,

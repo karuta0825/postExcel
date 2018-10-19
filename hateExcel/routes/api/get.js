@@ -25,6 +25,15 @@ exports.kid = (req, res) => {
     });
 };
 
+exports.kidBykid = (req, res) => {
+  const { kid } = req.params;
+  Kid.selectByKid(kid)
+    .then((r) => {
+      res.json(r);
+    });
+};
+
+
 exports.clients = (req, res) => {
   const { kids_id } = req.params;
   Client.select(kids_id)

@@ -68,16 +68,19 @@ function setAPI(app) {
   app.post('/api/v1/auth', Post.auth);
 
   // select
-  app.get('/api/v1/kids/:kids_id', Get.kid);
-  app.get('/api/v1/clients/:kids_id', Get.clients);
-  app.get('/api/v1/busivs/:kids_id', Get.busivs);
-  app.get('/api/v1/fenics/:kids_id', Get.fenics);
-  app.get('/api/v1/customers/:kids_id', Get.customers);
-  app.get('/api/v1/licenses/:kids_id', Get.license);
-  app.get('/api/v1/memos/:kids_id', Get.memos);
-  app.get('/api/v1/mobiles/:kids_id', Get.mobile);
-  app.get('/api/v1/partners/:kids_id', Get.partners);
-  app.get('/api/v1/historys/:kids_id', Get.historys);
+  app.get('/api/v1/kids', Get.kidBykid);
+  app.get('/api/v1/kids/id', Get.kidBykid);
+  app.get('/api/v1/kids/id/:kids_id', Get.kid);
+  app.get('/api/v1/kids/:kid', Get.kidBykid);
+  app.get('/api/v1/clients/id/:kids_id', Get.clients);
+  app.get('/api/v1/busivs/id/:kids_id', Get.busivs);
+  app.get('/api/v1/fenics/id/:kids_id', Get.fenics);
+  app.get('/api/v1/customers/id/:kids_id', Get.customers);
+  app.get('/api/v1/licenses/id/:kids_id', Get.license);
+  app.get('/api/v1/memos/id/:kids_id', Get.memos);
+  app.get('/api/v1/mobiles/id/:kids_id', Get.mobile);
+  app.get('/api/v1/partners/id/:kids_id', Get.partners);
+  app.get('/api/v1/historys/id/:kids_id', Get.historys);
   app.get('/api/v1/environments', Get.environments);
   app.get('/api/v1/memoTemplates', Get.memoTemplates);
   app.get('/api/v1/servers', Get.servers);
