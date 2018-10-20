@@ -48,6 +48,24 @@ async function addRow(kids_id) {
   return DbSugar.insert({ kids_id }, 'add_base');
 }
 
+/**
+ * [update description]
+ * @param  {Object} input_map
+ *         {string} ?base_name
+ *         {string} ?postal_cd
+ *         {string} ?address
+ *         {string} ?owner
+ *         {string} ?affliation
+ *         {string} ?tel
+ *         {string} ?fax
+ *         {string} ?email
+ *         {number} ?has_buisv
+ *         {number} ?has_fenics
+ *         {number} ?has_mobile
+ * @param  {Object} condition
+ *         {string} base_id
+ * @return {[type]}           [description]
+ */
 function update(input_map, condition) {
   return DbSugar.update(input_map, condition, 'customers');
 }

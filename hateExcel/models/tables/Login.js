@@ -55,6 +55,12 @@ async function addRow({
   }, 'make_login_account');
 }
 
+/**
+ * [update description]
+ * @param  {Object} input_map
+ * @param  {Object} condition
+ * @return {Promise<>} result
+ */
 function update(input_map, condition) {
   return DbSugar.update(input_map, condition, 'login_user_info');
 }

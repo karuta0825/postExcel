@@ -30,6 +30,14 @@ async function addRow(kids_id, base_id) {
   return DbSugar.insert({ kids_id, base_id }, 'make_busiv');
 }
 
+/**
+ * [update description]
+ * @param  {Object} input_map
+ *         {JSON} input_map.information
+ * @param  {Object} condition
+ *         {String} condition.base_id
+ * @return {Promise<>} result
+ */
 function update(input_map, condition) {
   return DbSugar.update(input_map, condition, 'busivs');
 }

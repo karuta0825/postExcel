@@ -72,7 +72,7 @@ async function addRow(kids_id, base_id, fenics_key) {
  *           disk_name?: string,
  *           disk_size?: string,
  *         }} input_map
- * @param  {{kids_id: string}} condition
+ * @param  {{base_id: string}} condition
  * @return {Promise<null>}
  */
 function update(input_map, condition) {

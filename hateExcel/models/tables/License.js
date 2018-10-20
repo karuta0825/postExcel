@@ -67,7 +67,13 @@ function select(kids_id) {
     });
 }
 
-
+/**
+ * [update description]
+ * @param  {Object} data
+ * @param  {Object} condition
+ *         {string} kids_id
+ * @return {Promise<>}
+ */
 function update(data, condition) {
   const licenses = _convertObj2String(data);
   return DbSugar.update(licenses, condition, 'licenses');

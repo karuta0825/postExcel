@@ -161,18 +161,25 @@ function remove(condition) {
   return DbSugar.delete(condition, 'kids');
 }
 
+/**
+ * [update description]
+ * @param  {Object} input_map
+ * @param  {Object} condition
+ *         {string} kids_id
+ * @return {Promise<>}
+ */
 function update(input_map, condition) {
   const data = Object.assign({}, input_map);
 
-  for (const i in data) {
-    if (i === 'register_on' && data[i] === '') {
-      data[i] = null;
+  Object.keys(data).forEach((key) => {
+    if (key === 'register_on' && data[key] === '') {
+      data[key] = null;
     }
 
-    if (i === 'end_on' && data[i] === '') {
-      data[i] = null;
+    if (key === 'end_on' && data[key] === '') {
+      data[key] = null;
     }
-  }
+  });
 
   return DbSugar.update(data, condition, 'kids');
 }

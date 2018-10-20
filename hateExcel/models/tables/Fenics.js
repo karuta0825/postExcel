@@ -108,6 +108,12 @@ async function makeUsers(kids_id, is_mobile, count) {
   return count;
 }
 
+/**
+ * [update description]
+ * @param  {Object} input_map
+ * @param  {string} fenics_id
+ * @return {Promise<>} result
+ */
 function update(input_map, fenics_id) {
   return DbSugar.update(input_map, fenics_id, 'fenics');
 }

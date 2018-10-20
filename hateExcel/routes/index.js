@@ -115,19 +115,19 @@ function setAPI(app) {
   app.post('/api/v1/login', Post.loginUserAdd);
 
   // update
-  // app.put('/api/v1/buisvs/:base_id', Put.busiv);
-  // app.put('/api/v1/clients/:client_id', Put.client);
-  // app.put('/api/v1/customers/:base_id', Put.customer);
-  // app.put('/api/v1/events/:id', Put.event);
-  // app.put('/api/v1/columns/', Put.column);
-  // app.put('/api/v1/fenics/:fenics_id', Put.fenics);
-  // app.put('/api/v1/kids/:kids_id', Put.kid);
-  // app.put('/api/v1/licenses/:kids_id', Put.licenses);
-  // app.put('/api/v1/memos/:id', Put.memo);
-  // app.put('/api/v1/memoTemplates/:id', Put.memoTemplate);
-  // app.put('/api/v1/mobiles/:kids_id', Put.mobile);
-  // app.put('/api/v1/partners/:kids_id', Put.partner);
-  // app.put('/api/v1/login', Put.userInfo);
+  app.put('/api/v1/buisvs/:base_id', Put.busiv);
+  app.put('/api/v1/clients/:client_id', Put.client);
+  app.put('/api/v1/customers/:base_id', Put.customer);
+  app.put('/api/v1/events/:id', Put.event);
+  app.put('/api/v1/columns/', Put.column);
+  app.put('/api/v1/fenics/:fenics_id', Put.fenics);
+  app.put('/api/v1/kids/:kids_id', Put.kid);
+  app.put('/api/v1/licenses/:kids_id', Put.licenses);
+  app.put('/api/v1/memos/:id', Put.memo);
+  app.put('/api/v1/memoTemplates/:id', Put.memoTemplate);
+  app.put('/api/v1/mobiles/:base_id', Put.mobile);
+  app.put('/api/v1/partners/:kids_id', Put.partner);
+  app.put('/api/v1/login', Put.userInfo);
 
   // delete
   // app.delete('/api/v1/buisvs/:base_id', Delete.busiv);
