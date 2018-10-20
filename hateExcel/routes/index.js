@@ -101,18 +101,18 @@ function setAPI(app) {
   app.get('/api/v1/check/unique/mobilds/fenicskey/:fenicskey', Get.isUniqueMobileFenicskey);
 
   // insert
-  // app.post('/api/v1/clients/:kids_id', Post.clientAdd);
-  // app.post('/api/v1/customers/:kids_id', Post.customerAdd);
-  // app.post('/api/v1/events/', Post.eventAdd);
-  // app.post('/api/v1/fenics/:kids_id', Post.fenicsAdd);
-  // app.post('/api/v1/historys/:kids_id', Post.historyAdd);
-  // app.post('/api/v1/kids', Post.kidAdd);
-  // app.post('/api/v1/memos/:kids_id', Post.memoAdd);
-  // app.post('/api/v1/memoTemplates', Post.memoTemplateAdd);
-  // app.post('/api/v1/mobiles', Post.mobileAdd);
-  // app.post('/api/v1/servers', Post.servers);
-  // app.post('/api/v1/services', Post.services);
-  // app.post('/api/v1/login', Post.loginUserAdd);
+  app.post('/api/v1/clients/:kids_id', Post.clientAdd);
+  app.post('/api/v1/customers/:kids_id', Post.customerAdd);
+  app.post('/api/v1/fenics/:kids_id', Post.fenicsAdd);
+  app.post('/api/v1/events', Post.eventAdd);
+  app.post('/api/v1/historys', Post.historyAdd);
+  app.post('/api/v1/memos', Post.memoAdd);
+  app.post('/api/v1/kids', Post.kidAdd);
+  app.post('/api/v1/memoTemplates', Post.memoTemplateAdd);
+  app.post('/api/v1/mobiles', Post.mobileAdd);
+  app.post('/api/v1/servers', Post.servers);
+  app.post('/api/v1/services', Post.services);
+  app.post('/api/v1/login', Post.loginUserAdd);
 
   // update
   // app.put('/api/v1/buisvs/:base_id', Put.busiv);
