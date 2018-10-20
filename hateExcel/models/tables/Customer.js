@@ -70,6 +70,12 @@ function update(input_map, condition) {
   return DbSugar.update(input_map, condition, 'customers');
 }
 
+/**
+ * [remove description]
+ * @param  {Object} condition
+ *         {string} base_id
+ * @return {Promise<>}
+ */
 function remove(condition) {
   return DbSugar.delete(condition, 'customers');
 }

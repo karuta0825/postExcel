@@ -107,6 +107,12 @@ async function findFenicsKey(kids_id) {
   return null;
 }
 
+/**
+ * [remove description]
+ * @param  {Object} condition
+ *         {string} base_id
+ * @return {Promise<>}
+ */
 function remove(condition) {
   return DbSugar.delete(condition, 'mobiles');
 }

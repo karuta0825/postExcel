@@ -11,6 +11,12 @@ function addRow(input_map) {
   return DbSugar.insert(input_map, 'historys');
 }
 
+/**
+ * [remove description]
+ * @param  {Object} condition
+ *         {string} id
+ * @return {Promise<>}
+ */
 function remove(condition) {
   return DbSugar.delete(condition, 'usrHistorys');
 }

@@ -130,16 +130,16 @@ function setAPI(app) {
   app.put('/api/v1/login', Put.userInfo);
 
   // delete
-  // app.delete('/api/v1/buisvs/:base_id', Delete.busiv);
-  // app.delete('/api/v1/clients/:kids_id/:client_id', Delete.client);
-  // app.delete('/api/v1/customers/:base_id', Delete.customer);
-  // app.delete('/api/v1/events/:id', Delete.event);
-  // app.delete('/api/v1/fenics/:fenics_id', Delete.fenics);
-  // app.delete('/api/v1/historys/:id', Delete.history);
-  // app.delete('/api/v1/kids/:kids_id', Delete.kid);
-  // app.delete('/api/v1/memos/:id', Delete.memo);
-  // app.delete('/api/v1/memoTemplates/:id', Delete.memoTemplates);
-  // app.delete('/api/v1/mobiles/:kid_id', Delete.mobile);
+  app.delete('/api/v1/buisvs/:base_id', Delete.busiv);
+  app.delete('/api/v1/clients/:client_id', Delete.client);
+  app.delete('/api/v1/customers/:base_id', Delete.customer);
+  app.delete('/api/v1/events/:id', Delete.event);
+  app.delete('/api/v1/fenics/:fenics_id', Delete.fenics);
+  app.delete('/api/v1/historys/:id', Delete.history);
+  app.delete('/api/v1/kids/:kids_id', Delete.kid);
+  app.delete('/api/v1/memos/:id', Delete.memo);
+  app.delete('/api/v1/memoTemplates/:id', Delete.memoTemplates);
+  app.delete('/api/v1/mobiles/:base_id', Delete.mobile);
 
   // app.get('/api/v1/clients/:kids_id', (req, res, next) => {
   //   const err = new Error('エラ発生');

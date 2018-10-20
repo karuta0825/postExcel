@@ -43,7 +43,8 @@ function update(input_map, condition) {
 }
 
 /**
- * @param  {[type]} condition [description]
+ * @param  {Object} condition
+ *         {string} id
  * @return {[type]}           [description]
  */
 function remove(condition) {

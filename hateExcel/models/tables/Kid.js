@@ -157,6 +157,12 @@ async function addRow({
   }
 }
 
+/**
+ * [remove description]
+ * @param  {Object} condition
+ *         {string} kids_id
+ * @return {Promise<>}
+ */
 function remove(condition) {
   return DbSugar.delete(condition, 'kids');
 }

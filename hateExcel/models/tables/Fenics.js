@@ -120,7 +120,8 @@ function update(input_map, fenics_id) {
 
 /**
  * [remove description]
- * @param  {} condition
+ * @param  {Object} condition
+ *         {string} fenics_id
  * @return {Promise<>}
  */
 function remove(condition) {
