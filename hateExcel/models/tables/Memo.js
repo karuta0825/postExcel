@@ -1,4 +1,3 @@
-
 const { DbSugar } = require('../mysql/DbSugar');
 
 /**
@@ -19,16 +18,18 @@ function select(kids_id) {
 }
 
 /**
-* @param {Number} options.kids_id        [description]
-* @param {String} options.title          [description]
-* @param {String} options.priority_id    [description]
-* @param {String} options.message        [description]
-* @param {Number} options.create_user_id [description]
-* @param {Date}   options.create_on    [description]
-* @return {Promise<{affectedRows: number}>}
-*/
+ * @param {Number} options.kids_id        [description]
+ * @param {String} options.title          [description]
+ * @param {String} options.priority_id    [description]
+ * @param {String} options.message        [description]
+ * @param {Number} options.create_user_id [description]
+ * @param {Date}   options.create_on    [description]
+ * @return {Promise<{affectedRows: number}>}
+ */
 function addRow(input_map) {
-  return DbSugar.insert(input_map, 'make_memo');
+  const data = Object.assign({}, input_map);
+  data.create_on = new Date();
+  return DbSugar.insert(data, 'make_memo');
 }
 
 /**

@@ -1,4 +1,3 @@
-
 const { DbSugar } = require('../mysql/DbSugar');
 const u_others = require('../util/u_others');
 const Kid = require('./Kid');
@@ -34,15 +33,16 @@ async function findNewId(kids_id) {
   }
 
   const userkey = await Kid.findUserkey(kids_id);
-  if (!userkey) { throw new Error('ユーザーキーが設定されていません'); }
+  if (!userkey) {
+    throw new Error('ユーザーキーが設定されていません');
+  }
 
-  return DbSugar.select(kids_id, 'find_last_client_id')
-    .then((r) => {
-      if (r.length === 0) {
-        return `${userkey}0001`;
-      }
-      return u_others.getNextZeroPadData(r[0].client_id);
-    });
+  return DbSugar.select(kids_id, 'find_last_client_id').then((r) => {
+    if (r.length === 0) {
+      return `${userkey}0001`;
+    }
+    return u_others.getNextZeroPadData(r[0].client_id);
+  });
 }
 
 /**
@@ -98,6 +98,13 @@ function update(input_map, client_id) {
   return DbSugar.update(input_map, client_id, 'clients');
 }
 
+async function updates(obj) {
+  for (const i in obj) {
+    await update(obj[i], i);
+  }
+  return 'end';
+}
+
 /**
  * @param  {{client_id: string} || {kids_id: string}} condition
  * @return {Promise<{affectedRows: number}>}
@@ -106,12 +113,21 @@ function remove(condition) {
   return DbSugar.delete(condition, 'clients');
 }
 
+async function removes(selection) {
+  for (let i = 0; i < selection.length; i += 1) {
+    await remove({ client_id: selection[i] });
+  }
+  return 'end';
+}
+
 module.exports = {
   select,
   findNewId,
   makeId,
   makeIds,
   update,
+  updates,
   remove,
+  removes,
   planMakeIds: DbSugar.mkPlan(makeIds),
 };

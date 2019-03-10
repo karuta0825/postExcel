@@ -24,28 +24,34 @@ const { DbSugar } = require('../mysql/DbSugar');
  *         }]}
  */
 async function select(kids_id) {
-  if (!kids_id) { throw new Error('引数を指定してください'); }
+  if (!kids_id) {
+    throw new Error('引数を指定してください');
+  }
   return DbSugar.select(kids_id, 'customers');
 }
 
 /**
-* [findLastBaseId description]
-* @param  {string} kids_id
-* @return {Promise<Number>}
-*/
+ * [findLastBaseId description]
+ * @param  {string} kids_id
+ * @return {Promise<Number>}
+ */
 async function findLastBaseId(kids_id) {
-  if (!kids_id) { throw new Error('引数を指定してください'); }
-  return DbSugar.select(kids_id, 'find_last_base_id')
-    .then(r => r[0].base_id);
+  if (!kids_id) {
+    throw new Error('引数を指定してください');
+  }
+  return DbSugar.select(kids_id, 'find_last_base_id').then(r => r[0].base_id);
 }
 
 /**
  * 拠点追加これは必要だ
- * @param {String} kids_id
+ * @param {Object} input_map
  */
-async function addRow(kids_id) {
-  if (!kids_id) { throw new Error('引数を指定してください'); }
-  return DbSugar.insert({ kids_id }, 'add_base');
+async function addRow(input_map) {
+  if (!input_map.kids_id) {
+    throw new Error('引数を指定してください');
+  }
+  console.log(input_map);
+  return DbSugar.insert(input_map, 'add_base');
 }
 
 /**
@@ -88,4 +94,3 @@ module.exports = {
   remove,
   planUpdate: DbSugar.mkPlan(update),
 };
-

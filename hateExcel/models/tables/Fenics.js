@@ -25,8 +25,7 @@ function select(kids_id) {
 }
 
 function isUniqueIp(ip) {
-  return DbSugar.select(ip, 'is_unique_fenics_ip')
-    .then(r => !(r.length > 0));
+  return DbSugar.select(ip, 'is_unique_fenics_ip').then(r => !(r.length > 0));
 }
 
 /**
@@ -41,7 +40,7 @@ async function findNewId(kids_id, is_mobile = false) {
     throw new Error('引数が正しくありません');
   }
 
-  const fenics_key = (is_mobile)
+  const fenics_key = is_mobile
     ? await Mobile.findFenicsKey(kids_id)
     : await Kid.findFenicsKey(kids_id);
 
@@ -50,18 +49,20 @@ async function findNewId(kids_id, is_mobile = false) {
   }
 
   if (is_mobile) {
-    return DbSugar.select(kids_id, 'find_last_mobile_fenics_id')
-      .then((r) => {
-        if (r.length === 0) { return `${fenics_key}001`; }
-        return u_others.getNextZeroPadData(r[0].fenics_id);
-      });
-  }
-
-  return DbSugar.select(kids_id, 'find_last_fenics_id')
-    .then((r) => {
-      if (r.length === 0) { return `${fenics_key}01001`; }
+    return DbSugar.select(kids_id, 'find_last_mobile_fenics_id').then((r) => {
+      if (r.length === 0) {
+        return `${fenics_key}001`;
+      }
       return u_others.getNextZeroPadData(r[0].fenics_id);
     });
+  }
+
+  return DbSugar.select(kids_id, 'find_last_fenics_id').then((r) => {
+    if (r.length === 0) {
+      return `${fenics_key}01001`;
+    }
+    return u_others.getNextZeroPadData(r[0].fenics_id);
+  });
 }
 
 /**
@@ -69,8 +70,7 @@ async function findNewId(kids_id, is_mobile = false) {
  * @return {Promise<String>} [description]
  */
 function findNextFenicsIp() {
-  return DbSugar.select(null, 'get_new_fenics_ip')
-    .then(r => r[0].next_ip);
+  return DbSugar.select(null, 'get_new_fenics_ip').then(r => r[0].next_ip);
 }
 
 /**
@@ -101,7 +101,9 @@ async function makeUser(kids_id, is_mobile = false) {
 }
 
 async function makeUsers(kids_id, is_mobile, count) {
-  if (count < 1) { throw new Error('ループ回数は1以上指定してください'); }
+  if (count < 1) {
+    throw new Error('ループ回数は1以上指定してください');
+  }
   for (let i = 0; i < count; i += 1) {
     await makeUser(kids_id, is_mobile);
   }
@@ -118,6 +120,13 @@ function update(input_map, fenics_id) {
   return DbSugar.update(input_map, fenics_id, 'fenics');
 }
 
+async function updates(obj) {
+  for (const i in obj) {
+    await update(obj[i], i);
+  }
+  return 'end';
+}
+
 /**
  * [remove description]
  * @param  {Object} condition
@@ -128,6 +137,12 @@ function remove(condition) {
   return DbSugar.delete(condition, 'fenics');
 }
 
+async function removes(selection) {
+  for (let i = 0; i < selection.length; i += 1) {
+    await remove({ fenics_id: selection[i] });
+  }
+  return 'end';
+}
 
 module.exports = {
   select,
@@ -136,6 +151,8 @@ module.exports = {
   makeUser,
   makeUsers,
   update,
+  updates,
   remove,
+  removes,
   planMakeIds: DbSugar.mkPlan(makeUsers),
 };

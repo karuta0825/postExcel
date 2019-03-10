@@ -1,4 +1,3 @@
-
 const { DbSugar } = require('../mysql/DbSugar');
 
 function select() {
@@ -12,13 +11,12 @@ function select() {
  */
 function findId({ system_type, version } = {}) {
   const params = [system_type, version];
-  return DbSugar.select(params, 'find_environment_id')
-    .then((r) => {
-      if (r && r.length > 0 && r[0].id) {
-        return r[0].id;
-      }
-      return null;
-    });
+  return DbSugar.select(params, 'find_environment_id').then((r) => {
+    if (r && r.length > 0 && r[0].id) {
+      return r[0].id;
+    }
+    return null;
+  });
 }
 
 /**
@@ -30,8 +28,7 @@ async function findById(environment_id) {
   if (!environment_id) {
     return new Error('引数を指定してください');
   }
-  return DbSugar.select([environment_id], 'find_type_and_version_by_id')
-    .then(r => r[0]);
+  return DbSugar.select([environment_id], 'find_type_and_version_by_id').then(r => r[0]);
 }
 
 module.exports = {

@@ -1,4 +1,3 @@
-
 const { DbSugar } = require('../mysql/DbSugar');
 
 /**
@@ -10,8 +9,12 @@ const { DbSugar } = require('../mysql/DbSugar');
  *         }]}
  */
 function select(kids_id) {
-  return DbSugar.select(kids_id, 'busivs')
-    .then(r => r.map(item => JSON.parse(item.information)));
+  return DbSugar.select(kids_id, 'busivs').then(r =>
+    r.map(item => ({
+      base_id: item.base_id,
+      base_name: item.base_name,
+      ...JSON.parse(item.information),
+    })));
 }
 
 /**

@@ -46,21 +46,19 @@ app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
+// if (app.get('env') === 'development') {
+//   app.use(express.errorHandler());
+// }
 
 // エラーハンドリング
 app.use((err, req, res, next) => {
-  console.error(err.message);
-  res.status(err.statusCode).send(err.message);
+  console.error(err.stack);
+  res.status(500).json(err.stack);
 });
-
-
-if (app.get('env') === 'development') {
-  app.use(express.errorHandler());
-}
 
 app = setRoute(app);
 app = setAPI(app);
 
 http.createServer(app).listen(app.get('port'), () => {
-  console.log('Express server listening on port ' + app.get('port'));
+  console.log(`Express server listening on port ${app.get('port')}`);
 });

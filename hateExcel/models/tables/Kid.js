@@ -9,7 +9,9 @@ const _ = require('../../public/js/lib/underscore');
 
 function select(kids_id) {
   let id;
-  if (_.isArray(kids_id)) { [id] = kids_id; }
+  if (_.isArray(kids_id)) {
+    [id] = kids_id;
+  }
   if (id === '') {
     return DbSugar.selectAll('kids');
   }
@@ -30,17 +32,17 @@ function selectByKid(kid) {
  * @return {Promise<{kid:Number}>}                [description]
  */
 function findNewKid(environment_id) {
-  return DbSugar.select(environment_id, 'find_new_kid')
-    .then((result) => {
-      if (result.length === 0) {
-        return DbSugar.select(environment_id, 'find_initial_kid')
-          .then((r) => {
-            if (r[0]) { return r[0].kid; }
-            return null;
-          });
-      }
-      return Promise.resolve(Number(result[0].kid) + 1);
-    });
+  return DbSugar.select(environment_id, 'find_new_kid').then((result) => {
+    if (result.length === 0) {
+      return DbSugar.select(environment_id, 'find_initial_kid').then((r) => {
+        if (r[0]) {
+          return r[0].kid;
+        }
+        return null;
+      });
+    }
+    return Promise.resolve(Number(result[0].kid) + 1);
+  });
 }
 
 async function findFenicsKey(kids_id) {
@@ -66,16 +68,17 @@ async function findUserkey(kids_id) {
  */
 function findNewUserKey(userkey) {
   let newUserKey;
-  if (!userkey) { userkey = u_others.makeUserKey(6); }
+  if (!userkey) {
+    userkey = u_others.makeUserKey(6);
+  }
 
-  return DbSugar.select(userkey, 'find_new_userkey')
-    .then((result) => {
-      if (result.length !== 0) {
-        newUserKey = u_others.makeUserKey(6);
-        return findNewUserKey(newUserKey);
-      }
-      return Promise.resolve(userkey);
-    });
+  return DbSugar.select(userkey, 'find_new_userkey').then((result) => {
+    if (result.length !== 0) {
+      newUserKey = u_others.makeUserKey(6);
+      return findNewUserKey(newUserKey);
+    }
+    return Promise.resolve(userkey);
+  });
 }
 
 /**
@@ -85,16 +88,17 @@ function findNewUserKey(userkey) {
  */
 function findNewFenicsKey(fenicsKey) {
   let newFenicsKey;
-  if (!fenicsKey) { fenicsKey = u_others.makeFenicsKey(4); }
+  if (!fenicsKey) {
+    fenicsKey = u_others.makeFenicsKey(4);
+  }
 
-  return DbSugar.select(fenicsKey, 'is_unique_fenicskey')
-    .then((result) => {
-      if (result.length !== 0) {
-        newFenicsKey = u_others.makeFenicsKey(4);
-        return findNewFenicsKey(newFenicsKey);
-      }
-      return Promise.resolve(fenicsKey);
-    });
+  return DbSugar.select(fenicsKey, 'is_unique_fenicskey').then((result) => {
+    if (result.length !== 0) {
+      newFenicsKey = u_others.makeFenicsKey(4);
+      return findNewFenicsKey(newFenicsKey);
+    }
+    return Promise.resolve(fenicsKey);
+  });
 }
 
 /**
@@ -102,7 +106,8 @@ function findNewFenicsKey(fenicsKey) {
  * @return {String}         [description]
  */
 function findNewDbPass(userkey) {
-  const convert = userkey.replace(/A/g, '4')
+  const convert = userkey
+    .replace(/A/g, '4')
     .replace(/B/g, '8')
     .replace(/E/g, '3')
     .replace(/G/g, '6')
@@ -167,6 +172,12 @@ function remove(condition) {
   return DbSugar.delete(condition, 'kids');
 }
 
+async function removes(selection) {
+  for (let i = 0; i < selection.length; i += 1) {
+    await remove({ id: selection[i] });
+  }
+  return 'end';
+}
 /**
  * [update description]
  * @param  {Object} input_map
@@ -191,23 +202,19 @@ function update(input_map, condition) {
 }
 
 function isUnique(kid) {
-  return DbSugar.select(kid, 'is_unique_kid_for_update')
-    .then(r => !(r.length > 0));
+  return DbSugar.select(kid, 'is_unique_kid_for_update').then(r => !(r.length > 0));
 }
 
 function isUniqueFenicskey(fenicskey) {
-  return DbSugar.select(fenicskey, 'is_unique_fenicskey_for_update')
-    .then(r => !(r.length > 0));
+  return DbSugar.select(fenicskey, 'is_unique_fenicskey_for_update').then(r => !(r.length > 0));
 }
 
 function isUniqueUserkey(userkey) {
-  return DbSugar.select(userkey, 'is_unique_userkey_for_update')
-    .then(r => !(r.length > 0));
+  return DbSugar.select(userkey, 'is_unique_userkey_for_update').then(r => !(r.length > 0));
 }
 
 function isUniqueDBPass(db_password) {
-  return DbSugar.select(db_password, 'is_unique_db_password_for_update')
-    .then(r => !(r.length > 0));
+  return DbSugar.select(db_password, 'is_unique_db_password_for_update').then(r => !(r.length > 0));
 }
 
 // exports
@@ -226,6 +233,7 @@ module.exports = {
   isUniqueDBPass,
   addRow,
   remove,
+  removes,
   update,
   planUpdate: DbSugar.mkPlan(update),
 };

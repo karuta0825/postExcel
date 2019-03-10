@@ -1,4 +1,3 @@
-
 const handler = require('./handler');
 const Get = require('./api/get');
 const Post = require('./api/post');
@@ -72,11 +71,11 @@ function setAPI(app) {
   app.get('/api/v1/kids/id', Get.kidBykid);
   app.get('/api/v1/kids/id/:kids_id', Get.kid);
   app.get('/api/v1/kids/:kid', Get.kidBykid);
+  app.get('/api/v1/customers/id/:kids_id', Get.customers);
+  app.get('/api/v1/licenses/id/:kids_id', Get.license);
   app.get('/api/v1/clients/id/:kids_id', Get.clients);
   app.get('/api/v1/busivs/id/:kids_id', Get.busivs);
   app.get('/api/v1/fenics/id/:kids_id', Get.fenics);
-  app.get('/api/v1/customers/id/:kids_id', Get.customers);
-  app.get('/api/v1/licenses/id/:kids_id', Get.license);
   app.get('/api/v1/memos/id/:kids_id', Get.memos);
   app.get('/api/v1/mobiles/id/:kids_id', Get.mobile);
   app.get('/api/v1/partners/id/:kids_id', Get.partners);
@@ -86,11 +85,13 @@ function setAPI(app) {
   app.get('/api/v1/servers', Get.servers);
   app.get('/api/v1/services', Get.services);
   app.get('/api/v1/column', Get.column);
+  app.get('/api/v1/accounts', Get.accounts);
   app.get('/api/v1/events/:yearMonth', Get.events);
   app.get('/api/v1/servers/availableUsers', Get.availableUsers);
   app.get('/api/v1/environments/:id', Get.environmentFindTypeVersion);
   app.get('/api/v1/environments/:system_type/:version', Get.environmentFindId);
   app.get('/api/v1/addInfo/:yearMonth', Get.addInfo);
+  app.get('/api/v1/historys', Get.historys);
 
   // check
   app.get('/api/v1/check/unique/fenics/ip/:ip', Get.isUniqueFenicsIp);
@@ -106,46 +107,44 @@ function setAPI(app) {
   app.post('/api/v1/fenics/:kids_id', Post.fenicsAdd);
   app.post('/api/v1/events', Post.eventAdd);
   app.post('/api/v1/historys', Post.historyAdd);
-  app.post('/api/v1/memos', Post.memoAdd);
+  app.post('/api/v1/memos/:kids_id', Post.memoAdd);
   app.post('/api/v1/kids', Post.kidAdd);
   app.post('/api/v1/memoTemplates', Post.memoTemplateAdd);
   app.post('/api/v1/mobiles', Post.mobileAdd);
   app.post('/api/v1/servers', Post.servers);
   app.post('/api/v1/services', Post.services);
-  app.post('/api/v1/login', Post.loginUserAdd);
+  app.post('/api/v1/accounts', Post.loginUserAdd);
 
   // update
-  app.put('/api/v1/buisvs/:base_id', Put.busiv);
-  app.put('/api/v1/clients/:client_id', Put.client);
+  app.put('/api/v1/kids/:kids_id', Put.kid);
+  app.put('/api/v1/busivs/:base_id', Put.busiv);
+  app.put('/api/v1/clients', Put.client);
   app.put('/api/v1/customers/:base_id', Put.customer);
   app.put('/api/v1/events/:id', Put.event);
   app.put('/api/v1/columns/', Put.column);
-  app.put('/api/v1/fenics/:fenics_id', Put.fenics);
-  app.put('/api/v1/kids/:kids_id', Put.kid);
+  app.put('/api/v1/fenics', Put.fenics);
   app.put('/api/v1/licenses/:kids_id', Put.licenses);
   app.put('/api/v1/memos/:id', Put.memo);
   app.put('/api/v1/memoTemplates/:id', Put.memoTemplate);
   app.put('/api/v1/mobiles/:base_id', Put.mobile);
   app.put('/api/v1/partners/:kids_id', Put.partner);
-  app.put('/api/v1/login', Put.userInfo);
+  app.put('/api/v1/accounts', Put.userInfo);
+  app.put('/api/v1/services', Put.services);
+  app.put('/api/v1/servers', Put.servers);
 
   // delete
-  app.delete('/api/v1/buisvs/:base_id', Delete.busiv);
-  app.delete('/api/v1/clients/:client_id', Delete.client);
+  app.delete('/api/v1/busivs/:base_id', Delete.busiv);
+  app.delete('/api/v1/clients', Delete.client);
   app.delete('/api/v1/customers/:base_id', Delete.customer);
   app.delete('/api/v1/events/:id', Delete.event);
-  app.delete('/api/v1/fenics/:fenics_id', Delete.fenics);
-  app.delete('/api/v1/historys/:id', Delete.history);
-  app.delete('/api/v1/kids/:kids_id', Delete.kid);
+  app.delete('/api/v1/fenics', Delete.fenics);
+  app.delete('/api/v1/historys', Delete.history);
+  app.delete('/api/v1/kids', Delete.kid);
   app.delete('/api/v1/memos/:id', Delete.memo);
   app.delete('/api/v1/memoTemplates/:id', Delete.memoTemplates);
   app.delete('/api/v1/mobiles/:base_id', Delete.mobile);
-
-  // app.get('/api/v1/clients/:kids_id', (req, res, next) => {
-  //   const err = new Error('エラ発生');
-  //   err.statusCode = '500';
-  //   next(err);
-  // });
+  app.delete('/api/v1/services', Delete.service);
+  app.delete('/api/v1/servers', Delete.server);
 
   return app;
 }

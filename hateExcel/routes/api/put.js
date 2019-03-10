@@ -12,94 +12,121 @@ const Mobile = require('../../models/tables/Mobile');
 const Column = require('../../models/tables/Column');
 const Event = require('../../models/tables/Event');
 const Login = require('../../models/tables/Login');
+const Service = require('../../models/tables/Service');
+const Server = require('../../models/tables/Server');
 
-exports.busiv = (req, res) => {
+exports.busiv = (req, res, next) => {
   const { base_id } = req.params;
-  const { data } = req.body;
-  Busiv.update(data, { base_id })
-    .then(r => res.json(r));
+  const { body } = req;
+  Busiv.update(body, { base_id })
+    .then(r => res.json(r))
+    .catch(next);
 };
 
-exports.client = (req, res) => {
-  const { client_id } = req.params;
-  const { data } = req.body;
-  Client.update(data, client_id)
-    .then(r => res.json(r));
+exports.client = (req, res, next) => {
+  const { body } = req;
+  Client.updates(body)
+    .then(r => res.json(r))
+    .catch(next);
 };
 
-exports.customer = (req, res) => {
+exports.customer = (req, res, next) => {
   const { base_id } = req.params;
-  const { data } = req.body;
-  Customer.update(data, { base_id })
-    .then(r => res.json(r));
+  const { body } = req;
+  Customer.update(body, { base_id })
+    .then(r => res.json(r))
+    .catch(next);
 };
 
-exports.event = (req, res) => {
+exports.event = (req, res, next) => {
   const { id } = req.params;
-  const { data } = req.body;
-  Event.update(data, { id })
-    .then(r => res.json(r));
+  const { body } = req;
+  Event.update(body, { id })
+    .then(r => res.json(r))
+    .catch(next);
 };
 
-exports.column = (req, res) => {
+exports.column = (req, res, next) => {
   const { uid } = req.session;
-  const { data } = req.body;
-  Column.update(data, { uid })
-    .then(r => res.json(r));
+  const { body } = req;
+  Column.update(body, { uid })
+    .then(r => res.json(r))
+    .catch(next);
 };
 
-exports.fenics = (req, res) => {
-  const { fenics_id } = req.param;
-  const { data } = req.body;
-  Fenics.update(data, fenics_id)
-    .then(r => res.json(r));
+exports.fenics = (req, res, next) => {
+  const { body } = req;
+  Fenics.updates(body)
+    .then(r => res.json(r))
+    .catch(next);
 };
 
-exports.kid = (req, res) => {
+exports.kid = (req, res, next) => {
   const { kids_id } = req.params;
-  const { data } = req.body;
-  Kid.update(data, { kids_id })
-    .then(r => res.json(r));
+  const { body } = req;
+  Kid.update(body, { kids_id })
+    .then(r => res.json(r))
+    .catch(next);
 };
 
-exports.licenses = (req, res) => {
+exports.licenses = (req, res, next) => {
   const { kids_id } = req.params;
-  const { data } = req.body;
-  License.update(data, { kids_id })
-    .then(r => res.json(r));
+  const { body } = req;
+  License.update(body, { kids_id })
+    .then(r => res.json(r))
+    .catch(next);
 };
 
-exports.memo = (req, res) => {
+exports.memo = (req, res, next) => {
   const { id } = req.params;
-  const { data } = req.body;
-  Memo.update(data, { id })
-    .then(r => res.json(r));
+  const { body } = req;
+  Memo.update(body, { id })
+    .then(r => res.json(r))
+    .catch(next);
 };
 
-exports.memoTemplate = (req, res) => {
+exports.memoTemplate = (req, res, next) => {
   const { id } = req.params;
-  const { data } = req.body;
-  MemoTemplate.update(data, { id })
-    .then(r => res.json(r));
+  const { body } = req;
+  MemoTemplate.update(body, { id })
+    .then(r => res.json(r))
+    .catch(next);
 };
 
-exports.mobile = (req, res) => {
+exports.mobile = (req, res, next) => {
   const { base_id } = req.params;
-  const { data } = req.body;
-  Mobile.update(data, { base_id })
-    .then(r => res.json(r));
+  const { body } = req;
+  Mobile.update(body, { base_id })
+    .then(r => res.json(r))
+    .catch(next);
 };
 
-exports.partner = (req, res) => {
+exports.partner = (req, res, next) => {
   const { kids_id } = req.params;
-  const { data } = req.body;
-  Partner.update(data, { kids_id })
-    .then(r => res.json(r));
+  const { body } = req;
+  Partner.update(body, { kids_id })
+    .then(r => res.json(r))
+    .catch(next);
 };
 
-exports.userInfo = (req, res) => {
+exports.userInfo = (req, res, next) => {
   const id = req.session.uid;
-  const { data } = req.body;
-  Login.update(data, { id })
-    .then(r => res.json(r));
+  const { body } = req;
+  Login.update(body, { id })
+    .then(r => res.json(r))
+    .catch(next);
+};
+
+exports.services = (req, res, next) => {
+  const { body } = req;
+  Service.updates(body)
+    .then(r => res.json(r))
+    .catch(next);
+};
+
+exports.servers = (req, res, next) => {
+  const { body } = req;
+  Server.updates(body)
+    .then(r => res.json(r))
+    .catch(next);
 };

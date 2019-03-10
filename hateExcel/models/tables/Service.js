@@ -1,5 +1,4 @@
 const database = require('../mysql/database');
-const querys = require('../mysql/list_query');
 const { DbSugar } = require('../mysql/DbSugar');
 
 const db = database.createClient();
@@ -8,27 +7,44 @@ function select() {
   return DbSugar.selectAll('services');
 }
 
-function remove(version) {
-  return DbSugar.delete(version, 'services');
+function remove(condition) {
+  return DbSugar.delete(condition, 'services');
 }
 
 function addRow(input_map) {
   return DbSugar.insert(input_map, 'services');
 }
 
+function update(input_map, id) {
+  return DbSugar.update(input_map, id, 'services');
+}
+
+function updates(maps) {
+  Object.keys(maps).map(async (id) => {
+    await update(maps[id], id);
+  });
+  return Promise.resolve('end');
+}
+
+function removes(selection) {
+  selection.map(async (id) => {
+    await remove({ id });
+  });
+  return Promise.resolve('end');
+}
+
 function register(version, params) {
-  const planDel = DbSugar.mkPlan(remove)(version);
+  const planDel = DbSugar.mkPlan(remove)({ version });
   const plans = [planDel];
 
   params.forEach((param) => {
     plans.push(DbSugar.mkPlan(addRow)(param));
   });
 
-  return db.transaction(plans)
-    .then((r) => {
-      db.end();
-      return r;
-    });
+  return db.transaction(plans).then((r) => {
+    db.end();
+    return r;
+  });
 }
 
 /**
@@ -65,4 +81,7 @@ function register(version, params) {
 module.exports = {
   select,
   register,
+  updates,
+  removes,
+  addRow,
 };

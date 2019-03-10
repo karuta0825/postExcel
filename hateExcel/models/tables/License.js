@@ -2,10 +2,10 @@ const { DbSugar } = require('../mysql/DbSugar');
 const _ = require('underscore');
 
 /**
-* [_convertString2Array description]
-* @param  {String} str_licenses [description]
-* @return {Array}              [description]
-*/
+ * [_convertString2Array description]
+ * @param  {String} str_licenses [description]
+ * @return {Array}              [description]
+ */
 function _convertString2Array(str_licenses) {
   if (!str_licenses) {
     return [];
@@ -19,10 +19,10 @@ function _convertString2Array(str_licenses) {
 }
 
 /**
-* [_setLicenseInfo description]
-* @param {Object} init     [description]
-* @param {String} licenses [description]
-*/
+ * [_setLicenseInfo description]
+ * @param {Object} init     [description]
+ * @param {String} licenses [description]
+ */
 function _setLicenseInfo(init, licenses) {
   const list_licenses = _convertString2Array(licenses);
   const result = Object.assign(init);
@@ -51,7 +51,7 @@ function select(kids_id) {
   return DbSugar.select(kids_id, 'get_version_by_kid')
     .then(r => DbSugar.select(r[0].version, 'get_services_by_version'))
     .then((services) => {
-    // 初期化オブジェクト生成
+      // 初期化オブジェクト生成
       services.forEach((service) => {
         result[service.service_id] = 0;
       });
