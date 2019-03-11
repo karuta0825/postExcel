@@ -102,8 +102,8 @@ exports.mobileAdd = (req, res, next) => {
 };
 
 exports.servers = (req, res, next) => {
-  const { version, params } = req.body;
-  Server.register(version, params)
+  const { body } = req;
+  Server.addRow(body)
     .then(r => res.json(r))
     .catch(next);
 };

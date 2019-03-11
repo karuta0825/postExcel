@@ -87,6 +87,7 @@ function register(version, params) {
 
 module.exports = {
   select,
+  addRow,
   updates,
   removes,
   getAvailableUser,
