@@ -95,21 +95,21 @@ describe('Clientモジュール', () => {
       kids_id: '2840',
     })
       .then((r) => {
-        assert(r.affectedRows === 6);
+        assert(r.affectedRows === 5);
       }));
   });
 
-  describe('orderMakeIdメソッド', () => {
+  describe('planMakeIdsメソッド', () => {
     it('実行すると、関数が帰ること', () => {
-      const result = Client.planMakeId('2840', 1);
+      const result = Client.planMakeIds('2840', 1);
       assert(result instanceof Function === true);
     });
 
     it('実行して得られた関数にkids_idとcreate_user_idを与えると、ユーザーが作成される', () => {
-      const result = Client.planMakeId('2840', 1);
+      const result = Client.planMakeIds('2840', 1, 10);
       result()
         .then((r) => {
-          assert(r.affectedRows === 1);
+          assert(r === 10);
         });
     });
   });

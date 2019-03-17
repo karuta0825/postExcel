@@ -28,7 +28,8 @@ exports.auth = (req, res, next) => {
 exports.clientAdd = (req, res, next) => {
   const { kids_id } = req.params;
   const { uid } = req.session;
-  Client.makeid(kids_id, uid)
+  const { number } = req.body;
+  Client.makeIds(kids_id, 1, number)
     .then(r => res.json(r))
     .catch(next);
 };
@@ -50,8 +51,8 @@ exports.eventAdd = (req, res, next) => {
 
 exports.fenicsAdd = (req, res, next) => {
   const { kids_id } = req.params;
-  const { data } = req.body;
-  Fenics.makeUser(kids_id, data.is_mobile)
+  const { is_mobile, number } = req.body;
+  Fenics.makeUsers(kids_id, is_mobile, number)
     .then(r => res.json(r))
     .catch(next);
 };

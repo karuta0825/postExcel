@@ -40,3 +40,16 @@ fetch( '/template/user.client.html', {
 .then( (j) => {
   console.log(j);
 });
+
+// or
+fetch( 'localhost:8080/api/v1/auth', {
+  method: 'POST',
+  headers: { 'content-type': 'application/json' },
+  body : JSON.stringify({ user: 'aka', pass: 'aka' }),
+})
+.then( (r) => {
+  return r.json();
+})
+.then( (j) => {
+  console.log(j);
+});

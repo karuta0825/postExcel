@@ -17,6 +17,16 @@ function select(kids_id) {
     })));
 }
 
+function selectByBaseId(base_id) {
+  return DbSugar.select(base_id, 'busiv_by_baseId').then(r =>
+    r.map(item => ({
+      kids_id: item.kids_id,
+      base_id: item.base_id,
+      base_name: item.base_name,
+      ...JSON.parse(item.information),
+    })));
+}
+
 /**
  * 拠点テーブルに指定したkid_idの行を追加する
  * @param {String} kids_id [description]
@@ -49,10 +59,38 @@ function remove(condition) {
   return DbSugar.delete(condition, 'busivs');
 }
 
+const itemNames = {
+  circuit_name: '回線品目',
+  circuit_service: '回線サービス',
+  open_date: '開通通知日',
+  w_network: 'ネットワークアドレス',
+  w_subnet: 'サブネットマスク',
+  w_router: 'Sirルータアドレス',
+  has_sx: 'S連携有無',
+  how_to_cooperate: '連携方法',
+  has_L3: 'L3有無',
+  sx_ip: 'SのIPアドレス',
+  has_carte: 'カルテ連携有無',
+  carte_system: 'カルテシステム',
+  carte_html_save_ip: 'カルテHTML保存IP',
+  has_cc: 'CC連携',
+  cc_ip: 'CCのIPアドレス',
+  download_server_ip: 'ダウンロードサーバ',
+  auth_server_ip: '認証サーバ',
+  virual_dl_ip: '仮想ダウンロードIPアドレス',
+  has_sxr_j: 'SXRまたはJ連携有無',
+  has_rx: 'RX連携有無',
+  rx_ip: 'RのIPアドレス',
+  has_sd: 'スマデバ有無',
+  clients_ip: 'クライアントIPアドレス',
+};
+
 module.exports = {
   select,
+  selectByBaseId,
   addRow,
   update,
   remove,
   planUpdate: DbSugar.mkPlan(update),
+  itemNames,
 };

@@ -1,4 +1,3 @@
-
 const { DbSugar } = require('../mysql/DbSugar');
 const u_others = require('../util/u_others');
 
@@ -23,21 +22,20 @@ function _makeAdminPw(adminId) {
  * @return {String} [description]
  */
 function _makeFenicsKey() {
-  const num = Math.floor((Math.random() * 9) + 1);
+  const num = Math.floor(Math.random() * 9 + 1);
   return `m${num}${u_others.makeFenicsKey(3)}`;
 }
 
 function findNewFenicsKey(fenicskey) {
   let newFenicskey = fenicskey || _makeFenicsKey();
 
-  return DbSugar.select(newFenicskey, 'is_unique_mobile_fenicskey')
-    .then((r) => {
-      if (r.length !== 0) {
-        newFenicskey = _makeFenicsKey();
-        return this.findNewFenicsKey(newFenicskey);
-      }
-      return Promise.resolve(newFenicskey);
-    });
+  return DbSugar.select(newFenicskey, 'is_unique_mobile_fenicskey').then((r) => {
+    if (r.length !== 0) {
+      newFenicskey = _makeFenicsKey();
+      return this.findNewFenicsKey(newFenicskey);
+    }
+    return Promise.resolve(newFenicskey);
+  });
 }
 
 /**
@@ -121,9 +119,21 @@ async function isUniqueFenicskey(fenicskey, kids_id) {
   if (!fenicskey || !kids_id) {
     throw new Error('引数が正しくありません');
   }
-  return DbSugar.select([fenicskey, kids_id], 'is_unique_mobile_fenicskey_for_update')
-    .then(({ length }) => length > 0);
+  return DbSugar.select([fenicskey, kids_id], 'is_unique_mobile_fenicskey_for_update').then(({ length }) => length > 0);
 }
+
+const itemNames = {
+  kids_id: 'KID',
+  base_id: '拠点ID',
+  fenics_key: 'FENICSキー',
+  client_number: 'モバイル台数',
+  admin_id: '管理者ID',
+  admin_pw: '管理者パスワード',
+  city_cd: '市町村コード',
+  office_cd: '事業者コード',
+  disk_name: '追加ディスク名',
+  disk_size: 'ディスク容量',
+};
 
 module.exports = {
   findFenicsKey,
@@ -133,4 +143,5 @@ module.exports = {
   update,
   select,
   remove,
+  itemNames,
 };

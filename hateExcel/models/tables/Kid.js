@@ -217,6 +217,21 @@ function isUniqueDBPass(db_password) {
   return DbSugar.select(db_password, 'is_unique_db_password_for_update').then(r => !(r.length > 0));
 }
 
+const itemNames = {
+  kid: 'KID',
+  register_on: '受付日',
+  end_on: '解約日',
+  user_name: '事業者名',
+  server: 'サーバ',
+  dbserver: 'DBサーバ',
+  userkey: 'ユーザーキー',
+  db_password: 'DBパスワード',
+  fenics_key: 'Fenicsキー',
+  busiv_number: 'ビジV端末数',
+  number_id: '端末id収容数',
+  start_id: '開始端末id',
+};
+
 // exports
 module.exports = {
   select,
@@ -236,4 +251,5 @@ module.exports = {
   removes,
   update,
   planUpdate: DbSugar.mkPlan(update),
+  itemNames,
 };
