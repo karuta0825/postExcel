@@ -1,0 +1,9 @@
+rem ユーザーフォルダ配下にアクセス権限付与
+icacls d:\userdata\<%- userkey %> /grant Users<%- userkey %>:(OI)(CI)F /t
+icacls d:\userdata\<%- userkey %> /grant administrator:(OI)(CI)F /t
+icacls d:\userdata\<%- userkey %> /grant "Domain Admins":(OI)(CI)F /t
+
+rem ユーザーフォルダ配下に共有設定
+net share <%- userkey %>$=D:\userdata\<%- userkey %> /grant:"Users<%- userkey %>",full /Grant:"Domain Admins",full /Grant:"Administrator",full
+
+pause
